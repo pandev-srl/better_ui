@@ -1,5 +1,4 @@
-require "better_ui/version"
-require "better_ui/engine"
+# frozen_string_literal: true
 
 module BetterUi
   # Your code goes here...
