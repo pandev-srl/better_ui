@@ -8,7 +8,7 @@ module BetterUi
       render_inline(ButtonComponent.new) { "Click me" }
 
       assert_selector "button[type='button']", text: "Click me"
-      assert_selector "button[data-controller='better_ui--button']"
+      assert_selector "button[data-controller='better-ui--button']"
       assert_selector "button.bg-primary-600" # default variant
       assert_selector "button.px-4.py-2" # default size (md)
     end
@@ -255,8 +255,8 @@ module BetterUi
     test "includes Stimulus controller data attributes" do
       render_inline(ButtonComponent.new) { "Click" }
 
-      assert_selector "button[data-controller='better_ui--button']"
-      assert_selector "button[data-action='click->better_ui--button#handleClick']"
+      assert_selector "button[data-controller='better-ui--button']"
+      assert_selector "button[data-action='click->better-ui--button#handleClick']"
     end
 
     # Additional HTML options tests

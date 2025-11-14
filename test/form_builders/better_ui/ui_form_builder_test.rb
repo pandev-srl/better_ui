@@ -175,7 +175,7 @@ module BetterUi
     test "ui_password_input includes Stimulus controller" do
       output = @builder.ui_password_input(:password)
 
-      assert_match(/data-controller="better_ui--forms--password_input"/, output)
+      assert_match(/data-controller="better-ui--forms--password-input"/, output)
     end
 
     test "ui_password_input includes toggle button" do

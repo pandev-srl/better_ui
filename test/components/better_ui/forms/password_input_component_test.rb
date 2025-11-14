@@ -35,7 +35,7 @@ module BetterUi
       test "includes Stimulus controller on wrapper" do
         render_inline(PasswordInputComponent.new(name: "password"))
 
-        assert_selector "div[data-controller='better_ui--forms--password_input']"
+        assert_selector "div[data-controller='better-ui--forms--password-input']"
       end
 
       test "includes Stimulus target on input" do
