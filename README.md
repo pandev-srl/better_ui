@@ -4,7 +4,7 @@ A modern Rails UI component library built with ViewComponent and Tailwind CSS v4
 
 ## Important: CSS Build Requirements
 
-> **Warning**: BetterUi distributes ViewComponents only—**no CSS files are included**. Your Rails application **must have Tailwind CSS v4** with a properly configured build process. The host application must scan `vendor/bundle` directories for Tailwind classes. See [Installation Guide](INSTALLATION.md) for detailed setup instructions.
+> **Warning**: BetterUi distributes ViewComponents only—**no CSS files are included**. Your Rails application **must have Tailwind CSS v4** with a properly configured build process. The host application must scan `vendor/bundle` directories for Tailwind classes. See [Installation Guide](doc/INSTALLATION.md) for detailed setup instructions.
 
 ## Quick Start
 
@@ -40,7 +40,7 @@ bin/rails generate better_ui:install
 
 ## Installation
 
-For detailed installation and configuration instructions, see the [Installation Guide](INSTALLATION.md).
+For detailed installation and configuration instructions, see the [Installation Guide](doc/INSTALLATION.md).
 
 ### Prerequisites
 
@@ -170,9 +170,9 @@ BetterUi includes a custom form builder for seamless Rails form integration:
 
 ## Documentation
 
-- [**Installation Guide**](INSTALLATION.md) - Detailed setup and configuration instructions
-- [**Component API Reference**](COMPONENTS.md) - Complete component documentation with examples
-- [**Customization Guide**](CUSTOMIZATION.md) - Theme customization and extending components
+- [**Installation Guide**](doc/INSTALLATION.md) - Detailed setup and configuration instructions
+- [**Component API Reference**](doc/COMPONENTS.md) - Complete component documentation with examples
+- [**Customization Guide**](doc/CUSTOMIZATION.md) - Theme customization and extending components
 - [**Changelog**](CHANGELOG.md) - Version history and release notes
 
 ## Development Setup

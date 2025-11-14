@@ -1,5 +1,5 @@
 /.bundle/
-/doc/
+# /doc/ - Allow doc/ for markdown documentation (not YARD output)
 /log/*.log
 /pkg/
 /tmp/
@@ -304,7 +304,7 @@ build-iPhoneSimulator/
 ## Documentation cache and generated files:
 /.yardoc/
 /_yardoc/
-/doc/
+# /doc/ - Allow doc/ for markdown documentation (YARD should use .yardoc instead)
 /rdoc/
 
 /.bundle/

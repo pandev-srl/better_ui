@@ -794,4 +794,4 @@ Check that importmap or your JS bundler includes the Stimulus controllers from B
 
 - [Installation Guide](INSTALLATION.md)
 - [Customization Guide](CUSTOMIZATION.md)
-- [Changelog](CHANGELOG.md)
+- [Changelog](../CHANGELOG.md)
