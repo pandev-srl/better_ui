@@ -1,0 +1,10 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+    <div>
+      <%= render BetterUi::CardComponent.new(variant: variant, style: :solid) do |card| %>
+        <% card.with_header { variant.to_s.capitalize } %>
+        <% card.with_body { "This is a #{variant} card demonstrating the color variant with solid style." } %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

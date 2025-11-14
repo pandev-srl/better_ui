@@ -1,0 +1,19 @@
+<div class="p-8 space-y-6">
+  <h2 class="text-2xl font-bold mb-6">Dismissible Messages</h2>
+  <p class="text-grayscale-600 mb-4">Click the X button to dismiss each message.</p>
+
+  <div class="space-y-4">
+    <% (@variants || [:info, :warning, :danger]).each do |variant| %>
+      <%= render BetterUi::ActionMessagesComponent.new(
+        variant: variant,
+        style: :soft,
+        dismissible: true,
+        title: "#{variant.to_s.capitalize} Message",
+        messages: [
+          "This is a dismissible #{variant} message.",
+          "Click the X button to close it and see the fade-out animation."
+        ]
+      ) %>
+    <% end %>
+  </div>
+</div>

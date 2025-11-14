@@ -1,0 +1,112 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Auto-Loading Submit Button Demo</h3>
+    <p class="text-sm text-gray-600 mb-4">
+      This button automatically shows a loading spinner when clicked (submit buttons only).
+      The loading state resets automatically when Turbo completes the request.
+    </p>
+
+    <%= turbo_frame_tag "demo-frame" do %>
+      <%= form_with url: "#", method: :post, data: { turbo_frame: "demo-frame" } do |f| %>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Example Form Field
+            </label>
+            <input
+              type="text"
+              name="example"
+              class="px-3 py-2 border border-gray-300 rounded-md"
+              placeholder="Type something..."
+            />
+          </div>
+
+          <%= render BetterUi::ButtonComponent.new(
+            variant: :primary,
+            type: :submit,
+            show_loader_on_click: true
+          ) do %>
+            Submit Form
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="mt-4 p-4 bg-gray-50 rounded-md">
+        <p class="text-sm text-gray-600">
+          Click the submit button above to see the auto-loading behavior.
+          The spinner appears instantly on click and automatically resets.
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Comparison: Regular Button vs Auto-Loading Submit</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Regular Button (no auto-loading)</p>
+        <%= render BetterUi::ButtonComponent.new(variant: :secondary, type: :button) do %>
+          Regular Button
+        <% end %>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Submit with Auto-Loading</p>
+        <%= form_with url: "#", method: :post do |f| %>
+          <%= render BetterUi::ButtonComponent.new(
+            variant: :primary,
+            type: :submit,
+            show_loader_on_click: true
+          ) do %>
+            Auto-Loading Submit
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Different Variants with Auto-Loading</h3>
+    <div class="flex flex-wrap gap-3">
+      <%= form_with url: "#", method: :post do |f| %>
+        <%= render BetterUi::ButtonComponent.new(
+          variant: :primary,
+          type: :submit,
+          show_loader_on_click: true
+        ) do %>
+          Primary
+        <% end %>
+      <% end %>
+
+      <%= form_with url: "#", method: :post do |f| %>
+        <%= render BetterUi::ButtonComponent.new(
+          variant: :success,
+          type: :submit,
+          show_loader_on_click: true
+        ) do %>
+          Success
+        <% end %>
+      <% end %>
+
+      <%= form_with url: "#", method: :post do |f| %>
+        <%= render BetterUi::ButtonComponent.new(
+          variant: :danger,
+          type: :submit,
+          show_loader_on_click: true
+        ) do %>
+          Danger
+        <% end %>
+      <% end %>
+
+      <%= form_with url: "#", method: :post do |f| %>
+        <%= render BetterUi::ButtonComponent.new(
+          variant: :warning,
+          style: :outline,
+          type: :submit,
+          show_loader_on_click: true
+        ) do %>
+          Warning Outline
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="p-8 space-y-6">
+  <h2 class="text-2xl font-bold mb-6">All Variants (Soft Style)</h2>
+
+  <div class="space-y-4">
+    <% (@variants || BetterUi::ApplicationComponent::VARIANTS.keys).each do |variant| %>
+      <div>
+        <h3 class="text-sm font-medium text-grayscale-600 mb-2 capitalize"><%= variant %></h3>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          variant: variant,
+          style: :soft,
+          messages: [
+            "This is a #{variant} message.",
+            "You can display multiple lines in the message list."
+          ]
+        ) %>
+      </div>
+    <% end %>
+  </div>
+</div>

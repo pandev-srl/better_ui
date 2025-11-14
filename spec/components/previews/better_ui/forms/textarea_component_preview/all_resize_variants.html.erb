@@ -1,0 +1,13 @@
+<div class="space-y-4 p-4">
+  <% [ :none, :vertical, :horizontal, :both ].each do |resize_type| %>
+    <div>
+      <%= render BetterUi::Forms::TextareaComponent.new(
+        name: "resize_#{resize_type}",
+        label: "Resize: #{resize_type}",
+        placeholder: "This textarea has resize: #{resize_type}",
+        resize: resize_type,
+        hint: resize_type == :none ? "Cannot be resized" : "Try resizing this textarea"
+      ) %>
+    </div>
+  <% end %>
+</div>

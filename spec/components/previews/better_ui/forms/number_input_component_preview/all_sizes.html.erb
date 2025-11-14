@@ -1,0 +1,14 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::Forms::BaseComponent::SIZES.each do |size| %>
+    <div>
+      <%= render BetterUi::Forms::NumberInputComponent.new(
+        name: "example_#{size}",
+        label: "Size: #{size}",
+        placeholder: "0",
+        size: size,
+        min: 0,
+        max: 100
+      ) %>
+    </div>
+  <% end %>
+</div>

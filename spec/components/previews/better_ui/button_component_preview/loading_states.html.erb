@@ -1,0 +1,62 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Loading States - All Styles</h3>
+    <div class="flex flex-wrap gap-3">
+      <%= render BetterUi::ButtonComponent.new(variant: :primary, style: :solid, show_loader: true) do %>
+      Saving
+      <% end %>
+
+      <%= render BetterUi::ButtonComponent.new(variant: :secondary, style: :outline, show_loader: true) do %>
+      Loading
+      <% end %>
+
+      <%= render BetterUi::ButtonComponent.new(variant: :success, style: :ghost, show_loader: true) do %>
+      Processing
+      <% end %>
+
+      <%= render BetterUi::ButtonComponent.new(variant: :info, style: :soft, show_loader: true) do %>
+      Updating
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Loading States - All Sizes</h3>
+    <div class="flex items-center flex-wrap gap-3">
+      <% (@sizes || [:xs, :sm, :md, :lg, :xl]).each do |size| %>
+      <%= render BetterUi::ButtonComponent.new(variant: :primary, size: size, show_loader: true) do %>
+      Loading <%= size.to_s.upcase %>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Loading States - All Variants</h3>
+    <div class="flex flex-wrap gap-3">
+      <% (@variants || BetterUi::ApplicationComponent::VARIANTS.keys).each do |variant| %>
+      <%= render BetterUi::ButtonComponent.new(variant: variant, show_loader: true) do %>
+      <%= variant.to_s.capitalize %>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Loading vs Normal States Comparison</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Normal State</p>
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, show_loader_on_click: true, type: :submit) do %>
+        Submit Form
+        <% end %>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Loading State</p>
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, show_loader: true) do %>
+        Submit Form
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

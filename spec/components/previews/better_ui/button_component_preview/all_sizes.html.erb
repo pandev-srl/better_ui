@@ -1,0 +1,25 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-6">Button Sizes</h3>
+
+  <div class="space-y-6">
+    <% (@sizes || [:xs, :sm, :md, :lg, :xl]).each do |size| %>
+      <div class="flex items-center gap-4">
+        <span class="w-20 text-sm font-medium text-gray-600 uppercase"><%= size %></span>
+
+        <div class="flex flex-wrap gap-3">
+          <%= render BetterUi::ButtonComponent.new(size: size, variant: :primary) do %>
+            Button <%= size.to_s.upcase %>
+          <% end %>
+
+          <%= render BetterUi::ButtonComponent.new(size: size, variant: :secondary, style: :outline) do %>
+            Outline <%= size.to_s.upcase %>
+          <% end %>
+
+          <%= render BetterUi::ButtonComponent.new(size: size, variant: :success, style: :ghost) do %>
+            Ghost <%= size.to_s.upcase %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

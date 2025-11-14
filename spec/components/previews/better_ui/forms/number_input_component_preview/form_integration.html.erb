@@ -1,0 +1,45 @@
+<div class="p-4 max-w-2xl">
+  <h3 class="text-lg font-semibold mb-4">Form Builder Integration Example</h3>
+
+  <%= form_with url: "#", method: :post, builder: BetterUi::UiFormBuilder, data: { turbo: false } do |f| %>
+    <div class="space-y-4">
+      <%= f.ui_number_input :age,
+        label: "Age",
+        hint: "Enter your age in years",
+        min: 0,
+        max: 120,
+        required: true,
+        size: :md
+      %>
+
+      <%= f.ui_number_input :price,
+        label: "Price",
+        placeholder: "0.00",
+        min: 0,
+        step: 0.01,
+        required: true
+      %>
+
+      <%= f.ui_number_input :quantity,
+        label: "Quantity",
+        hint: "How many items would you like?",
+        min: 1,
+        max: 100,
+        size: :lg
+      %>
+
+      <%= f.ui_number_input :weight,
+        label: "Weight (kg)",
+        placeholder: "0.0",
+        min: 0,
+        step: 0.1
+      %>
+
+      <div class="pt-2">
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, type: :submit) do %>
+          Submit
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

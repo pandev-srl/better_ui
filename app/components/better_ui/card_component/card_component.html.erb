@@ -1,0 +1,17 @@
+<div class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+  <% if header? %>
+    <div class="<%= header_wrapper_classes %>">
+      <%= header %>
+    </div>
+  <% end %>
+
+  <div class="<%= body_wrapper_classes %>">
+    <%= body? ? body : content %>
+  </div>
+
+  <% if footer? %>
+    <div class="<%= footer_wrapper_classes %>">
+      <%= footer %>
+    </div>
+  <% end %>
+</div>

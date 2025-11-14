@@ -1,0 +1,12 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::Forms::BaseComponent::SIZES.each do |size| %>
+    <div>
+      <%= render BetterUi::Forms::TextInputComponent.new(
+        name: "example_#{size}",
+        label: "Size: #{size}",
+        placeholder: "#{size.to_s.upcase} input",
+        size: size
+      ) %>
+    </div>
+  <% end %>
+</div>

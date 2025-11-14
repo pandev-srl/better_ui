@@ -1,0 +1,17 @@
+<div class="p-8 space-y-8">
+  <h2 class="text-2xl font-bold mb-6">All Styles (Primary Variant)</h2>
+
+  <% (@styles || [:solid, :soft, :outline, :ghost]).each do |style| %>
+    <div class="space-y-2">
+      <h3 class="text-sm font-medium text-grayscale-600 capitalize"><%= style %> Style</h3>
+      <%= render BetterUi::ActionMessagesComponent.new(
+        variant: (@variant || :primary),
+        style: style,
+        messages: [
+          "This is a #{style} style message.",
+          "Each style has different visual appearance."
+        ]
+      ) %>
+    </div>
+  <% end %>
+</div>

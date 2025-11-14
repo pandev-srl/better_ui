@@ -1,0 +1,10 @@
+<div class="space-y-4 p-4">
+  <% [:xs, :sm, :md, :lg, :xl].each do |size| %>
+    <div>
+      <%= render BetterUi::CardComponent.new(size: size) do |card| %>
+        <% card.with_header { "Size: #{size.to_s.upcase}" } %>
+        <% card.with_body { "This card demonstrates the #{size} size variant with appropriate padding and text sizing." } %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

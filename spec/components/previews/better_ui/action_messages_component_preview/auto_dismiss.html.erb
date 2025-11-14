@@ -1,0 +1,51 @@
+<div class="p-8 space-y-6">
+  <h2 class="text-2xl font-bold mb-6">Auto-Dismiss Messages</h2>
+  <p class="text-grayscale-600 mb-4">These messages will automatically disappear after the specified duration. Refresh the page to see them again.</p>
+
+  <div class="space-y-4">
+    <%= render BetterUi::ActionMessagesComponent.new(
+      variant: :success,
+      style: :soft,
+      auto_dismiss: 3,
+      title: "Quick Notice (3 seconds)",
+      messages: [
+        "This message will disappear in 3 seconds.",
+        "No user action required."
+      ]
+    ) %>
+
+    <%= render BetterUi::ActionMessagesComponent.new(
+      variant: :info,
+      style: :soft,
+      auto_dismiss: 5,
+      title: "Standard Notice (5 seconds)",
+      messages: [
+        "This message will disappear in 5 seconds.",
+        "Typical duration for informational messages."
+      ]
+    ) %>
+
+    <%= render BetterUi::ActionMessagesComponent.new(
+      variant: :warning,
+      style: :soft,
+      auto_dismiss: 10,
+      title: "Important Notice (10 seconds)",
+      messages: [
+        "This message will disappear in 10 seconds.",
+        "Longer duration for important information."
+      ]
+    ) %>
+
+    <%= render BetterUi::ActionMessagesComponent.new(
+      variant: :danger,
+      style: :soft,
+      dismissible: true,
+      auto_dismiss: 8,
+      title: "Combined (8 seconds + Manual Dismiss)",
+      messages: [
+        "This message auto-dismisses in 8 seconds.",
+        "But you can also dismiss it manually with the X button."
+      ]
+    ) %>
+  </div>
+</div>

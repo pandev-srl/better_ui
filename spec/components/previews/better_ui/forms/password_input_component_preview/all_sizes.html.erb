@@ -1,0 +1,12 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::Forms::BaseComponent::SIZES.each do |size| %>
+    <div>
+      <%= render BetterUi::Forms::PasswordInputComponent.new(
+        name: "password_#{size}",
+        label: "Size: #{size}",
+        placeholder: "#{size.to_s.upcase} password input",
+        size: size
+      ) %>
+    </div>
+  <% end %>
+</div>

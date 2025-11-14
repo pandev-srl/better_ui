@@ -1,0 +1,36 @@
+<div class="p-4 max-w-2xl">
+  <h3 class="text-lg font-semibold mb-4">Form Builder Integration Example</h3>
+
+  <%= form_with url: "#", method: :post, builder: BetterUi::UiFormBuilder, data: { turbo: false } do |f| %>
+    <div class="space-y-4">
+      <%= f.ui_textarea :description,
+        label: "Description",
+        hint: "Describe your project in detail",
+        placeholder: "Enter a detailed description...",
+        required: true,
+        size: :md
+      %>
+
+      <%= f.ui_textarea :bio,
+        label: "Biography",
+        placeholder: "Tell us about yourself...",
+        rows: 6,
+        maxlength: 500,
+        hint: "Maximum 500 characters"
+      %>
+
+      <%= f.ui_textarea :notes,
+        label: "Additional Notes",
+        placeholder: "Any additional information...",
+        size: :sm,
+        resize: :none
+      %>
+
+      <div class="pt-2">
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, type: :submit) do %>
+          Submit
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

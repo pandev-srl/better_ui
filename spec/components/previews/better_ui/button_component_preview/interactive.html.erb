@@ -1,0 +1,149 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Click Counter Demo</h3>
+    <div class="flex items-center gap-4">
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :primary,
+        data: {
+          action: "click->counter#increment"
+        }
+      ) do %>
+        Click Me!
+      <% end %>
+
+      <span class="text-lg">Clicks: <span data-counter-target="count">0</span></span>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Alert Demo</h3>
+    <div class="flex flex-wrap gap-3">
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :info,
+        onclick: "alert('Primary button clicked!')"
+      ) do %>
+        Show Alert
+      <% end %>
+
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :success,
+        style: :outline,
+        onclick: "console.log('Success button clicked')"
+      ) do %>
+        Log to Console
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Disabled Button Interaction</h3>
+    <div class="flex flex-wrap gap-3">
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :primary,
+        disabled: true,
+        onclick: "alert('This should not fire')"
+      ) do %>
+        Disabled (Click Won't Work)
+      <% end %>
+
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :primary,
+        loading: true,
+        onclick: "alert('This should not fire')"
+      ) do %>
+        Loading (Click Won't Work)
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Button with Custom Data Attributes</h3>
+    <%= render BetterUi::ButtonComponent.new(
+      variant: :primary,
+      data: {
+        turbo_method: :post,
+        turbo_confirm: "Are you sure?",
+        custom_value: "example"
+      }
+    ) do %>
+      Button with Data Attributes
+    <% end %>
+    <p class="text-sm text-gray-600 mt-2">Inspect this button to see data-turbo-method, data-turbo-confirm, and data-custom-value attributes</p>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Buttons with ARIA Labels</h3>
+    <div class="flex flex-wrap gap-3">
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :danger,
+        aria: { label: "Delete item" },
+        title: "Delete"
+      ) do |button| %>
+        <% button.with_icon_before do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        <% end %>
+      <% end %>
+
+      <%= render BetterUi::ButtonComponent.new(
+        variant: :primary,
+        aria: { label: "Edit item" },
+        title: "Edit"
+      ) do |button| %>
+        <% button.with_icon_before do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+        <% end %>
+      <% end %>
+    </div>
+    <p class="text-sm text-gray-600 mt-2">Hover over buttons to see tooltips (title) and inspect for aria-label attributes</p>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Focus State Demo</h3>
+    <p class="text-sm text-gray-600 mb-2">Tab through these buttons to see focus states:</p>
+    <div class="flex flex-wrap gap-3">
+      <% (@variants || BetterUi::ApplicationComponent::VARIANTS.keys).each do |variant| %>
+        <%= render BetterUi::ButtonComponent.new(variant: variant) do %>
+          <%= variant.to_s.capitalize %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script data-turbo-track="reload">
+  // Simple counter controller for demo
+  if (!window.Stimulus) {
+    console.warn('Stimulus not loaded for interactive demo');
+  } else {
+    class CounterController extends window.Stimulus.Controller {
+      static targets = ["count"]
+
+      connect() {
+        this.count = 0;
+      }
+
+      increment() {
+        this.count++;
+        if (this.hasCountTarget) {
+          this.countTarget.textContent = this.count;
+        }
+      }
+    }
+
+    if (window.Stimulus.application) {
+      try {
+        window.Stimulus.application.register("counter", CounterController);
+      } catch(e) {
+        // Controller might already be registered
+      }
+    }
+  }
+</script>
+
+<div data-controller="counter">
+  <!-- Counter context for demo -->
+</div>

@@ -1,0 +1,22 @@
+<div class="space-y-4 p-4">
+  <% [:solid, :outline, :ghost, :soft, :bordered].each do |style| %>
+    <div>
+      <%= render BetterUi::CardComponent.new(variant: :primary, style: style) do |card| %>
+        <% card.with_header { "#{style.to_s.capitalize} Style" } %>
+        <% card.with_body do %>
+          <% if style == :solid %>
+            Filled background with subtle border and dark text. Best for emphasis.
+          <% elsif style == :outline %>
+            White background with colored border. Clean and minimal.
+          <% elsif style == :ghost %>
+            Transparent background with colored text. Most subtle.
+          <% elsif style == :soft %>
+            Light colored background with subtle border. Gentle appearance.
+          <% elsif style == :bordered %>
+            Neutral gray border for visual content separation. Variant-agnostic.
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

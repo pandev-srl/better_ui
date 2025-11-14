@@ -1,0 +1,48 @@
+<%# ActionMessages Component Template
+    Displays a list of messages with optional title, icon, and dismiss button.
+    Supports auto-dismiss via Stimulus controller.
+%>
+
+<%# Main container with Stimulus controller and dynamic classes %>
+<div <%= tag.attributes(component_attributes) %> class="<%= component_classes %>">
+
+  <%# Optional title/heading above messages %>
+  <% if title.present? %>
+    <div class="<%= title_classes %>">
+      <%= title %>
+    </div>
+  <% end %>
+
+  <%# Content wrapper for icon (slot) and message list %>
+  <div class="<%= content_wrapper_classes %>">
+
+    <%# Optional icon slot - pass content via block %>
+    <% if content.present? %>
+      <div class="flex-shrink-0">
+        <%= content %>
+      </div>
+    <% end %>
+
+    <%# Message list - only render if messages exist %>
+    <% if messages.any? %>
+      <ul class="<%= list_classes %>">
+        <% messages.each do |message| %>
+          <li class="<%= list_item_classes %>"><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+  <%# Optional dismiss button - triggers Stimulus dismiss action %>
+  <% if dismissible %>
+    <button type="button"
+            data-action="click->better-ui--action-messages#dismiss"
+            class="<%= dismiss_button_classes %>"
+            aria-label="Dismiss">
+      <%# X icon SVG %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  <% end %>
+</div>

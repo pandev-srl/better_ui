@@ -1,0 +1,17 @@
+<div class="p-8 space-y-6">
+  <h2 class="text-2xl font-bold mb-6">With Title</h2>
+
+  <div class="space-y-4">
+    <% (@variants || [:info, :success, :warning, :danger]).each do |variant| %>
+      <%= render BetterUi::ActionMessagesComponent.new(
+        variant: variant,
+        style: :soft,
+        title: variant.to_s.capitalize,
+        messages: [
+          "This is a #{variant} message with a title.",
+          "The title appears above the message list."
+        ]
+      ) %>
+    <% end %>
+  </div>
+</div>
