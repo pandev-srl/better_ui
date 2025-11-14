@@ -350,6 +350,39 @@ module BetterUi
         assert_selector "input.rounded-md"
         assert_selector "input.border"
       end
+
+      # Icon padding tests for different sizes
+      test "applies correct padding for xs size with prefix icon" do
+        render_inline(NumberInputComponent.new(name: "field", size: :xs)) do |component|
+          component.with_prefix_icon { "<span>$</span>".html_safe }
+        end
+
+        assert_selector "input.pl-6"
+      end
+
+      test "applies correct padding for sm size with suffix icon" do
+        render_inline(NumberInputComponent.new(name: "field", size: :sm)) do |component|
+          component.with_suffix_icon { "<span>%</span>".html_safe }
+        end
+
+        assert_selector "input.pr-8"
+      end
+
+      test "applies correct padding for lg size with prefix icon" do
+        render_inline(NumberInputComponent.new(name: "field", size: :lg)) do |component|
+          component.with_prefix_icon { "<span>$</span>".html_safe }
+        end
+
+        assert_selector "input.pl-12"
+      end
+
+      test "applies correct padding for xl size with suffix icon" do
+        render_inline(NumberInputComponent.new(name: "field", size: :xl)) do |component|
+          component.with_suffix_icon { "<span>kg</span>".html_safe }
+        end
+
+        assert_selector "input.pr-14"
+      end
     end
   end
 end

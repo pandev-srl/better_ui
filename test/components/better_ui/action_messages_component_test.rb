@@ -298,5 +298,474 @@ module BetterUi
       assert_selector "button" # dismiss button
       assert_selector "div[data-better-ui--action-messages-auto-dismiss-value='5.0']"
     end
+
+    # Comprehensive variant+style combination tests for full coverage
+    test "renders primary solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :primary, style: :solid))
+      assert_selector "div.bg-primary-600"
+    end
+
+    test "renders primary outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :primary, style: :outline))
+      assert_selector "div.border-primary-500"
+    end
+
+    test "renders primary ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :primary, style: :ghost))
+      assert_selector "div.text-primary-600"
+    end
+
+    test "renders secondary solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :secondary, style: :solid))
+      assert_selector "div.bg-secondary-500"
+    end
+
+    test "renders secondary outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :secondary, style: :outline))
+      assert_selector "div.border-secondary-500"
+    end
+
+    test "renders secondary ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :secondary, style: :ghost))
+      assert_selector "div.text-secondary-600"
+    end
+
+    test "renders accent solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :accent, style: :solid))
+      assert_selector "div.bg-accent-500"
+    end
+
+    test "renders accent outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :accent, style: :outline))
+      assert_selector "div.border-accent-500"
+    end
+
+    test "renders accent ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :accent, style: :ghost))
+      assert_selector "div.text-accent-600"
+    end
+
+    test "renders success solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :success, style: :solid))
+      assert_selector "div.bg-success-600"
+    end
+
+    test "renders success outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :success, style: :outline))
+      assert_selector "div.border-success-500"
+    end
+
+    test "renders success ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :success, style: :ghost))
+      assert_selector "div.text-success-600"
+    end
+
+    test "renders danger solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :danger, style: :solid))
+      assert_selector "div.bg-danger-600"
+    end
+
+    test "renders danger outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :danger, style: :outline))
+      assert_selector "div.border-danger-500"
+    end
+
+    test "renders danger ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :danger, style: :ghost))
+      assert_selector "div.text-danger-600"
+    end
+
+    test "renders warning solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :warning, style: :solid))
+      assert_selector "div.bg-warning-500"
+    end
+
+    test "renders warning outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :warning, style: :outline))
+      assert_selector "div.border-warning-500"
+    end
+
+    test "renders warning ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :warning, style: :ghost))
+      assert_selector "div.text-warning-600"
+    end
+
+    test "renders info solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :info, style: :solid))
+      assert_selector "div.bg-info-500"
+    end
+
+    test "renders info outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :info, style: :outline))
+      assert_selector "div.border-info-500"
+    end
+
+    test "renders info ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :info, style: :ghost))
+      assert_selector "div.text-info-600"
+    end
+
+    test "renders light solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :light, style: :solid))
+      assert_selector "div.bg-grayscale-100"
+    end
+
+    test "renders light outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :light, style: :outline))
+      assert_selector "div.border-grayscale-300"
+    end
+
+    test "renders light ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :light, style: :ghost))
+      assert_selector "div.text-grayscale-600"
+    end
+
+    test "renders dark solid variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :dark, style: :solid))
+      assert_selector "div.bg-grayscale-900"
+    end
+
+    test "renders dark outline variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :dark, style: :outline))
+      assert_selector "div.border-grayscale-700"
+    end
+
+    test "renders dark ghost variant" do
+      render_inline(ActionMessagesComponent.new(messages: [ "Test" ], variant: :dark, style: :ghost))
+      assert_selector "div.text-grayscale-900"
+    end
+
+    # Test dismissible with different styles
+    test "renders dismissible with solid style" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :primary,
+        style: :solid,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible with ghost style" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :danger,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    # Test title with different styles
+    test "renders title with solid style" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :warning,
+        style: :solid,
+        title: "Warning Title"
+      ))
+      assert_text "Warning Title"
+    end
+
+    test "renders title with ghost style" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :info,
+        style: :ghost,
+        title: "Info Title"
+      ))
+      assert_text "Info Title"
+    end
+
+    # Comprehensive dismissible button tests for 100% coverage
+    test "renders dismissible light solid message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :light,
+        style: :solid,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible dark solid message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :dark,
+        style: :solid,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible warning solid message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :warning,
+        style: :solid,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible primary soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :primary,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible secondary soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :secondary,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible accent soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :accent,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible success soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :success,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible danger soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :danger,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible warning soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :warning,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible info soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :info,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible light soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :light,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible dark soft message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :dark,
+        style: :soft,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible primary outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :primary,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible secondary outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :secondary,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible accent outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :accent,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible success outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :success,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible danger outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :danger,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible warning outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :warning,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible info outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :info,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible light outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :light,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible dark outline message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :dark,
+        style: :outline,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible primary ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :primary,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible secondary ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :secondary,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible accent ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :accent,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible success ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :success,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible warning ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :warning,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible info ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :info,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible light ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :light,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
+
+    test "renders dismissible dark ghost message" do
+      render_inline(ActionMessagesComponent.new(
+        messages: [ "Test" ],
+        variant: :dark,
+        style: :ghost,
+        dismissible: true
+      ))
+      assert_selector "button" # dismiss button
+    end
   end
 end

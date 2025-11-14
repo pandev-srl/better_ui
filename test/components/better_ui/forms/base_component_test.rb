@@ -322,6 +322,77 @@ module BetterUi
         assert attrs[:class].present?
         assert_kind_of String, attrs[:class]
       end
+
+      # Size-specific rendering tests for xl
+      test "renders xl size with correct input classes" do
+        render_inline(TestInputComponent.new(
+          name: "test",
+          size: :xl
+        ))
+
+        # Check that xl-specific classes are present
+        assert_selector "input.text-xl"
+        assert_selector "input.py-3"
+        assert_selector "input.px-6"
+      end
+
+      test "xl size generates correct label text class" do
+        component = TestInputComponent.new(name: "test", label: "Label", size: :xl)
+        # Test the private method indirectly by checking it's called
+        label_classes = component.send(:label_element_classes)
+        assert_match(/text-lg/, label_classes)
+      end
+
+      test "xl size generates correct hint text class" do
+        component = TestInputComponent.new(name: "test", hint: "Hint", size: :xl)
+        hint_classes = component.send(:hint_element_classes)
+        assert_match(/text-base/, hint_classes)
+      end
+
+      test "xl size generates correct error text class" do
+        component = TestInputComponent.new(name: "test", errors: [ "Error" ], size: :xl)
+        error_classes = component.send(:errors_element_classes)
+        assert_match(/text-base/, error_classes)
+      end
+
+      # Tests for xs size hint and error classes
+      test "xs size generates correct hint text class" do
+        component = TestInputComponent.new(name: "test", hint: "Hint", size: :xs)
+        hint_classes = component.send(:hint_element_classes)
+        assert_match(/text-xs/, hint_classes)
+      end
+
+      test "xs size generates correct error text class" do
+        component = TestInputComponent.new(name: "test", errors: [ "Error" ], size: :xs)
+        error_classes = component.send(:errors_element_classes)
+        assert_match(/text-xs/, error_classes)
+      end
+
+      # Tests for sm size hint and error classes
+      test "sm size generates correct hint text class" do
+        component = TestInputComponent.new(name: "test", hint: "Hint", size: :sm)
+        hint_classes = component.send(:hint_element_classes)
+        assert_match(/text-xs/, hint_classes)
+      end
+
+      test "sm size generates correct error text class" do
+        component = TestInputComponent.new(name: "test", errors: [ "Error" ], size: :sm)
+        error_classes = component.send(:errors_element_classes)
+        assert_match(/text-xs/, error_classes)
+      end
+
+      # Tests for lg size hint and error classes
+      test "lg size generates correct hint text class" do
+        component = TestInputComponent.new(name: "test", hint: "Hint", size: :lg)
+        hint_classes = component.send(:hint_element_classes)
+        assert_match(/text-sm/, hint_classes)
+      end
+
+      test "lg size generates correct error text class" do
+        component = TestInputComponent.new(name: "test", errors: [ "Error" ], size: :lg)
+        error_classes = component.send(:errors_element_classes)
+        assert_match(/text-sm/, error_classes)
+      end
     end
   end
 end

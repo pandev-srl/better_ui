@@ -75,10 +75,10 @@ module BetterUi
         additions << '@import "tailwindcss";' unless has_tailwind_import
         additions << '@import "./better_ui_theme.css";' unless has_theme_import
         additions << "" if additions.any? && !content.strip.empty?
-        additions << "/* Scan gem templates for Tailwind classes */"
+        additions << "/* Scan gem templates for Tailwind classes */" unless has_vendor_source
         additions << '@source "../../../vendor/bundle/**/*.{rb,erb}";' unless has_vendor_source
         additions << "" unless has_views_source
-        additions << "/* Scan application files for Tailwind classes */"
+        additions << "/* Scan application files for Tailwind classes */" unless has_views_source
         additions << '@source "../../**/*.{erb,html,rb}";' unless has_views_source
         additions << '@source "../javascript/**/*.js";' unless has_js_source
 

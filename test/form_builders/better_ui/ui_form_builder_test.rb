@@ -463,5 +463,40 @@ module BetterUi
       assert_match(/type="text"/, output)
       assert_match(/name="user\[nonexistent_field\]"/, output)
     end
+
+    test "handles object that raises NoMethodError for attribute" do
+      # Create object that raises NoMethodError for specific method
+      object_with_method_error = Object.new
+      def object_with_method_error.name
+        raise NoMethodError, "undefined method"
+      end
+
+      builder = UiFormBuilder.new(:obj, object_with_method_error, @template, {})
+      output = builder.ui_text_input(:name)
+
+      assert_match(/type="text"/, output)
+      # Should not crash and should render without value
+    end
+
+    test "handles class without validators_on raising NoMethodError" do
+      # Create object whose class raises NoMethodError for validators_on
+      faulty_object = Object.new
+      faulty_object.define_singleton_method(:class) do
+        faulty_class = Object.new
+        def faulty_class.respond_to?(method)
+          method == :validators_on
+        end
+        def faulty_class.validators_on(attr)
+          raise NoMethodError, "validators_on not available"
+        end
+        faulty_class
+      end
+
+      builder = UiFormBuilder.new(:obj, faulty_object, @template, {})
+      output = builder.ui_text_input(:anything)
+
+      # Should not crash, defaults to not required
+      refute_match(/required/, output)
+    end
   end
 end

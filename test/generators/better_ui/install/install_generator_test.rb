@@ -109,6 +109,41 @@ module BetterUi
           assert_match(/oklch\(\d+\.\d+ \d+\.\d+ \d+\)/, content)
         end
       end
+
+      test "generator skips updating application.postcss.css when already configured" do
+        # Create application.postcss.css with all required imports already present
+        FileUtils.mkdir_p(File.join(destination_root, "app/assets/stylesheets"))
+        File.write(
+          File.join(destination_root, "app/assets/stylesheets/application.postcss.css"),
+          <<~CSS
+            @import "tailwindcss";
+            @import "./better_ui_theme.css";
+
+            /* Scan gem templates for Tailwind classes */
+            @source "../../../vendor/bundle/**/*.{rb,erb}";
+
+            /* Scan application files for Tailwind classes */
+            @source "../../**/*.{erb,html,rb}";
+            @source "../javascript/**/*.js";
+
+            /* Existing custom styles */
+          CSS
+        )
+
+        # Capture output to verify the "already configured" message
+        output = run_generator
+
+        # The file should not be modified (no prepending)
+        assert_file "app/assets/stylesheets/application.postcss.css" do |content|
+          # File should still contain all the original imports
+          assert_match(/@import "tailwindcss"/, content)
+          assert_match(/@import "\.\/better_ui_theme\.css"/, content)
+
+          # Should only appear once (not duplicated)
+          assert_equal 1, content.scan(/@import "tailwindcss"/).length
+          assert_equal 1, content.scan(/@import "\.\/better_ui_theme\.css"/).length
+        end
+      end
     end
   end
 end

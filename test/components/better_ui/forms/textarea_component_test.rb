@@ -431,6 +431,19 @@ module BetterUi
 
         assert_selector "textarea.pl-10.resize-none"
       end
+
+      # Test default resize behavior with invalid value
+      test "defaults to vertical resize for unknown resize value" do
+        render_inline(TextareaComponent.new(name: "content", resize: :invalid))
+
+        assert_selector "textarea.resize-y"
+      end
+
+      # Test input_type method (used for polymorphic interface with other input components)
+      test "input_type returns textarea" do
+        component = TextareaComponent.new(name: "content")
+        assert_equal "textarea", component.send(:input_type)
+      end
     end
   end
 end

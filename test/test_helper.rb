@@ -13,6 +13,12 @@ SimpleCov.start "rails" do
     !source_file.filename.end_with?('.rb')
   end
 
+  # Filter out empty scaffold files that don't require testing
+  add_filter "lib/better_ui/version.rb"
+  add_filter "app/models/better_ui/application_record.rb"
+  add_filter "app/helpers/better_ui/application_helper.rb"
+  add_filter "app/controllers/better_ui/application_controller.rb"
+
   # Group coverage results for better organization
   add_group "Components", "app/components"
   add_group "Form Builders", "app/form_builders"

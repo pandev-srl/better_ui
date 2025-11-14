@@ -347,5 +347,481 @@ module BetterUi
 
       assert_selector "div.bg-transparent"
     end
+
+    # Comprehensive variant+style combination tests for full coverage
+    test "renders secondary solid card" do
+      render_inline(CardComponent.new(variant: :secondary, style: :solid)) { "Content" }
+      assert_selector "div.bg-secondary-50"
+      assert_selector "div.border-secondary-200"
+    end
+
+    test "renders secondary outline card" do
+      render_inline(CardComponent.new(variant: :secondary, style: :outline)) { "Content" }
+      assert_selector "div.border-secondary-500"
+    end
+
+    test "renders secondary ghost card" do
+      render_inline(CardComponent.new(variant: :secondary, style: :ghost)) { "Content" }
+      assert_selector "div.text-secondary-600"
+    end
+
+    test "renders secondary soft card" do
+      render_inline(CardComponent.new(variant: :secondary, style: :soft)) { "Content" }
+      assert_selector "div.bg-secondary-50"
+      assert_selector "div.border-secondary-100"
+    end
+
+    test "renders accent solid card" do
+      render_inline(CardComponent.new(variant: :accent, style: :solid)) { "Content" }
+      assert_selector "div.bg-accent-50"
+      assert_selector "div.border-accent-200"
+    end
+
+    test "renders accent outline card" do
+      render_inline(CardComponent.new(variant: :accent, style: :outline)) { "Content" }
+      assert_selector "div.border-accent-500"
+    end
+
+    test "renders accent ghost card" do
+      render_inline(CardComponent.new(variant: :accent, style: :ghost)) { "Content" }
+      assert_selector "div.text-accent-600"
+    end
+
+    test "renders accent soft card" do
+      render_inline(CardComponent.new(variant: :accent, style: :soft)) { "Content" }
+      assert_selector "div.bg-accent-50"
+      assert_selector "div.border-accent-100"
+    end
+
+    test "renders danger ghost card" do
+      render_inline(CardComponent.new(variant: :danger, style: :ghost)) { "Content" }
+      assert_selector "div.text-danger-600"
+    end
+
+    test "renders warning solid card" do
+      render_inline(CardComponent.new(variant: :warning, style: :solid)) { "Content" }
+      assert_selector "div.bg-warning-50"
+      assert_selector "div.border-warning-200"
+    end
+
+    test "renders warning outline card" do
+      render_inline(CardComponent.new(variant: :warning, style: :outline)) { "Content" }
+      assert_selector "div.border-warning-500"
+    end
+
+    test "renders warning ghost card" do
+      render_inline(CardComponent.new(variant: :warning, style: :ghost)) { "Content" }
+      assert_selector "div.text-warning-600"
+    end
+
+    test "renders warning soft card" do
+      render_inline(CardComponent.new(variant: :warning, style: :soft)) { "Content" }
+      assert_selector "div.bg-warning-50"
+      assert_selector "div.border-warning-100"
+    end
+
+    test "renders info outline card" do
+      render_inline(CardComponent.new(variant: :info, style: :outline)) { "Content" }
+      assert_selector "div.border-info-500"
+    end
+
+    test "renders info ghost card" do
+      render_inline(CardComponent.new(variant: :info, style: :ghost)) { "Content" }
+      assert_selector "div.text-info-600"
+    end
+
+    test "renders light outline card" do
+      render_inline(CardComponent.new(variant: :light, style: :outline)) { "Content" }
+      assert_selector "div.border-grayscale-300"
+    end
+
+    test "renders light ghost card" do
+      render_inline(CardComponent.new(variant: :light, style: :ghost)) { "Content" }
+      assert_selector "div.text-grayscale-400"
+    end
+
+    test "renders dark outline card" do
+      render_inline(CardComponent.new(variant: :dark, style: :outline)) { "Content" }
+      assert_selector "div.border-grayscale-900"
+    end
+
+    test "renders dark ghost card" do
+      render_inline(CardComponent.new(variant: :dark, style: :ghost)) { "Content" }
+      assert_selector "div.text-grayscale-900"
+    end
+
+    test "renders dark soft card" do
+      render_inline(CardComponent.new(variant: :dark, style: :soft)) { "Content" }
+      assert_selector "div.bg-grayscale-800"
+      assert_selector "div.border-grayscale-700"
+    end
+
+    # Test border colors with slots
+    test "renders header with border color for solid style" do
+      render_inline(CardComponent.new(variant: :primary, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_selector "div" # header border color
+    end
+
+    test "renders header with border color for outline style" do
+      render_inline(CardComponent.new(variant: :danger, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_selector "div" # header border color
+    end
+
+    test "renders header with border color for soft style" do
+      render_inline(CardComponent.new(variant: :success, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_selector "div" # header border color
+    end
+
+    test "renders header with border color for ghost style" do
+      render_inline(CardComponent.new(variant: :info, style: :ghost)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_selector "div" # header border color
+    end
+
+    test "renders header with border color for bordered style" do
+      render_inline(CardComponent.new(style: :bordered)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_selector "div" # header border color
+    end
+
+    test "renders footer with border color for solid style" do
+      render_inline(CardComponent.new(variant: :secondary, style: :solid)) do |card|
+        card.with_body { "Body" }
+        card.with_footer { "Footer" }
+      end
+      assert_selector "div" # footer border color
+    end
+
+    test "renders footer with border color for outline style" do
+      render_inline(CardComponent.new(variant: :accent, style: :outline)) do |card|
+        card.with_body { "Body" }
+        card.with_footer { "Footer" }
+      end
+      assert_selector "div" # footer border color
+    end
+
+    test "renders footer with border color for soft style" do
+      render_inline(CardComponent.new(variant: :warning, style: :soft)) do |card|
+        card.with_body { "Body" }
+        card.with_footer { "Footer" }
+      end
+      assert_selector "div" # footer border color
+    end
+
+    # Comprehensive solid style tests for all variants
+    test "renders info solid card" do
+      render_inline(CardComponent.new(variant: :info, style: :solid)) { "Info" }
+      assert_selector "div.bg-info-50"
+      assert_selector "div.border-info-200"
+    end
+
+    test "renders light solid card" do
+      render_inline(CardComponent.new(variant: :light, style: :solid)) { "Light" }
+      assert_selector "div.bg-light"
+      assert_selector "div.border-grayscale-200"
+    end
+
+    test "renders dark solid card" do
+      render_inline(CardComponent.new(variant: :dark, style: :solid)) { "Dark" }
+      assert_selector "div.bg-dark"
+      assert_selector "div.border-grayscale-700"
+    end
+
+    # Additional soft style tests for remaining variants
+    test "renders info soft card" do
+      render_inline(CardComponent.new(variant: :info, style: :soft)) { "Info" }
+      assert_selector "div.bg-info-50"
+      assert_selector "div.border-info-100"
+    end
+
+    test "renders light soft card" do
+      render_inline(CardComponent.new(variant: :light, style: :soft)) { "Light" }
+      assert_selector "div.bg-light"
+      assert_selector "div.border-grayscale-100"
+    end
+
+    # Additional bordered style tests for all variants
+    test "renders primary bordered card" do
+      render_inline(CardComponent.new(variant: :primary, style: :bordered)) { "Primary" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders secondary bordered card" do
+      render_inline(CardComponent.new(variant: :secondary, style: :bordered)) { "Secondary" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders accent bordered card" do
+      render_inline(CardComponent.new(variant: :accent, style: :bordered)) { "Accent" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders success bordered card" do
+      render_inline(CardComponent.new(variant: :success, style: :bordered)) { "Success" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders danger bordered card" do
+      render_inline(CardComponent.new(variant: :danger, style: :bordered)) { "Danger" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders warning bordered card" do
+      render_inline(CardComponent.new(variant: :warning, style: :bordered)) { "Warning" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders info bordered card" do
+      render_inline(CardComponent.new(variant: :info, style: :bordered)) { "Info" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders light bordered card" do
+      render_inline(CardComponent.new(variant: :light, style: :bordered)) { "Light" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    test "renders dark bordered card" do
+      render_inline(CardComponent.new(variant: :dark, style: :bordered)) { "Dark" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-gray-300"
+    end
+
+    # Additional outline tests for missing variants
+    test "renders success outline card" do
+      render_inline(CardComponent.new(variant: :success, style: :outline)) { "Success" }
+      assert_selector "div.bg-white"
+      assert_selector "div.border-success-500"
+    end
+
+    # Additional ghost tests for missing variants
+    test "renders success ghost card" do
+      render_inline(CardComponent.new(variant: :success, style: :ghost)) { "Success" }
+      assert_selector "div.bg-transparent"
+      assert_selector "div.text-success-600"
+    end
+
+    # Additional soft tests for missing variants
+    test "renders danger soft card" do
+      render_inline(CardComponent.new(variant: :danger, style: :soft)) { "Danger" }
+      assert_selector "div.bg-danger-50"
+      assert_selector "div.border-danger-100"
+    end
+
+    # Test border_color_class with headers for solid style - all variants
+    test "renders accent solid card with header" do
+      render_inline(CardComponent.new(variant: :accent, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders success solid card with header" do
+      render_inline(CardComponent.new(variant: :success, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders danger solid card with header" do
+      render_inline(CardComponent.new(variant: :danger, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders warning solid card with header" do
+      render_inline(CardComponent.new(variant: :warning, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders info solid card with header" do
+      render_inline(CardComponent.new(variant: :info, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders light solid card with header" do
+      render_inline(CardComponent.new(variant: :light, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders dark solid card with header" do
+      render_inline(CardComponent.new(variant: :dark, style: :solid)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    # Test border_color_class with headers for outline style - all variants
+    test "renders primary outline card with header" do
+      render_inline(CardComponent.new(variant: :primary, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders secondary outline card with header" do
+      render_inline(CardComponent.new(variant: :secondary, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders accent outline card with header" do
+      render_inline(CardComponent.new(variant: :accent, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders success outline card with header" do
+      render_inline(CardComponent.new(variant: :success, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders danger outline card with header" do
+      render_inline(CardComponent.new(variant: :danger, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders warning outline card with header" do
+      render_inline(CardComponent.new(variant: :warning, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders info outline card with header" do
+      render_inline(CardComponent.new(variant: :info, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders light outline card with header" do
+      render_inline(CardComponent.new(variant: :light, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders dark outline card with header" do
+      render_inline(CardComponent.new(variant: :dark, style: :outline)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    # Test border_color_class with headers for soft style - all variants
+    test "renders primary soft card with header" do
+      render_inline(CardComponent.new(variant: :primary, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders secondary soft card with header" do
+      render_inline(CardComponent.new(variant: :secondary, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders accent soft card with header" do
+      render_inline(CardComponent.new(variant: :accent, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders danger soft card with header" do
+      render_inline(CardComponent.new(variant: :danger, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders warning soft card with header" do
+      render_inline(CardComponent.new(variant: :warning, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders info soft card with header" do
+      render_inline(CardComponent.new(variant: :info, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders light soft card with header" do
+      render_inline(CardComponent.new(variant: :light, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
+
+    test "renders dark soft card with header" do
+      render_inline(CardComponent.new(variant: :dark, style: :soft)) do |card|
+        card.with_header { "Header" }
+        card.with_body { "Body" }
+      end
+      assert_text "Header"
+    end
   end
 end

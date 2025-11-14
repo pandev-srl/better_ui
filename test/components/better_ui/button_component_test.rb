@@ -289,5 +289,151 @@ module BetterUi
       assert_selector "button.text-success-600"
       assert_selector "button.hover\\:bg-success-50"
     end
+
+    # Comprehensive variant+style combination tests for 100% coverage
+    test "renders secondary solid button" do
+      render_inline(ButtonComponent.new(variant: :secondary, style: :solid)) { "Secondary" }
+      assert_selector "button.bg-secondary-600"
+      assert_selector "button.hover\\:bg-secondary-700"
+    end
+
+    test "renders secondary outline button" do
+      render_inline(ButtonComponent.new(variant: :secondary, style: :outline)) { "Secondary" }
+      assert_selector "button.border-secondary-600"
+      assert_selector "button.text-secondary-600"
+    end
+
+    test "renders secondary ghost button" do
+      render_inline(ButtonComponent.new(variant: :secondary, style: :ghost)) { "Secondary" }
+      assert_selector "button.text-secondary-600"
+      assert_selector "button.hover\\:bg-secondary-50"
+    end
+
+    test "renders secondary soft button" do
+      render_inline(ButtonComponent.new(variant: :secondary, style: :soft)) { "Secondary" }
+      assert_selector "button.bg-secondary-100"
+      assert_selector "button.text-secondary-700"
+    end
+
+    test "renders info solid button" do
+      render_inline(ButtonComponent.new(variant: :info, style: :solid)) { "Info" }
+      assert_selector "button.bg-info-600"
+      assert_selector "button.hover\\:bg-info-700"
+    end
+
+    test "renders info outline button" do
+      render_inline(ButtonComponent.new(variant: :info, style: :outline)) { "Info" }
+      assert_selector "button.border-info-600"
+      assert_selector "button.text-info-600"
+    end
+
+    test "renders info ghost button" do
+      render_inline(ButtonComponent.new(variant: :info, style: :ghost)) { "Info" }
+      assert_selector "button.text-info-600"
+      assert_selector "button.hover\\:bg-info-50"
+    end
+
+    test "renders info soft button" do
+      render_inline(ButtonComponent.new(variant: :info, style: :soft)) { "Info" }
+      assert_selector "button.bg-info-100"
+      assert_selector "button.text-info-700"
+    end
+
+    test "renders warning outline button" do
+      render_inline(ButtonComponent.new(variant: :warning, style: :outline)) { "Warning" }
+      assert_selector "button.border-warning-600"
+      assert_selector "button.text-warning-600"
+    end
+
+    test "renders warning ghost button" do
+      render_inline(ButtonComponent.new(variant: :warning, style: :ghost)) { "Warning" }
+      assert_selector "button.text-warning-600"
+      assert_selector "button.hover\\:bg-warning-50"
+    end
+
+    test "renders warning soft button" do
+      render_inline(ButtonComponent.new(variant: :warning, style: :soft)) { "Warning" }
+      assert_selector "button.bg-warning-100"
+      assert_selector "button.text-warning-700"
+    end
+
+    test "renders accent outline button" do
+      render_inline(ButtonComponent.new(variant: :accent, style: :outline)) { "Accent" }
+      assert_selector "button.border-accent-600"
+      assert_selector "button.text-accent-600"
+    end
+
+    test "renders accent ghost button" do
+      render_inline(ButtonComponent.new(variant: :accent, style: :ghost)) { "Accent" }
+      assert_selector "button.text-accent-600"
+      assert_selector "button.hover\\:bg-accent-50"
+    end
+
+    test "renders accent soft button" do
+      render_inline(ButtonComponent.new(variant: :accent, style: :soft)) { "Accent" }
+      assert_selector "button.bg-accent-100"
+      assert_selector "button.text-accent-700"
+    end
+
+    test "renders light outline button" do
+      render_inline(ButtonComponent.new(variant: :light, style: :outline)) { "Light" }
+      assert_selector "button.border-grayscale-400"
+      assert_selector "button.text-grayscale-400"
+    end
+
+    test "renders light ghost button" do
+      render_inline(ButtonComponent.new(variant: :light, style: :ghost)) { "Light" }
+      assert_selector "button.text-grayscale-700"
+      assert_selector "button.hover\\:bg-grayscale-100"
+    end
+
+    test "renders light soft button" do
+      render_inline(ButtonComponent.new(variant: :light, style: :soft)) { "Light" }
+      assert_selector "button.bg-grayscale-100"
+      assert_selector "button.text-grayscale-700"
+    end
+
+    test "renders dark outline button" do
+      render_inline(ButtonComponent.new(variant: :dark, style: :outline)) { "Dark" }
+      assert_selector "button.border-grayscale-700"
+      assert_selector "button.text-grayscale-700"
+    end
+
+    test "renders dark ghost button" do
+      render_inline(ButtonComponent.new(variant: :dark, style: :ghost)) { "Dark" }
+      assert_selector "button.text-grayscale-700"
+      assert_selector "button.hover\\:bg-grayscale-800"
+    end
+
+    test "renders dark soft button" do
+      render_inline(ButtonComponent.new(variant: :dark, style: :soft)) { "Dark" }
+      assert_selector "button.bg-grayscale-800"
+      assert_selector "button.text-grayscale-100"
+    end
+
+    # Additional tests to reach 100% coverage
+    test "renders success outline button" do
+      render_inline(ButtonComponent.new(variant: :success, style: :outline)) { "Success" }
+      assert_selector "button.border-success-600"
+      assert_selector "button.hover\\:border-success-700"
+    end
+
+    test "renders danger ghost button additional" do
+      render_inline(ButtonComponent.new(variant: :danger, style: :ghost)) { "Danger" }
+      assert_selector "button.hover\\:bg-danger-50"
+      assert_selector "button.active\\:bg-danger-100"
+    end
+
+    test "renders success soft button" do
+      render_inline(ButtonComponent.new(variant: :success, style: :soft)) { "Success" }
+      assert_selector "button.bg-success-100"
+      assert_selector "button.hover\\:bg-success-200"
+    end
+
+    test "renders danger soft button" do
+      render_inline(ButtonComponent.new(variant: :danger, style: :soft)) { "Danger" }
+      assert_selector "button.bg-danger-100"
+      assert_selector "button.hover\\:bg-danger-200"
+    end
   end
 end
