@@ -1,0 +1,293 @@
+/**
+ * BetterUi Theme Configuration
+ *
+ * This file defines the design tokens for the BetterUi component library.
+ * Colors are defined using OKLCH color space for better perceptual uniformity.
+ *
+ * Customize these values to match your brand:
+ * - Primary: Main brand color (default: blue)
+ * - Secondary: Supporting brand color (default: purple)
+ * - Accent: Highlight color (default: pink)
+ * - Success: Positive actions (default: green)
+ * - Danger: Destructive actions (default: red)
+ * - Warning: Caution states (default: amber)
+ * - Info: Informational (default: sky)
+ * - Light: Light theme elements (default: slate)
+ * - Dark: Dark theme elements (default: slate)
+ */
+
+@theme inline {
+  /* ============================================
+     COLOR SYSTEM - OKLCH Format
+     ============================================ */
+
+  /* Primary - Blue */
+  --color-primary-50: oklch(0.97 0.01 250);
+  --color-primary-100: oklch(0.94 0.03 250);
+  --color-primary-200: oklch(0.88 0.06 250);
+  --color-primary-300: oklch(0.80 0.12 250);
+  --color-primary-400: oklch(0.70 0.18 250);
+  --color-primary-500: oklch(0.60 0.22 250);
+  --color-primary-600: oklch(0.50 0.24 250);
+  --color-primary-700: oklch(0.42 0.22 250);
+  --color-primary-800: oklch(0.34 0.18 250);
+  --color-primary-900: oklch(0.28 0.12 250);
+  --color-primary-950: oklch(0.18 0.08 250);
+
+  /* Secondary - Purple */
+  --color-secondary-50: oklch(0.97 0.01 290);
+  --color-secondary-100: oklch(0.94 0.04 290);
+  --color-secondary-200: oklch(0.88 0.08 290);
+  --color-secondary-300: oklch(0.80 0.14 290);
+  --color-secondary-400: oklch(0.70 0.20 290);
+  --color-secondary-500: oklch(0.60 0.24 290);
+  --color-secondary-600: oklch(0.50 0.26 290);
+  --color-secondary-700: oklch(0.42 0.24 290);
+  --color-secondary-800: oklch(0.34 0.20 290);
+  --color-secondary-900: oklch(0.28 0.14 290);
+  --color-secondary-950: oklch(0.18 0.10 290);
+
+  /* Accent - Pink */
+  --color-accent-50: oklch(0.97 0.01 340);
+  --color-accent-100: oklch(0.94 0.04 340);
+  --color-accent-200: oklch(0.88 0.08 340);
+  --color-accent-300: oklch(0.80 0.14 340);
+  --color-accent-400: oklch(0.72 0.20 340);
+  --color-accent-500: oklch(0.64 0.24 340);
+  --color-accent-600: oklch(0.54 0.26 340);
+  --color-accent-700: oklch(0.44 0.24 340);
+  --color-accent-800: oklch(0.36 0.20 340);
+  --color-accent-900: oklch(0.30 0.14 340);
+  --color-accent-950: oklch(0.20 0.10 340);
+
+  /* Success - Green */
+  --color-success-50: oklch(0.97 0.01 150);
+  --color-success-100: oklch(0.94 0.03 150);
+  --color-success-200: oklch(0.88 0.08 150);
+  --color-success-300: oklch(0.80 0.14 150);
+  --color-success-400: oklch(0.72 0.18 150);
+  --color-success-500: oklch(0.64 0.20 150);
+  --color-success-600: oklch(0.54 0.20 150);
+  --color-success-700: oklch(0.44 0.18 150);
+  --color-success-800: oklch(0.36 0.14 150);
+  --color-success-900: oklch(0.30 0.10 150);
+  --color-success-950: oklch(0.20 0.06 150);
+
+  /* Danger - Red */
+  --color-danger-50: oklch(0.97 0.01 20);
+  --color-danger-100: oklch(0.94 0.04 20);
+  --color-danger-200: oklch(0.88 0.08 20);
+  --color-danger-300: oklch(0.80 0.14 20);
+  --color-danger-400: oklch(0.70 0.20 20);
+  --color-danger-500: oklch(0.62 0.24 20);
+  --color-danger-600: oklch(0.52 0.24 20);
+  --color-danger-700: oklch(0.44 0.22 20);
+  --color-danger-800: oklch(0.36 0.18 20);
+  --color-danger-900: oklch(0.30 0.14 20);
+  --color-danger-950: oklch(0.20 0.10 20);
+
+  /* Warning - Amber */
+  --color-warning-50: oklch(0.97 0.01 85);
+  --color-warning-100: oklch(0.94 0.04 85);
+  --color-warning-200: oklch(0.90 0.08 85);
+  --color-warning-300: oklch(0.84 0.14 85);
+  --color-warning-400: oklch(0.76 0.18 85);
+  --color-warning-500: oklch(0.68 0.20 85);
+  --color-warning-600: oklch(0.58 0.20 85);
+  --color-warning-700: oklch(0.48 0.18 85);
+  --color-warning-800: oklch(0.40 0.14 85);
+  --color-warning-900: oklch(0.34 0.10 85);
+  --color-warning-950: oklch(0.24 0.06 85);
+
+  /* Info - Sky */
+  --color-info-50: oklch(0.97 0.01 220);
+  --color-info-100: oklch(0.94 0.03 220);
+  --color-info-200: oklch(0.88 0.06 220);
+  --color-info-300: oklch(0.80 0.12 220);
+  --color-info-400: oklch(0.70 0.16 220);
+  --color-info-500: oklch(0.62 0.18 220);
+  --color-info-600: oklch(0.52 0.18 220);
+  --color-info-700: oklch(0.44 0.16 220);
+  --color-info-800: oklch(0.36 0.12 220);
+  --color-info-900: oklch(0.30 0.08 220);
+  --color-info-950: oklch(0.20 0.05 220);
+
+  /* Light - Slate (Light backgrounds) */
+  --color-light-50: oklch(0.99 0.00 240);
+  --color-light-100: oklch(0.97 0.00 240);
+  --color-light-200: oklch(0.95 0.01 240);
+  --color-light-300: oklch(0.92 0.01 240);
+  --color-light-400: oklch(0.88 0.01 240);
+  --color-light-500: oklch(0.82 0.02 240);
+  --color-light-600: oklch(0.72 0.02 240);
+  --color-light-700: oklch(0.62 0.02 240);
+  --color-light-800: oklch(0.48 0.02 240);
+  --color-light-900: oklch(0.36 0.02 240);
+  --color-light-950: oklch(0.24 0.02 240);
+
+  /* Dark - Slate (Dark backgrounds) */
+  --color-dark-50: oklch(0.97 0.00 240);
+  --color-dark-100: oklch(0.94 0.01 240);
+  --color-dark-200: oklch(0.88 0.01 240);
+  --color-dark-300: oklch(0.78 0.02 240);
+  --color-dark-400: oklch(0.62 0.02 240);
+  --color-dark-500: oklch(0.48 0.02 240);
+  --color-dark-600: oklch(0.38 0.02 240);
+  --color-dark-700: oklch(0.30 0.02 240);
+  --color-dark-800: oklch(0.22 0.02 240);
+  --color-dark-900: oklch(0.16 0.02 240);
+  --color-dark-950: oklch(0.10 0.02 240);
+
+  /* Grayscale - Additional utility grays */
+  --color-grayscale-50: oklch(0.98 0.00 0);
+  --color-grayscale-100: oklch(0.96 0.00 0);
+  --color-grayscale-200: oklch(0.92 0.00 0);
+  --color-grayscale-300: oklch(0.84 0.00 0);
+  --color-grayscale-400: oklch(0.68 0.00 0);
+  --color-grayscale-500: oklch(0.52 0.00 0);
+  --color-grayscale-600: oklch(0.42 0.00 0);
+  --color-grayscale-700: oklch(0.34 0.00 0);
+  --color-grayscale-800: oklch(0.26 0.00 0);
+  --color-grayscale-900: oklch(0.18 0.00 0);
+  --color-grayscale-950: oklch(0.10 0.00 0);
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+
+  --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* ============================================
+     SPACING & SIZING
+     ============================================ */
+
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-base: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ============================================
+     SHADOWS
+     ============================================ */
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+  /* Heading text colors for each variant */
+  .text-heading-primary {
+    @apply text-primary-700 dark:text-primary-300;
+  }
+
+  .text-heading-secondary {
+    @apply text-secondary-700 dark:text-secondary-300;
+  }
+
+  .text-heading-accent {
+    @apply text-accent-700 dark:text-accent-300;
+  }
+
+  .text-heading-success {
+    @apply text-success-700 dark:text-success-300;
+  }
+
+  .text-heading-danger {
+    @apply text-danger-700 dark:text-danger-300;
+  }
+
+  .text-heading-warning {
+    @apply text-warning-700 dark:text-warning-300;
+  }
+
+  .text-heading-info {
+    @apply text-info-700 dark:text-info-300;
+  }
+
+  .text-heading-light {
+    @apply text-light-700 dark:text-light-300;
+  }
+
+  .text-heading-dark {
+    @apply text-dark-700 dark:text-dark-300;
+  }
+
+  /* Hide number input spinners */
+  .no-spinner::-webkit-inner-spin-button,
+  .no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .no-spinner {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* Focus ring utilities */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .focus-ring-inset {
+    @apply focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500;
+  }
+
+  /* Smooth scrolling */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  /* Truncate text */
+  .truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Glass morphism effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}

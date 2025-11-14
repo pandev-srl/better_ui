@@ -1,0 +1,328 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Form Components</h1>
+    <p class="text-lg text-gray-600">Form input components with labels, hints, validation errors, and icon support.</p>
+  </div>
+
+  <!-- Text Input -->
+  <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Text Input</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-4">Basic Text Inputs</h3>
+          <div class="space-y-4 max-w-md">
+            <%= render BetterUi::Forms::TextInputComponent.new(
+              name: "user[name]",
+              label: "Full Name",
+              placeholder: "John Doe"
+            ) %>
+
+            <%= render BetterUi::Forms::TextInputComponent.new(
+              name: "user[email]",
+              label: "Email Address",
+              placeholder: "you@example.com",
+              hint: "We'll never share your email with anyone else."
+            ) %>
+
+            <%= render BetterUi::Forms::TextInputComponent.new(
+              name: "user[username]",
+              label: "Username",
+              value: "invalid-username",
+              errors: ["Username is already taken"]
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-4">Required Field</h3>
+          <div class="max-w-md">
+            <%= render BetterUi::Forms::TextInputComponent.new(
+              name: "user[company]",
+              label: "Company",
+              required: true,
+              placeholder: "Acme Inc."
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-4">Disabled & Readonly</h3>
+          <div class="space-y-4 max-w-md">
+            <%= render BetterUi::Forms::TextInputComponent.new(
+              name: "user[disabled]",
+              label: "Disabled Input",
+              value: "This field is disabled",
+              disabled: true
+            ) %>
+
+            <%= render BetterUi::Forms::TextInputComponent.new(
+              name: "user[readonly]",
+              label: "Readonly Input",
+              value: "This field is readonly",
+              readonly: true
+            ) %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Forms::TextInputComponent.new(name: "user[email]", label: "Email") %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Number Input -->
+  <%= render BetterUi::CardComponent.new(variant: :secondary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Number Input</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-4">Basic Number Inputs</h3>
+          <div class="space-y-4 max-w-md">
+            <%= render BetterUi::Forms::NumberInputComponent.new(
+              name: "product[quantity]",
+              label: "Quantity",
+              value: "1",
+              min: 1,
+              max: 100
+            ) %>
+
+            <%= render BetterUi::Forms::NumberInputComponent.new(
+              name: "product[price]",
+              label: "Price",
+              value: "29.99",
+              step: 0.01,
+              hint: "Enter price in USD"
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-4">With Validation Errors</h3>
+          <div class="max-w-md">
+            <%= render BetterUi::Forms::NumberInputComponent.new(
+              name: "user[age]",
+              label: "Age",
+              value: "15",
+              errors: ["Age must be at least 18"]
+            ) %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Forms::NumberInputComponent.new(name: "age", label: "Age", min: 0, max: 120) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Password Input -->
+  <%= render BetterUi::CardComponent.new(variant: :accent, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Password Input</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4 max-w-md">
+        <%= render BetterUi::Forms::PasswordInputComponent.new(
+          name: "user[password]",
+          label: "Password",
+          placeholder: "Enter your password",
+          hint: "Must be at least 8 characters"
+        ) %>
+
+        <%= render BetterUi::Forms::PasswordInputComponent.new(
+          name: "user[password_confirmation]",
+          label: "Confirm Password",
+          placeholder: "Confirm your password"
+        ) %>
+
+        <%= render BetterUi::Forms::PasswordInputComponent.new(
+          name: "user[new_password]",
+          label: "New Password",
+          value: "short",
+          errors: ["Password is too short (minimum is 8 characters)"]
+        ) %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Forms::PasswordInputComponent.new(name: "user[password]", label: "Password") %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Textarea -->
+  <%= render BetterUi::CardComponent.new(variant: :success, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Textarea</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-4">Basic Textareas</h3>
+          <div class="space-y-4 max-w-2xl">
+            <%= render BetterUi::Forms::TextareaComponent.new(
+              name: "post[content]",
+              label: "Post Content",
+              placeholder: "Write your post here...",
+              rows: 4
+            ) %>
+
+            <%= render BetterUi::Forms::TextareaComponent.new(
+              name: "post[description]",
+              label: "Description",
+              value: "This is some existing content in the textarea.",
+              hint: "Maximum 500 characters",
+              rows: 3
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-4">With Validation Error</h3>
+          <div class="max-w-2xl">
+            <%= render BetterUi::Forms::TextareaComponent.new(
+              name: "post[body]",
+              label: "Article Body",
+              value: "Too short",
+              errors: ["Body is too short (minimum is 100 characters)"],
+              rows: 5
+            ) %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Forms::TextareaComponent.new(name: "post[content]", label: "Content", rows: 4) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Input Sizes -->
+  <%= render BetterUi::CardComponent.new(variant: :info, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Input Sizes</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4 max-w-md">
+        <%= render BetterUi::Forms::TextInputComponent.new(
+          name: "size_xs",
+          label: "Extra Small (xs)",
+          placeholder: "Extra small input",
+          size: :xs
+        ) %>
+
+        <%= render BetterUi::Forms::TextInputComponent.new(
+          name: "size_sm",
+          label: "Small (sm)",
+          placeholder: "Small input",
+          size: :sm
+        ) %>
+
+        <%= render BetterUi::Forms::TextInputComponent.new(
+          name: "size_md",
+          label: "Medium (md) - Default",
+          placeholder: "Medium input",
+          size: :md
+        ) %>
+
+        <%= render BetterUi::Forms::TextInputComponent.new(
+          name: "size_lg",
+          label: "Large (lg)",
+          placeholder: "Large input",
+          size: :lg
+        ) %>
+
+        <%= render BetterUi::Forms::TextInputComponent.new(
+          name: "size_xl",
+          label: "Extra Large (xl)",
+          placeholder: "Extra large input",
+          size: :xl
+        ) %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Forms::TextInputComponent.new(name: "field", size: :lg) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Complete Form Example -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :soft, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Complete Form Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="max-w-2xl">
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered) do |form_card| %>
+          <% form_card.with_header do %>
+            <h3 class="text-lg font-semibold">User Registration</h3>
+          <% end %>
+          <% form_card.with_body do %>
+            <div class="space-y-4">
+              <%= render BetterUi::Forms::TextInputComponent.new(
+                name: "user[full_name]",
+                label: "Full Name",
+                placeholder: "John Doe",
+                required: true
+              ) %>
+
+              <%= render BetterUi::Forms::TextInputComponent.new(
+                name: "user[email]",
+                label: "Email Address",
+                placeholder: "you@example.com",
+                required: true,
+                hint: "We'll send a verification email to this address"
+              ) %>
+
+              <%= render BetterUi::Forms::PasswordInputComponent.new(
+                name: "user[password]",
+                label: "Password",
+                placeholder: "Enter your password",
+                required: true,
+                hint: "Must be at least 8 characters"
+              ) %>
+
+              <%= render BetterUi::Forms::PasswordInputComponent.new(
+                name: "user[password_confirmation]",
+                label: "Confirm Password",
+                placeholder: "Confirm your password",
+                required: true
+              ) %>
+
+              <%= render BetterUi::Forms::TextareaComponent.new(
+                name: "user[bio]",
+                label: "Bio",
+                placeholder: "Tell us about yourself...",
+                rows: 4,
+                hint: "Optional"
+              ) %>
+            </div>
+          <% end %>
+          <% form_card.with_footer do %>
+            <div class="flex gap-3">
+              <%= render BetterUi::ButtonComponent.new(variant: :primary, type: :submit) do %>
+                Create Account
+              <% end %>
+              <%= render BetterUi::ButtonComponent.new(variant: :light, style: :outline) do %>
+                Cancel
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="mt-6 bg-gray-100 p-4 rounded-lg">
+        <pre class="overflow-x-auto text-sm"><code>&lt;%= render BetterUi::Forms::TextInputComponent.new(
+  name: "user[email]",
+  label: "Email Address",
+  placeholder: "you@example.com",
+  required: true,
+  hint: "We'll never share your email",
+  errors: @user.errors[:email]
+) %&gt;</code></pre>
+      </div>
+    <% end %>
+  <% end %>
+</div>

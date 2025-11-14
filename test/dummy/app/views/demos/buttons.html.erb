@@ -1,0 +1,182 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Button Component</h1>
+    <p class="text-lg text-gray-600">Versatile button components with multiple variants, sizes, and styles.</p>
+  </div>
+
+  <!-- Variants Section -->
+  <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Variants (Solid Style)</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="flex flex-wrap gap-4">
+        <%= render BetterUi::ButtonComponent.new(variant: :primary) do %>Primary<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :secondary) do %>Secondary<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :accent) do %>Accent<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :success) do %>Success<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :danger) do %>Danger<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :warning) do %>Warning<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :info) do %>Info<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :light) do %>Light<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :dark) do %>Dark<% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ButtonComponent.new(variant: :primary) do %&gt;Primary&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Styles Section -->
+  <%= render BetterUi::CardComponent.new(variant: :secondary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Visual Styles</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Solid (Default)</h3>
+          <div class="flex flex-wrap gap-4">
+            <%= render BetterUi::ButtonComponent.new(variant: :primary, style: :solid) do %>Solid<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :success, style: :solid) do %>Solid<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :danger, style: :solid) do %>Solid<% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Outline</h3>
+          <div class="flex flex-wrap gap-4">
+            <%= render BetterUi::ButtonComponent.new(variant: :primary, style: :outline) do %>Outline<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :success, style: :outline) do %>Outline<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :danger, style: :outline) do %>Outline<% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Ghost</h3>
+          <div class="flex flex-wrap gap-4">
+            <%= render BetterUi::ButtonComponent.new(variant: :primary, style: :ghost) do %>Ghost<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :success, style: :ghost) do %>Ghost<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :danger, style: :ghost) do %>Ghost<% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Soft</h3>
+          <div class="flex flex-wrap gap-4">
+            <%= render BetterUi::ButtonComponent.new(variant: :primary, style: :soft) do %>Soft<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :success, style: :soft) do %>Soft<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :danger, style: :soft) do %>Soft<% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ButtonComponent.new(variant: :primary, style: :outline) do %&gt;Button&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Sizes Section -->
+  <%= render BetterUi::CardComponent.new(variant: :accent, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Sizes</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="flex flex-wrap items-center gap-4">
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, size: :xs) do %>Extra Small<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, size: :sm) do %>Small<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, size: :md) do %>Medium<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, size: :lg) do %>Large<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, size: :xl) do %>Extra Large<% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ButtonComponent.new(variant: :primary, size: :lg) do %&gt;Large Button&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Loading States Section -->
+  <%= render BetterUi::CardComponent.new(variant: :success, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Loading States</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Show Loader</h3>
+          <div class="flex flex-wrap gap-4">
+            <%= render BetterUi::ButtonComponent.new(variant: :primary, show_loader: true) do %>Loading<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :success, style: :outline, show_loader: true) do %>Processing<% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Show Loader on Click</h3>
+          <div class="flex flex-wrap gap-4">
+            <%= render BetterUi::ButtonComponent.new(variant: :primary, show_loader_on_click: true) do %>Click to Load<% end %>
+            <%= render BetterUi::ButtonComponent.new(variant: :danger, show_loader_on_click: true) do %>Delete Item<% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ButtonComponent.new(variant: :primary, show_loader: true) do %&gt;Loading&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Disabled State Section -->
+  <%= render BetterUi::CardComponent.new(variant: :warning, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Disabled State</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="flex flex-wrap gap-4">
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, disabled: true) do %>Disabled<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :success, style: :outline, disabled: true) do %>Disabled<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :danger, style: :ghost, disabled: true) do %>Disabled<% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ButtonComponent.new(variant: :primary, disabled: true) do %&gt;Disabled&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Button Types Section -->
+  <%= render BetterUi::CardComponent.new(variant: :info, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Button Types</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="flex flex-wrap gap-4">
+        <%= render BetterUi::ButtonComponent.new(variant: :primary, type: :button) do %>Button Type<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :success, type: :submit) do %>Submit Type<% end %>
+        <%= render BetterUi::ButtonComponent.new(variant: :danger, type: :reset) do %>Reset Type<% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ButtonComponent.new(variant: :success, type: :submit) do %&gt;Submit&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Complete Example -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :soft) do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Complete Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>&lt;%= render BetterUi::ButtonComponent.new(
+  variant: :primary,
+  style: :solid,
+  size: :md,
+  show_loader_on_click: true,
+  type: :submit,
+  container_classes: "w-full",
+  data: { action: "click->form#submit" }
+) do %&gt;
+  Save Changes
+&lt;% end %&gt;</code></pre>
+    <% end %>
+  <% end %>
+</div>

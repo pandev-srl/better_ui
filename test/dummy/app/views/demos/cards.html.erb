@@ -1,0 +1,242 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Card Component</h1>
+    <p class="text-lg text-gray-600">Flexible card containers for displaying content with headers, footers, and multiple styles.</p>
+  </div>
+
+  <!-- Basic Card -->
+  <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Basic Card</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <%= render BetterUi::CardComponent.new(variant: :primary) do %>
+          This is a basic card with just body content.
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :secondary) do |c| %>
+          <% c.with_header do %>Card Header<% end %>
+          <% c.with_body do %>This card has a header.<% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :accent) do |c| %>
+          <% c.with_header do %>Full Card<% end %>
+          <% c.with_body do %>This card has header and footer.<% end %>
+          <% c.with_footer do %>Card Footer<% end %>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::CardComponent.new(variant: :primary) do %&gt;Card content&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Visual Styles -->
+  <%= render BetterUi::CardComponent.new(variant: :secondary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Visual Styles</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Solid Style</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <%= render BetterUi::CardComponent.new(variant: :primary, style: :solid) do |c| %>
+              <% c.with_header do %>Primary Solid<% end %>
+              <% c.with_body do %>Filled background with subtle border.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :success, style: :solid) do |c| %>
+              <% c.with_header do %>Success Solid<% end %>
+              <% c.with_body do %>Perfect for success messages.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :danger, style: :solid) do |c| %>
+              <% c.with_header do %>Danger Solid<% end %>
+              <% c.with_body do %>Attention-grabbing error display.<% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Outline Style</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline) do |c| %>
+              <% c.with_header do %>Primary Outline<% end %>
+              <% c.with_body do %>White background with colored border.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :info, style: :outline) do |c| %>
+              <% c.with_header do %>Info Outline<% end %>
+              <% c.with_body do %>Clean professional look.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :warning, style: :outline) do |c| %>
+              <% c.with_header do %>Warning Outline<% end %>
+              <% c.with_body do %>Caution with style.<% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Soft Style</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <%= render BetterUi::CardComponent.new(variant: :primary, style: :soft) do |c| %>
+              <% c.with_header do %>Primary Soft<% end %>
+              <% c.with_body do %>Light background with subtle border.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :secondary, style: :soft) do |c| %>
+              <% c.with_header do %>Secondary Soft<% end %>
+              <% c.with_body do %>Gentle appearance.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :accent, style: :soft) do |c| %>
+              <% c.with_header do %>Accent Soft<% end %>
+              <% c.with_body do %>Subtle yet distinctive.<% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Ghost Style</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <%= render BetterUi::CardComponent.new(variant: :primary, style: :ghost) do |c| %>
+              <% c.with_header do %>Primary Ghost<% end %>
+              <% c.with_body do %>Transparent background.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :success, style: :ghost) do |c| %>
+              <% c.with_header do %>Success Ghost<% end %>
+              <% c.with_body do %>Minimal design.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(variant: :info, style: :ghost) do |c| %>
+              <% c.with_header do %>Info Ghost<% end %>
+              <% c.with_body do %>Blends with background.<% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Bordered Style</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <%= render BetterUi::CardComponent.new(style: :bordered) do |c| %>
+              <% c.with_header do %>Bordered Card<% end %>
+              <% c.with_body do %>Neutral gray border, variant-agnostic.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(style: :bordered, shadow: false) do |c| %>
+              <% c.with_header do %>No Shadow<% end %>
+              <% c.with_body do %>Without shadow effect.<% end %>
+            <% end %>
+
+            <%= render BetterUi::CardComponent.new(style: :bordered) do |c| %>
+              <% c.with_header do %>Perfect for Tables<% end %>
+              <% c.with_body do %>Clean separation.<% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Sizes -->
+  <%= render BetterUi::CardComponent.new(variant: :accent, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Card Sizes</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, size: :xs) do |c| %>
+          <% c.with_header do %>Extra Small (xs)<% end %>
+          <% c.with_body do %>Compact card for tight spaces.<% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, size: :sm) do |c| %>
+          <% c.with_header do %>Small (sm)<% end %>
+          <% c.with_body do %>Slightly more breathing room.<% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, size: :md) do |c| %>
+          <% c.with_header do %>Medium (md) - Default<% end %>
+          <% c.with_body do %>Perfect balance of space and content.<% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, size: :lg) do |c| %>
+          <% c.with_header do %>Large (lg)<% end %>
+          <% c.with_body do %>Generous padding for comfortable reading.<% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, size: :xl) do |c| %>
+          <% c.with_header do %>Extra Large (xl)<% end %>
+          <% c.with_body do %>Maximum space for prominent content.<% end %>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::CardComponent.new(variant: :primary, size: :lg) do %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Padding Control -->
+  <%= render BetterUi::CardComponent.new(variant: :success, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Padding Control</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, body_padding: false) do |c| %>
+          <% c.with_header do %>No Body Padding<% end %>
+          <% c.with_body do %>
+            <div class="bg-gray-100 h-32 flex items-center justify-center">
+              Full-width content area
+            </div>
+          <% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(variant: :secondary, style: :outline, header_padding: false) do |c| %>
+          <% c.with_header do %>
+            <div class="bg-gray-100 p-6">Custom header padding</div>
+          <% end %>
+          <% c.with_body do %>Normal body padding maintained.<% end %>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::CardComponent.new(body_padding: false) do %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Complete Example -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :soft) do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Complete Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>&lt;%= render BetterUi::CardComponent.new(
+  variant: :primary,
+  style: :outline,
+  size: :lg,
+  shadow: true,
+  container_classes: "mb-4",
+  header_classes: "bg-primary-50",
+  body_classes: "prose",
+  id: "user-card"
+) do |card| %&gt;
+  &lt;% card.with_header do %&gt;
+    User Profile
+  &lt;% end %&gt;
+  &lt;% card.with_body do %&gt;
+    Card content goes here...
+  &lt;% end %&gt;
+  &lt;% card.with_footer do %&gt;
+    Actions and buttons
+  &lt;% end %&gt;
+&lt;% end %&gt;</code></pre>
+    <% end %>
+  <% end %>
+</div>

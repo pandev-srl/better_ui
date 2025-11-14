@@ -1,0 +1,44 @@
+Description:
+    The install generator sets up BetterUi in your Rails application by creating
+    the necessary theme file and configuring Tailwind CSS v4 to work with the gem.
+
+Example:
+    bin/rails generate better_ui:install
+
+    This will create:
+        app/assets/stylesheets/better_ui_theme.css
+        app/assets/stylesheets/application.postcss.css (or update existing)
+
+What it does:
+    1. Creates a theme file (better_ui_theme.css) with:
+       - 9 color variants (primary, secondary, accent, success, danger, warning, info, light, dark)
+       - Full OKLCH color scales (50-950) for each variant
+       - Typography tokens (font families)
+       - Spacing and sizing tokens
+       - Border radius tokens
+       - Shadow tokens
+       - Utility classes for common patterns
+
+    2. Creates or updates application.postcss.css to:
+       - Import Tailwind CSS v4
+       - Import the BetterUi theme
+       - Configure @source directives to scan:
+         * Gem templates in vendor/bundle
+         * Application views and templates
+         * JavaScript files
+
+Post-installation:
+    1. Install Tailwind CSS v4:
+       npm install tailwindcss@next @tailwindcss/postcss@next
+
+    2. Configure PostCSS (postcss.config.js):
+       module.exports = {
+         plugins: [
+           require('@tailwindcss/postcss')
+         ]
+       }
+
+    3. Customize your theme in app/assets/stylesheets/better_ui_theme.css
+
+    4. Use BetterUi components in your views:
+       <%= render BetterUi::ButtonComponent.new(label: "Click me") %>

@@ -1,0 +1,17 @@
+{
+  "name": "better-ui-dummy",
+  "version": "1.0.0",
+  "description": "BetterUi Demo Application",
+  "private": true,
+  "packageManager": "yarn@4.0.0",
+  "scripts": {
+    "build:css": "postcss app/assets/stylesheets/application.tailwind.css -o app/assets/builds/application.css",
+    "watch:css": "postcss app/assets/stylesheets/application.tailwind.css -o app/assets/builds/application.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "4.1.17",
+    "postcss": "^8.4.49",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "4.1.17"
+  }
+}

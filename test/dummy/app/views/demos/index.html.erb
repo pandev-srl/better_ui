@@ -1,0 +1,99 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to BetterUi</h1>
+    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      A comprehensive UI component library for Rails applications, built with Tailwind CSS v4 and ViewComponent.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    <%= link_to demos_buttons_path, class: "block" do %>
+      <%= render BetterUi::CardComponent.new(variant: :primary, style: :outline, size: :md) do |card| %>
+        <% card.with_header do %>
+          <h3 class="text-lg font-semibold">Buttons</h3>
+        <% end %>
+        <% card.with_body do %>
+          <p class="text-sm text-gray-600">
+            Explore button components with multiple variants, sizes, and styles. Includes loading states and icons.
+          </p>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= link_to demos_cards_path, class: "block" do %>
+      <%= render BetterUi::CardComponent.new(variant: :secondary, style: :outline, size: :md) do |card| %>
+        <% card.with_header do %>
+          <h3 class="text-lg font-semibold">Cards</h3>
+        <% end %>
+        <% card.with_body do %>
+          <p class="text-sm text-gray-600">
+            Versatile card containers with headers, footers, and multiple visual styles for displaying content.
+          </p>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= link_to demos_alerts_path, class: "block" do %>
+      <%= render BetterUi::CardComponent.new(variant: :success, style: :outline, size: :md) do |card| %>
+        <% card.with_header do %>
+          <h3 class="text-lg font-semibold">Alerts</h3>
+        <% end %>
+        <% card.with_body do %>
+          <p class="text-sm text-gray-600">
+            Display messages and notifications with support for dismissible and auto-dismiss functionality.
+          </p>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= link_to demos_forms_path, class: "block" do %>
+      <%= render BetterUi::CardComponent.new(variant: :accent, style: :outline, size: :md) do |card| %>
+        <% card.with_header do %>
+          <h3 class="text-lg font-semibold">Forms</h3>
+        <% end %>
+        <% card.with_body do %>
+          <p class="text-sm text-gray-600">
+            Form input components with labels, hints, validation errors, and prefix/suffix icon support.
+          </p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= render BetterUi::CardComponent.new(variant: :info, style: :soft) do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-2xl font-bold">Getting Started</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Installation</h3>
+          <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>gem 'better_ui'
+bundle install
+rails generate better_ui:install</code></pre>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Basic Usage</h3>
+          <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>&lt;%= render BetterUi::ButtonComponent.new(variant: :primary) do %&gt;
+  Click Me
+&lt;% end %&gt;</code></pre>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Features</h3>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li>9 semantic color variants (primary, secondary, accent, success, danger, warning, info, light, dark)</li>
+            <li>Multiple visual styles (solid, outline, ghost, soft, bordered)</li>
+            <li>Responsive sizes (xs, sm, md, lg, xl)</li>
+            <li>OKLCH color space for better perceptual uniformity</li>
+            <li>ViewComponent architecture for clean, testable components</li>
+            <li>Tailwind CSS v4 powered with PostCSS</li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

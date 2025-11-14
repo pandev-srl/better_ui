@@ -1,0 +1,325 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Action Messages Component</h1>
+    <p class="text-lg text-gray-600">Display messages and notifications with support for dismissible and auto-dismiss functionality.</p>
+  </div>
+
+  <!-- Single Message -->
+  <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Single Message</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This is a single informational message."],
+          variant: :info
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Operation completed successfully!"],
+          variant: :success
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Please review the warnings below."],
+          variant: :warning
+        ) %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ActionMessagesComponent.new(messages: ["Success!"], variant: :success) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Multiple Messages -->
+  <%= render BetterUi::CardComponent.new(variant: :secondary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Multiple Messages</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: [
+            "Email is required",
+            "Password is too short",
+            "Username is already taken"
+          ],
+          variant: :danger,
+          title: "Please correct the following errors:"
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: [
+            "Profile updated successfully",
+            "Notification preferences saved",
+            "Email verification sent"
+          ],
+          variant: :success,
+          title: "All changes saved!"
+        ) %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ActionMessagesComponent.new(messages: [...], title: "Errors:") %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Visual Styles -->
+  <%= render BetterUi::CardComponent.new(variant: :accent, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Visual Styles</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Soft Style (Default)</h3>
+          <div class="space-y-3">
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Primary soft message"],
+              variant: :primary,
+              style: :soft
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Success soft message"],
+              variant: :success,
+              style: :soft
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Danger soft message"],
+              variant: :danger,
+              style: :soft
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Solid Style</h3>
+          <div class="space-y-3">
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Primary solid message"],
+              variant: :primary,
+              style: :solid
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Warning solid message"],
+              variant: :warning,
+              style: :solid
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Info solid message"],
+              variant: :info,
+              style: :solid
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Outline Style</h3>
+          <div class="space-y-3">
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Primary outline message"],
+              variant: :primary,
+              style: :outline
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Success outline message"],
+              variant: :success,
+              style: :outline
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Danger outline message"],
+              variant: :danger,
+              style: :outline
+            ) %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Ghost Style</h3>
+          <div class="space-y-3">
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Primary ghost message"],
+              variant: :primary,
+              style: :ghost
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Info ghost message"],
+              variant: :info,
+              style: :ghost
+            ) %>
+            <%= render BetterUi::ActionMessagesComponent.new(
+              messages: ["Warning ghost message"],
+              variant: :warning,
+              style: :ghost
+            ) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- All Variants -->
+  <%= render BetterUi::CardComponent.new(variant: :success, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">All Variants</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This is a primary message"],
+          variant: :primary
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This is a secondary message"],
+          variant: :secondary
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This is an accent message"],
+          variant: :accent
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Operation completed successfully"],
+          variant: :success
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["An error occurred"],
+          variant: :danger
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Please review this warning"],
+          variant: :warning
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Here is some information"],
+          variant: :info
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Light variant message"],
+          variant: :light
+        ) %>
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Dark variant message"],
+          variant: :dark
+        ) %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Dismissible Messages -->
+  <%= render BetterUi::CardComponent.new(variant: :warning, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Dismissible Messages</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["You can dismiss this message by clicking the X button."],
+          variant: :info,
+          dismissible: true
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This success message can be dismissed."],
+          variant: :success,
+          dismissible: true,
+          style: :solid
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: [
+            "Multiple messages",
+            "Can also be dismissed",
+            "Click the X to close"
+          ],
+          variant: :warning,
+          dismissible: true,
+          title: "Note:"
+        ) %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ActionMessagesComponent.new(messages: [...], dismissible: true) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Auto-Dismiss -->
+  <%= render BetterUi::CardComponent.new(variant: :info, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Auto-Dismiss Messages</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-4">
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This message will auto-dismiss after 3 seconds."],
+          variant: :success,
+          auto_dismiss: 3,
+          dismissible: true
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["This message will auto-dismiss after 5 seconds."],
+          variant: :info,
+          auto_dismiss: 5,
+          dismissible: true
+        ) %>
+
+        <%= render BetterUi::ActionMessagesComponent.new(
+          messages: ["Quick notification - dismisses in 2 seconds."],
+          variant: :primary,
+          style: :solid,
+          auto_dismiss: 2,
+          dismissible: true
+        ) %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ActionMessagesComponent.new(messages: [...], auto_dismiss: 5, dismissible: true) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Form Validation Example -->
+  <%= render BetterUi::CardComponent.new(variant: :danger, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Form Validation Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <%= render BetterUi::ActionMessagesComponent.new(
+        messages: [
+          "Email can't be blank",
+          "Email is invalid",
+          "Password is too short (minimum is 8 characters)",
+          "Password confirmation doesn't match Password",
+          "Username is already taken"
+        ],
+        variant: :danger,
+        title: "5 errors prohibited this user from being saved:",
+        style: :soft
+      ) %>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::ActionMessagesComponent.new(messages: @user.errors.full_messages, variant: :danger, title: "Errors:") %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Complete Example -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :soft) do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Complete Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>&lt;%= render BetterUi::ActionMessagesComponent.new(
+  messages: ["Your changes have been saved successfully."],
+  variant: :success,
+  style: :solid,
+  dismissible: true,
+  auto_dismiss: 5,
+  title: "Success!",
+  container_classes: "mb-4",
+  data: { testid: "flash-message" }
+) %&gt;</code></pre>
+    <% end %>
+  <% end %>
+</div>
