@@ -138,6 +138,19 @@
   --color-dark-900: oklch(0.16 0.02 240);
   --color-dark-950: oklch(0.10 0.02 240);
 
+  /* Grayscale - Additional utility grays */
+  --color-grayscale-50: oklch(0.98 0.00 0);
+  --color-grayscale-100: oklch(0.96 0.00 0);
+  --color-grayscale-200: oklch(0.92 0.00 0);
+  --color-grayscale-300: oklch(0.84 0.00 0);
+  --color-grayscale-400: oklch(0.68 0.00 0);
+  --color-grayscale-500: oklch(0.52 0.00 0);
+  --color-grayscale-600: oklch(0.42 0.00 0);
+  --color-grayscale-700: oklch(0.34 0.00 0);
+  --color-grayscale-800: oklch(0.26 0.00 0);
+  --color-grayscale-900: oklch(0.18 0.00 0);
+  --color-grayscale-950: oklch(0.10 0.00 0);
+
   /* ============================================
      TYPOGRAPHY
      ============================================ */

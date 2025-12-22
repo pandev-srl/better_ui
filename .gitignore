@@ -8,17 +8,12 @@
 /test/dummy/tmp/
 /test/dummy/node_modules/
 /test/dummy/app/assets/builds/
-/test/dummy/yarn.lock
-/test/dummy/package-lock.json
 /test/dummy/.yarn/
 
 # npm package build artifacts (assets/)
 /assets/node_modules/
 /assets/dist/
 /assets/.yarn/
-/assets/yarn.lock
-/assets/package-lock.json
-/assets/pnpm-lock.yaml
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,macos,rubymine,ruby,node,visualstudiocode,rails
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,macos,rubymine,ruby,node,visualstudiocode,rails

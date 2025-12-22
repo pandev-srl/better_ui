@@ -19,7 +19,7 @@ gem "better_ui"
 
 ```bash
 bundle install
-yarn add @pandev-srl/better-ui  # or npm install @pandev-srl/better-ui
+npm install @pandev-srl/better-ui
 ```
 
 **JavaScript** (app/javascript/application.js):
