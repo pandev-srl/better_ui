@@ -39,14 +39,14 @@ class EngineTest < ActiveSupport::TestCase
     assert Dir.exist?(form_builders_path), "Engine should have app/form_builders directory"
   end
 
-  test "engine has javascript directory" do
-    js_path = BetterUi::Engine.root.join("app", "javascript")
-    assert Dir.exist?(js_path), "Engine should have app/javascript directory"
+  test "engine has assets directory for npm package" do
+    assets_path = BetterUi::Engine.root.join("assets")
+    assert Dir.exist?(assets_path), "Engine should have assets directory for npm package"
   end
 
-  test "engine has importmap configuration" do
-    importmap_path = BetterUi::Engine.root.join("config", "importmap.rb")
-    assert File.exist?(importmap_path), "Engine should have config/importmap.rb"
+  test "engine assets directory has package.json" do
+    package_json_path = BetterUi::Engine.root.join("assets", "package.json")
+    assert File.exist?(package_json_path), "Engine assets should have package.json"
   end
 
   test "engine autoload paths include lib directory" do

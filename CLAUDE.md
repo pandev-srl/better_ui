@@ -6,13 +6,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 BetterUi is a Rails 8.1+ engine gem that provides ViewComponent-based UI components with Tailwind CSS v4 styling. It follows the isolated namespace pattern with `BetterUi::Engine` inheriting from `::Rails::Engine` with `isolate_namespace BetterUi`.
 
-**Critical Design Principle**: BetterUi ships **only Ruby components** (no CSS files). Host applications must configure Tailwind CSS v4 to scan `vendor/bundle` directories for component classes. See `doc/INSTALLATION.md` for details.
+**Critical Design Principle**: BetterUi ships Ruby components via gem and JavaScript/CSS via npm package (`@pandev-srl/better-ui`). Host applications install both the gem and npm package, then configure Tailwind CSS v4 to scan `vendor/bundle` directories for component classes. See `doc/INSTALLATION.md` for details.
 
 ## Development Commands
 
 ### Setup
 ```bash
+# Ruby gem dependencies
 bundle install
+
+# npm package dependencies (for building JS/CSS)
+cd assets
+npm install
+```
+
+### Building npm Package
+```bash
+# From gem root
+rake better_ui:build_npm
+
+# Or from assets directory
+cd assets
+npm run build        # Build JS + CSS
+npm run build:css    # Build CSS only
+npm run types        # Generate TypeScript declarations
+```
+
+### Version Sync
+```bash
+# Sync npm package version with gem version
+rake better_ui:sync_version
 ```
 
 ### Testing
@@ -76,31 +99,48 @@ UiFormBuilder (Rails form builder, integrates all form components)
 **Critical initializers executed in order:**
 
 1. **`better_ui.autoload_ignore`** - Excludes `lib/tasks` and `lib/generators` from Zeitwerk autoloading
-2. **`better_ui.importmap`** - Adds engine's JavaScript to host app's importmap (for Stimulus controllers)
-3. **`better_ui.view_component`** - Configures `app.config.view_component.previews.paths` for preview discovery
-4. **`better_ui.lookbook`** - Configures Lookbook component browser with `spec/components/previews/` path
+2. **`better_ui.view_component`** - Configures `app.config.view_component.previews.paths` for preview discovery
+3. **`better_ui.lookbook`** - Configures Lookbook component browser with `spec/components/previews/` path
 
 ### JavaScript Architecture (Stimulus Controllers)
 
-**Engine controllers** (`app/javascript/controllers/better_ui/`):
-- `button_controller.js` - Loading states and click handling
-- `action_messages_controller.js` - Dismissible alerts with auto-dismiss timer
-- `forms/password_input_controller.js` - Password visibility toggle
+**npm package** (`@pandev-srl/better-ui`) distributed from `assets/`:
+- `assets/src/js/index.js` - Entry point with `registerControllers()` helper
+- `assets/src/js/button_controller.js` - Loading states and click handling
+- `assets/src/js/action_messages_controller.js` - Dismissible alerts with auto-dismiss timer
+- `assets/src/js/forms/password_input_controller.js` - Password visibility toggle
 
 **Naming convention**: Stimulus identifiers use hyphens (e.g., `data-controller="better-ui--button"`), while file paths use underscores. This is critical for proper registration.
 
-**Host app integration**: Dummy app (`test/dummy/app/javascript/controllers/index.js`) uses `eagerLoadControllersFrom("controllers/better_ui", application)` to auto-register engine controllers.
+**Host app integration**:
+```javascript
+import { Application } from "@hotwired/stimulus"
+import { registerControllers } from "@pandev-srl/better-ui"
+
+const application = Application.start()
+registerControllers(application)
+```
 
 ### CSS & Theming
 
-**No CSS is distributed** - Components use utility classes that must be scanned by host app's Tailwind build:
+**CSS distributed via npm package** (`@pandev-srl/better-ui`):
+- `assets/src/css/index.css` - Entry point (imports Tailwind + theme)
+- `assets/src/css/theme.css` - Theme variables and utility classes
 
+**Host app CSS setup**:
 ```css
-/* Host app must configure PostCSS with: */
+/* Option 1: Import pre-built CSS */
+@import "@pandev-srl/better-ui/css";
+
+/* Option 2: Import just theme for customization */
+@import "tailwindcss";
+@import "@pandev-srl/better-ui/theme";
+
+/* Required: Scan gem components for Tailwind classes */
 @source "../../../vendor/bundle/**/*.{rb,erb}";
 ```
 
-**Theme customization** via `better_ui_theme.css` installed by generator:
+**Theme features**:
 - 9 color variants with 11 shades each (50-950)
 - OKLCH color space for perceptually uniform colors
 - CSS custom properties: `--color-{variant}-{shade}`
@@ -136,10 +176,33 @@ end
 - **Loaded frameworks**: ActiveModel, ActionController, ActionView, Rails TestUnit
 - **NOT loaded**: ActiveJob, ActiveRecord, ActiveStorage, ActionMailer, ActionMailbox, ActionText, ActionCable
 - **Asset pipeline**: Propshaft
-- **JavaScript**: Importmap with Stimulus
+- **JavaScript**: Vite/esbuild with Stimulus (npm package)
 - **Server**: Puma
 
 **Purpose**: Test engine in realistic Rails environment and develop components with Lookbook previews.
+
+### npm Package Structure
+
+```
+assets/
+├── package.json          # @pandev-srl/better-ui
+├── vite.config.mts       # Vite build config
+├── tsconfig.json         # TypeScript declarations
+├── postcss.config.mjs    # PostCSS with Tailwind
+├── src/
+│   ├── js/               # Stimulus controllers
+│   │   ├── index.js      # Entry point + registerControllers()
+│   │   ├── button_controller.js
+│   │   ├── action_messages_controller.js
+│   │   └── forms/password_input_controller.js
+│   └── css/              # Theme CSS
+│       ├── index.css     # Entry point
+│       └── theme.css     # OKLCH colors + utilities
+└── dist/                 # Built output (gitignored)
+    ├── better-ui.mjs     # ESM
+    ├── better-ui.umd.js  # UMD
+    └── better-ui.css     # Compiled CSS
+```
 
 ## Key Patterns
 

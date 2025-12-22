@@ -10,8 +10,42 @@ module BetterUi
       destination File.expand_path("../../../../tmp", __dir__)
       setup :prepare_destination
 
-      test "generator creates theme file" do
+      test "generator installs npm package via npm by default" do
+        # Create destination without yarn.lock or pnpm-lock.yaml
+        FileUtils.mkdir_p(destination_root)
+
+        output = run_generator
+
+        # Generator should attempt to run npm install
+        assert_match(/Installing @pandev-srl\/better-ui/, output)
+      end
+
+      test "generator uses yarn when yarn.lock exists" do
+        FileUtils.mkdir_p(destination_root)
+        File.write(File.join(destination_root, "yarn.lock"), "")
+
+        output = run_generator
+
+        assert_match(/Installing @pandev-srl\/better-ui/, output)
+      end
+
+      test "generator uses pnpm when pnpm-lock.yaml exists" do
+        FileUtils.mkdir_p(destination_root)
+        File.write(File.join(destination_root, "pnpm-lock.yaml"), "")
+
+        output = run_generator
+
+        assert_match(/Installing @pandev-srl\/better-ui/, output)
+      end
+
+      test "generator does not create theme file by default" do
         run_generator
+
+        assert_no_file "app/assets/stylesheets/better_ui_theme.css"
+      end
+
+      test "generator creates theme file with copy_theme option" do
+        run_generator ["--copy-theme"]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/@theme inline/, content)
@@ -27,47 +61,8 @@ module BetterUi
         end
       end
 
-      test "generator creates application.postcss.css with correct imports" do
-        run_generator
-
-        assert_file "app/assets/stylesheets/application.postcss.css" do |content|
-          assert_match(/@import "tailwindcss"/, content)
-          assert_match(/@import "\.\/better_ui_theme\.css"/, content)
-          assert_match(/@source "\.\.\/\.\.\/\.\.\/vendor\/bundle\/\*\*\/\*\.{rb,erb}"/, content)
-          assert_match(/@source "\.\.\/\.\.\/\*\*\/\*\.{erb,html,rb}"/, content)
-          assert_match(/@source "\.\.\/javascript\/\*\*\/\*\.js"/, content)
-        end
-      end
-
-      test "generator updates existing application.postcss.css" do
-        # Create a fake existing application.postcss.css
-        FileUtils.mkdir_p(File.join(destination_root, "app/assets/stylesheets"))
-        File.write(
-          File.join(destination_root, "app/assets/stylesheets/application.postcss.css"),
-          "/* Existing content */\n"
-        )
-
-        run_generator
-
-        assert_file "app/assets/stylesheets/application.postcss.css" do |content|
-          # Check that new imports were prepended
-          assert_match(/@import "tailwindcss"/, content)
-          assert_match(/@import "\.\/better_ui_theme\.css"/, content)
-          assert_match(/@source "\.\.\/\.\.\/\.\.\/vendor\/bundle\/\*\*\/\*\.{rb,erb}"/, content)
-
-          # Check that existing content is preserved
-          assert_match(/\/\* Existing content \*\//, content)
-
-          # Check that imports come before existing content
-          tailwind_pos = content.index('@import "tailwindcss"')
-          existing_pos = content.index("/* Existing content */")
-          assert tailwind_pos < existing_pos,
-                 "Imports should be prepended before existing content"
-        end
-      end
-
-      test "generator includes all color variants" do
-        run_generator
+      test "theme file includes all color variants with full scales" do
+        run_generator ["--copy-theme"]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           # Test that all 9 variants exist with their full color scales
@@ -80,8 +75,8 @@ module BetterUi
         end
       end
 
-      test "generator includes utility classes" do
-        run_generator
+      test "theme file includes utility classes" do
+        run_generator ["--copy-theme"]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/\.text-heading-primary/, content)
@@ -91,8 +86,8 @@ module BetterUi
         end
       end
 
-      test "generator includes typography tokens" do
-        run_generator
+      test "theme file includes typography tokens" do
+        run_generator ["--copy-theme"]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/--font-family-sans:/, content)
@@ -102,7 +97,7 @@ module BetterUi
       end
 
       test "theme file uses OKLCH color space" do
-        run_generator
+        run_generator ["--copy-theme"]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           # Check that colors are defined using OKLCH format
@@ -110,39 +105,32 @@ module BetterUi
         end
       end
 
-      test "generator skips updating application.postcss.css when already configured" do
-        # Create application.postcss.css with all required imports already present
-        FileUtils.mkdir_p(File.join(destination_root, "app/assets/stylesheets"))
-        File.write(
-          File.join(destination_root, "app/assets/stylesheets/application.postcss.css"),
-          <<~CSS
-            @import "tailwindcss";
-            @import "./better_ui_theme.css";
-
-            /* Scan gem templates for Tailwind classes */
-            @source "../../../vendor/bundle/**/*.{rb,erb}";
-
-            /* Scan application files for Tailwind classes */
-            @source "../../**/*.{erb,html,rb}";
-            @source "../javascript/**/*.js";
-
-            /* Existing custom styles */
-          CSS
-        )
-
-        # Capture output to verify the "already configured" message
+      test "generator shows post-install instructions" do
         output = run_generator
 
-        # The file should not be modified (no prepending)
-        assert_file "app/assets/stylesheets/application.postcss.css" do |content|
-          # File should still contain all the original imports
-          assert_match(/@import "tailwindcss"/, content)
-          assert_match(/@import "\.\/better_ui_theme\.css"/, content)
+        # Check for JavaScript setup instructions
+        assert_match(/JavaScript Setup:/, output)
+        assert_match(/registerControllers/, output)
+        assert_match(/@pandev-srl\/better-ui/, output)
 
-          # Should only appear once (not duplicated)
-          assert_equal 1, content.scan(/@import "tailwindcss"/).length
-          assert_equal 1, content.scan(/@import "\.\/better_ui_theme\.css"/).length
-        end
+        # Check for CSS setup instructions
+        assert_match(/CSS Setup:/, output)
+
+        # Check for Tailwind configuration instructions
+        assert_match(/Tailwind Configuration:/, output)
+        assert_match(/vendor\/bundle/, output)
+
+        # Check for usage example
+        assert_match(/Usage:/, output)
+        assert_match(/BetterUi::ButtonComponent/, output)
+      end
+
+      test "generator shows different CSS instructions when copy_theme is used" do
+        output = run_generator ["--copy-theme"]
+
+        # Check that it mentions the copied theme file
+        assert_match(/Theme file copied to:/, output)
+        assert_match(/better_ui_theme\.css/, output)
       end
     end
   end

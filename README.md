@@ -2,9 +2,13 @@
 
 A modern Rails UI component library built with ViewComponent and Tailwind CSS v4. BetterUi provides a comprehensive set of customizable, accessible, and production-ready components for Rails applications.
 
-## Important: CSS Build Requirements
+## Important: Dual Distribution
 
-> **Warning**: BetterUi distributes ViewComponents only—**no CSS files are included**. Your Rails application **must have Tailwind CSS v4** with a properly configured build process. The host application must scan `vendor/bundle` directories for Tailwind classes. See [Installation Guide](doc/INSTALLATION.md) for detailed setup instructions.
+BetterUi uses a **dual distribution model**:
+- **Ruby gem** (`better_ui`) - ViewComponents for Rails
+- **npm package** (`@pandev-srl/better-ui`) - JavaScript (Stimulus controllers) and CSS (theme)
+
+Your Rails application must install both. See [Installation Guide](doc/INSTALLATION.md) for detailed setup instructions.
 
 ## Quick Start
 
@@ -15,7 +19,22 @@ gem "better_ui"
 
 ```bash
 bundle install
-bin/rails generate better_ui:install
+yarn add @pandev-srl/better-ui  # or npm install @pandev-srl/better-ui
+```
+
+**JavaScript** (app/javascript/application.js):
+```javascript
+import { Application } from "@hotwired/stimulus"
+import { registerControllers } from "@pandev-srl/better-ui"
+
+const application = Application.start()
+registerControllers(application)
+```
+
+**CSS** (app/assets/stylesheets/application.css):
+```css
+@import "@pandev-srl/better-ui/css";
+@source "../../../vendor/bundle/**/*.{rb,erb}";
 ```
 
 ```erb

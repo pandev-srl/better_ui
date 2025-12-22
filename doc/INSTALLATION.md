@@ -5,7 +5,7 @@ This guide walks you through installing and configuring BetterUi in your Rails a
 ## Prerequisites
 
 - Rails 8.1.1 or higher
-- Node.js and npm (for Tailwind CSS)
+- Node.js and npm (for Tailwind CSS and npm package)
 - A Rails application with asset pipeline configured
 
 ## Installation Steps
@@ -22,82 +22,53 @@ Then run:
 bundle install
 ```
 
-### 2. Run the install generator
+### 2. Install the npm package
+
+```bash
+# Using yarn
+yarn add @pandev-srl/better-ui
+
+# Using npm
+npm install @pandev-srl/better-ui
+
+# Using pnpm
+pnpm add @pandev-srl/better-ui
+```
+
+### 3. Run the install generator (optional)
 
 ```bash
 bin/rails generate better_ui:install
 ```
 
 This generator will:
+- Install the npm package automatically
+- Show configuration instructions
 
-- Create `app/assets/stylesheets/better_ui_theme.css` with your theme configuration
-- Create or update `app/assets/stylesheets/application.postcss.css` with necessary imports and @source directives
-
-### 3. Install Tailwind CSS v4
-
-BetterUi requires Tailwind CSS v4 (currently in beta):
-
+Use `--copy-theme` flag to copy the theme CSS for customization:
 ```bash
-npm install tailwindcss@next @tailwindcss/postcss@next
+bin/rails generate better_ui:install --copy-theme
 ```
 
-### 4. Configure PostCSS
+### 4. Configure JavaScript
 
-Create or update `postcss.config.js` in your project root:
+Add to your JavaScript entry point (e.g., `app/javascript/application.js`):
 
 ```javascript
-module.exports = {
-  plugins: [
-    require('@tailwindcss/postcss')
-  ]
-}
+import { Application } from "@hotwired/stimulus"
+import { registerControllers } from "@pandev-srl/better-ui"
+
+const application = Application.start()
+registerControllers(application)
 ```
 
-### 5. Configure Asset Pipeline
+### 5. Configure CSS
 
-Ensure your application layout includes the stylesheet:
+Add to your main CSS file (e.g., `app/assets/stylesheets/application.css`):
 
-```erb
-<!-- app/views/layouts/application.html.erb -->
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Your App</title>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
-  <body>
-    <%= yield %>
-  </body>
-</html>
-```
-
-## What Gets Generated
-
-### Theme File (better_ui_theme.css)
-
-The generator creates a comprehensive theme file with:
-
-- **9 Color Variants**: primary, secondary, accent, success, danger, warning, info, light, dark
-- **Full Color Scales**: Each variant includes shades from 50 to 950
-- **OKLCH Color Space**: Modern color definition for better perceptual uniformity
-- **Typography Tokens**: Font family definitions (sans, serif, mono)
-- **Spacing Tokens**: Consistent spacing scale
-- **Border Radius Tokens**: From none to full rounded
-- **Shadow Tokens**: From subtle to prominent shadows
-- **Utility Classes**: Pre-configured utilities like:
-  - `.text-heading-{variant}` for semantic heading colors
-  - `.no-spinner` for hiding number input spinners
-  - `.focus-ring` for consistent focus states
-  - `.glass` for glass morphism effects
-
-### Application CSS (application.postcss.css)
-
-The generator configures your application CSS with:
-
+**Option 1: Import pre-built CSS (simplest)**
 ```css
-@import "tailwindcss";
-@import "./better_ui_theme.css";
+@import "@pandev-srl/better-ui/css";
 
 /* Scan gem templates for Tailwind classes */
 @source "../../../vendor/bundle/**/*.{rb,erb}";
@@ -107,143 +78,191 @@ The generator configures your application CSS with:
 @source "../javascript/**/*.js";
 ```
 
-The `@source` directives tell Tailwind CSS v4 where to find classes:
-- **vendor/bundle**: Scans gem templates (including BetterUi components)
-- **Application views**: Scans your app's ERB, HTML, and Ruby files
-- **JavaScript**: Scans JS files for dynamic class names
-
-## Customizing Your Theme
-
-After installation, you can customize the theme by editing `app/assets/stylesheets/better_ui_theme.css`.
-
-### Customizing Colors
-
-Each color variant follows this structure:
-
+**Option 2: Import just theme for customization**
 ```css
-/* Primary color example */
---color-primary-50: oklch(0.97 0.01 250);   /* Lightest */
---color-primary-100: oklch(0.94 0.03 250);
---color-primary-200: oklch(0.88 0.06 250);
---color-primary-300: oklch(0.80 0.12 250);
---color-primary-400: oklch(0.70 0.18 250);
---color-primary-500: oklch(0.60 0.22 250);  /* Base color */
---color-primary-600: oklch(0.50 0.24 250);
---color-primary-700: oklch(0.42 0.22 250);
---color-primary-800: oklch(0.34 0.18 250);
---color-primary-900: oklch(0.28 0.12 250);
---color-primary-950: oklch(0.18 0.08 250);  /* Darkest */
+@import "tailwindcss";
+@import "@pandev-srl/better-ui/theme";
+
+/* Scan gem templates for Tailwind classes */
+@source "../../../vendor/bundle/**/*.{rb,erb}";
+
+/* Scan application files for Tailwind classes */
+@source "../../**/*.{erb,html,rb}";
+@source "../javascript/**/*.js";
 ```
 
-OKLCH format: `oklch(lightness chroma hue)`
-- **Lightness**: 0-1 (0 = black, 1 = white)
-- **Chroma**: 0-0.4 (saturation intensity)
-- **Hue**: 0-360 (color angle)
+### 6. Configure Tailwind CSS v4
 
-### Customizing Typography
+Ensure you have Tailwind CSS v4 installed:
 
-```css
---font-family-sans: system-ui, -apple-system, sans-serif;
---font-family-serif: Georgia, Cambria, serif;
---font-family-mono: ui-monospace, Monaco, monospace;
+```bash
+npm install tailwindcss@next @tailwindcss/postcss@next
 ```
 
-### Adding Custom Utilities
+Create or update `postcss.config.js` in your project root:
 
-Add your own utility classes in the `@layer utilities` block:
-
-```css
-@theme inline {
-  /* ... existing theme ... */
-
-  @layer utilities {
-    .your-custom-class {
-      @apply bg-primary-500 text-white;
-    }
+```javascript
+module.exports = {
+  plugins: {
+    "@tailwindcss/postcss": {}
   }
 }
 ```
 
-## Using BetterUi Components
+## What Gets Installed
 
-Once installed, you can use BetterUi components in your views:
+### npm Package (@pandev-srl/better-ui)
+
+The npm package provides:
+
+**JavaScript (Stimulus Controllers):**
+- `ButtonController` - Loading states and click handling
+- `ActionMessagesController` - Dismissible alerts with auto-dismiss
+- `PasswordInputController` - Password visibility toggle
+- `registerControllers()` - Helper to register all controllers
+
+**CSS (Theme):**
+- 9 color variants (primary, secondary, accent, success, danger, warning, info, light, dark)
+- 11 shades per variant (50-950) using OKLCH color space
+- Typography, spacing, border radius, and shadow tokens
+- Utility classes (focus rings, glass effects, etc.)
+
+### Ruby Gem (better_ui)
+
+The gem provides:
+
+**ViewComponents:**
+- `BetterUi::ButtonComponent`
+- `BetterUi::CardComponent`
+- `BetterUi::ActionMessagesComponent`
+- Form components (TextInput, NumberInput, PasswordInput, Textarea)
+
+**Form Builder:**
+- `BetterUi::UiFormBuilder` for seamless Rails form integration
+
+## Using Components
+
+### Direct Component Usage
 
 ```erb
 <%= render BetterUi::ButtonComponent.new(
   label: "Click me",
-  variant: "primary"
+  variant: "primary",
+  size: "lg"
 ) %>
+
+<%= render BetterUi::CardComponent.new(size: "lg") do |c| %>
+  <% c.with_header { "Card Title" } %>
+  <% c.with_body { "Card content" } %>
+<% end %>
 ```
 
-## Helper Methods
+### Form Builder Usage
 
-BetterUi provides helper methods for debugging and development:
+```erb
+<%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
+  <%= f.ui_text_input :name %>
+  <%= f.ui_text_input :email, hint: "We'll never share your email" %>
+  <%= f.ui_password_input :password %>
+  <%= f.ui_textarea :bio, rows: 6 %>
+<% end %>
+```
 
-```ruby
-# Get paths to BetterUi templates
-BetterUi.template_paths
-# => ["/path/to/gem/app/views", "/path/to/gem/app/components"]
+## Customizing the Theme
 
-# Get the gem root path
-BetterUi.root
-# => #<Pathname:/path/to/better_ui>
+### Overriding CSS Variables
+
+Create a custom theme file and override the CSS variables:
+
+```css
+@import "tailwindcss";
+@import "@pandev-srl/better-ui/theme";
+
+@theme inline {
+  /* Override primary color to your brand */
+  --color-primary-500: oklch(0.60 0.24 220);
+  --color-primary-600: oklch(0.50 0.26 220);
+  /* ... other overrides */
+}
+```
+
+### Copying Theme for Full Customization
+
+Use the generator with `--copy-theme` flag:
+
+```bash
+bin/rails generate better_ui:install --copy-theme
+```
+
+This copies the theme file to `app/assets/stylesheets/better_ui_theme.css` for full customization.
+
+## Vite Configuration
+
+If using Vite with Rails, ensure proper configuration:
+
+```javascript
+// vite.config.js
+import { defineConfig } from 'vite'
+import RubyPlugin from 'vite-plugin-ruby'
+
+export default defineConfig({
+  plugins: [RubyPlugin()],
+  css: {
+    postcss: {
+      plugins: [require('@tailwindcss/postcss')()]
+    }
+  }
+})
 ```
 
 ## Troubleshooting
 
-### Classes not applying
+### Controllers not working
 
-1. Ensure PostCSS is properly configured
-2. Check that `@source` directives include all necessary paths
-3. Restart your Rails server after making changes to CSS configuration
-4. Clear browser cache or do a hard refresh
+1. Verify npm package is installed: `npm list @pandev-srl/better-ui`
+2. Check JavaScript import is correct
+3. Verify `registerControllers(application)` is called after `Application.start()`
+4. Check browser console for errors
 
-### Gem components not styled
+### Styles not applying
 
-Ensure the vendor/bundle path is included in your `application.postcss.css`:
-
-```css
-@source "../../../vendor/bundle/**/*.{rb,erb}";
-```
-
-This tells Tailwind to scan gem templates for Tailwind classes.
+1. Ensure CSS import is correct
+2. Check that `@source` directives include `vendor/bundle`
+3. Restart your dev server after CSS changes
+4. Clear browser cache
 
 ### Colors not working
 
-1. Verify that `@import "./better_ui_theme.css"` comes after `@import "tailwindcss"`
-2. Check that the theme file exists in `app/assets/stylesheets/better_ui_theme.css`
-3. Ensure you're using the correct color names (e.g., `bg-primary-500` not `bg-blue-500`)
+1. Verify theme is imported after Tailwind
+2. Check OKLCH color syntax is correct
+3. Ensure you're using correct color names (e.g., `bg-primary-500`)
 
-## Updating the Theme
+## Development
 
-If you need to regenerate the theme file (e.g., after an update):
+For development on the BetterUi gem itself:
 
 ```bash
-bin/rails generate better_ui:install --force
+# Clone the repository
+git clone https://github.com/alessiobussolari/better_ui.git
+cd better_ui
+
+# Install Ruby dependencies
+bundle install
+
+# Install npm dependencies and build
+cd assets
+npm install
+npm run build
+cd ..
+
+# Run tests
+bundle exec rake test
+
+# Start the dummy app server
+cd test/dummy
+bundle exec rails server
 ```
-
-This will overwrite existing files. Back up your customizations first!
-
-## Development and Testing
-
-To test BetterUi components in isolation, you can create a test page:
-
-```erb
-<!-- app/views/better_ui_test/index.html.erb -->
-<div class="p-8 space-y-4">
-  <h1 class="text-heading-primary text-3xl font-bold">BetterUi Components</h1>
-
-  <!-- Test your components here -->
-</div>
-```
-
-## Next Steps
-
-- Explore available BetterUi components in the documentation
-- Customize your theme colors to match your brand
-- Build your application with consistent, beautiful UI components
-- Check out the [Tailwind CSS v4 documentation](https://tailwindcss.com/docs) for more styling options
 
 ## Support
 
-For issues, questions, or contributions, please visit the [BetterUi GitHub repository](https://github.com/your-username/better_ui).
+For issues, questions, or contributions, please visit the [BetterUi GitHub repository](https://github.com/alessiobussolari/better_ui).

@@ -7,24 +7,28 @@ module BetterUi
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path("templates", __dir__)
 
-      desc "Installs BetterUi theme and configures Tailwind CSS v4"
+      class_option :copy_theme, type: :boolean, default: false,
+        desc: "Copy theme CSS file for customization instead of using npm package default"
 
-      def copy_theme_file
-        say "Creating BetterUi theme file...", :green
-        template "better_ui_theme.css.tt", "app/assets/stylesheets/better_ui_theme.css"
+      desc "Installs BetterUi npm package and configures your Rails application"
+
+      def install_npm_package
+        say "Installing @pandev-srl/better-ui npm package...", :green
+
+        if File.exist?(File.join(destination_root, "yarn.lock"))
+          run "yarn add @pandev-srl/better-ui"
+        elsif File.exist?(File.join(destination_root, "pnpm-lock.yaml"))
+          run "pnpm add @pandev-srl/better-ui"
+        else
+          run "npm install @pandev-srl/better-ui"
+        end
       end
 
-      def update_application_css
-        application_css_path = "app/assets/stylesheets/application.postcss.css"
-        full_path = File.join(destination_root, application_css_path)
+      def copy_theme_file
+        return unless options[:copy_theme]
 
-        if File.exist?(full_path)
-          say "Updating existing application.postcss.css...", :green
-          update_existing_application_css(application_css_path)
-        else
-          say "Creating application.postcss.css...", :green
-          create_application_css(application_css_path)
-        end
+        say "Copying BetterUi theme file for customization...", :green
+        template "better_ui_theme.css.tt", "app/assets/stylesheets/better_ui_theme.css"
       end
 
       def show_post_install_message
@@ -33,78 +37,48 @@ module BetterUi
         say "BetterUi installation complete!", :green
         say "=" * 80, :green
         say "\n"
-        say "Generated files:", :cyan
-        say "  - app/assets/stylesheets/better_ui_theme.css"
-        say "  - app/assets/stylesheets/application.postcss.css"
+
+        say "JavaScript Setup:", :cyan
+        say "  Add to your JavaScript entry point (e.g., app/javascript/application.js):"
+        say ""
+        say "    import { Application } from \"@hotwired/stimulus\""
+        say "    import { registerControllers } from \"@pandev-srl/better-ui\""
+        say ""
+        say "    const application = Application.start()"
+        say "    registerControllers(application)"
         say "\n"
-        say "Next steps:", :yellow
-        say "  1. Ensure you have Tailwind CSS v4 installed:"
-        say "     npm install tailwindcss@next @tailwindcss/postcss@next"
+
+        say "CSS Setup:", :cyan
+
+        if options[:copy_theme]
+          say "  Theme file copied to: app/assets/stylesheets/better_ui_theme.css"
+          say "  Import in your main CSS file:"
+          say ""
+          say "    @import \"tailwindcss\";"
+          say "    @import \"./better_ui_theme.css\";"
+        else
+          say "  Add to your main CSS file (e.g., app/assets/stylesheets/application.css):"
+          say ""
+          say "    /* Option 1: Import pre-built CSS */"
+          say "    @import \"@pandev-srl/better-ui/css\";"
+          say ""
+          say "    /* Option 2: Import just theme for customization */"
+          say "    @import \"tailwindcss\";"
+          say "    @import \"@pandev-srl/better-ui/theme\";"
+        end
+
         say "\n"
-        say "  2. Configure PostCSS (postcss.config.js):"
-        say "     module.exports = {"
-        say "       plugins: ["
-        say "         require('@tailwindcss/postcss')"
-        say "       ]"
-        say "     }"
+        say "Tailwind Configuration:", :cyan
+        say "  Ensure Tailwind scans BetterUi components for classes:"
+        say "  Add to your CSS file:"
+        say ""
+        say "    @source \"../../../vendor/bundle/**/*.{rb,erb}\";"
         say "\n"
-        say "  3. Customize your theme colors in:"
-        say "     app/assets/stylesheets/better_ui_theme.css"
-        say "\n"
-        say "  4. Import BetterUi components in your views:"
-        say "     <%= render BetterUi::ButtonComponent.new(label: \"Click me\") %>"
+
+        say "Usage:", :cyan
+        say "  <%= render BetterUi::ButtonComponent.new(label: \"Click me\") %>"
         say "\n"
         say "=" * 80, :green
-      end
-
-      private
-
-      def update_existing_application_css(path)
-        full_path = File.join(destination_root, path)
-        content = File.read(full_path)
-
-        # Check if imports already exist
-        has_tailwind_import = content.include?('@import "tailwindcss"')
-        has_theme_import = content.include?('@import "./better_ui_theme.css"')
-        has_vendor_source = content.include?('@source "../../../vendor/bundle/**/*.{rb,erb}"')
-        has_views_source = content.include?('@source "../../**/*.{erb,html,rb}"')
-        has_js_source = content.include?('@source "../javascript/**/*.js"')
-
-        additions = []
-
-        additions << '@import "tailwindcss";' unless has_tailwind_import
-        additions << '@import "./better_ui_theme.css";' unless has_theme_import
-        additions << "" if additions.any? && !content.strip.empty?
-        additions << "/* Scan gem templates for Tailwind classes */" unless has_vendor_source
-        additions << '@source "../../../vendor/bundle/**/*.{rb,erb}";' unless has_vendor_source
-        additions << "" unless has_views_source
-        additions << "/* Scan application files for Tailwind classes */" unless has_views_source
-        additions << '@source "../../**/*.{erb,html,rb}";' unless has_views_source
-        additions << '@source "../javascript/**/*.js";' unless has_js_source
-
-        if additions.any?
-          # Prepend additions to the file
-          prepend_to_file path, additions.join("\n") + "\n\n"
-          say "  Added BetterUi configuration to application.postcss.css", :green
-        else
-          say "  application.postcss.css already configured", :yellow
-        end
-      end
-
-      def create_application_css(path)
-        create_file path, <<~CSS
-          @import "tailwindcss";
-          @import "./better_ui_theme.css";
-
-          /* Scan gem templates for Tailwind classes */
-          @source "../../../vendor/bundle/**/*.{rb,erb}";
-
-          /* Scan application files for Tailwind classes */
-          @source "../../**/*.{erb,html,rb}";
-          @source "../javascript/**/*.js";
-
-          /* Your custom styles here */
-        CSS
       end
     end
   end

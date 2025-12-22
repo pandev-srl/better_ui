@@ -1,0 +1,59 @@
+{
+  "name": "@pandev-srl/better-ui",
+  "version": "0.1.0",
+  "description": "ViewComponent-based UI components with Tailwind CSS v4 styling",
+  "keywords": [
+    "rails",
+    "stimulus",
+    "tailwindcss",
+    "view-component",
+    "ui-components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alessiobussolari/better_ui.git"
+  },
+  "author": "Umberto Peserico <umberto.peserico@pandev.it>",
+  "license": "MIT",
+  "homepage": "https://github.com/alessiobussolari/better_ui",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/better-ui.umd.js",
+  "module": "dist/better-ui.mjs",
+  "style": "dist/better-ui.css",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/better-ui.mjs",
+      "require": "./dist/better-ui.umd.js"
+    },
+    "./css": "./dist/better-ui.css",
+    "./theme": "./src/css/theme.css"
+  },
+  "files": [
+    "dist",
+    "src/css"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && npm run build:css && npm run types",
+    "build:css": "postcss src/css/index.css -o dist/better-ui.css",
+    "types": "tsc --noEmit false --declaration true --emitDeclarationOnly true --outDir dist/types",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@hotwired/stimulus": "^3"
+  },
+  "devDependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@tailwindcss/postcss": "^4.1.17",
+    "postcss": "^8.4.49",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}

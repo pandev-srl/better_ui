@@ -1,0 +1,13 @@
+/**
+ * BetterUi CSS
+ *
+ * Include this in your application's main CSS file:
+ *   @import "@pandev-srl/better-ui/css";
+ *
+ * Or import just the theme for customization:
+ *   @import "tailwindcss";
+ *   @import "@pandev-srl/better-ui/theme";
+ */
+
+@import "tailwindcss";
+@import "./theme.css";

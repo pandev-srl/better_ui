@@ -17,14 +17,6 @@ module BetterUi
       )
     end
 
-    # Configure importmap for JavaScript controllers (if available)
-    initializer "better_ui.importmap", before: "importmap" do |app|
-      if app.config.respond_to?(:importmap)
-        app.config.importmap.paths << root.join("config/importmap.rb")
-        app.config.assets.paths << root.join("app/javascript")
-      end
-    end
-
     # Configure ViewComponent preview paths (must run before Lookbook)
     initializer "better_ui.view_component", before: :load_config_initializers do |app|
       # Add engine preview paths to ViewComponent using absolute paths
