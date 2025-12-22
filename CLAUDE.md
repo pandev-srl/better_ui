@@ -124,17 +124,21 @@ registerControllers(application)
 ### CSS & Theming
 
 **CSS distributed via npm package** (`@pandev-srl/better-ui`):
-- `assets/src/css/index.css` - Entry point (imports Tailwind + theme)
-- `assets/src/css/theme.css` - Theme variables and utility classes
+- `assets/src/css/index.css` - Entry point (imports all modules)
+- `assets/src/css/theme.css` - Design tokens only (@theme inline block)
+- `assets/src/css/typography.css` - Typography utilities (.text-heading-*)
+- `assets/src/css/utilities.css` - General utilities (no-spinner, focus-ring, glass)
 
 **Host app CSS setup**:
 ```css
-/* Option 1: Import pre-built CSS */
+/* Option 1: Import pre-built CSS (includes everything) */
 @import "@pandev-srl/better-ui/css";
 
-/* Option 2: Import just theme for customization */
+/* Option 2: Import individual modules for customization */
 @import "tailwindcss";
-@import "@pandev-srl/better-ui/theme";
+@import "@pandev-srl/better-ui/theme";       /* Design tokens */
+@import "@pandev-srl/better-ui/typography";  /* Typography utilities */
+@import "@pandev-srl/better-ui/utilities";   /* General utilities */
 
 /* Required: Scan gem components for Tailwind classes */
 @source "../../../vendor/bundle/**/*.{rb,erb}";

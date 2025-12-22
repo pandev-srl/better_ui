@@ -31,7 +31,9 @@
       "require": "./dist/better-ui.umd.js"
     },
     "./css": "./dist/better-ui.css",
-    "./theme": "./src/css/theme.css"
+    "./theme": "./src/css/theme.css",
+    "./typography": "./src/css/typography.css",
+    "./utilities": "./src/css/utilities.css"
   },
   "files": [
     "dist",

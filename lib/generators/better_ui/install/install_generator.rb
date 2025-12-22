@@ -62,9 +62,11 @@ module BetterUi
           say "    /* Option 1: Import pre-built CSS */"
           say "    @import \"@pandev-srl/better-ui/css\";"
           say ""
-          say "    /* Option 2: Import just theme for customization */"
+          say "    /* Option 2: Import individual modules for customization */"
           say "    @import \"tailwindcss\";"
-          say "    @import \"@pandev-srl/better-ui/theme\";"
+          say "    @import \"@pandev-srl/better-ui/theme\";       /* Design tokens */"
+          say "    @import \"@pandev-srl/better-ui/typography\";  /* Typography utilities */"
+          say "    @import \"@pandev-srl/better-ui/utilities\";   /* General utilities */"
         end
 
         say "\n"

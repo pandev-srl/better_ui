@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Refactored CSS into modular structure for better customization:
+  - `@pandev-srl/better-ui/css` - Full bundle (unchanged)
+  - `@pandev-srl/better-ui/theme` - Design tokens only (@theme inline)
+  - `@pandev-srl/better-ui/typography` - Typography utilities (.text-heading-*)
+  - `@pandev-srl/better-ui/utilities` - General utilities (no-spinner, focus-ring, glass)
+
 ### Added
 - Initial release of BetterUi Rails engine gem
 - Rails 8.1+ compatibility with isolated namespace pattern

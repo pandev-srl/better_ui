@@ -33,8 +33,15 @@ registerControllers(application)
 
 **CSS** (app/assets/stylesheets/application.css):
 ```css
+/* Full bundle (recommended) */
 @import "@pandev-srl/better-ui/css";
 @source "../../../vendor/bundle/**/*.{rb,erb}";
+
+/* Or import individual modules for customization */
+/* @import "tailwindcss"; */
+/* @import "@pandev-srl/better-ui/theme"; */
+/* @import "@pandev-srl/better-ui/typography"; */
+/* @import "@pandev-srl/better-ui/utilities"; */
 ```
 
 ```erb

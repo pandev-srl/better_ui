@@ -4,10 +4,14 @@
  * Include this in your application's main CSS file:
  *   @import "@pandev-srl/better-ui/css";
  *
- * Or import just the theme for customization:
+ * Or import individual modules for customization:
  *   @import "tailwindcss";
- *   @import "@pandev-srl/better-ui/theme";
+ *   @import "@pandev-srl/better-ui/theme";       // Design tokens only
+ *   @import "@pandev-srl/better-ui/typography";  // Typography utilities
+ *   @import "@pandev-srl/better-ui/utilities";   // General utilities
  */
 
 @import "tailwindcss";
 @import "./theme.css";
+@import "./typography.css";
+@import "./utilities.css";

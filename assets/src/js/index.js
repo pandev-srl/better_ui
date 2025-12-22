@@ -1,8 +1,10 @@
 // BetterUi Stimulus Controllers
+import ButtonController from "./button_controller"
+import ActionMessagesController from "./action_messages_controller"
+import PasswordInputController from "./forms/password_input_controller"
+
 // Export individual controllers for selective imports
-export { default as ButtonController } from "./button_controller"
-export { default as ActionMessagesController } from "./action_messages_controller"
-export { default as PasswordInputController } from "./forms/password_input_controller"
+export { ButtonController, ActionMessagesController, PasswordInputController }
 
 /**
  * Register all BetterUi controllers with a Stimulus application

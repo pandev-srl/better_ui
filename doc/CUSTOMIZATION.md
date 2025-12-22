@@ -17,6 +17,19 @@ BetterUi uses a modern theming system built on Tailwind CSS v4's theme capabilit
 9. [Dark Mode Considerations](#dark-mode-considerations)
 10. [Advanced Patterns](#advanced-patterns)
 
+## CSS Structure
+
+The BetterUi npm package (`@pandev-srl/better-ui`) provides modular CSS:
+
+| Import Path | Contents |
+|-------------|----------|
+| `@pandev-srl/better-ui/css` | Full bundle (all modules) |
+| `@pandev-srl/better-ui/theme` | Design tokens only (@theme inline) |
+| `@pandev-srl/better-ui/typography` | Typography utilities (.text-heading-*) |
+| `@pandev-srl/better-ui/utilities` | General utilities (no-spinner, focus-ring, glass) |
+
+For customization, you typically copy the theme to your own `better_ui_theme.css` file and import individual modules as needed.
+
 ## Information Flow
 
 ```mermaid

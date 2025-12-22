@@ -78,10 +78,12 @@ Add to your main CSS file (e.g., `app/assets/stylesheets/application.css`):
 @source "../javascript/**/*.js";
 ```
 
-**Option 2: Import just theme for customization**
+**Option 2: Import individual modules for customization**
 ```css
 @import "tailwindcss";
-@import "@pandev-srl/better-ui/theme";
+@import "@pandev-srl/better-ui/theme";       /* Design tokens */
+@import "@pandev-srl/better-ui/typography";  /* Typography utilities */
+@import "@pandev-srl/better-ui/utilities";   /* General utilities */
 
 /* Scan gem templates for Tailwind classes */
 @source "../../../vendor/bundle/**/*.{rb,erb}";
@@ -176,7 +178,9 @@ Create a custom theme file and override the CSS variables:
 
 ```css
 @import "tailwindcss";
-@import "@pandev-srl/better-ui/theme";
+@import "@pandev-srl/better-ui/theme";       /* Design tokens */
+@import "@pandev-srl/better-ui/typography";  /* Typography utilities */
+@import "@pandev-srl/better-ui/utilities";   /* General utilities */
 
 @theme inline {
   /* Override primary color to your brand */

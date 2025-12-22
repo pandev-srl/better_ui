@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./better_ui_theme.css";
+@import "@pandev-srl/better-ui/typography";
+@import "@pandev-srl/better-ui/utilities";
 
 /* Scan BetterUi engine components and views for Tailwind classes */
 @source "../../../../../app/components";

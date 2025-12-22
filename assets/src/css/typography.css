@@ -1,0 +1,45 @@
+/**
+ * BetterUi Typography Utilities
+ *
+ * Heading text colors and typography-related utility classes.
+ * These utilities provide consistent text styling across variants.
+ */
+
+@layer utilities {
+  /* Heading text colors for each variant */
+  .text-heading-primary {
+    @apply text-primary-700 dark:text-primary-300;
+  }
+
+  .text-heading-secondary {
+    @apply text-secondary-700 dark:text-secondary-300;
+  }
+
+  .text-heading-accent {
+    @apply text-accent-700 dark:text-accent-300;
+  }
+
+  .text-heading-success {
+    @apply text-success-700 dark:text-success-300;
+  }
+
+  .text-heading-danger {
+    @apply text-danger-700 dark:text-danger-300;
+  }
+
+  .text-heading-warning {
+    @apply text-warning-700 dark:text-warning-300;
+  }
+
+  .text-heading-info {
+    @apply text-info-700 dark:text-info-300;
+  }
+
+  .text-heading-light {
+    @apply text-light-700 dark:text-light-300;
+  }
+
+  .text-heading-dark {
+    @apply text-dark-700 dark:text-dark-300;
+  }
+}
