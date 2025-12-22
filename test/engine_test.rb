@@ -70,4 +70,44 @@ class EngineTest < ActiveSupport::TestCase
   test "engine routes is a RouteSet" do
     assert_kind_of ActionDispatch::Routing::RouteSet, BetterUi::Engine.routes
   end
+
+  test "package.json has correct scripts" do
+    package_json = JSON.parse(File.read(BetterUi::Engine.root.join("assets", "package.json")))
+    scripts = package_json["scripts"]
+
+    assert_equal "vite build --watch", scripts["dev"]
+    assert_equal "vite build && yarn types", scripts["build"]
+    assert scripts.key?("types")
+    assert scripts.key?("prepublishOnly")
+    refute scripts.key?("build:css")
+    refute scripts.key?("build:watch")
+  end
+
+  test "package.json has correct devDependencies" do
+    package_json = JSON.parse(File.read(BetterUi::Engine.root.join("assets", "package.json")))
+    dev_deps = package_json["devDependencies"]
+
+    assert dev_deps.key?("@types/node")
+    assert dev_deps.key?("vite")
+    assert dev_deps.key?("typescript")
+    assert dev_deps.key?("tailwindcss")
+    refute dev_deps.key?("postcss-cli")
+  end
+
+  test "package.json specifies Yarn 4 as package manager" do
+    package_json = JSON.parse(File.read(BetterUi::Engine.root.join("assets", "package.json")))
+
+    assert package_json["packageManager"]&.start_with?("yarn@4")
+  end
+
+  test "package.json has correct exports" do
+    package_json = JSON.parse(File.read(BetterUi::Engine.root.join("assets", "package.json")))
+    exports = package_json["exports"]
+
+    assert exports["."]
+    assert exports["./css"]
+    assert exports["./theme"]
+    assert exports["./typography"]
+    assert exports["./utilities"]
+  end
 end

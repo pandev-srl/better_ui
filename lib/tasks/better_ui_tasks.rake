@@ -27,11 +27,11 @@ namespace :better_ui do
     assets_dir = File.expand_path("../../assets", __dir__)
 
     Dir.chdir(assets_dir) do
-      puts "Installing npm dependencies..."
-      system("npm install") || abort("Failed to install npm dependencies")
+      puts "Installing dependencies..."
+      system("yarn install") || abort("Failed to install dependencies")
 
       puts "Building npm package..."
-      system("npm run build") || abort("Failed to build npm package")
+      system("yarn build") || abort("Failed to build npm package")
 
       puts "npm package built successfully in assets/dist/"
     end

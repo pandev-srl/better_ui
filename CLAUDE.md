@@ -27,9 +27,9 @@ rake better_ui:build_npm
 
 # Or from assets directory
 cd assets
-yarn build           # Build JS + CSS
-yarn build:css       # Build CSS only
-yarn types           # Generate TypeScript declarations
+yarn build           # Build JS + CSS + TypeScript declarations
+yarn dev             # Watch mode (rebuilds on file changes)
+yarn types           # Generate TypeScript declarations only
 ```
 
 ### Version Sync
@@ -200,8 +200,10 @@ assets/
 │   │   ├── action_messages_controller.js
 │   │   └── forms/password_input_controller.js
 │   └── css/              # Theme CSS
-│       ├── index.css     # Entry point
-│       └── theme.css     # OKLCH colors + utilities
+│       ├── index.css     # Entry point (imports all modules)
+│       ├── theme.css     # Design tokens (OKLCH colors)
+│       ├── typography.css # Typography utilities
+│       └── utilities.css # General utilities
 └── dist/                 # Built output (gitignored)
     ├── better-ui.mjs     # ESM
     ├── better-ui.umd.js  # UMD

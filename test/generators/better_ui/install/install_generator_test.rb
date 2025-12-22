@@ -10,6 +10,29 @@ module BetterUi
       destination File.expand_path("../../../../tmp", __dir__)
       setup :prepare_destination
 
+      # Stub package manager commands to prevent actual execution
+      # This prevents npm/yarn/pnpm from creating lock files during tests
+      def run_generator(args = [], config = {})
+        @captured_commands = []
+        test_instance = self
+
+        # Create a module to intercept the run method
+        stub_module = Module.new do
+          define_method(:run) do |command, options = {}|
+            test_instance.instance_variable_get(:@captured_commands) << command
+            say_status :run, command, :green
+            true
+          end
+        end
+
+        # Prepend the stub module
+        BetterUi::Generators::InstallGenerator.prepend(stub_module)
+
+        super
+      end
+
+      attr_reader :captured_commands
+
       test "generator installs npm package via npm by default" do
         # Create destination without yarn.lock or pnpm-lock.yaml
         FileUtils.mkdir_p(destination_root)
@@ -18,6 +41,7 @@ module BetterUi
 
         # Generator should attempt to run npm install
         assert_match(/Installing @pandev-srl\/better-ui/, output)
+        assert_includes captured_commands, "npm install @pandev-srl/better-ui"
       end
 
       test "generator uses yarn when yarn.lock exists" do
@@ -27,6 +51,7 @@ module BetterUi
         output = run_generator
 
         assert_match(/Installing @pandev-srl\/better-ui/, output)
+        assert_includes captured_commands, "yarn add @pandev-srl/better-ui"
       end
 
       test "generator uses pnpm when pnpm-lock.yaml exists" do
@@ -36,6 +61,7 @@ module BetterUi
         output = run_generator
 
         assert_match(/Installing @pandev-srl\/better-ui/, output)
+        assert_includes captured_commands, "pnpm add @pandev-srl/better-ui"
       end
 
       test "generator does not create theme file by default" do
