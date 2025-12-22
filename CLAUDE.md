@@ -17,7 +17,7 @@ bundle install
 
 # npm package dependencies (for building JS/CSS)
 cd assets
-npm install
+yarn install
 ```
 
 ### Building npm Package
@@ -27,9 +27,9 @@ rake better_ui:build_npm
 
 # Or from assets directory
 cd assets
-npm run build        # Build JS + CSS
-npm run build:css    # Build CSS only
-npm run types        # Generate TypeScript declarations
+yarn build           # Build JS + CSS
+yarn build:css       # Build CSS only
+yarn types           # Generate TypeScript declarations
 ```
 
 ### Version Sync

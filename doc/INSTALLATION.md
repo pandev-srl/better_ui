@@ -25,14 +25,11 @@ bundle install
 ### 2. Install the npm package
 
 ```bash
-# Using yarn
+# Using yarn (recommended)
 yarn add @pandev-srl/better-ui
 
-# Using npm
+# Or using npm
 npm install @pandev-srl/better-ui
-
-# Using pnpm
-pnpm add @pandev-srl/better-ui
 ```
 
 ### 3. Run the install generator (optional)
@@ -98,7 +95,7 @@ Add to your main CSS file (e.g., `app/assets/stylesheets/application.css`):
 Ensure you have Tailwind CSS v4 installed:
 
 ```bash
-npm install tailwindcss@next @tailwindcss/postcss@next
+yarn add tailwindcss@next @tailwindcss/postcss@next
 ```
 
 Create or update `postcss.config.js` in your project root:
@@ -255,8 +252,8 @@ bundle install
 
 # Install npm dependencies and build
 cd assets
-npm install
-npm run build
+yarn install
+yarn build
 cd ..
 
 # Run tests

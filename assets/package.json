@@ -16,7 +16,6 @@
   "author": "Umberto Peserico <umberto.peserico@pandev.it>",
   "license": "MIT",
   "homepage": "https://github.com/alessiobussolari/better_ui",
-  "private": false,
   "publishConfig": {
     "access": "public"
   },
@@ -41,10 +40,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run build:css && npm run types",
+    "build": "vite build && yarn build:css && yarn types",
     "build:css": "postcss src/css/index.css -o dist/better-ui.css",
+    "build:watch": "postcss src/css/index.css -o dist/better-ui.css --watch",
     "types": "tsc --noEmit false --declaration true --emitDeclarationOnly true --outDir dist/types",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "yarn build"
   },
   "peerDependencies": {
     "@hotwired/stimulus": "^3"
@@ -57,5 +57,6 @@
     "tailwindcss": "^4.1.17",
     "typescript": "^5.7.0",
     "vite": "^6.0.0"
-  }
+  },
+  "packageManager": "yarn@4.12.0"
 }

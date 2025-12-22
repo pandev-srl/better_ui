@@ -8,12 +8,18 @@
 /test/dummy/tmp/
 /test/dummy/node_modules/
 /test/dummy/app/assets/builds/
-/test/dummy/.yarn/
+/test/dummy/.yarn/*
+!/test/dummy/.yarn/releases
+!/test/dummy/.yarn/plugins
+/test/dummy/.pnp.*
 
 # npm package build artifacts (assets/)
 /assets/node_modules/
 /assets/dist/
-/assets/.yarn/
+/assets/.yarn/*
+!/assets/.yarn/releases
+!/assets/.yarn/plugins
+/assets/.pnp.*
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,macos,rubymine,ruby,node,visualstudiocode,rails
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,macos,rubymine,ruby,node,visualstudiocode,rails

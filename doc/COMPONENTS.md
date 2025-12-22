@@ -723,7 +723,7 @@ gem "better_ui"
 ```bash
 bundle install
 bin/rails generate better_ui:install
-npm install tailwindcss@next @tailwindcss/postcss@next
+yarn add tailwindcss@next @tailwindcss/postcss@next
 ```
 
 ### Step 3: Configure Your Layout
