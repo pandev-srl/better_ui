@@ -242,4 +242,7 @@ test: add missing test coverage
 - `doc/COMPONENTS.md` - Complete API reference for all components
 - `doc/CUSTOMIZATION.md` - Theme customization with OKLCH color system
 - `doc/COVERAGE.md` - Test coverage report and strategy
-- now i want you to develop always in TDD. try to reach 100% coverage
+
+## Development Methodology
+
+**TDD (Test-Driven Development)**: Always write tests first when developing new features or fixing bugs. Target 100% test coverage.
