@@ -1,5 +1,5 @@
-import { resolve } from "path"
-import { defineConfig } from "vite"
+import { resolve } from "path";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   esbuild: {
@@ -11,6 +11,7 @@ export default defineConfig({
       name: "BetterUi",
       fileName: "better-ui",
     },
+    cssCodeSplit: false,
     rollupOptions: {
       external: ["@hotwired/stimulus"],
       output: {
@@ -21,4 +22,4 @@ export default defineConfig({
     },
     outDir: "dist",
   },
-})
+});

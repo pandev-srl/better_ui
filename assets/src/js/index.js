@@ -1,3 +1,6 @@
+// BetterUi CSS
+import "../css/index.css"
+
 // BetterUi Stimulus Controllers
 import ButtonController from "./button_controller"
 import ActionMessagesController from "./action_messages_controller"

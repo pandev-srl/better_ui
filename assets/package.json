@@ -39,10 +39,8 @@
     "src/css"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && yarn build:css && yarn types",
-    "build:css": "postcss src/css/index.css -o dist/better-ui.css",
-    "build:watch": "postcss src/css/index.css -o dist/better-ui.css --watch",
+    "dev": "vite build --watch",
+    "build": "vite build && yarn types",
     "types": "tsc --noEmit false --declaration true --emitDeclarationOnly true --outDir dist/types",
     "prepublishOnly": "yarn build"
   },
@@ -52,8 +50,8 @@
   "devDependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^25.0.3",
     "postcss": "^8.4.49",
-    "postcss-cli": "^11.0.0",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.7.0",
     "vite": "^6.0.0"
