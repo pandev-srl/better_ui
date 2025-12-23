@@ -386,6 +386,7 @@ module BetterUi
       def checkbox_attributes
         attrs = {
           type: "checkbox",
+          id: input_id,
           name: @name,
           value: @value,
           checked: @checked || nil,
