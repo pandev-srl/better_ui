@@ -10,26 +10,26 @@ module BetterUi
   #
   # @example Basic usage with form_with
   #   <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  #     <%= f.ui_text_input :name %>
-  #     <%= f.ui_text_input :email, hint: "We'll never share your email" %>
-  #     <%= f.ui_number_input :age, min: 0, max: 120 %>
+  #     <%= f.bui_text_input :name %>
+  #     <%= f.bui_text_input :email, hint: "We'll never share your email" %>
+  #     <%= f.bui_number_input :age, min: 0, max: 120 %>
   #   <% end %>
   #
   # @example With custom labels and sizes
   #   <%= form_with model: @product, builder: BetterUi::UiFormBuilder do |f| %>
-  #     <%= f.ui_text_input :title, label: "Product Name", size: :lg %>
-  #     <%= f.ui_number_input :price, label: "Price ($)", min: 0, step: 0.01 %>
+  #     <%= f.bui_text_input :title, label: "Product Name", size: :lg %>
+  #     <%= f.bui_number_input :price, label: "Price ($)", min: 0, step: 0.01 %>
   #   <% end %>
   #
   # @example With icon slots
   #   <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  #     <%= f.ui_text_input :email do |component| %>
+  #     <%= f.bui_text_input :email do |component| %>
   #       <% component.with_prefix_icon do %>
   #         <svg class="h-5 w-5 text-gray-400">...</svg>
   #       <% end %>
   #     <% end %>
   #
-  #     <%= f.ui_number_input :budget do |component| %>
+  #     <%= f.bui_number_input :budget do |component| %>
   #       <% component.with_prefix_icon { "$" } %>
   #     <% end %>
   #   <% end %>
@@ -37,7 +37,7 @@ module BetterUi
   # @example Automatic error handling
   #   # When @user has validation errors:
   #   <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  #     <%= f.ui_text_input :email %>
+  #     <%= f.bui_text_input :email %>
   #     # Automatically displays error messages and applies error styling
   #   <% end %>
   #
@@ -61,16 +61,16 @@ module BetterUi
     # @return [String] Rendered component HTML
     #
     # @example Basic usage
-    #   <%= f.ui_text_input :email %>
+    #   <%= f.bui_text_input :email %>
     #
     # @example With options
-    #   <%= f.ui_text_input :email, size: :lg, hint: "We'll never share your email" %>
+    #   <%= f.bui_text_input :email, size: :lg, hint: "We'll never share your email" %>
     #
     # @example With icon
-    #   <%= f.ui_text_input :email do |c| %>
+    #   <%= f.bui_text_input :email do |c| %>
     #     <% c.with_prefix_icon { "📧" } %>
     #   <% end %>
-    def ui_text_input(attribute, options = {}, &block)
+    def bui_text_input(attribute, options = {}, &block)
       component_options = build_input_options(attribute, options)
 
       if block_given?
@@ -98,19 +98,19 @@ module BetterUi
     # @return [String] Rendered component HTML
     #
     # @example Basic usage
-    #   <%= f.ui_number_input :age %>
+    #   <%= f.bui_number_input :age %>
     #
     # @example With range and step
-    #   <%= f.ui_number_input :price, min: 0, max: 10000, step: 0.01 %>
+    #   <%= f.bui_number_input :price, min: 0, max: 10000, step: 0.01 %>
     #
     # @example Without spinners
-    #   <%= f.ui_number_input :price, show_spinner: false %>
+    #   <%= f.bui_number_input :price, show_spinner: false %>
     #
     # @example With icon
-    #   <%= f.ui_number_input :price do |c| %>
+    #   <%= f.bui_number_input :price do |c| %>
     #     <% c.with_prefix_icon { "$" } %>
     #   <% end %>
-    def ui_number_input(attribute, options = {}, &block)
+    def bui_number_input(attribute, options = {}, &block)
       component_options = build_input_options(attribute, options)
 
       # Add number-specific options
@@ -140,19 +140,19 @@ module BetterUi
     # @return [String] Rendered component HTML
     #
     # @example Basic usage
-    #   <%= f.ui_password_input :password %>
+    #   <%= f.bui_password_input :password %>
     #
     # @example With confirmation field
-    #   <%= f.ui_password_input :password, hint: "Must be at least 8 characters" %>
-    #   <%= f.ui_password_input :password_confirmation %>
+    #   <%= f.bui_password_input :password, hint: "Must be at least 8 characters" %>
+    #   <%= f.bui_password_input :password_confirmation %>
     #
     # @example With icon
-    #   <%= f.ui_password_input :password do |c| %>
+    #   <%= f.bui_password_input :password do |c| %>
     #     <% c.with_prefix_icon do %>
     #       <svg class="h-5 w-5 text-gray-400">...</svg>
     #     <% end %>
     #   <% end %>
-    def ui_password_input(attribute, options = {}, &block)
+    def bui_password_input(attribute, options = {}, &block)
       component_options = build_input_options(attribute, options)
 
       if block_given?
@@ -180,21 +180,21 @@ module BetterUi
     # @return [String] Rendered component HTML
     #
     # @example Basic usage
-    #   <%= f.ui_textarea :description %>
+    #   <%= f.bui_textarea :description %>
     #
     # @example With custom rows and maxlength
-    #   <%= f.ui_textarea :bio, rows: 6, maxlength: 500, hint: "Maximum 500 characters" %>
+    #   <%= f.bui_textarea :bio, rows: 6, maxlength: 500, hint: "Maximum 500 characters" %>
     #
     # @example With resize disabled
-    #   <%= f.ui_textarea :notes, resize: :none %>
+    #   <%= f.bui_textarea :notes, resize: :none %>
     #
     # @example With icon
-    #   <%= f.ui_textarea :comment do |c| %>
+    #   <%= f.bui_textarea :comment do |c| %>
     #     <% c.with_prefix_icon do %>
     #       <svg class="h-5 w-5 text-gray-400">...</svg>
     #     <% end %>
     #   <% end %>
-    def ui_textarea(attribute, options = {}, &block)
+    def bui_textarea(attribute, options = {}, &block)
       component_options = build_input_options(attribute, options)
 
       # Add textarea-specific options
