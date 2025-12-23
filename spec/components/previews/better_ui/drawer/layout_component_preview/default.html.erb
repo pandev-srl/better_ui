@@ -1,0 +1,22 @@
+<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+  <% layout.with_header do |header| %>
+    <% header.with_logo { "BetterUI" } %>
+  <% end %>
+
+  <% layout.with_sidebar do |sidebar| %>
+    <% sidebar.with_navigation do %>
+      <nav class="space-y-2">
+        <a href="#" class="block px-4 py-2 rounded-md bg-primary-50 text-primary-700">Dashboard</a>
+        <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Projects</a>
+        <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Team</a>
+      </nav>
+    <% end %>
+  <% end %>
+
+  <% layout.with_main do %>
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">Welcome to BetterUI</h1>
+      <p class="text-grayscale-600">This is the default drawer layout with header and sidebar.</p>
+    </div>
+  <% end %>
+<% end %>

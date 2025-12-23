@@ -1,0 +1,364 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Drawer Layout Components</h1>
+    <p class="text-lg text-gray-600 mb-4">Responsive layout with header, sidebar drawer, and main content area. Mobile-friendly with slide-out drawer navigation.</p>
+    <%= link_to demos_layout_fullscreen_path, class: "inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+      View Fullscreen Demo
+    <% end %>
+  </div>
+
+  <!-- Interactive Demo -->
+  <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Interactive Demo</h2>
+      <p class="text-sm text-gray-500 mt-1">Try resizing the browser or click the menu button on mobile to see the drawer in action.</p>
+    <% end %>
+    <% card.with_body(padding: false) do %>
+      <div class="h-96 border rounded-lg overflow-hidden">
+        <%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+          <% layout.with_header do |header| %>
+            <% header.with_mobile_menu_button do %>
+              <button class="p-2 text-grayscale-600 hover:text-grayscale-900 hover:bg-grayscale-100 rounded-md lg:hidden" data-action="click->better-ui--drawer--layout#toggle">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              </button>
+            <% end %>
+            <% header.with_logo do %>
+              <div class="flex items-center">
+                <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold">B</div>
+                <span class="ml-2 font-semibold text-lg">BetterUI</span>
+              </div>
+            <% end %>
+            <% header.with_navigation do %>
+              <nav class="flex gap-6">
+                <a href="#" class="text-primary-600 font-medium">Dashboard</a>
+                <a href="#" class="text-grayscale-600 hover:text-grayscale-900">Projects</a>
+                <a href="#" class="text-grayscale-600 hover:text-grayscale-900">Team</a>
+              </nav>
+            <% end %>
+            <% header.with_actions do %>
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-full"></div>
+              </div>
+            <% end %>
+          <% end %>
+
+          <% layout.with_sidebar do |sidebar| %>
+            <% sidebar.with_navigation do %>
+              <nav class="space-y-1">
+                <a href="#" class="flex items-center px-4 py-2 rounded-md bg-primary-50 text-primary-700">
+                  <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                  Dashboard
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-grayscale-100">
+                  <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                  Projects
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-grayscale-100">
+                  <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m12 5.198H9"></path></svg>
+                  Team
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-grayscale-100">
+                  <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  Settings
+                </a>
+              </nav>
+            <% end %>
+          <% end %>
+
+          <% layout.with_main do %>
+            <div class="p-6 bg-grayscale-50 h-full">
+              <h2 class="text-xl font-bold mb-4">Main Content Area</h2>
+              <p class="text-grayscale-600">This is the main content area. The sidebar is visible on desktop and slides in as a drawer on mobile.</p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Header Variants -->
+  <%= render BetterUi::CardComponent.new(variant: :secondary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Header Variants</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Light (Default)</h3>
+          <div class="border rounded-lg overflow-hidden">
+            <%= render BetterUi::Drawer::HeaderComponent.new(variant: :light, sticky: false) do |header| %>
+              <% header.with_logo { "Light Header" } %>
+              <% header.with_actions { "Actions" } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Dark</h3>
+          <div class="border rounded-lg overflow-hidden">
+            <%= render BetterUi::Drawer::HeaderComponent.new(variant: :dark, sticky: false) do |header| %>
+              <% header.with_logo { "Dark Header" } %>
+              <% header.with_actions { "Actions" } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Primary</h3>
+          <div class="border rounded-lg overflow-hidden">
+            <%= render BetterUi::Drawer::HeaderComponent.new(variant: :primary, sticky: false) do |header| %>
+              <% header.with_logo { "Primary Header" } %>
+              <% header.with_actions { "Actions" } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Transparent</h3>
+          <div class="border rounded-lg overflow-hidden bg-gradient-to-r from-primary-100 to-accent-100">
+            <%= render BetterUi::Drawer::HeaderComponent.new(variant: :transparent, sticky: false) do |header| %>
+              <% header.with_logo { "Transparent Header" } %>
+              <% header.with_actions { "Actions" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Drawer::HeaderComponent.new(variant: :dark) do |header| %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Header Heights -->
+  <%= render BetterUi::CardComponent.new(variant: :accent, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Header Heights</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Small (sm) - 48px</h3>
+          <div class="border rounded-lg overflow-hidden">
+            <%= render BetterUi::Drawer::HeaderComponent.new(height: :sm, sticky: false) do |header| %>
+              <% header.with_logo { "Small Header" } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Medium (md) - 64px (Default)</h3>
+          <div class="border rounded-lg overflow-hidden">
+            <%= render BetterUi::Drawer::HeaderComponent.new(height: :md, sticky: false) do |header| %>
+              <% header.with_logo { "Medium Header" } %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Large (lg) - 80px</h3>
+          <div class="border rounded-lg overflow-hidden">
+            <%= render BetterUi::Drawer::HeaderComponent.new(height: :lg, sticky: false) do |header| %>
+              <% header.with_logo { "Large Header" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Drawer::HeaderComponent.new(height: :lg) do |header| %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Sidebar Variants -->
+  <%= render BetterUi::CardComponent.new(variant: :success, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Sidebar Variants</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Light</h3>
+          <div class="border rounded-lg overflow-hidden h-64">
+            <%= render BetterUi::Drawer::SidebarComponent.new(variant: :light) do |sidebar| %>
+              <% sidebar.with_header { "Light" } %>
+              <% sidebar.with_navigation do %>
+                <nav class="space-y-1">
+                  <a href="#" class="block px-4 py-2 rounded-md bg-primary-50 text-primary-700">Dashboard</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Projects</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Team</a>
+                </nav>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Dark</h3>
+          <div class="border rounded-lg overflow-hidden h-64">
+            <%= render BetterUi::Drawer::SidebarComponent.new(variant: :dark) do |sidebar| %>
+              <% sidebar.with_header { "Dark" } %>
+              <% sidebar.with_navigation do %>
+                <nav class="space-y-1">
+                  <a href="#" class="block px-4 py-2 rounded-md bg-white/10 text-white">Dashboard</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-white/5 text-grayscale-300">Projects</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-white/5 text-grayscale-300">Team</a>
+                </nav>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Primary</h3>
+          <div class="border rounded-lg overflow-hidden h-64">
+            <%= render BetterUi::Drawer::SidebarComponent.new(variant: :primary) do |sidebar| %>
+              <% sidebar.with_header { "Primary" } %>
+              <% sidebar.with_navigation do %>
+                <nav class="space-y-1">
+                  <a href="#" class="block px-4 py-2 rounded-md bg-white/20 text-white">Dashboard</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-white/10 text-primary-100">Projects</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-white/10 text-primary-100">Team</a>
+                </nav>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Drawer::SidebarComponent.new(variant: :dark) do |sidebar| %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Sidebar Widths -->
+  <%= render BetterUi::CardComponent.new(variant: :info, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Sidebar Widths</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Small (sm) - Icon Only</h3>
+          <div class="border rounded-lg overflow-hidden h-48 flex">
+            <%= render BetterUi::Drawer::SidebarComponent.new(width: :sm) do |sidebar| %>
+              <% sidebar.with_navigation do %>
+                <nav class="space-y-2">
+                  <a href="#" class="block p-2 rounded-md bg-primary-50 text-primary-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                  </a>
+                  <a href="#" class="block p-2 rounded-md hover:bg-grayscale-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                  </a>
+                </nav>
+              <% end %>
+            <% end %>
+            <div class="flex-1 bg-grayscale-50 p-4">Main</div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Medium (md) - Default</h3>
+          <div class="border rounded-lg overflow-hidden h-48 flex">
+            <%= render BetterUi::Drawer::SidebarComponent.new(width: :md) do |sidebar| %>
+              <% sidebar.with_navigation do %>
+                <nav class="space-y-1">
+                  <a href="#" class="block px-4 py-2 rounded-md bg-primary-50 text-primary-700">Dashboard</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Projects</a>
+                </nav>
+              <% end %>
+            <% end %>
+            <div class="flex-1 bg-grayscale-50 p-4">Main</div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Large (lg) - Wide</h3>
+          <div class="border rounded-lg overflow-hidden h-48 flex">
+            <%= render BetterUi::Drawer::SidebarComponent.new(width: :lg) do |sidebar| %>
+              <% sidebar.with_navigation do %>
+                <nav class="space-y-1">
+                  <a href="#" class="block px-4 py-2 rounded-md bg-primary-50 text-primary-700">Dashboard</a>
+                  <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Projects</a>
+                </nav>
+              <% end %>
+            <% end %>
+            <div class="flex-1 bg-grayscale-50 p-4">Main</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Drawer::SidebarComponent.new(width: :lg) do |sidebar| %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Sidebar Positions -->
+  <%= render BetterUi::CardComponent.new(variant: :warning, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Sidebar Positions</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3">Left (Default)</h3>
+          <div class="border rounded-lg overflow-hidden h-48 flex">
+            <%= render BetterUi::Drawer::SidebarComponent.new(position: :left) do |sidebar| %>
+              <% sidebar.with_navigation { "Left Sidebar" } %>
+            <% end %>
+            <div class="flex-1 bg-grayscale-50 p-4">Main Content</div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3">Right</h3>
+          <div class="border rounded-lg overflow-hidden h-48 flex">
+            <div class="flex-1 bg-grayscale-50 p-4">Main Content</div>
+            <%= render BetterUi::Drawer::SidebarComponent.new(position: :right) do |sidebar| %>
+              <% sidebar.with_navigation { "Right Sidebar" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= render BetterUi::Drawer::SidebarComponent.new(position: :right) do |sidebar| %&gt;...&lt;% end %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Complete Example -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :soft) do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Complete Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto text-gray-900"><code>&lt;%= render BetterUi::Drawer::LayoutComponent.new(
+  sidebar_position: :left,
+  sidebar_breakpoint: :lg
+) do |layout| %&gt;
+  &lt;% layout.with_header(sticky: true) do |header| %&gt;
+    &lt;% header.with_mobile_menu_button do %&gt;
+      &lt;button data-action="click-&gt;better-ui--drawer--layout#toggle"&gt;
+        Menu
+      &lt;/button&gt;
+    &lt;% end %&gt;
+    &lt;% header.with_logo { image_tag("logo.svg") } %&gt;
+    &lt;% header.with_navigation { render "nav_links" } %&gt;
+    &lt;% header.with_actions { render "user_menu" } %&gt;
+  &lt;% end %&gt;
+
+  &lt;% layout.with_sidebar(variant: :light, width: :md) do |sidebar| %&gt;
+    &lt;% sidebar.with_header { "Brand" } %&gt;
+    &lt;% sidebar.with_navigation { render "sidebar_nav" } %&gt;
+    &lt;% sidebar.with_footer { render "user_info" } %&gt;
+  &lt;% end %&gt;
+
+  &lt;% layout.with_main do %&gt;
+    &lt;%= yield %&gt;
+  &lt;% end %&gt;
+&lt;% end %&gt;</code></pre>
+    <% end %>
+  <% end %>
+</div>

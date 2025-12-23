@@ -1,0 +1,10 @@
+<div class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+  <% if render_title? %>
+    <h3 class="<%= title_classes %>"><%= title %></h3>
+  <% end %>
+  <div class="<%= items_wrapper_classes %>">
+    <% items.each do |item| %>
+      <%= item %>
+    <% end %>
+  </div>
+</div>

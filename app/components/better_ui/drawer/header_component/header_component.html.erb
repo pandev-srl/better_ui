@@ -1,0 +1,24 @@
+<header class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+  <div class="<%= logo_classes %>">
+    <% if mobile_menu_button? %>
+      <div class="<%= mobile_menu_button_classes %> mr-2">
+        <%= mobile_menu_button %>
+      </div>
+    <% end %>
+    <% if logo? %>
+      <%= logo %>
+    <% end %>
+  </div>
+
+  <% if navigation? %>
+    <div class="<%= navigation_classes %>">
+      <%= navigation %>
+    </div>
+  <% end %>
+
+  <% if actions? %>
+    <div class="<%= actions_classes %>">
+      <%= actions %>
+    </div>
+  <% end %>
+</header>

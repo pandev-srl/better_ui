@@ -1,0 +1,17 @@
+<aside class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+  <% if header? %>
+    <div class="<%= header_wrapper_classes %>">
+      <%= header %>
+    </div>
+  <% end %>
+
+  <div class="<%= navigation_wrapper_classes %>">
+    <%= navigation? ? navigation : content %>
+  </div>
+
+  <% if footer? %>
+    <div class="<%= footer_wrapper_classes %>">
+      <%= footer %>
+    </div>
+  <% end %>
+</aside>

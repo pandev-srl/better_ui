@@ -15,4 +15,11 @@ class DemosController < ApplicationController
 
   def forms
   end
+
+  def layout
+  end
+
+  def layout_fullscreen
+    render layout: false
+  end
 end

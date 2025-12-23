@@ -1,0 +1,44 @@
+<div class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+  <%# Header section (always visible) %>
+  <% if header? %>
+    <%= header %>
+  <% end %>
+
+  <%# Body wrapper (sidebar + main) %>
+  <div class="<%= body_wrapper_classes %>">
+    <%# Overlay for mobile drawer %>
+    <div class="<%= overlay_classes %>"
+         data-<%= controller_name %>-target="overlay"
+         data-action="click-><%= controller_name %>#close">
+    </div>
+
+    <%# Desktop sidebar (always visible on desktop) %>
+    <% if sidebar? %>
+      <% if sidebar_position == :left %>
+        <div class="<%= sidebar_wrapper_classes %>">
+          <%= sidebar %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%# Mobile sidebar (drawer) %>
+    <% if sidebar? %>
+      <div class="<%= mobile_sidebar_wrapper_classes %>"
+           data-<%= controller_name %>-target="sidebar">
+        <%= sidebar %>
+      </div>
+    <% end %>
+
+    <%# Main content area %>
+    <main class="<%= main_wrapper_classes %>">
+      <%= main? ? main : content %>
+    </main>
+
+    <%# Desktop sidebar on right (if positioned right) %>
+    <% if sidebar? && sidebar_position == :right %>
+      <div class="<%= sidebar_wrapper_classes %>">
+        <%= sidebar %>
+      </div>
+    <% end %>
+  </div>
+</div>

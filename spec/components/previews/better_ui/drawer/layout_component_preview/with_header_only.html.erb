@@ -1,0 +1,20 @@
+<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+  <% layout.with_header do |header| %>
+    <% header.with_logo { "Header Only Layout" } %>
+    <% header.with_navigation do %>
+      <nav class="flex gap-6">
+        <a href="#" class="text-grayscale-600 hover:text-grayscale-900">Home</a>
+        <a href="#" class="text-grayscale-600 hover:text-grayscale-900">About</a>
+        <a href="#" class="text-grayscale-600 hover:text-grayscale-900">Contact</a>
+      </nav>
+    <% end %>
+    <% header.with_actions { "Login" } %>
+  <% end %>
+
+  <% layout.with_main do %>
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">Layout with Header Only</h1>
+      <p class="text-grayscale-600">This layout has only a header, no sidebar. The main content takes up the full width.</p>
+    </div>
+  <% end %>
+<% end %>

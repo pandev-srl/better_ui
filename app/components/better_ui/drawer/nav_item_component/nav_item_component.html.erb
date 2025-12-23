@@ -1,0 +1,13 @@
+<a <%= tag.attributes(html_attributes) %>>
+  <% if icon? %>
+    <span class="<%= icon_classes %>">
+      <%= icon %>
+    </span>
+  <% end %>
+  <span><%= label %></span>
+  <% if badge? %>
+    <span class="<%= badge_classes %>">
+      <%= badge %>
+    </span>
+  <% end %>
+</a>

@@ -1,0 +1,87 @@
+<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+  <% layout.with_header do |header| %>
+    <% header.with_mobile_menu_button do %>
+      <button class="p-2 text-grayscale-600 hover:text-grayscale-900 hover:bg-grayscale-100 rounded-md lg:hidden" data-action="click->better-ui--drawer--layout#toggle">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+    <% end %>
+    <% header.with_logo do %>
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold">B</div>
+        <span class="ml-2 font-semibold text-lg">BetterUI</span>
+      </div>
+    <% end %>
+    <% header.with_navigation do %>
+      <nav class="flex gap-6">
+        <a href="#" class="text-primary-600 font-medium">Dashboard</a>
+        <a href="#" class="text-grayscale-600 hover:text-grayscale-900">Projects</a>
+        <a href="#" class="text-grayscale-600 hover:text-grayscale-900">Team</a>
+      </nav>
+    <% end %>
+    <% header.with_actions do %>
+      <div class="flex items-center gap-4">
+        <button class="text-grayscale-600 hover:text-grayscale-900 relative">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+          <span class="absolute -top-1 -right-1 w-2 h-2 bg-danger-500 rounded-full"></span>
+        </button>
+        <div class="w-8 h-8 bg-primary-500 rounded-full"></div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% layout.with_sidebar do |sidebar| %>
+    <% sidebar.with_header do %>
+      <div class="text-sm font-medium text-grayscale-500 uppercase">Navigation</div>
+    <% end %>
+    <% sidebar.with_navigation do %>
+      <nav class="space-y-1">
+        <a href="#" class="flex items-center px-4 py-2 rounded-md bg-primary-50 text-primary-700">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          Dashboard
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-grayscale-100">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          Projects
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-grayscale-100">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m12 5.198H9"></path></svg>
+          Team
+        </a>
+        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-grayscale-100">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          Settings
+        </a>
+      </nav>
+    <% end %>
+    <% sidebar.with_footer do %>
+      <div class="flex items-center">
+        <div class="w-10 h-10 bg-grayscale-300 rounded-full"></div>
+        <div class="ml-3">
+          <div class="text-sm font-medium">John Doe</div>
+          <div class="text-xs text-grayscale-500">john@example.com</div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% layout.with_main do %>
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">Complete Layout</h1>
+      <p class="text-grayscale-600 mb-4">This demonstrates a complete drawer layout with header, sidebar, and main content area. On mobile, click the menu button to toggle the sidebar drawer.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-lg border border-grayscale-200">
+          <div class="text-2xl font-bold">24</div>
+          <div class="text-grayscale-500">Active Projects</div>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-grayscale-200">
+          <div class="text-2xl font-bold">8</div>
+          <div class="text-grayscale-500">Team Members</div>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-grayscale-200">
+          <div class="text-2xl font-bold">98%</div>
+          <div class="text-grayscale-500">Completion Rate</div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,44 @@
+<%= render BetterUi::Drawer::LayoutComponent.new(sidebar_position: :right) do |layout| %>
+  <% layout.with_header do |header| %>
+    <% header.with_logo { "Right Sidebar Layout" } %>
+    <% header.with_mobile_menu_button do %>
+      <button class="p-2 text-grayscale-600 hover:bg-grayscale-100 rounded-md lg:hidden" data-action="click->better-ui--drawer--layout#toggle">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+    <% end %>
+  <% end %>
+
+  <% layout.with_sidebar(position: :right) do |sidebar| %>
+    <% sidebar.with_header { "Details" } %>
+    <% sidebar.with_navigation do %>
+      <div class="space-y-4">
+        <div>
+          <div class="text-sm font-medium text-grayscale-500">Status</div>
+          <div class="mt-1 text-success-600 font-medium">Active</div>
+        </div>
+        <div>
+          <div class="text-sm font-medium text-grayscale-500">Created</div>
+          <div class="mt-1">Dec 15, 2024</div>
+        </div>
+        <div>
+          <div class="text-sm font-medium text-grayscale-500">Modified</div>
+          <div class="mt-1">Dec 20, 2024</div>
+        </div>
+        <div>
+          <div class="text-sm font-medium text-grayscale-500">Owner</div>
+          <div class="mt-1 flex items-center">
+            <div class="w-6 h-6 bg-primary-500 rounded-full mr-2"></div>
+            John Doe
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% layout.with_main do %>
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">Right Sidebar Layout</h1>
+      <p class="text-grayscale-600">This layout has the sidebar positioned on the right side. Useful for detail panels, property inspectors, or contextual information.</p>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,21 @@
+<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+  <% layout.with_sidebar do |sidebar| %>
+    <% sidebar.with_header { "Sidebar Only" } %>
+    <% sidebar.with_navigation do %>
+      <nav class="space-y-2">
+        <a href="#" class="block px-4 py-2 rounded-md bg-primary-50 text-primary-700">Dashboard</a>
+        <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Projects</a>
+        <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Team</a>
+        <a href="#" class="block px-4 py-2 rounded-md hover:bg-grayscale-100">Settings</a>
+      </nav>
+    <% end %>
+    <% sidebar.with_footer { "v1.0.0" } %>
+  <% end %>
+
+  <% layout.with_main do %>
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">Layout with Sidebar Only</h1>
+      <p class="text-grayscale-600">This layout has only a sidebar, no header. Useful for applications that don't need a top navigation.</p>
+    </div>
+  <% end %>
+<% end %>

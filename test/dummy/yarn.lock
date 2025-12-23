@@ -142,6 +142,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pandev-srl/better-ui@link:../../assets::locator=better-ui-dummy%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@pandev-srl/better-ui@link:../../assets::locator=better-ui-dummy%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "@tailwindcss/node@npm:4.1.17":
   version: 4.1.17
   resolution: "@tailwindcss/node@npm:4.1.17"
@@ -359,6 +365,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "better-ui-dummy@workspace:."
   dependencies:
+    "@pandev-srl/better-ui": "link:../../assets"
     "@tailwindcss/postcss": "npm:4.1.17"
     postcss: "npm:^8.4.49"
     postcss-cli: "npm:^11.0.0"
