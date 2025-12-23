@@ -1,0 +1,12 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::ApplicationComponent::VARIANTS.each do |variant, _| %>
+    <div>
+      <%= render BetterUi::Forms::CheckboxComponent.new(
+        name: "variant_#{variant}",
+        label: "Variant: #{variant.to_s.titleize}",
+        variant: variant,
+        checked: true
+      ) %>
+    </div>
+  <% end %>
+</div>

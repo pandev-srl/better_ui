@@ -1,0 +1,47 @@
+<div class="p-4 max-w-lg">
+  <h3 class="text-lg font-semibold mb-4">Form Builder Integration Example</h3>
+
+  <%= form_with url: "#", method: :post, builder: BetterUi::UiFormBuilder, data: { turbo: false } do |f| %>
+    <div class="space-y-6">
+      <%= render BetterUi::Forms::CheckboxGroupComponent.new(
+        name: "user[roles]",
+        collection: [
+          ["Administrator", "admin"],
+          ["Editor", "editor"],
+          ["Viewer", "viewer"]
+        ],
+        selected: ["editor"],
+        legend: "User Roles",
+        hint: "Select the roles for this user",
+        required: true
+      ) %>
+
+      <%= render BetterUi::Forms::CheckboxGroupComponent.new(
+        name: "user[notifications]",
+        collection: [
+          ["Email", "email"],
+          ["Push", "push"],
+          ["SMS", "sms"]
+        ],
+        legend: "Notification Preferences",
+        orientation: :horizontal,
+        variant: :secondary
+      ) %>
+
+      <%= render BetterUi::Forms::CheckboxGroupComponent.new(
+        name: "user[skills]",
+        collection: ["Ruby", "JavaScript", "Python", "Go", "Rust", "TypeScript"],
+        legend: "Programming Skills",
+        orientation: :horizontal,
+        size: :sm,
+        variant: :accent
+      ) %>
+
+      <div class="pt-4">
+        <%= render BetterUi::ButtonComponent.new(type: :submit, variant: :primary) do %>
+          Save Preferences
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

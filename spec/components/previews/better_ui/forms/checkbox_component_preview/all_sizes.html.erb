@@ -1,0 +1,12 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::Forms::CheckboxComponent::SIZES.each do |size| %>
+    <div>
+      <%= render BetterUi::Forms::CheckboxComponent.new(
+        name: "size_#{size}",
+        label: "Size: #{size.to_s.upcase}",
+        size: size,
+        checked: true
+      ) %>
+    </div>
+  <% end %>
+</div>

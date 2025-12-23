@@ -172,6 +172,61 @@ module BetterUi
       render BetterUi::Forms::TextareaComponent.new(name: name, **options), &block
     end
 
+    # Renders a checkbox component.
+    #
+    # @param name [String] Input name attribute
+    # @param options [Hash] Options passed to Forms::CheckboxComponent
+    # @option options [String] :value Value when checked (default: "1")
+    # @option options [Boolean] :checked Checked state
+    # @option options [String, nil] :label Label text
+    # @option options [String, nil] :hint Hint text
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, etc.)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :label_position Label position (:left, :right)
+    # @option options [Boolean] :disabled Disabled state
+    # @option options [Boolean] :readonly Readonly state
+    # @option options [Boolean] :required Required field
+    # @option options [Array<String>, String, nil] :errors Error messages
+    # @return [String] Rendered HTML
+    #
+    # @example Basic checkbox
+    #   <%= bui_checkbox("newsletter", label: "Subscribe to newsletter") %>
+    #
+    # @example Checkbox with variant
+    #   <%= bui_checkbox("active", label: "Active", variant: :success, checked: true) %>
+    def bui_checkbox(name, **options)
+      render BetterUi::Forms::CheckboxComponent.new(name: name, **options)
+    end
+
+    # Renders a checkbox group component.
+    #
+    # @param name [String] Input name attribute (will have [] appended for array submission)
+    # @param collection [Array] Collection of options (values or [label, value] pairs)
+    # @param options [Hash] Options passed to Forms::CheckboxGroupComponent
+    # @option options [Array] :selected Currently selected values
+    # @option options [String, nil] :legend Legend text for the fieldset
+    # @option options [String, nil] :hint Hint text
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, etc.)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :orientation Layout orientation (:vertical, :horizontal)
+    # @option options [Boolean] :disabled Disabled state
+    # @option options [Boolean] :required Required field
+    # @option options [Array<String>, String, nil] :errors Error messages
+    # @return [String] Rendered HTML
+    #
+    # @example Basic checkbox group
+    #   <%= bui_checkbox_group("roles", ["Admin", "Editor", "Viewer"], legend: "Roles") %>
+    #
+    # @example With label/value pairs and selected values
+    #   <%= bui_checkbox_group("permissions",
+    #     [["Read", "read"], ["Write", "write"]],
+    #     selected: ["read"],
+    #     orientation: :horizontal
+    #   ) %>
+    def bui_checkbox_group(name, collection, **options)
+      render BetterUi::Forms::CheckboxGroupComponent.new(name: name, collection: collection, **options)
+    end
+
     # ============================================
     # Drawer Components
     # ============================================

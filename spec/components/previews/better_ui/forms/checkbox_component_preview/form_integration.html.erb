@@ -1,0 +1,32 @@
+<div class="p-4 max-w-md">
+  <h3 class="text-lg font-semibold mb-4">Form Builder Integration Example</h3>
+
+  <%= form_with url: "#", method: :post, builder: BetterUi::UiFormBuilder, data: { turbo: false } do |f| %>
+    <div class="space-y-4">
+      <%= render BetterUi::Forms::CheckboxComponent.new(
+        name: "user[newsletter]",
+        label: "Subscribe to newsletter",
+        hint: "Receive weekly updates about new features"
+      ) %>
+
+      <%= render BetterUi::Forms::CheckboxComponent.new(
+        name: "user[marketing]",
+        label: "Receive marketing emails",
+        variant: :secondary
+      ) %>
+
+      <%= render BetterUi::Forms::CheckboxComponent.new(
+        name: "user[terms]",
+        label: "I agree to the terms and conditions",
+        required: true,
+        variant: :primary
+      ) %>
+
+      <div class="pt-4">
+        <%= render BetterUi::ButtonComponent.new(type: :submit, variant: :primary) do %>
+          Submit
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

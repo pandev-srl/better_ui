@@ -1,0 +1,14 @@
+<div class="space-y-6 p-4">
+  <% BetterUi::ApplicationComponent::VARIANTS.each do |variant, _| %>
+    <div>
+      <%= render BetterUi::Forms::CheckboxGroupComponent.new(
+        name: "variant_#{variant}",
+        collection: ["Option 1", "Option 2", "Option 3"],
+        selected: ["Option 1", "Option 2"],
+        variant: variant,
+        legend: "Variant: #{variant.to_s.titleize}",
+        orientation: :horizontal
+      ) %>
+    </div>
+  <% end %>
+</div>

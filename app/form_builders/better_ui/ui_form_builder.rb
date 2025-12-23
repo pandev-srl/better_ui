@@ -210,6 +210,65 @@ module BetterUi
       end
     end
 
+    # Renders a checkbox input field using BetterUi::Forms::CheckboxComponent
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param options [Hash] Additional options to pass to the component
+    # @option options [String] :label Custom label text (defaults to humanized attribute name)
+    # @option options [String] :value The value submitted when checkbox is checked (default: "1")
+    # @option options [String] :hint Hint text to display below the checkbox
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :size Size variant (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :label_position Position of label relative to checkbox (:left, :right)
+    # @option options [Boolean] :disabled Whether the checkbox is disabled
+    # @option options [Boolean] :readonly Whether the checkbox is readonly
+    # @option options [Boolean] :required Whether the checkbox is required
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_checkbox :newsletter %>
+    #
+    # @example With custom label
+    #   <%= f.bui_checkbox :terms, label: "I agree to the terms and conditions" %>
+    #
+    # @example With variant
+    #   <%= f.bui_checkbox :active, variant: :success, label: "Active" %>
+    def bui_checkbox(attribute, options = {})
+      component_options = build_checkbox_options(attribute, options)
+
+      @template.render(BetterUi::Forms::CheckboxComponent.new(**component_options))
+    end
+
+    # Renders a checkbox group using BetterUi::Forms::CheckboxGroupComponent
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param collection [Array] The collection of options, can be:
+    #   - Array of values (e.g., ["Admin", "Editor"])
+    #   - Array of [label, value] pairs (e.g., [["Admin", "admin"], ["Editor", "editor"]])
+    # @param options [Hash] Additional options to pass to the component
+    # @option options [String] :legend Legend text for the fieldset (defaults to humanized attribute name)
+    # @option options [String] :hint Hint text to display below the checkboxes
+    # @option options [Symbol] :variant Color variant for all checkboxes (:primary, :secondary, etc.)
+    # @option options [Symbol] :size Size variant (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :orientation Layout orientation (:vertical, :horizontal)
+    # @option options [Boolean] :disabled Whether all checkboxes are disabled
+    # @option options [Boolean] :required Whether the field is required
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_checkbox_group :roles, ["Admin", "Editor", "Viewer"] %>
+    #
+    # @example With label/value pairs
+    #   <%= f.bui_checkbox_group :permissions, [["Read", "read"], ["Write", "write"]] %>
+    #
+    # @example Horizontal layout
+    #   <%= f.bui_checkbox_group :interests, ["Sports", "Music", "Art"], orientation: :horizontal %>
+    def bui_checkbox_group(attribute, collection, options = {})
+      component_options = build_checkbox_group_options(attribute, collection, options)
+
+      @template.render(BetterUi::Forms::CheckboxGroupComponent.new(**component_options))
+    end
+
     private
 
     # Builds common options for input components.
@@ -326,6 +385,83 @@ module BetterUi
     #   field_name(:email) # => "email"
     def field_name(attribute)
       @object_name ? "#{@object_name}[#{attribute}]" : attribute.to_s
+    end
+
+    # Builds options for checkbox components.
+    #
+    # Creates the complete options hash for CheckboxComponent including
+    # auto-populated values from the model for checked state and errors.
+    #
+    # @param attribute [Symbol] the attribute name
+    # @param options [Hash] user-provided options to override defaults
+    # @return [Hash] complete hash of component options ready for rendering
+    # @api private
+    def build_checkbox_options(attribute, options)
+      {
+        name: field_name(attribute),
+        value: options.fetch(:value, "1"),
+        checked: checkbox_checked?(attribute),
+        label: options.fetch(:label, attribute.to_s.humanize),
+        hint: options[:hint],
+        variant: options.fetch(:variant, :primary),
+        size: options.fetch(:size, :md),
+        label_position: options.fetch(:label_position, :right),
+        disabled: options.fetch(:disabled, false),
+        readonly: options.fetch(:readonly, false),
+        required: options.fetch(:required, field_required?(attribute)),
+        errors: object_errors(attribute),
+        container_classes: options[:container_classes],
+        label_classes: options[:label_classes],
+        checkbox_classes: options[:checkbox_classes],
+        hint_classes: options[:hint_classes],
+        error_classes: options[:error_classes]
+      }.merge(extract_html_attributes(options))
+    end
+
+    # Builds options for checkbox group components.
+    #
+    # Creates the complete options hash for CheckboxGroupComponent including
+    # auto-populated values from the model for selected values and errors.
+    #
+    # @param attribute [Symbol] the attribute name
+    # @param collection [Array] the collection of options
+    # @param options [Hash] user-provided options to override defaults
+    # @return [Hash] complete hash of component options ready for rendering
+    # @api private
+    def build_checkbox_group_options(attribute, collection, options)
+      {
+        name: field_name(attribute),
+        collection: collection,
+        selected: Array(object_value(attribute)),
+        legend: options.fetch(:legend, attribute.to_s.humanize),
+        hint: options[:hint],
+        variant: options.fetch(:variant, :primary),
+        size: options.fetch(:size, :md),
+        orientation: options.fetch(:orientation, :vertical),
+        disabled: options.fetch(:disabled, false),
+        required: options.fetch(:required, field_required?(attribute)),
+        errors: object_errors(attribute),
+        container_classes: options[:container_classes],
+        legend_classes: options[:legend_classes],
+        items_classes: options[:items_classes],
+        hint_classes: options[:hint_classes],
+        error_classes: options[:error_classes]
+      }.merge(extract_html_attributes(options))
+    end
+
+    # Determines if a checkbox should be checked based on the model's attribute value.
+    #
+    # For boolean attributes, returns the boolean value.
+    # For other types, checks if the value is present/truthy.
+    #
+    # @param attribute [Symbol] the attribute name
+    # @return [Boolean] true if the checkbox should be checked, false otherwise
+    # @api private
+    def checkbox_checked?(attribute)
+      value = object_value(attribute)
+      return value if value.is_a?(TrueClass) || value.is_a?(FalseClass)
+
+      value.present?
     end
   end
 end

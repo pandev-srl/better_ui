@@ -1,0 +1,40 @@
+<fieldset <%= tag.attributes(fieldset_attributes) %>>
+  <% if @legend.present? %>
+    <legend class="<%= legend_element_classes %>">
+      <%= @legend %>
+      <% if @required %>
+        <span class="text-danger-600 ml-0.5">*</span>
+      <% end %>
+    </legend>
+  <% end %>
+
+  <div class="<%= items_wrapper_classes %>">
+    <% @collection.each_with_index do |item, index| %>
+      <%= render BetterUi::Forms::CheckboxComponent.new(
+        name: field_name,
+        value: item_value(item),
+        checked: item_checked?(item_value(item)),
+        label: item_label(item),
+        variant: @variant,
+        size: @size,
+        disabled: @disabled,
+        id: item_id(index),
+        errors: nil
+      ) %>
+    <% end %>
+  </div>
+
+  <% if @hint.present? %>
+    <div class="<%= hint_element_classes %>">
+      <%= @hint %>
+    </div>
+  <% end %>
+
+  <% if has_errors? %>
+    <div class="<%= errors_element_classes %>">
+      <% @errors.each do |error| %>
+        <div><%= error %></div>
+      <% end %>
+    </div>
+  <% end %>
+</fieldset>

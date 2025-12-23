@@ -9,11 +9,13 @@ module BetterUi
       include ActiveModel::Model
       include ActiveModel::Validations
 
-      attr_accessor :name, :email, :age, :password, :bio, :price
+      attr_accessor :name, :email, :age, :password, :bio, :price,
+                    :newsletter, :terms, :active, :roles, :permissions
 
       validates :name, presence: true
       validates :email, presence: true, format: { with: /@/, message: "is invalid" }
       validates :age, numericality: { greater_than: 0 }
+      validates :terms, acceptance: true
     end
 
     setup do
@@ -497,6 +499,220 @@ module BetterUi
 
       # Should not crash, defaults to not required
       refute_match(/required/, output)
+    end
+
+    # bui_checkbox tests
+    test "bui_checkbox renders CheckboxComponent" do
+      output = @builder.bui_checkbox(:newsletter)
+
+      assert_match(/input/, output)
+      assert_match(/type="checkbox"/, output)
+      assert_match(/name="user\[newsletter\]"/, output)
+    end
+
+    test "bui_checkbox uses humanized attribute name as default label" do
+      output = @builder.bui_checkbox(:newsletter)
+
+      assert_match(/Newsletter/, output)
+    end
+
+    test "bui_checkbox accepts custom label" do
+      output = @builder.bui_checkbox(:newsletter, label: "Subscribe to our newsletter")
+
+      assert_match(/Subscribe to our newsletter/, output)
+    end
+
+    test "bui_checkbox auto-populates checked from boolean attribute" do
+      @user.newsletter = true
+      output = @builder.bui_checkbox(:newsletter)
+
+      assert_match(/checked/, output)
+    end
+
+    test "bui_checkbox auto-populates unchecked from false attribute" do
+      @user.newsletter = false
+      output = @builder.bui_checkbox(:newsletter)
+
+      # Should not have the checked attribute (not the checked: CSS classes)
+      refute_match(/checked="checked"/, output)
+      refute_match(/\schecked\s/, output)
+      refute_match(/\schecked"/, output)
+    end
+
+    test "bui_checkbox auto-populates checked from truthy value" do
+      @user.active = "yes"
+      output = @builder.bui_checkbox(:active)
+
+      assert_match(/checked/, output)
+    end
+
+    test "bui_checkbox auto-populates unchecked from nil value" do
+      @user.newsletter = nil
+      output = @builder.bui_checkbox(:newsletter)
+
+      # Should not have the checked attribute (not the checked: CSS classes)
+      refute_match(/checked="checked"/, output)
+      refute_match(/\schecked\s/, output)
+      refute_match(/\schecked"/, output)
+    end
+
+    test "bui_checkbox accepts custom value" do
+      output = @builder.bui_checkbox(:terms, value: "accepted")
+
+      assert_match(/value="accepted"/, output)
+    end
+
+    test "bui_checkbox accepts hint text" do
+      output = @builder.bui_checkbox(:newsletter, hint: "We send weekly updates")
+
+      assert_match(/We send weekly updates/, output)
+    end
+
+    test "bui_checkbox accepts variant option" do
+      output = @builder.bui_checkbox(:active, variant: :success)
+
+      assert_match(/checked:bg-success-600/, output)
+    end
+
+    test "bui_checkbox accepts size option" do
+      output = @builder.bui_checkbox(:newsletter, size: :lg)
+
+      assert_match(/w-6/, output)
+      assert_match(/h-6/, output)
+    end
+
+    test "bui_checkbox accepts label_position option" do
+      output = @builder.bui_checkbox(:newsletter, label: "Newsletter", label_position: :left)
+
+      assert_match(/flex-row-reverse/, output)
+    end
+
+    test "bui_checkbox accepts disabled option" do
+      output = @builder.bui_checkbox(:newsletter, disabled: true)
+
+      assert_match(/disabled/, output)
+    end
+
+    test "bui_checkbox accepts readonly option" do
+      output = @builder.bui_checkbox(:newsletter, readonly: true)
+
+      assert_match(/aria-readonly="true"/, output)
+    end
+
+    test "bui_checkbox shows errors from model" do
+      @user.terms = false
+      @user.valid?
+      output = @builder.bui_checkbox(:terms, label: "Accept terms")
+
+      assert_match(/Terms must be accepted/, output)
+    end
+
+    test "bui_checkbox passes through data attributes" do
+      output = @builder.bui_checkbox(:newsletter, data: { controller: "checkbox" })
+
+      assert_match(/data-controller="checkbox"/, output)
+    end
+
+    test "bui_checkbox passes through id attribute" do
+      output = @builder.bui_checkbox(:newsletter, id: "custom-newsletter")
+
+      assert_match(/id="custom-newsletter"/, output)
+    end
+
+    # bui_checkbox_group tests
+    test "bui_checkbox_group renders CheckboxGroupComponent" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin", "Editor", "Viewer" ])
+
+      assert_match(/fieldset/, output)
+      assert_match(/type="checkbox"/, output)
+    end
+
+    test "bui_checkbox_group renders multiple checkboxes" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin", "Editor", "Viewer" ])
+
+      # Should have 3 checkboxes
+      assert_equal 3, output.scan(/type="checkbox"/).length
+    end
+
+    test "bui_checkbox_group uses humanized attribute name as default legend" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ])
+
+      assert_match(/Roles/, output)
+    end
+
+    test "bui_checkbox_group accepts custom legend" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], legend: "User Roles")
+
+      assert_match(/User Roles/, output)
+    end
+
+    test "bui_checkbox_group accepts label/value pairs" do
+      collection = [ [ "Administrator", "admin" ], [ "Editor", "editor" ] ]
+      output = @builder.bui_checkbox_group(:roles, collection)
+
+      assert_match(/Administrator/, output)
+      assert_match(/value="admin"/, output)
+      assert_match(/Editor/, output)
+      assert_match(/value="editor"/, output)
+    end
+
+    test "bui_checkbox_group generates array field name" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ])
+
+      assert_match(/name="user\[roles\]\[\]"/, output)
+    end
+
+    test "bui_checkbox_group auto-populates selected from model array" do
+      @user.roles = [ "admin", "viewer" ]
+      collection = [ [ "Admin", "admin" ], [ "Editor", "editor" ], [ "Viewer", "viewer" ] ]
+      output = @builder.bui_checkbox_group(:roles, collection)
+
+      # admin and viewer should be checked
+      assert_match(/value="admin"[^>]*checked/, output)
+      assert_match(/value="viewer"[^>]*checked/, output)
+    end
+
+    test "bui_checkbox_group accepts hint text" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], hint: "Select one or more roles")
+
+      assert_match(/Select one or more roles/, output)
+    end
+
+    test "bui_checkbox_group accepts variant option" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], variant: :success)
+
+      assert_match(/checked:bg-success-600/, output)
+    end
+
+    test "bui_checkbox_group accepts size option" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], size: :lg)
+
+      assert_match(/w-6/, output)
+    end
+
+    test "bui_checkbox_group accepts orientation option" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin", "Editor" ], orientation: :horizontal)
+
+      assert_match(/flex-row/, output)
+      assert_match(/flex-wrap/, output)
+    end
+
+    test "bui_checkbox_group accepts disabled option" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], disabled: true)
+
+      assert_match(/disabled/, output)
+    end
+
+    test "bui_checkbox_group passes through data attributes" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], data: { controller: "group" })
+
+      assert_match(/data-controller="group"/, output)
+    end
+
+    test "bui_checkbox_group passes through id attribute" do
+      output = @builder.bui_checkbox_group(:roles, [ "Admin" ], id: "roles-group")
+
+      assert_match(/id="roles-group"/, output)
     end
   end
 end

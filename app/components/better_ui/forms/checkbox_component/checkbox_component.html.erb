@@ -1,0 +1,28 @@
+<div class="<%= wrapper_classes %>">
+  <div class="<%= checkbox_wrapper_classes %>">
+    <input <%= tag.attributes(checkbox_attributes) %> />
+
+    <% if @label.present? %>
+      <label for="<%= input_id %>" class="<%= label_element_classes %>">
+        <%= @label %>
+        <% if @required %>
+          <span class="text-danger-600 ml-0.5">*</span>
+        <% end %>
+      </label>
+    <% end %>
+  </div>
+
+  <% if @hint.present? %>
+    <div class="<%= hint_element_classes %>">
+      <%= @hint %>
+    </div>
+  <% end %>
+
+  <% if has_errors? %>
+    <div class="<%= errors_element_classes %>">
+      <% @errors.each do |error| %>
+        <div><%= error %></div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
