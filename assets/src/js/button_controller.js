@@ -21,6 +21,18 @@ export default class extends Controller {
       "turbo:before-stream-render",
       this.boundResetLoading
     );
+
+    // Set up loader behavior based on context
+    if (this.showLoaderOnClickValue) {
+      this.form = this.element.closest("form");
+
+      if (this.element.type === "submit" && this.form) {
+        // For submit buttons in forms: use form submit event (fires after validation)
+        this.boundShowLoading = this.showLoading.bind(this);
+        this.form.addEventListener("submit", this.boundShowLoading);
+      }
+      // For standalone buttons: handled in handleClick
+    }
   }
 
   disconnect() {
@@ -31,6 +43,11 @@ export default class extends Controller {
       "turbo:before-stream-render",
       this.boundResetLoading
     );
+
+    // Clean up form submit listener
+    if (this.form && this.boundShowLoading) {
+      this.form.removeEventListener("submit", this.boundShowLoading);
+    }
   }
 
   handleClick(event) {
@@ -40,9 +57,15 @@ export default class extends Controller {
       return false;
     }
 
-    // Activate loading state if show_loader_on_click is enabled and button is submit type
-    if (this.showLoaderOnClickValue && this.element.type === "submit") {
-      this.showLoading();
+    // For standalone buttons (no form or not submit type): show loader on click
+    // Submit buttons in forms use the form submit event listener instead (respects validation)
+    if (
+      this.showLoaderOnClickValue &&
+      (!this.form || this.element.type !== "submit")
+    ) {
+      requestAnimationFrame(() => {
+        this.showLoading();
+      });
     }
   }
 
