@@ -33,9 +33,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Forms::NumberInputComponent**: Number input with min/max/step validation, optional spinner controls
 - **Forms::PasswordInputComponent**: Password field with visibility toggle via Stimulus controller
 - **Forms::TextareaComponent**: Multi-line text input with resizable options, rows/cols configuration
+- **Forms::CheckboxComponent**: Single checkbox with 9 color variants, label positioning (left/right), hints and validation
+- **Forms::CheckboxGroupComponent**: Multiple checkboxes with vertical/horizontal orientation, fieldset legend, and collection support
+
+### Drawer Components
+- **Drawer::LayoutComponent**: Responsive page layout with header, sidebar, and main content area; mobile drawer support via Stimulus controller
+- **Drawer::HeaderComponent**: Sticky header with slots for logo, navigation, actions, and mobile menu button; 4 variants (light, dark, transparent, primary)
+- **Drawer::SidebarComponent**: Responsive sidebar with header, navigation, and footer slots; configurable width (sm, md, lg) and position (left, right)
+- **Drawer::NavItemComponent**: Navigation item with icon and badge slots, active state styling, HTTP method support for logout links
+- **Drawer::NavGroupComponent**: Grouped navigation items with optional title, automatic variant inheritance
 
 ### Form Builder
 - **UiFormBuilder**: Custom Rails form builder integrating all form components
+  - `ui_text_input`, `ui_number_input`, `ui_password_input`, `ui_textarea`
+  - `bui_checkbox`, `bui_checkbox_group`
   - Automatic value population from models
   - Validation error display
   - Required field detection from model validators
@@ -60,8 +71,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Stimulus Controllers
 - `better-ui--button`: Loading states and click handling
-- Password visibility toggle controller
-- Action messages dismiss and auto-dismiss controller
+- `better-ui--forms--password-input`: Password visibility toggle
+- `better-ui--action-messages`: Dismiss and auto-dismiss functionality
+- `better-ui--drawer--layout`: Mobile drawer toggle, overlay handling, responsive behavior
 
 ### Developer Tools
 - Helper methods for debugging:
@@ -88,13 +100,11 @@ This is the initial pre-release version. The gem is under active development and
 - Theme file must be imported after Tailwind base
 
 ### Upcoming Features
-- Additional form components (select, checkbox, radio)
+- Additional form components (select, radio)
 - Modal and dialog components
-- Navigation components
 - Data table component
 - Toast notification system
 - Enhanced accessibility features
-- Additional Stimulus controllers
 - Dark mode improvements
 
 ---

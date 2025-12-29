@@ -118,6 +118,7 @@ The npm package provides:
 - `ButtonController` - Loading states and click handling
 - `ActionMessagesController` - Dismissible alerts with auto-dismiss
 - `PasswordInputController` - Password visibility toggle
+- `DrawerLayoutController` - Mobile drawer toggle and responsive behavior
 - `registerControllers()` - Helper to register all controllers
 
 **CSS (Theme):**
@@ -134,7 +135,8 @@ The gem provides:
 - `BetterUi::ButtonComponent`
 - `BetterUi::CardComponent`
 - `BetterUi::ActionMessagesComponent`
-- Form components (TextInput, NumberInput, PasswordInput, Textarea)
+- Form components (TextInput, NumberInput, PasswordInput, Textarea, Checkbox, CheckboxGroup)
+- Drawer components (Layout, Header, Sidebar, NavItem, NavGroup)
 
 **Form Builder:**
 - `BetterUi::UiFormBuilder` for seamless Rails form integration
@@ -244,7 +246,7 @@ For development on the BetterUi gem itself:
 
 ```bash
 # Clone the repository
-git clone https://github.com/alessiobussolari/better_ui.git
+git clone https://github.com/umbertopeserico/better_ui.git
 cd better_ui
 
 # Install Ruby dependencies
@@ -266,4 +268,4 @@ bundle exec rails server
 
 ## Support
 
-For issues, questions, or contributions, please visit the [BetterUi GitHub repository](https://github.com/alessiobussolari/better_ui).
+For issues, questions, or contributions, please visit the [BetterUi GitHub repository](https://github.com/umbertopeserico/better_ui).

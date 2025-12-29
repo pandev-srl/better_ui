@@ -97,12 +97,13 @@ A versatile button component with multiple styles, sizes, and states.
 
 #### Card Component
 A flexible container component with customizable padding and optional slots.
+- **Variants**: primary, secondary, accent, success, danger, warning, info, light, dark
+- **Styles**: solid, outline, ghost, soft, bordered
+- **Sizes**: xs, sm, md, lg, xl
 - **Slots**: header, body, footer
-- **Sizes**: sm, md, lg, xl
-- **Styles**: Default, bordered, shadow variations
 
 ```erb
-<%= render BetterUi::CardComponent.new(size: "lg") do |c| %>
+<%= render BetterUi::CardComponent.new(size: :lg, style: :bordered) do |c| %>
   <% c.with_header { "Card Title" } %>
   <% c.with_body { "Card content goes here" } %>
   <% c.with_footer { "Footer content" } %>
@@ -175,9 +176,59 @@ Multi-line text input with resizing options.
   name: "post[content]",
   label: "Content",
   rows: 6,
-  resize: "vertical",
+  resize: :vertical,
   maxlength: 1000
 ) %>
+```
+
+#### Checkbox Component
+Single checkbox with color variants and label positioning.
+
+```erb
+<%= render BetterUi::Forms::CheckboxComponent.new(
+  name: "user[terms]",
+  label: "I agree to the terms and conditions",
+  variant: :primary
+) %>
+```
+
+#### Checkbox Group Component
+Multiple checkboxes for selecting from a collection.
+
+```erb
+<%= render BetterUi::Forms::CheckboxGroupComponent.new(
+  name: "user[roles]",
+  collection: [["Admin", "admin"], ["Editor", "editor"]],
+  legend: "User Roles",
+  orientation: :vertical
+) %>
+```
+
+### Drawer Layout Components
+
+BetterUi provides a complete drawer layout system for building responsive admin dashboards and applications with sidebar navigation.
+
+- **LayoutComponent**: Main wrapper with header, sidebar, and content
+- **HeaderComponent**: Sticky header with logo, navigation, and actions
+- **SidebarComponent**: Responsive sidebar with navigation
+- **NavItemComponent**: Navigation items with icons and badges
+- **NavGroupComponent**: Grouped navigation with titles
+
+```erb
+<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+  <% layout.with_header do |header| %>
+    <% header.with_logo { "MyApp" } %>
+  <% end %>
+  <% layout.with_sidebar do |sidebar| %>
+    <% sidebar.with_navigation do %>
+      <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Menu") do |group| %>
+        <% group.with_item(label: "Dashboard", href: "/", active: true) %>
+        <% group.with_item(label: "Settings", href: "/settings") %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% layout.with_main { yield } %>
+<% end %>
 ```
 
 ### Form Builder Integration
@@ -191,6 +242,8 @@ BetterUi includes a custom form builder for seamless Rails form integration:
   <%= f.ui_password_input :password %>
   <%= f.ui_textarea :bio, rows: 6 %>
   <%= f.ui_number_input :age, min: 0, max: 120 %>
+  <%= f.bui_checkbox :newsletter, label: "Subscribe to newsletter" %>
+  <%= f.bui_checkbox_group :roles, [["Admin", "admin"], ["Editor", "editor"]] %>
 <% end %>
 ```
 

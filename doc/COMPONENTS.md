@@ -16,7 +16,15 @@ This document provides comprehensive API documentation for all BetterUi componen
    - [Forms::NumberInputComponent](#formsnumberinputcomponent)
    - [Forms::PasswordInputComponent](#formspasswordinputcomponent)
    - [Forms::TextareaComponent](#formstextareacomponent)
-6. [UiFormBuilder](#uiformbuilder)
+   - [Forms::CheckboxComponent](#formscheckboxcomponent)
+   - [Forms::CheckboxGroupComponent](#formscheckboxgroupcomponent)
+6. [Drawer Components](#drawer-components)
+   - [Drawer::LayoutComponent](#drawerlayoutcomponent)
+   - [Drawer::HeaderComponent](#drawerheadercomponent)
+   - [Drawer::SidebarComponent](#drawersidebarcomponent)
+   - [Drawer::NavItemComponent](#drawernavitemcomponent)
+   - [Drawer::NavGroupComponent](#drawernavgroupcomponent)
+7. [UiFormBuilder](#uiformbuilder)
 
 ## Information Flow
 
@@ -30,19 +38,37 @@ graph TD
     E --> G[NumberInputComponent]
     E --> H[PasswordInputComponent]
     E --> I[TextareaComponent]
+    A --> P[CheckboxComponent]
+    A --> Q[CheckboxGroupComponent]
+    A --> R[Drawer::LayoutComponent]
+    A --> S[Drawer::HeaderComponent]
+    A --> T[Drawer::SidebarComponent]
+    A --> U[Drawer::NavItemComponent]
+    A --> V[Drawer::NavGroupComponent]
+    R --> S
+    R --> T
+    T --> U
+    T --> V
     J[UiFormBuilder] --> F
     J --> G
     J --> H
     J --> I
+    J --> P
+    J --> Q
     K[Rails Form] --> J
     L[ViewComponent Slots] --> B
     L --> C
     L --> F
     L --> G
     L --> H
+    L --> R
+    L --> S
+    L --> T
+    L --> V
     M[Stimulus Controllers] --> B
     M --> D
     M --> H
+    M --> R
 ```
 
 ## ApplicationComponent (Base Class)
@@ -291,16 +317,34 @@ A flexible container component that provides structured content areas with consi
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `size` | Symbol | `:md` | Size variant affecting padding: `:sm`, `:md`, `:lg`, `:xl` |
-| `bordered` | Boolean | `true` | Shows border around card |
-| `shadow` | Symbol/Boolean | `false` | Shadow depth: `false`, `:sm`, `:md`, `:lg`, `:xl` |
-| `container_classes` | String | `nil` | Additional CSS classes |
+| `variant` | Symbol | `:primary` | Color variant (see VARIANTS constant) |
+| `style` | Symbol | `:solid` | Visual style: `:solid`, `:outline`, `:ghost`, `:soft`, `:bordered` |
+| `size` | Symbol | `:md` | Size variant: `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `shadow` | Boolean | `true` | Whether to apply shadow effect |
+| `header_padding` | Boolean | `true` | Whether to apply padding to header section |
+| `body_padding` | Boolean | `true` | Whether to apply padding to body section |
+| `footer_padding` | Boolean | `true` | Whether to apply padding to footer section |
+| `container_classes` | String | `nil` | Additional CSS classes for the outer wrapper |
+| `header_classes` | String | `nil` | Additional CSS classes for the header section |
+| `body_classes` | String | `nil` | Additional CSS classes for the body section |
+| `footer_classes` | String | `nil` | Additional CSS classes for the footer section |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+### Style Options
+
+| Style | Description |
+|-------|-------------|
+| `:solid` | Light colored background with subtle border (default) |
+| `:outline` | White background with prominent colored border |
+| `:ghost` | Transparent background, colored text only |
+| `:soft` | Very light background with minimal border |
+| `:bordered` | Neutral white background with gray border (variant-agnostic) |
 
 ### Slots
 
-- `header` - Top section of the card
+- `header` - Top section of the card (separated from body with divider)
 - `body` - Main content area
-- `footer` - Bottom section of the card
+- `footer` - Bottom section of the card (separated from body with divider)
 
 ### Usage Examples
 
@@ -657,8 +701,461 @@ Multi-line text input with adjustable rows and resize behavior.
   name: "user[bio]",
   label: "Bio",
   rows: 6,
-  resize: "none"
+  resize: :none
 ) %>
+```
+
+---
+
+### Forms::CheckboxComponent
+
+#### Description
+
+A checkbox input component with support for labels, hints, errors, and color variants. Unlike text inputs, the label appears inline (left or right) with the checkbox.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | String | Required | Input field name attribute |
+| `value` | String | `"1"` | Value submitted when checkbox is checked |
+| `checked` | Boolean | `false` | Whether checkbox is initially checked |
+| `label` | String | `nil` | Label text displayed next to checkbox |
+| `hint` | String | `nil` | Hint text below the checkbox |
+| `variant` | Symbol | `:primary` | Color variant (see VARIANTS) |
+| `size` | Symbol | `:md` | Size: `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `label_position` | Symbol | `:right` | Label position: `:left`, `:right` |
+| `disabled` | Boolean | `false` | Disables the checkbox |
+| `readonly` | Boolean | `false` | Makes checkbox read-only |
+| `required` | Boolean | `false` | Marks field as required |
+| `errors` | Array<String> | `[]` | Validation error messages |
+| `container_classes` | String | `nil` | Container CSS classes |
+| `label_classes` | String | `nil` | Label CSS classes |
+| `checkbox_classes` | String | `nil` | Checkbox element CSS classes |
+| `hint_classes` | String | `nil` | Hint text CSS classes |
+| `error_classes` | String | `nil` | Error message CSS classes |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Usage Examples
+
+##### Basic Checkbox
+
+```erb
+<%= render BetterUi::Forms::CheckboxComponent.new(
+  name: "user[terms]",
+  label: "I agree to the terms and conditions"
+) %>
+```
+
+##### Checkbox with Different Variant
+
+```erb
+<%= render BetterUi::Forms::CheckboxComponent.new(
+  name: "settings[notifications]",
+  label: "Enable notifications",
+  variant: :success,
+  checked: true
+) %>
+```
+
+##### Checkbox with Label on Left
+
+```erb
+<%= render BetterUi::Forms::CheckboxComponent.new(
+  name: "user[active]",
+  label: "Active",
+  label_position: :left
+) %>
+```
+
+##### With Validation Errors
+
+```erb
+<%= render BetterUi::Forms::CheckboxComponent.new(
+  name: "user[terms]",
+  label: "I agree to the terms",
+  errors: ["You must agree to the terms"]
+) %>
+```
+
+---
+
+### Forms::CheckboxGroupComponent
+
+#### Description
+
+A checkbox group component for selecting multiple options from a collection. Renders a group of checkboxes within a fieldset, supporting both vertical and horizontal orientations.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | String | Required | Base name attribute for the checkboxes |
+| `collection` | Array | `[]` | Options array (see Collection Format) |
+| `selected` | Array/String | `[]` | Currently selected value(s) |
+| `legend` | String | `nil` | Legend text for the fieldset |
+| `hint` | String | `nil` | Hint text below the checkboxes |
+| `variant` | Symbol | `:primary` | Color variant for all checkboxes |
+| `size` | Symbol | `:md` | Size: `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `orientation` | Symbol | `:vertical` | Layout: `:vertical`, `:horizontal` |
+| `disabled` | Boolean | `false` | Disables all checkboxes |
+| `required` | Boolean | `false` | Marks field as required |
+| `errors` | Array<String> | `[]` | Validation error messages |
+| `container_classes` | String | `nil` | Container CSS classes |
+| `legend_classes` | String | `nil` | Legend CSS classes |
+| `items_classes` | String | `nil` | Items container CSS classes |
+| `hint_classes` | String | `nil` | Hint text CSS classes |
+| `error_classes` | String | `nil` | Error message CSS classes |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Collection Format
+
+The `collection` parameter accepts two formats:
+
+```ruby
+# Simple array of values (label = humanized value)
+["Admin", "Editor", "Viewer"]
+
+# Array of [label, value] pairs
+[["Admin User", "admin"], ["Editor", "editor"], ["Viewer", "viewer"]]
+```
+
+#### Usage Examples
+
+##### Basic Checkbox Group
+
+```erb
+<%= render BetterUi::Forms::CheckboxGroupComponent.new(
+  name: "user[roles]",
+  collection: ["Admin", "Editor", "Viewer"],
+  legend: "User Roles"
+) %>
+```
+
+##### With Label/Value Pairs and Pre-selected Values
+
+```erb
+<%= render BetterUi::Forms::CheckboxGroupComponent.new(
+  name: "user[permissions]",
+  collection: [["Read", "read"], ["Write", "write"], ["Delete", "delete"]],
+  selected: ["read", "write"],
+  legend: "Permissions"
+) %>
+```
+
+##### Horizontal Orientation
+
+```erb
+<%= render BetterUi::Forms::CheckboxGroupComponent.new(
+  name: "options",
+  collection: ["Option A", "Option B", "Option C"],
+  orientation: :horizontal
+) %>
+```
+
+##### With Validation Errors
+
+```erb
+<%= render BetterUi::Forms::CheckboxGroupComponent.new(
+  name: "user[interests]",
+  collection: ["Sports", "Music", "Art"],
+  errors: ["Please select at least one interest"]
+) %>
+```
+
+---
+
+## Drawer Components
+
+The Drawer components provide a complete responsive layout system with a header, sidebar navigation, and main content area. On mobile, the sidebar becomes a slide-out drawer.
+
+### Drawer::LayoutComponent
+
+#### Description
+
+A responsive layout component that composes header and sidebar with mobile drawer support. Provides a complete page layout with sticky header, responsive sidebar, and main content area.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sidebar_position` | Symbol | `:left` | Sidebar position: `:left`, `:right` |
+| `sidebar_breakpoint` | Symbol | `:lg` | Desktop breakpoint: `:md`, `:lg`, `:xl` |
+| `container_classes` | String | `nil` | Additional CSS classes for outer container |
+| `main_classes` | String | `nil` | Additional CSS classes for main content area |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Slots
+
+- `header` - Renders a HeaderComponent for the top navigation
+- `sidebar` - Renders a SidebarComponent for the side navigation
+- `main` - Main content area
+
+#### Stimulus Controller
+
+The layout component includes a `better-ui--drawer--layout` Stimulus controller that handles:
+- Mobile drawer toggle (open/close)
+- Overlay click to close
+- Responsive behavior at breakpoints
+
+#### Usage Examples
+
+##### Basic Layout
+
+```erb
+<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+  <% layout.with_header(sticky: true) do |header| %>
+    <% header.with_logo { image_tag("logo.svg") } %>
+    <% header.with_mobile_menu_button do %>
+      <button data-action="click->better-ui--drawer--layout#toggle">☰</button>
+    <% end %>
+  <% end %>
+  <% layout.with_sidebar do |sidebar| %>
+    <% sidebar.with_navigation { render "shared/nav" } %>
+  <% end %>
+  <% layout.with_main do %>
+    <%= yield %>
+  <% end %>
+<% end %>
+```
+
+##### Right-Positioned Sidebar
+
+```erb
+<%= render BetterUi::Drawer::LayoutComponent.new(sidebar_position: :right) do |layout| %>
+  <% layout.with_sidebar(position: :right) do |sidebar| %>
+    <% sidebar.with_navigation { "Settings Panel" } %>
+  <% end %>
+  <% layout.with_main { "Content" } %>
+<% end %>
+```
+
+---
+
+### Drawer::HeaderComponent
+
+#### Description
+
+A flexible header component for drawer layouts with support for logo, navigation, and actions. Supports sticky positioning and multiple visual variants.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:light` | Visual variant: `:light`, `:dark`, `:transparent`, `:primary` |
+| `sticky` | Boolean | `true` | Whether header is sticky at top |
+| `height` | Symbol | `:md` | Height: `:sm` (48px), `:md` (64px), `:lg` (80px) |
+| `container_classes` | String | `nil` | Additional CSS classes |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Slots
+
+- `logo` - Logo/brand section (left side)
+- `navigation` - Main navigation (center, hidden on mobile)
+- `actions` - Actions section (right side, user menu, etc.)
+- `mobile_menu_button` - Mobile menu toggle (visible on mobile only)
+
+#### Usage Examples
+
+```erb
+<%= render BetterUi::Drawer::HeaderComponent.new(
+  sticky: true,
+  variant: :light
+) do |header| %>
+  <% header.with_logo { image_tag("logo.svg", class: "h-8") } %>
+  <% header.with_navigation do %>
+    <nav class="flex gap-4">
+      <%= link_to "Home", root_path %>
+      <%= link_to "About", about_path %>
+    </nav>
+  <% end %>
+  <% header.with_mobile_menu_button do %>
+    <button class="p-2">☰</button>
+  <% end %>
+  <% header.with_actions do %>
+    <%= link_to "Sign In", sign_in_path %>
+  <% end %>
+<% end %>
+```
+
+---
+
+### Drawer::SidebarComponent
+
+#### Description
+
+A flexible sidebar component for drawer layouts with support for header, navigation, and footer sections. Configurable width and visual variants.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:light` | Visual variant: `:light`, `:dark`, `:primary` |
+| `position` | Symbol | `:left` | Position: `:left`, `:right` |
+| `width` | Symbol | `:md` | Width: `:sm` (64px), `:md` (256px), `:lg` (320px) |
+| `collapsible` | Boolean | `true` | Whether sidebar can be collapsed |
+| `container_classes` | String | `nil` | Additional CSS classes for container |
+| `header_classes` | String | `nil` | Additional CSS classes for header section |
+| `navigation_classes` | String | `nil` | Additional CSS classes for navigation |
+| `footer_classes` | String | `nil` | Additional CSS classes for footer section |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Slots
+
+- `header` - Sidebar header section (logo, brand)
+- `navigation` - Main navigation content
+- `footer` - Footer section (user info, settings)
+
+#### Usage Examples
+
+```erb
+<%= render BetterUi::Drawer::SidebarComponent.new(
+  variant: :light,
+  width: :md
+) do |sidebar| %>
+  <% sidebar.with_header { image_tag("logo.svg") } %>
+  <% sidebar.with_navigation do %>
+    <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Main") do |group| %>
+      <% group.with_item(label: "Dashboard", href: dashboard_path, active: true) %>
+      <% group.with_item(label: "Settings", href: settings_path) %>
+    <% end %>
+  <% end %>
+  <% sidebar.with_footer { "User Info" } %>
+<% end %>
+```
+
+---
+
+### Drawer::NavItemComponent
+
+#### Description
+
+A navigation item component for sidebar menus with icon, label, and badge support.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `label` | String | Required | Link text |
+| `href` | String | Required | Link URL |
+| `active` | Boolean | `false` | Whether item is currently active |
+| `method` | Symbol | `nil` | HTTP method: `:get`, `:post`, `:put`, `:patch`, `:delete` |
+| `variant` | Symbol | `:light` | Color variant: `:light`, `:dark`, `:primary` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Slots
+
+- `icon` - Icon displayed before the label
+- `badge` - Badge/counter displayed after the label
+
+#### Usage Examples
+
+##### Basic Nav Item
+
+```erb
+<%= render BetterUi::Drawer::NavItemComponent.new(
+  label: "Dashboard",
+  href: dashboard_path
+) %>
+```
+
+##### With Icon and Active State
+
+```erb
+<%= render BetterUi::Drawer::NavItemComponent.new(
+  label: "Dashboard",
+  href: dashboard_path,
+  active: true
+) do |item| %>
+  <% item.with_icon do %>
+    <svg class="w-5 h-5"><!-- icon --></svg>
+  <% end %>
+<% end %>
+```
+
+##### With Badge
+
+```erb
+<%= render BetterUi::Drawer::NavItemComponent.new(
+  label: "Messages",
+  href: messages_path
+) do |item| %>
+  <% item.with_icon { "📧" } %>
+  <% item.with_badge { "5" } %>
+<% end %>
+```
+
+##### Logout with HTTP Method
+
+```erb
+<%= render BetterUi::Drawer::NavItemComponent.new(
+  label: "Logout",
+  href: logout_path,
+  method: :delete
+) %>
+```
+
+---
+
+### Drawer::NavGroupComponent
+
+#### Description
+
+A navigation group component for sidebar menus with a title and collection of items. Groups related navigation items together.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `title` | String | `nil` | Group title (optional) |
+| `variant` | Symbol | `:light` | Color variant: `:light`, `:dark`, `:primary` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+| `**options` | Hash | `{}` | Additional HTML attributes |
+
+#### Slots
+
+- `items` - Navigation items (renders NavItemComponent)
+
+The `items` slot accepts the same parameters as `NavItemComponent`:
+- `label` - Item label (required)
+- `href` - Item URL (required)
+- `active` - Whether item is active
+- `method` - HTTP method
+
+#### Usage Examples
+
+##### Basic Nav Group
+
+```erb
+<%= render BetterUi::Drawer::NavGroupComponent.new(title: "Main") do |group| %>
+  <% group.with_item(label: "Dashboard", href: dashboard_path, active: true) do |item| %>
+    <% item.with_icon { "🏠" } %>
+  <% end %>
+  <% group.with_item(label: "Settings", href: settings_path) do |item| %>
+    <% item.with_icon { "⚙️" } %>
+  <% end %>
+<% end %>
+```
+
+##### Without Title
+
+```erb
+<%= render BetterUi::Drawer::NavGroupComponent.new do |group| %>
+  <% group.with_item(label: "Home", href: root_path) %>
+  <% group.with_item(label: "Profile", href: profile_path) %>
+<% end %>
+```
+
+##### For Dark Sidebar
+
+```erb
+<%= render BetterUi::Drawer::NavGroupComponent.new(
+  title: "Menu",
+  variant: :dark
+) do |group| %>
+  <% group.with_item(label: "Dashboard", href: "/") %>
+<% end %>
 ```
 
 ---
@@ -720,6 +1217,34 @@ Renders a textarea field.
   hint: "Maximum 500 characters" %>
 ```
 
+#### bui_checkbox(attribute, options = {})
+
+Renders a checkbox field.
+
+```erb
+<%= f.bui_checkbox :newsletter,
+  label: "Subscribe to newsletter" %>
+
+<%= f.bui_checkbox :terms,
+  label: "I agree to the terms",
+  variant: :success %>
+```
+
+#### bui_checkbox_group(attribute, collection, options = {})
+
+Renders a checkbox group for multiple selections.
+
+```erb
+<%= f.bui_checkbox_group :roles,
+  [["Admin", "admin"], ["Editor", "editor"], ["Viewer", "viewer"]],
+  legend: "User Roles",
+  selected: @user.roles %>
+
+<%= f.bui_checkbox_group :interests,
+  ["Sports", "Music", "Art"],
+  orientation: :horizontal %>
+```
+
 ### Complete Form Example
 
 ```erb
@@ -742,15 +1267,21 @@ Renders a textarea field.
 
     <%= f.ui_textarea :bio, rows: 4, maxlength: 200 %>
 
+    <%= f.bui_checkbox :newsletter, label: "Subscribe to newsletter" %>
+
+    <%= f.bui_checkbox_group :roles,
+      [["Admin", "admin"], ["Editor", "editor"]],
+      legend: "User Roles" %>
+
     <div class="flex gap-2">
       <%= render BetterUi::ButtonComponent.new(
         label: "Cancel",
-        variant: "secondary",
-        style: "ghost"
+        variant: :secondary,
+        style: :ghost
       ) %>
       <%= render BetterUi::ButtonComponent.new(
         label: "Save User",
-        type: "submit",
+        type: :submit,
         show_loader_on_click: true
       ) %>
     </div>
