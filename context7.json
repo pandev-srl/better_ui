@@ -1,0 +1,40 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "BetterUi",
+  "description": "Rails 8.1+ ViewComponent UI library with Tailwind CSS v4 and OKLCH theming",
+  "folders": [
+    "doc",
+    "app/components",
+    "app/form_builders",
+    "lib"
+  ],
+  "excludeFolders": [
+    "test",
+    "spec",
+    "node_modules",
+    "assets/node_modules",
+    "tmp",
+    "coverage",
+    ".ruby-lsp",
+    ".claude",
+    ".github"
+  ],
+  "excludeFiles": [
+    "CHANGELOG.md",
+    "COVERAGE.md",
+    "MIT-LICENSE",
+    "Gemfile",
+    "Gemfile.lock",
+    "Rakefile",
+    "better_ui.gemspec"
+  ],
+  "rules": [
+    "Use BetterUi::UiFormBuilder for Rails form integration",
+    "Install both the gem (better_ui) and npm package (@pandev-srl/better-ui)",
+    "Add @source directive to scan vendor/bundle for Tailwind classes",
+    "Use literal Tailwind class strings - never interpolate class names",
+    "Register Stimulus controllers with registerControllers(application)",
+    "All components inherit from BetterUi::ApplicationComponent",
+    "Use OKLCH color space for theme customization"
+  ]
+}
