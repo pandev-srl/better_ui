@@ -96,5 +96,60 @@ module BetterUi
     def auto_loading_submit
       render_with_template
     end
+
+    # @label As Links
+    # @display bg_color #f5f5f5
+    def as_links
+      render_with_template
+    end
+
+    # @label Link States
+    def link_states
+      render_with_template
+    end
+
+    # @label External Links
+    def external_links
+      render_with_template
+    end
+
+    # @label Turbo Method Links
+    def turbo_method_links
+      render_with_template
+    end
+
+    # @label Link Playground
+    # @param variant select { choices: [primary, secondary, accent, success, danger, warning, info, light, dark] }
+    # @param style select { choices: [solid, outline, ghost, soft] }
+    # @param size select { choices: [xs, sm, md, lg, xl] }
+    # @param disabled toggle
+    # @param show_loader toggle
+    # @param show_loader_on_click toggle
+    # @param target select { choices: [none, blank, self] }
+    def link_playground(variant: :primary, style: :solid, size: :md, disabled: false, show_loader: false, show_loader_on_click: false, target: :none)
+      target_val = case target
+      when :blank then "_blank"
+      when :self then "_self"
+      else nil
+      end
+
+      # Convert to boolean - handles both true/false and "true"/"false"
+      disabled_bool = ActiveModel::Type::Boolean.new.cast(disabled)
+      show_loader_bool = ActiveModel::Type::Boolean.new.cast(show_loader)
+      show_loader_on_click_bool = ActiveModel::Type::Boolean.new.cast(show_loader_on_click)
+
+      render BetterUi::ButtonComponent.new(
+        href: "#",
+        variant: variant,
+        style: style,
+        size: size,
+        target: target_val,
+        disabled: disabled_bool,
+        show_loader: show_loader_bool,
+        show_loader_on_click: show_loader_on_click_bool
+      ) do
+        "Link Button"
+      end
+    end
   end
 end

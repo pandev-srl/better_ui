@@ -48,7 +48,7 @@
 
       <%= render BetterUi::ButtonComponent.new(
         variant: :primary,
-        loading: true,
+        show_loader: true,
         onclick: "alert('This should not fire')"
       ) do %>
         Loading (Click Won't Work)

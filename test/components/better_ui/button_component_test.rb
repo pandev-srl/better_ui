@@ -435,5 +435,140 @@ module BetterUi
       assert_selector "button.bg-danger-100"
       assert_selector "button.hover\\:bg-danger-200"
     end
+
+    # Link rendering tests
+    test "renders as anchor tag when href is provided" do
+      render_inline(ButtonComponent.new(href: "/users")) { "View Users" }
+
+      assert_selector "a[href='/users']", text: "View Users"
+      refute_selector "button"
+    end
+
+    test "renders as button when href is not provided" do
+      render_inline(ButtonComponent.new) { "Click me" }
+
+      assert_selector "button"
+      refute_selector "a"
+    end
+
+    test "applies all styles to link" do
+      render_inline(ButtonComponent.new(href: "/", variant: :success, style: :outline, size: :lg)) { "Link" }
+
+      assert_selector "a.border-success-600"
+      assert_selector "a.px-5"
+    end
+
+    test "renders link with target attribute" do
+      render_inline(ButtonComponent.new(href: "https://example.com", target: "_blank")) { "External" }
+
+      assert_selector "a[target='_blank']"
+    end
+
+    test "automatically adds rel noopener noreferrer for target blank" do
+      render_inline(ButtonComponent.new(href: "https://example.com", target: "_blank")) { "External" }
+
+      assert_selector "a[rel='noopener noreferrer']"
+    end
+
+    test "allows custom rel attribute" do
+      render_inline(ButtonComponent.new(href: "/", target: "_blank", rel: "nofollow")) { "Link" }
+
+      assert_selector "a[rel='nofollow']"
+    end
+
+    test "renders link with turbo method data attribute" do
+      render_inline(ButtonComponent.new(href: "/users/1", method: :delete)) { "Delete" }
+
+      assert_selector "a[data-turbo-method='delete']"
+    end
+
+    test "disabled link has aria-disabled and no href" do
+      render_inline(ButtonComponent.new(href: "/", disabled: true)) { "Disabled Link" }
+
+      assert_selector "a[aria-disabled='true']"
+      refute_selector "a[href]"
+      assert_selector "a.pointer-events-none"
+      assert_selector "a.opacity-50"
+    end
+
+    test "disabled link has tabindex -1" do
+      render_inline(ButtonComponent.new(href: "/", disabled: true)) { "Disabled Link" }
+
+      assert_selector "a[tabindex='-1']"
+    end
+
+    test "link with show_loader shows spinner and is disabled" do
+      render_inline(ButtonComponent.new(href: "/", show_loader: true)) { "Loading Link" }
+
+      assert_selector "a.pointer-events-none"
+      assert_selector "a[aria-disabled='true']"
+      assert_selector "svg.animate-spin"
+    end
+
+    test "link with show_loader_on_click has data attribute" do
+      render_inline(ButtonComponent.new(href: "/", show_loader_on_click: true)) { "Click Link" }
+
+      assert_selector "a[data-better-ui--button-show-loader-on-click-value='true']"
+    end
+
+    test "link includes Stimulus controller data attributes" do
+      render_inline(ButtonComponent.new(href: "/")) { "Link" }
+
+      assert_selector "a[data-controller='better-ui--button']"
+      assert_selector "a[data-action='click->better-ui--button#handleClick']"
+    end
+
+    test "link renders icon_before slot" do
+      render_inline(ButtonComponent.new(href: "/")) do |component|
+        component.with_icon_before { '<svg class="icon-before"></svg>'.html_safe }
+        "Link"
+      end
+
+      assert_selector "a svg.icon-before"
+    end
+
+    test "link renders icon_after slot" do
+      render_inline(ButtonComponent.new(href: "/")) do |component|
+        component.with_icon_after { '<svg class="icon-after"></svg>'.html_safe }
+        "Link"
+      end
+
+      assert_selector "a svg.icon-after"
+    end
+
+    test "type parameter is ignored when href is provided" do
+      render_inline(ButtonComponent.new(href: "/", type: :submit)) { "Link" }
+
+      assert_selector "a[href='/']"
+      refute_selector "a[type]"
+    end
+
+    test "renders all variants as links" do
+      BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant|
+        render_inline(ButtonComponent.new(href: "/", variant: variant)) { variant.to_s }
+        assert_selector "a"
+      end
+    end
+
+    test "passes through additional HTML options to links" do
+      render_inline(ButtonComponent.new(href: "/", id: "my-link", class: "extra-class")) { "Link" }
+
+      assert_selector "a#my-link"
+      assert_selector "a.extra-class"
+    end
+
+    test "link applies focus ring classes" do
+      render_inline(ButtonComponent.new(href: "/", variant: :primary)) { "Link" }
+
+      assert_selector "a.focus\\:ring-primary-500"
+      assert_selector "a.focus\\:ring-2"
+    end
+
+    test "link renders danger outline style" do
+      render_inline(ButtonComponent.new(href: "/", variant: :danger, style: :outline)) { "Delete" }
+
+      assert_selector "a.border-danger-600"
+      assert_selector "a.text-danger-600"
+    end
   end
 end

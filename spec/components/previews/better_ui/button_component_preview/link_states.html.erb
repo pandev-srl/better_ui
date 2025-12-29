@@ -1,0 +1,36 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Normal Link</h3>
+    <div class="flex gap-3">
+      <%= render BetterUi::ButtonComponent.new(href: "#") { "Click Me" } %>
+      <%= render BetterUi::ButtonComponent.new(href: "#", style: :outline) { "Outline Link" } %>
+      <%= render BetterUi::ButtonComponent.new(href: "#", style: :ghost) { "Ghost Link" } %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Disabled Links</h3>
+    <div class="flex gap-3">
+      <%= render BetterUi::ButtonComponent.new(href: "#", disabled: true) { "Disabled" } %>
+      <%= render BetterUi::ButtonComponent.new(href: "#", disabled: true, style: :outline) { "Disabled Outline" } %>
+      <%= render BetterUi::ButtonComponent.new(href: "#", disabled: true, variant: :danger) { "Disabled Danger" } %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Loading Links</h3>
+    <div class="flex gap-3">
+      <%= render BetterUi::ButtonComponent.new(href: "#", show_loader: true) { "Loading..." } %>
+      <%= render BetterUi::ButtonComponent.new(href: "#", show_loader: true, variant: :success) { "Loading Success" } %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Show Loader on Click</h3>
+    <p class="text-sm text-gray-600 mb-2">Click the links to see the loading state</p>
+    <div class="flex gap-3">
+      <%= render BetterUi::ButtonComponent.new(href: "#", show_loader_on_click: true) { "Click to Load" } %>
+      <%= render BetterUi::ButtonComponent.new(href: "#", show_loader_on_click: true, variant: :info) { "Info Link" } %>
+    </div>
+  </div>
+</div>

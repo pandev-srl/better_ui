@@ -24,6 +24,10 @@ module BetterUi
       show_loader_on_click: false,
       disabled: false,
       type: :button,
+      href: nil,
+      target: nil,
+      rel: nil,
+      method: nil,
       container_classes: nil,
       **options
     )
@@ -33,14 +37,23 @@ module BetterUi
       @show_loader = show_loader
       @show_loader_on_click = show_loader_on_click
       @disabled = disabled
-      @type = validate_type(type)
+      @type = validate_type(type) unless href
+      @href = href
+      @target = target
+      @rel = compute_rel(target, rel)
+      @method = method
       @container_classes = container_classes
       @options = options
     end
 
+    def link?
+      @href.present?
+    end
+
     private
 
-    attr_reader :variant, :style, :size, :show_loader, :show_loader_on_click, :disabled, :type, :container_classes, :options
+    attr_reader :variant, :style, :size, :show_loader, :show_loader_on_click, :disabled, :type,
+                :href, :target, :rel, :method, :container_classes, :options
 
     def component_classes
       css_classes([
@@ -53,6 +66,10 @@ module BetterUi
     end
 
     def component_attributes
+      link? ? link_attributes : button_attributes
+    end
+
+    def button_attributes
       data_attrs = {
         controller: "better-ui--button",
         action: "click->better-ui--button#handleClick"
@@ -66,6 +83,41 @@ module BetterUi
         data: data_attrs,
         **@options
       }
+    end
+
+    def link_attributes
+      data_attrs = {
+        controller: "better-ui--button",
+        action: "click->better-ui--button#handleClick"
+      }
+
+      data_attrs[:"better-ui--button-show-loader-on-click-value"] = @show_loader_on_click if @show_loader_on_click
+      data_attrs[:turbo_method] = @method if @method
+
+      attrs = {
+        href: disabled_or_loading? ? nil : @href,
+        target: @target,
+        rel: @rel,
+        data: data_attrs,
+        **@options
+      }
+
+      if disabled_or_loading?
+        attrs[:"aria-disabled"] = "true"
+        attrs[:tabindex] = "-1"
+      end
+
+      attrs.compact
+    end
+
+    def disabled_or_loading?
+      @disabled || @show_loader
+    end
+
+    def compute_rel(target, rel)
+      return rel if rel.present?
+      return "noopener noreferrer" if target == "_blank"
+      nil
     end
 
     def base_classes
@@ -214,8 +266,10 @@ module BetterUi
       classes = []
       if @disabled && !@show_loader
         classes << "opacity-50 cursor-not-allowed"
+        classes << "pointer-events-none" if link?
       elsif @show_loader
         classes << "cursor-wait"
+        classes << "pointer-events-none" if link?
       else
         classes << "cursor-pointer"
       end

@@ -116,6 +116,10 @@ A versatile button component with multiple styles, sizes, variants, and interact
 | `show_loader_on_click` | Boolean | `false` | Shows loader after click (via Stimulus) |
 | `disabled` | Boolean | `false` | Disables the button |
 | `type` | Symbol | `:button` | Button type: `:button`, `:submit`, `:reset` |
+| `href` | String | `nil` | URL - renders as `<a>` tag when provided |
+| `target` | String | `nil` | Link target: `_blank`, `_self`, etc. |
+| `rel` | String | auto | Link relationship (auto-set to `noopener noreferrer` for `_blank`) |
+| `method` | Symbol | `nil` | HTTP method via `data-turbo-method` |
 | `container_classes` | String | `nil` | Additional CSS classes |
 | `**options` | Hash | `{}` | Additional HTML attributes |
 
@@ -220,6 +224,59 @@ The button component includes a `better-ui--button` Stimulus controller that han
   <%= render BetterUi::ButtonComponent.new(label: "Cancel", variant: "secondary", style: "ghost") %>
   <%= render BetterUi::ButtonComponent.new(label: "Save", variant: "primary") %>
 </div>
+```
+
+### Link Mode
+
+When the `href` parameter is provided, the component renders as an `<a>` tag instead of `<button>`:
+
+#### Basic Link Button
+
+```erb
+<%= render BetterUi::ButtonComponent.new(href: users_path) { "View Users" } %>
+```
+
+#### External Link (New Tab)
+
+```erb
+<%= render BetterUi::ButtonComponent.new(
+  href: "https://example.com",
+  target: "_blank"
+) { "Visit Site" } %>
+```
+
+Note: `rel="noopener noreferrer"` is automatically added for security when `target="_blank"` is used.
+
+#### Destructive Action Link
+
+```erb
+<%= render BetterUi::ButtonComponent.new(
+  href: user_path(@user),
+  method: :delete,
+  variant: :danger,
+  style: :outline,
+  data: { turbo_confirm: "Are you sure?" }
+) { "Delete User" } %>
+```
+
+#### Disabled Link
+
+```erb
+<%= render BetterUi::ButtonComponent.new(
+  href: "/",
+  disabled: true
+) { "Coming Soon" } %>
+```
+
+Disabled links use `aria-disabled="true"`, remove the `href`, and add `pointer-events: none` for accessibility.
+
+#### Link with Loading State
+
+```erb
+<%= render BetterUi::ButtonComponent.new(
+  href: "/process",
+  show_loader_on_click: true
+) { "Process" } %>
 ```
 
 ---
