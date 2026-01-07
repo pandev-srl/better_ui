@@ -1,0 +1,182 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+
+class FullReleaser
+  COLORS = { red: 31, green: 32, yellow: 33, blue: 34, cyan: 36 }.freeze
+  ROOT_DIR = File.expand_path("..", __dir__)
+  BIN_DIR = File.join(ROOT_DIR, "bin")
+
+  def initialize(options = {})
+    @dry_run = options[:dry_run] || false
+    @skip_tests = options[:skip_tests] || false
+    @gem_only = options[:gem_only] || false
+    @npm_only = options[:npm_only] || false
+  end
+
+  def run
+    Dir.chdir(ROOT_DIR)
+
+    header("BetterUi Full Release")
+
+    if @gem_only && @npm_only
+      error("Cannot use both --gem-only and --npm-only")
+      exit 1
+    end
+
+    gem_success = true
+    npm_success = true
+
+    unless @npm_only
+      gem_success = release_gem
+    end
+
+    unless @gem_only
+      # Only proceed with npm if gem release succeeded (or was skipped)
+      if gem_success
+        npm_success = release_npm
+      else
+        warning("Skipping NPM release due to gem release failure")
+        npm_success = false
+      end
+    end
+
+    print_summary(gem_success, npm_success)
+
+    exit 1 unless gem_success && npm_success
+  rescue StandardError => e
+    error(e.message)
+    exit 1
+  end
+
+  private
+
+  def header(text)
+    puts "\n#{colorize("=" * 50, :cyan)}"
+    puts colorize(text.center(50), :cyan)
+    puts "#{colorize("=" * 50, :cyan)}\n\n"
+  end
+
+  def info(text)
+    puts "#{colorize("INFO", :blue)} #{text}"
+  end
+
+  def success(text)
+    puts "#{colorize("OK", :green)} #{text}"
+  end
+
+  def warning(text)
+    puts "#{colorize("WARN", :yellow)} #{text}"
+  end
+
+  def error(text)
+    puts "#{colorize("ERROR", :red)} #{text}"
+  end
+
+  def step(text)
+    puts "\n#{colorize(">>>", :cyan)} #{text}"
+  end
+
+  def colorize(text, color)
+    return text unless $stdout.tty?
+
+    "\e[#{COLORS[color]}m#{text}\e[0m"
+  end
+
+  def release_gem
+    step("Releasing Ruby Gem...")
+
+    args = []
+    args << "--dry-run" if @dry_run
+    args << "--skip-tests" if @skip_tests
+
+    script = File.join(BIN_DIR, "release_gem")
+    cmd = [script, *args].join(" ")
+
+    info("Running: #{cmd}")
+    result = system(cmd)
+
+    if result
+      success("Gem release completed")
+    else
+      error("Gem release failed")
+    end
+
+    result
+  end
+
+  def release_npm
+    step("Releasing NPM Package...")
+
+    args = []
+    args << "--dry-run" if @dry_run
+
+    script = File.join(BIN_DIR, "release_npm")
+    cmd = [script, *args].join(" ")
+
+    info("Running: #{cmd}")
+    result = system(cmd)
+
+    if result
+      success("NPM release completed")
+    else
+      error("NPM release failed")
+    end
+
+    result
+  end
+
+  def print_summary(gem_success, npm_success)
+    puts "\n"
+    header("Release Summary")
+
+    unless @npm_only
+      status = gem_success ? colorize("SUCCESS", :green) : colorize("FAILED", :red)
+      puts "  Gem Release:  #{status}"
+    end
+
+    unless @gem_only
+      status = npm_success ? colorize("SUCCESS", :green) : colorize("FAILED", :red)
+      puts "  NPM Release:  #{status}"
+    end
+
+    puts "\n"
+
+    if gem_success && npm_success
+      success("All releases completed successfully!")
+    else
+      error("Some releases failed. Check the output above for details.")
+    end
+  end
+end
+
+# Parse command line options
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  opts.on("-n", "--dry-run", "Show what would be done without doing it") do
+    options[:dry_run] = true
+  end
+
+  opts.on("-s", "--skip-tests", "Skip running tests and linting (gem only)") do
+    options[:skip_tests] = true
+  end
+
+  opts.on("-g", "--gem-only", "Release only the Ruby gem") do
+    options[:gem_only] = true
+  end
+
+  opts.on("-m", "--npm-only", "Release only the NPM package") do
+    options[:npm_only] = true
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+FullReleaser.new(options).run

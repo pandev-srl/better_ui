@@ -1,0 +1,308 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require "fileutils"
+require "json"
+
+class GemReleaser
+  COLORS = { red: 31, green: 32, yellow: 33, blue: 34, cyan: 36 }.freeze
+  ROOT_DIR = File.expand_path("..", __dir__)
+  VERSION_FILE = File.join(ROOT_DIR, "lib/better_ui/version.rb")
+  PACKAGE_JSON = File.join(ROOT_DIR, "assets/package.json")
+  CHANGELOG_FILE = File.join(ROOT_DIR, "CHANGELOG.md")
+  GEMSPEC_FILE = File.join(ROOT_DIR, "better_ui.gemspec")
+
+  def initialize(options = {})
+    @dry_run = options[:dry_run] || false
+    @skip_tests = options[:skip_tests] || false
+    @skip_push = options[:skip_push] || false
+  end
+
+  def run
+    Dir.chdir(ROOT_DIR)
+
+    header("BetterUi Gem Release")
+
+    check_git_clean!
+    version = read_version
+    check_version_sync!(version)
+    info("Version: #{version}")
+
+    unless @skip_tests
+      run_tests!
+      run_linting!
+    end
+
+    update_changelog(version)
+    commit_changelog(version)
+    create_tag(version)
+    build_gem(version)
+    push_gem(version)
+    push_to_remote(version) unless @skip_push
+
+    success("Release v#{version} completed!")
+  rescue StandardError => e
+    error(e.message)
+    exit 1
+  end
+
+  private
+
+  def header(text)
+    puts "\n#{colorize("=" * 50, :cyan)}"
+    puts colorize(text.center(50), :cyan)
+    puts "#{colorize("=" * 50, :cyan)}\n\n"
+  end
+
+  def info(text)
+    puts "#{colorize("INFO", :blue)} #{text}"
+  end
+
+  def success(text)
+    puts "#{colorize("OK", :green)} #{text}"
+  end
+
+  def warning(text)
+    puts "#{colorize("WARN", :yellow)} #{text}"
+  end
+
+  def error(text)
+    puts "#{colorize("ERROR", :red)} #{text}"
+  end
+
+  def step(text)
+    puts "\n#{colorize(">>>", :cyan)} #{text}"
+  end
+
+  def colorize(text, color)
+    return text unless $stdout.tty?
+
+    "\e[#{COLORS[color]}m#{text}\e[0m"
+  end
+
+  def run_command(cmd, allow_failure: false)
+    if @dry_run
+      puts "  #{colorize("[DRY-RUN]", :yellow)} #{cmd}"
+      return true
+    end
+
+    puts "  $ #{cmd}"
+    result = system(cmd)
+
+    unless result || allow_failure
+      raise "Command failed: #{cmd}"
+    end
+
+    result
+  end
+
+  def confirm(message)
+    return true if @dry_run
+
+    print "#{message} [y/N] "
+    answer = $stdin.gets&.strip&.downcase
+    answer == "y"
+  end
+
+  def check_git_clean!
+    step("Checking git status...")
+
+    status = `git status --porcelain`.strip
+    unless status.empty?
+      error("Working directory is not clean:")
+      puts status
+      raise "Please commit or stash your changes before releasing"
+    end
+
+    success("Working directory is clean")
+  end
+
+  def read_version
+    step("Reading version...")
+
+    content = File.read(VERSION_FILE)
+    match = content.match(/VERSION\s*=\s*["']([^"']+)["']/)
+
+    raise "Could not read version from #{VERSION_FILE}" unless match
+
+    match[1]
+  end
+
+  def check_version_sync!(gem_version)
+    step("Checking version sync...")
+
+    unless File.exist?(PACKAGE_JSON)
+      warning("package.json not found, skipping version sync check")
+      return
+    end
+
+    package = JSON.parse(File.read(PACKAGE_JSON))
+    npm_version = package["version"]
+
+    if gem_version != npm_version
+      error("Version mismatch!")
+      puts "  Gem version:     #{gem_version}"
+      puts "  NPM version:     #{npm_version}"
+      raise "Run 'rake better_ui:sync_version' to sync versions"
+    end
+
+    success("Versions in sync (#{gem_version})")
+  end
+
+  def run_tests!
+    step("Running tests...")
+
+    unless run_command("bundle exec rake test")
+      raise "Tests failed"
+    end
+
+    success("All tests passed")
+  end
+
+  def run_linting!
+    step("Running RuboCop...")
+
+    unless run_command("bundle exec rubocop")
+      raise "Linting failed"
+    end
+
+    success("No linting errors")
+  end
+
+  def update_changelog(version)
+    step("Updating CHANGELOG...")
+
+    unless File.exist?(CHANGELOG_FILE)
+      warning("CHANGELOG.md not found, skipping")
+      return
+    end
+
+    content = File.read(CHANGELOG_FILE)
+    today = Time.now.strftime("%Y-%m-%d")
+
+    # Check if there's content under [Unreleased]
+    unreleased_section = content.match(/## \[Unreleased\]\n(.*?)(?=\n## \[|$)/m)
+
+    if unreleased_section && unreleased_section[1].strip.empty?
+      warning("No changes under [Unreleased], skipping changelog update")
+      return
+    end
+
+    # Replace [Unreleased] content with new version
+    new_content = content.gsub(
+      /## \[Unreleased\]\n/,
+      "## [Unreleased]\n\n## [#{version}] - #{today}\n"
+    )
+
+    if @dry_run
+      info("[DRY-RUN] Would update CHANGELOG.md")
+      return
+    end
+
+    File.write(CHANGELOG_FILE, new_content)
+    success("Updated CHANGELOG.md with version #{version}")
+  end
+
+  def commit_changelog(version)
+    step("Committing CHANGELOG...")
+
+    # Check if there are changes to commit
+    status = `git status --porcelain CHANGELOG.md`.strip
+    if status.empty?
+      info("No CHANGELOG changes to commit")
+      return
+    end
+
+    run_command("git add CHANGELOG.md")
+    run_command("git commit -m \"chore: release v#{version}\"")
+    success("Committed CHANGELOG changes")
+  end
+
+  def create_tag(version)
+    step("Creating git tag...")
+
+    tag = "v#{version}"
+
+    # Check if tag already exists
+    existing_tags = `git tag -l #{tag}`.strip
+    unless existing_tags.empty?
+      raise "Tag #{tag} already exists"
+    end
+
+    run_command("git tag -a #{tag} -m \"Release #{tag}\"")
+    success("Created tag #{tag}")
+  end
+
+  def build_gem(version)
+    step("Building gem...")
+
+    gem_file = "better_ui-#{version}.gem"
+
+    # Remove old gem file if exists
+    FileUtils.rm_f(gem_file) unless @dry_run
+
+    run_command("gem build #{GEMSPEC_FILE}")
+    success("Built #{gem_file}")
+  end
+
+  def push_gem(version)
+    step("Pushing to RubyGems...")
+
+    gem_file = "better_ui-#{version}.gem"
+
+    unless @dry_run || File.exist?(gem_file)
+      raise "Gem file not found: #{gem_file}"
+    end
+
+    unless confirm("Push #{gem_file} to RubyGems?")
+      warning("Skipped gem push")
+      return
+    end
+
+    run_command("gem push #{gem_file}")
+    success("Pushed #{gem_file} to RubyGems")
+
+    # Clean up gem file
+    FileUtils.rm_f(gem_file) unless @dry_run
+  end
+
+  def push_to_remote(version)
+    step("Pushing to remote...")
+
+    unless confirm("Push commits and tag v#{version} to remote?")
+      warning("Skipped remote push")
+      return
+    end
+
+    run_command("git push")
+    run_command("git push --tags")
+    success("Pushed to remote")
+  end
+end
+
+# Parse command line options
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  opts.on("-n", "--dry-run", "Show what would be done without doing it") do
+    options[:dry_run] = true
+  end
+
+  opts.on("-s", "--skip-tests", "Skip running tests and linting") do
+    options[:skip_tests] = true
+  end
+
+  opts.on("-p", "--skip-push", "Skip pushing to remote") do
+    options[:skip_push] = true
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+GemReleaser.new(options).run

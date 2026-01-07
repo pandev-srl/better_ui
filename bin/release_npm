@@ -1,0 +1,228 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require "json"
+
+class NpmReleaser
+  COLORS = { red: 31, green: 32, yellow: 33, blue: 34, cyan: 36 }.freeze
+  ROOT_DIR = File.expand_path("..", __dir__)
+  ASSETS_DIR = File.join(ROOT_DIR, "assets")
+  DIST_DIR = File.join(ASSETS_DIR, "dist")
+  PACKAGE_JSON = File.join(ASSETS_DIR, "package.json")
+  VERSION_FILE = File.join(ROOT_DIR, "lib/better_ui/version.rb")
+
+  REQUIRED_DIST_FILES = %w[
+    better-ui.mjs
+    better-ui.umd.js
+    better-ui.css
+  ].freeze
+
+  def initialize(options = {})
+    @dry_run = options[:dry_run] || false
+    @skip_build = options[:skip_build] || false
+  end
+
+  def run
+    Dir.chdir(ROOT_DIR)
+
+    header("BetterUi NPM Release")
+
+    check_git_clean!
+    check_version_sync!
+    build_package unless @skip_build
+    verify_dist_files
+    version = read_npm_version
+    publish_package(version)
+
+    success("NPM release v#{version} completed!")
+  rescue StandardError => e
+    error(e.message)
+    exit 1
+  end
+
+  private
+
+  def header(text)
+    puts "\n#{colorize("=" * 50, :cyan)}"
+    puts colorize(text.center(50), :cyan)
+    puts "#{colorize("=" * 50, :cyan)}\n\n"
+  end
+
+  def info(text)
+    puts "#{colorize("INFO", :blue)} #{text}"
+  end
+
+  def success(text)
+    puts "#{colorize("OK", :green)} #{text}"
+  end
+
+  def warning(text)
+    puts "#{colorize("WARN", :yellow)} #{text}"
+  end
+
+  def error(text)
+    puts "#{colorize("ERROR", :red)} #{text}"
+  end
+
+  def step(text)
+    puts "\n#{colorize(">>>", :cyan)} #{text}"
+  end
+
+  def colorize(text, color)
+    return text unless $stdout.tty?
+
+    "\e[#{COLORS[color]}m#{text}\e[0m"
+  end
+
+  def run_command(cmd, allow_failure: false)
+    if @dry_run
+      puts "  #{colorize("[DRY-RUN]", :yellow)} #{cmd}"
+      return true
+    end
+
+    puts "  $ #{cmd}"
+    result = system(cmd)
+
+    unless result || allow_failure
+      raise "Command failed: #{cmd}"
+    end
+
+    result
+  end
+
+  def confirm(message)
+    return true if @dry_run
+
+    print "#{message} [y/N] "
+    answer = $stdin.gets&.strip&.downcase
+    answer == "y"
+  end
+
+  def check_git_clean!
+    step("Checking git status...")
+
+    status = `git status --porcelain`.strip
+    unless status.empty?
+      error("Working directory is not clean:")
+      puts status
+      raise "Please commit or stash your changes before releasing"
+    end
+
+    success("Working directory is clean")
+  end
+
+  def check_version_sync!
+    step("Checking version sync...")
+
+    content = File.read(VERSION_FILE)
+    match = content.match(/VERSION\s*=\s*["']([^"']+)["']/)
+    raise "Could not read gem version from #{VERSION_FILE}" unless match
+
+    gem_version = match[1]
+
+    package = JSON.parse(File.read(PACKAGE_JSON))
+    npm_version = package["version"]
+
+    if gem_version != npm_version
+      error("Version mismatch!")
+      puts "  Gem version:     #{gem_version}"
+      puts "  NPM version:     #{npm_version}"
+      raise "Run 'rake better_ui:sync_version' to sync versions"
+    end
+
+    success("Versions in sync (#{gem_version})")
+  end
+
+  def build_package
+    step("Building NPM package...")
+
+    run_command("bundle exec rake better_ui:build_npm")
+    success("NPM package built")
+  end
+
+  def verify_dist_files
+    step("Verifying dist files...")
+
+    missing_files = []
+
+    REQUIRED_DIST_FILES.each do |file|
+      path = File.join(DIST_DIR, file)
+      unless @dry_run || File.exist?(path)
+        missing_files << file
+      end
+    end
+
+    unless missing_files.empty?
+      error("Missing dist files:")
+      missing_files.each { |f| puts "  - #{f}" }
+      raise "Build verification failed. Run 'rake better_ui:build_npm' first."
+    end
+
+    success("All required dist files present")
+
+    # Show file sizes
+    info("Dist files:")
+    REQUIRED_DIST_FILES.each do |file|
+      path = File.join(DIST_DIR, file)
+      if File.exist?(path)
+        size = File.size(path)
+        size_kb = (size / 1024.0).round(2)
+        puts "  - #{file}: #{size_kb} KB"
+      end
+    end
+  end
+
+  def read_npm_version
+    step("Reading NPM version...")
+
+    unless File.exist?(PACKAGE_JSON)
+      raise "package.json not found at #{PACKAGE_JSON}"
+    end
+
+    package = JSON.parse(File.read(PACKAGE_JSON))
+    version = package["version"]
+
+    raise "No version found in package.json" unless version
+
+    info("NPM version: #{version}")
+    version
+  end
+
+  def publish_package(version)
+    step("Publishing to NPM...")
+
+    unless confirm("Publish @pandev-srl/better-ui v#{version} to NPM?")
+      warning("Skipped NPM publish")
+      return
+    end
+
+    Dir.chdir(ASSETS_DIR) do
+      run_command("npm publish --access public")
+    end
+
+    success("Published @pandev-srl/better-ui v#{version} to NPM")
+  end
+end
+
+# Parse command line options
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  opts.on("-n", "--dry-run", "Show what would be done without doing it") do
+    options[:dry_run] = true
+  end
+
+  opts.on("-b", "--skip-build", "Skip building (use existing dist)") do
+    options[:skip_build] = true
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+NpmReleaser.new(options).run
