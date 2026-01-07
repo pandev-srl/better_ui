@@ -138,7 +138,7 @@ module BetterUi
       # @api private
       def variant_classes
         config = HEADER_VARIANTS[@variant]
-        [config[:bg], config[:border], config[:text]]
+        [ config[:bg], config[:border], config[:text] ]
       end
 
       # Returns CSS classes for sticky positioning.

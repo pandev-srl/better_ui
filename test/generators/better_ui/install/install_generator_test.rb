@@ -71,7 +71,7 @@ module BetterUi
       end
 
       test "generator creates theme file with copy_theme option" do
-        run_generator ["--copy-theme"]
+        run_generator [ "--copy-theme" ]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/@theme inline/, content)
@@ -88,7 +88,7 @@ module BetterUi
       end
 
       test "theme file includes all color variants with full scales" do
-        run_generator ["--copy-theme"]
+        run_generator [ "--copy-theme" ]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           # Test that all 9 variants exist with their full color scales
@@ -102,7 +102,7 @@ module BetterUi
       end
 
       test "theme file includes utility classes" do
-        run_generator ["--copy-theme"]
+        run_generator [ "--copy-theme" ]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/\.text-heading-primary/, content)
@@ -113,7 +113,7 @@ module BetterUi
       end
 
       test "theme file includes typography tokens" do
-        run_generator ["--copy-theme"]
+        run_generator [ "--copy-theme" ]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/--font-family-sans:/, content)
@@ -123,7 +123,7 @@ module BetterUi
       end
 
       test "theme file uses OKLCH color space" do
-        run_generator ["--copy-theme"]
+        run_generator [ "--copy-theme" ]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           # Check that colors are defined using OKLCH format
@@ -152,7 +152,7 @@ module BetterUi
       end
 
       test "generator shows different CSS instructions when copy_theme is used" do
-        output = run_generator ["--copy-theme"]
+        output = run_generator [ "--copy-theme" ]
 
         # Check that it mentions the copied theme file
         assert_match(/Theme file copied to:/, output)

@@ -74,26 +74,26 @@ module BetterUi
 
     # bui_action_messages tests
     test "bui_action_messages renders ActionMessagesComponent" do
-      output = bui_action_messages(["Success!"], variant: :success)
+      output = bui_action_messages([ "Success!" ], variant: :success)
 
       assert_match(/Success!/, output)
     end
 
     test "bui_action_messages accepts multiple messages" do
-      output = bui_action_messages(["Error 1", "Error 2"], variant: :danger)
+      output = bui_action_messages([ "Error 1", "Error 2" ], variant: :danger)
 
       assert_match(/Error 1/, output)
       assert_match(/Error 2/, output)
     end
 
     test "bui_action_messages accepts title option" do
-      output = bui_action_messages(["Message"], title: "Alert Title")
+      output = bui_action_messages([ "Message" ], title: "Alert Title")
 
       assert_match(/Alert Title/, output)
     end
 
     test "bui_action_messages accepts dismissible option" do
-      output = bui_action_messages(["Message"], dismissible: true)
+      output = bui_action_messages([ "Message" ], dismissible: true)
 
       assert_match(/button/, output) # dismiss button
     end

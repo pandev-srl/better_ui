@@ -143,7 +143,7 @@ module BetterUi
       # @api private
       def variant_classes
         config = SIDEBAR_VARIANTS[@variant]
-        [config[:bg], config[:text]]
+        [ config[:bg], config[:text] ]
       end
 
       # Returns CSS classes for the border based on position.

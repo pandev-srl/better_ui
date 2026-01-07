@@ -10,7 +10,7 @@ SimpleCov.start "rails" do
 
   # Filter out non-Ruby files
   add_filter do |source_file|
-    !source_file.filename.end_with?('.rb')
+    !source_file.filename.end_with?(".rb")
   end
 
   # Filter out empty scaffold files that don't require testing
