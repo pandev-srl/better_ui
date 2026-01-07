@@ -128,7 +128,7 @@ class NpmReleaser
       error("Version mismatch!")
       puts "  Gem version:     #{gem_version}"
       puts "  NPM version:     #{npm_version}"
-      raise "Run 'rake better_ui:sync_version' to sync versions"
+      raise "Run 'rake app:better_ui:sync_version' to sync versions"
     end
 
     success("Versions in sync (#{gem_version})")
@@ -137,7 +137,7 @@ class NpmReleaser
   def build_package
     step("Building NPM package...")
 
-    run_command("bundle exec rake better_ui:build_npm")
+    run_command("bundle exec rake app:better_ui:build_npm")
     success("NPM package built")
   end
 
@@ -156,7 +156,7 @@ class NpmReleaser
     unless missing_files.empty?
       error("Missing dist files:")
       missing_files.each { |f| puts "  - #{f}" }
-      raise "Build verification failed. Run 'rake better_ui:build_npm' first."
+      raise "Build verification failed. Run 'rake app:better_ui:build_npm' first."
     end
 
     success("All required dist files present")

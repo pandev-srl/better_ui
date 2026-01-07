@@ -144,7 +144,7 @@ class GemReleaser
       error("Version mismatch!")
       puts "  Gem version:     #{gem_version}"
       puts "  NPM version:     #{npm_version}"
-      raise "Run 'rake better_ui:sync_version' to sync versions"
+      raise "Run 'rake app:better_ui:sync_version' to sync versions"
     end
 
     success("Versions in sync (#{gem_version})")
