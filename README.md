@@ -260,7 +260,7 @@ For development and testing, BetterUi includes a dummy Rails application:
 
 ```bash
 # Clone the repository
-git clone https://github.com/umbertopeserico/better_ui.git
+git clone https://github.com/pandev-srl/better_ui.git
 cd better_ui
 
 # Install dependencies
@@ -324,9 +324,9 @@ We welcome contributions! Please follow these guidelines:
 
 ## Support
 
-For bug reports and feature requests, please use the [GitHub Issues](https://github.com/umbertopeserico/better_ui/issues) page.
+For bug reports and feature requests, please use the [GitHub Issues](https://github.com/pandev-srl/better_ui/issues) page.
 
-For questions and discussions, use the [GitHub Discussions](https://github.com/umbertopeserico/better_ui/discussions) forum.
+For questions and discussions, use the [GitHub Discussions](https://github.com/pandev-srl/better_ui/discussions) forum.
 
 ## License
 

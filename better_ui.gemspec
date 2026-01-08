@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version     = BetterUi::VERSION
   spec.authors     = [ "Umberto Peserico" ]
   spec.email       = [ "umberto.peserico@pandev.it" ]
-  spec.homepage    = "https://github.com/alessiobussolari/better_ui"
+  spec.homepage    = "https://github.com/pandev-srl/better_ui"
   spec.summary     = "Elegant and reusable UI components for Rails with integrated documentation"
   spec.description = "Better UI is a Rails gem that works as a mountable engine containing reusable UI components, " \
                      "built with ViewComponent and Tailwind CSS, following the BEM methodology. " \
@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
-  spec.metadata["source_code_uri"] = "https://github.com/alessiobussolari/better_ui"
-  spec.metadata["changelog_uri"] = "https://github.com/alessiobussolari/better_ui/blob/main/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = "https://github.com/pandev-srl/better_ui"
+  spec.metadata["changelog_uri"] = "https://github.com/pandev-srl/better_ui/blob/main/CHANGELOG.md"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
