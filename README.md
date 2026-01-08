@@ -334,7 +334,7 @@ BetterUi is available as open source under the terms of the [MIT License](https:
 
 ## Credits
 
-Built with ❤️ by [Umberto Peserico](https://github.com/umbertopeserico) and contributors.
+Built with ❤️ by [Umberto Peserico](https://github.com/umbertopeserico) and [Alessio Bussolari](https://github.com/alessiobussolari).
 
 Powered by:
 - [ViewComponent](https://viewcomponent.org/) - GitHub's component framework for Rails
