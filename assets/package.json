@@ -48,13 +48,14 @@
   },
   "files": [
     "dist",
-    "src/css"
+    "src/css",
+    "README.md"
   ],
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build && yarn types",
     "types": "tsc --noEmit false --declaration true --emitDeclarationOnly true --outDir dist/types",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "cp ../README.md . && yarn build"
   },
   "peerDependencies": {
     "@hotwired/stimulus": "^3"
