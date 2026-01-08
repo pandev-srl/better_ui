@@ -1,6 +1,6 @@
 {
   "name": "@pandev-srl/better-ui",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "ViewComponent-based UI components with Tailwind CSS v4 styling",
   "keywords": [
     "rails",
