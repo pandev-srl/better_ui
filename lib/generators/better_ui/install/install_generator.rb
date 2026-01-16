@@ -7,7 +7,7 @@ module BetterUi
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path("templates", __dir__)
 
-      class_option :copy_theme, type: :boolean, default: false,
+      class_option :copy_theme, type: :boolean, default: true,
         desc: "Copy theme CSS file for customization instead of using npm package default"
 
       desc "Installs BetterUi npm package and configures your Rails application"

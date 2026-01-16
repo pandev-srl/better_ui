@@ -145,10 +145,12 @@ registerControllers(application)
 ```
 
 **Theme features**:
-- 9 color variants with 11 shades each (50-950)
+- 9 semantic color variants with 11 shades each (50-950)
+- Grayscale utility colors for neutral elements
 - OKLCH color space for perceptually uniform colors
 - CSS custom properties: `--color-{variant}-{shade}`
 - Typography, spacing, shadows defined in `@theme inline` block
+- Theme file contains **only design tokens** (no utility classes)
 
 ### Test Structure
 

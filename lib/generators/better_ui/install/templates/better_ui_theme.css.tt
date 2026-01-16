@@ -138,6 +138,19 @@
   --color-dark-900: oklch(0.16 0.02 240);
   --color-dark-950: oklch(0.10 0.02 240);
 
+  /* Grayscale - Additional utility grays */
+  --color-grayscale-50: oklch(0.98 0.00 0);
+  --color-grayscale-100: oklch(0.96 0.00 0);
+  --color-grayscale-200: oklch(0.92 0.00 0);
+  --color-grayscale-300: oklch(0.84 0.00 0);
+  --color-grayscale-400: oklch(0.68 0.00 0);
+  --color-grayscale-500: oklch(0.52 0.00 0);
+  --color-grayscale-600: oklch(0.42 0.00 0);
+  --color-grayscale-700: oklch(0.34 0.00 0);
+  --color-grayscale-800: oklch(0.26 0.00 0);
+  --color-grayscale-900: oklch(0.18 0.00 0);
+  --color-grayscale-950: oklch(0.10 0.00 0);
+
   /* ============================================
      TYPOGRAPHY
      ============================================ */
@@ -188,93 +201,4 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-}
-
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-
-@layer utilities {
-  /* Heading text colors for each variant */
-  .text-heading-primary {
-    @apply text-primary-700 dark:text-primary-300;
-  }
-
-  .text-heading-secondary {
-    @apply text-secondary-700 dark:text-secondary-300;
-  }
-
-  .text-heading-accent {
-    @apply text-accent-700 dark:text-accent-300;
-  }
-
-  .text-heading-success {
-    @apply text-success-700 dark:text-success-300;
-  }
-
-  .text-heading-danger {
-    @apply text-danger-700 dark:text-danger-300;
-  }
-
-  .text-heading-warning {
-    @apply text-warning-700 dark:text-warning-300;
-  }
-
-  .text-heading-info {
-    @apply text-info-700 dark:text-info-300;
-  }
-
-  .text-heading-light {
-    @apply text-light-700 dark:text-light-300;
-  }
-
-  .text-heading-dark {
-    @apply text-dark-700 dark:text-dark-300;
-  }
-
-  /* Hide number input spinners */
-  .no-spinner::-webkit-inner-spin-button,
-  .no-spinner::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  .no-spinner {
-    -moz-appearance: textfield;
-    appearance: textfield;
-  }
-
-  /* Focus ring utilities */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-  }
-
-  .focus-ring-inset {
-    @apply focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500;
-  }
-
-  /* Smooth scrolling */
-  .scroll-smooth {
-    scroll-behavior: smooth;
-  }
-
-  /* Truncate text */
-  .truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* Glass morphism effect */
-  .glass {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .glass-dark {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
 }

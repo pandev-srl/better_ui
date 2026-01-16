@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-01-16
+
+### Added
+- **Grayscale color variant**: Added `grayscale` utility colors (50-950 shades) for neutral elements like borders, dividers, and disabled states
+
+### Changed
+- **Install generator**: `copy_theme` option now defaults to `true` - theme file is copied by default for easier customization. Use `--no-copy-theme` to skip.
+- **Theme template**: `better_ui_theme.css.tt` now contains only design tokens (CSS custom properties). Utility classes moved to separate `typography` and `utilities` modules.
+
+## [0.7.1] - 2026-01-15
+
 ### Added
 - Initial release of BetterUi Rails engine gem
 - Rails 8.1+ compatibility with isolated namespace pattern

@@ -64,14 +64,8 @@ module BetterUi
         assert_includes captured_commands, "pnpm add @pandev-srl/better-ui"
       end
 
-      test "generator does not create theme file by default" do
+      test "generator creates theme file by default" do
         run_generator
-
-        assert_no_file "app/assets/stylesheets/better_ui_theme.css"
-      end
-
-      test "generator creates theme file with copy_theme option" do
-        run_generator [ "--copy-theme" ]
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/@theme inline/, content)
@@ -87,12 +81,18 @@ module BetterUi
         end
       end
 
+      test "generator does not create theme file with no_copy_theme option" do
+        run_generator [ "--no-copy-theme" ]
+
+        assert_no_file "app/assets/stylesheets/better_ui_theme.css"
+      end
+
       test "theme file includes all color variants with full scales" do
-        run_generator [ "--copy-theme" ]
+        run_generator
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
-          # Test that all 9 variants exist with their full color scales
-          %w[primary secondary accent success danger warning info light dark].each do |variant|
+          # Test that all 10 variants exist with their full color scales
+          %w[primary secondary accent success danger warning info light dark grayscale].each do |variant|
             %w[50 100 200 300 400 500 600 700 800 900 950].each do |scale|
               assert_match(/--color-#{variant}-#{scale}:/, content,
                            "Missing color: #{variant}-#{scale}")
@@ -101,19 +101,8 @@ module BetterUi
         end
       end
 
-      test "theme file includes utility classes" do
-        run_generator [ "--copy-theme" ]
-
-        assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
-          assert_match(/\.text-heading-primary/, content)
-          assert_match(/\.no-spinner/, content)
-          assert_match(/\.focus-ring/, content)
-          assert_match(/\.glass/, content)
-        end
-      end
-
       test "theme file includes typography tokens" do
-        run_generator [ "--copy-theme" ]
+        run_generator
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           assert_match(/--font-family-sans:/, content)
@@ -123,7 +112,7 @@ module BetterUi
       end
 
       test "theme file uses OKLCH color space" do
-        run_generator [ "--copy-theme" ]
+        run_generator
 
         assert_file "app/assets/stylesheets/better_ui_theme.css" do |content|
           # Check that colors are defined using OKLCH format
@@ -131,7 +120,7 @@ module BetterUi
         end
       end
 
-      test "generator shows post-install instructions" do
+      test "generator shows post-install instructions with theme copy message by default" do
         output = run_generator
 
         # Check for JavaScript setup instructions
@@ -139,8 +128,10 @@ module BetterUi
         assert_match(/registerControllers/, output)
         assert_match(/@pandev-srl\/better-ui/, output)
 
-        # Check for CSS setup instructions
+        # Check for CSS setup instructions (with copy_theme enabled by default)
         assert_match(/CSS Setup:/, output)
+        assert_match(/Theme file copied to:/, output)
+        assert_match(/better_ui_theme\.css/, output)
 
         # Check for Tailwind configuration instructions
         assert_match(/Tailwind Configuration:/, output)
@@ -151,12 +142,13 @@ module BetterUi
         assert_match(/BetterUi::ButtonComponent/, output)
       end
 
-      test "generator shows different CSS instructions when copy_theme is used" do
-        output = run_generator [ "--copy-theme" ]
+      test "generator shows different CSS instructions when no_copy_theme is used" do
+        output = run_generator [ "--no-copy-theme" ]
 
-        # Check that it mentions the copied theme file
-        assert_match(/Theme file copied to:/, output)
-        assert_match(/better_ui_theme\.css/, output)
+        # Check that it shows npm package import instructions
+        assert_match(/CSS Setup:/, output)
+        assert_match(/@pandev-srl\/better-ui\/css/, output)
+        assert_match(/@pandev-srl\/better-ui\/theme/, output)
       end
     end
   end

@@ -40,11 +40,12 @@ bin/rails generate better_ui:install
 
 This generator will:
 - Install the npm package automatically
+- Copy the theme CSS file for customization (default behavior)
 - Show configuration instructions
 
-Use `--copy-theme` flag to copy the theme CSS for customization:
+Use `--no-copy-theme` flag to skip copying the theme CSS file:
 ```bash
-bin/rails generate better_ui:install --copy-theme
+bin/rails generate better_ui:install --no-copy-theme
 ```
 
 ### 4. Configure JavaScript
@@ -122,10 +123,11 @@ The npm package provides:
 - `registerControllers()` - Helper to register all controllers
 
 **CSS (Theme):**
-- 9 color variants (primary, secondary, accent, success, danger, warning, info, light, dark)
+- 9 semantic color variants (primary, secondary, accent, success, danger, warning, info, light, dark)
+- Grayscale utility colors for neutral elements
 - 11 shades per variant (50-950) using OKLCH color space
 - Typography, spacing, border radius, and shadow tokens
-- Utility classes (focus rings, glass effects, etc.)
+- Utility classes (focus rings, glass effects, etc.) in separate modules
 
 ### Ruby Gem (better_ui)
 
@@ -189,15 +191,22 @@ Create a custom theme file and override the CSS variables:
 }
 ```
 
-### Copying Theme for Full Customization
+### Theme File for Full Customization
 
-Use the generator with `--copy-theme` flag:
+The generator copies the theme file to `app/assets/stylesheets/better_ui_theme.css` by default. This file contains only design tokens (CSS custom properties) that you can customize:
+
+- Color variants (primary, secondary, accent, etc.)
+- Grayscale colors
+- Typography tokens
+- Spacing and sizing tokens
+- Border radius values
+- Shadow definitions
+
+To skip copying the theme file and use the npm package defaults:
 
 ```bash
-bin/rails generate better_ui:install --copy-theme
+bin/rails generate better_ui:install --no-copy-theme
 ```
-
-This copies the theme file to `app/assets/stylesheets/better_ui_theme.css` for full customization.
 
 ## Vite Configuration
 

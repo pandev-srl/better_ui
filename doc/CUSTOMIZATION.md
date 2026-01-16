@@ -24,11 +24,11 @@ The BetterUi npm package (`@pandev-srl/better-ui`) provides modular CSS:
 | Import Path | Contents |
 |-------------|----------|
 | `@pandev-srl/better-ui/css` | Full bundle (all modules) |
-| `@pandev-srl/better-ui/theme` | Design tokens only (@theme inline) |
+| `@pandev-srl/better-ui/theme` | Design tokens only (@theme inline) - colors, typography, spacing, shadows |
 | `@pandev-srl/better-ui/typography` | Typography utilities (.text-heading-*) |
 | `@pandev-srl/better-ui/utilities` | General utilities (no-spinner, focus-ring, glass) |
 
-For customization, you typically copy the theme to your own `better_ui_theme.css` file and import individual modules as needed.
+The install generator copies the theme file (`better_ui_theme.css`) to your application by default. This file contains **only design tokens** (CSS custom properties), not utility classes. Utility classes are provided by the separate `typography` and `utilities` modules.
 
 ## Information Flow
 
@@ -67,6 +67,22 @@ BetterUi provides 9 semantic color variants, each with a specific purpose:
 | `info` | Informational | 500 | Tips, information messages |
 | `light` | Light elements | 100 | Light backgrounds, borders |
 | `dark` | Dark elements | 900 | Dark mode, high contrast |
+
+### Grayscale Utility Colors
+
+In addition to the 9 semantic variants, BetterUi provides a `grayscale` color set for neutral elements:
+
+| Variant | Purpose | Use Cases |
+|---------|---------|-----------|
+| `grayscale` | Neutral grays | Borders, dividers, disabled states, neutral backgrounds |
+
+Grayscale uses pure gray (hue 0) with zero chroma for true neutral colors:
+
+```css
+--color-grayscale-50: oklch(0.98 0.00 0);   /* Near white */
+--color-grayscale-500: oklch(0.52 0.00 0);  /* Medium gray */
+--color-grayscale-950: oklch(0.10 0.00 0);  /* Near black */
+```
 
 ### Color Scale Structure
 
