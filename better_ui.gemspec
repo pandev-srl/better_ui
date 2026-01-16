@@ -29,6 +29,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", "~> 8.1", ">= 8.1.1"
   spec.add_dependency "view_component", "~> 4.1"
-  spec.add_dependency "tailwind_merge", "~> 0.12"
+  spec.add_dependency "tailwind_merge", ">= 0.12", "< 2.0"
   spec.add_dependency "lookbook", "~> 2.3"
 end
