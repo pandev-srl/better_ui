@@ -48,7 +48,6 @@
 
     <% layout.with_sidebar do |sidebar| %>
       <% sidebar.with_navigation do %>
-        <nav class="space-y-6">
           <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Main") do |group| %>
             <% group.with_item(label: "Dashboard", href: "#", active: true) do |item| %>
               <% item.with_icon do %>
@@ -102,7 +101,6 @@
               <% end %>
             <% end %>
           <% end %>
-        </nav>
       <% end %>
       <% sidebar.with_footer do %>
         <div class="flex items-center">

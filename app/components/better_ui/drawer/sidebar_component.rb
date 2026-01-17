@@ -183,6 +183,7 @@ module BetterUi
           "flex-1",
           "overflow-y-auto",
           "p-4",
+          "space-y-6",
           @navigation_classes
         ].compact)
       end

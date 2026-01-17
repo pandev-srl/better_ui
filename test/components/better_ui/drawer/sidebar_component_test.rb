@@ -57,6 +57,14 @@ module BetterUi
         assert_selector "div.flex-1.overflow-y-auto"
       end
 
+      test "renders navigation wrapper with space-y-6 for spacing between nav groups" do
+        render_inline(SidebarComponent.new) do |sidebar|
+          sidebar.with_navigation { "Navigation content" }
+        end
+
+        assert_selector "div.flex-1.overflow-y-auto.space-y-6"
+      end
+
       test "renders default content in navigation area when no navigation slot" do
         render_inline(SidebarComponent.new) { "Default content" }
 
