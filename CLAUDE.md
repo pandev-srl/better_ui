@@ -85,11 +85,20 @@ ApplicationComponent (base class)
 ├── ButtonComponent (with Stimulus controller)
 ├── CardComponent (slots: header, body, footer)
 ├── ActionMessagesComponent (with Stimulus controller)
+│
+├── Drawer::LayoutComponent (with Stimulus controller, slots: header, sidebar, main)
+├── Drawer::HeaderComponent (slots: logo, navigation, actions)
+├── Drawer::SidebarComponent (slots: header, navigation, footer)
+├── Drawer::NavGroupComponent (slots: items)
+├── Drawer::NavItemComponent
+│
 └── Forms::BaseComponent (abstract base for form inputs)
     ├── Forms::TextInputComponent
     ├── Forms::NumberInputComponent
     ├── Forms::PasswordInputComponent (with Stimulus controller)
-    └── Forms::TextareaComponent
+    ├── Forms::TextareaComponent
+    ├── Forms::CheckboxComponent
+    └── Forms::CheckboxGroupComponent
 
 UiFormBuilder (Rails form builder, integrates all form components)
 ```
@@ -101,6 +110,7 @@ UiFormBuilder (Rails form builder, integrates all form components)
 1. **`better_ui.autoload_ignore`** - Excludes `lib/tasks` and `lib/generators` from Zeitwerk autoloading
 2. **`better_ui.view_component`** - Configures `app.config.view_component.previews.paths` for preview discovery
 3. **`better_ui.lookbook`** - Configures Lookbook component browser with `spec/components/previews/` path
+4. **`better_ui.helpers`** - Auto-includes `BetterUi::ApplicationHelper` in ActionView (makes `bui_*` helpers available automatically)
 
 ### JavaScript Architecture (Stimulus Controllers)
 
@@ -108,6 +118,7 @@ UiFormBuilder (Rails form builder, integrates all form components)
 - `assets/src/js/index.js` - Entry point with `registerControllers()` helper
 - `assets/src/js/button_controller.js` - Loading states and click handling
 - `assets/src/js/action_messages_controller.js` - Dismissible alerts with auto-dismiss timer
+- `assets/src/js/drawer/layout_controller.js` - Mobile drawer toggle (responsive sidebar)
 - `assets/src/js/forms/password_input_controller.js` - Password visibility toggle
 
 **Naming convention**: Stimulus identifiers use hyphens (e.g., `data-controller="better-ui--button"`), while file paths use underscores. This is critical for proper registration.
@@ -200,6 +211,7 @@ assets/
 │   │   ├── index.js      # Entry point + registerControllers()
 │   │   ├── button_controller.js
 │   │   ├── action_messages_controller.js
+│   │   ├── drawer/layout_controller.js
 │   │   └── forms/password_input_controller.js
 │   └── css/              # Theme CSS
 │       ├── index.css     # Entry point (imports all modules)
@@ -213,6 +225,23 @@ assets/
 ```
 
 ## Key Patterns
+
+### View Helpers
+
+BetterUi provides `bui_*` view helpers that are **automatically available** in all views (no manual include required):
+
+```erb
+<%# Preferred syntax - concise helpers %>
+<%= bui_button(label: "Save", variant: :success) %>
+<%= bui_card(size: :lg) do |c| %>
+  <% c.with_body { "Content" } %>
+<% end %>
+
+<%# Alternative - direct ViewComponent rendering %>
+<%= render BetterUi::ButtonComponent.new(label: "Save", variant: :success) %>
+```
+
+The auto-inclusion is handled by the `better_ui.helpers` initializer in `engine.rb`.
 
 ### Namespace Isolation
 

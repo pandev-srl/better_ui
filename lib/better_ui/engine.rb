@@ -40,5 +40,12 @@ module BetterUi
         Lookbook.config.preview_srcdoc = true
       end
     end
+
+    # Auto-include view helpers in host application
+    initializer "better_ui.helpers" do
+      ActiveSupport.on_load(:action_view) do
+        include BetterUi::ApplicationHelper
+      end
+    end
   end
 end

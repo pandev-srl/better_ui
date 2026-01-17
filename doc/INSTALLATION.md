@@ -140,12 +140,48 @@ The gem provides:
 - Form components (TextInput, NumberInput, PasswordInput, Textarea, Checkbox, CheckboxGroup)
 - Drawer components (Layout, Header, Sidebar, NavItem, NavGroup)
 
+**View Helpers:**
+- `BetterUi::ApplicationHelper` with `bui_*` helper methods (auto-included in all views)
+
 **Form Builder:**
 - `BetterUi::UiFormBuilder` for seamless Rails form integration
 
 ## Using Components
 
+### View Helpers (Recommended)
+
+BetterUi provides `bui_*` view helpers that are **automatically available** in all views - no setup required:
+
+```erb
+<%= bui_button(label: "Click me", variant: :primary, size: :lg) %>
+
+<%= bui_card(size: :lg) do |c| %>
+  <% c.with_header { "Card Title" } %>
+  <% c.with_body { "Card content" } %>
+<% end %>
+
+<%= bui_text_input(name: "email", label: "Email", placeholder: "you@example.com") %>
+
+<%= bui_drawer_layout do |layout| %>
+  <% layout.with_header do |header| %>
+    <% header.with_logo { "MyApp" } %>
+  <% end %>
+  <% layout.with_sidebar do |sidebar| %>
+    <% sidebar.with_navigation do %>
+      <%= bui_drawer_nav_group(title: "Menu") do |group| %>
+        <% group.with_item(label: "Dashboard", href: "/", active: true) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% layout.with_main { yield } %>
+<% end %>
+```
+
+**Available helpers:** `bui_button`, `bui_card`, `bui_action_messages`, `bui_text_input`, `bui_number_input`, `bui_password_input`, `bui_textarea`, `bui_checkbox`, `bui_checkbox_group`, `bui_drawer_layout`, `bui_drawer_sidebar`, `bui_drawer_header`, `bui_drawer_nav_item`, `bui_drawer_nav_group`.
+
 ### Direct Component Usage
+
+You can also use ViewComponent directly if you prefer the explicit syntax:
 
 ```erb
 <%= render BetterUi::ButtonComponent.new(

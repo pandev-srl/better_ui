@@ -44,13 +44,9 @@ registerControllers(application)
 /* @import "@pandev-srl/better-ui/utilities"; */
 ```
 
+**Start using components** - `bui_*` helpers are available automatically:
 ```erb
-<!-- In your views -->
-<%= render BetterUi::ButtonComponent.new(
-  label: "Get Started",
-  variant: "primary",
-  size: "lg"
-) %>
+<%= bui_button(label: "Get Started", variant: :primary, size: :lg) %>
 ```
 
 ## Features
@@ -59,6 +55,7 @@ registerControllers(application)
 - **ViewComponent Architecture**: Encapsulated, testable, and reusable components
 - **Tailwind CSS v4**: Leverages the latest Tailwind features with OKLCH color space
 - **Fully Customizable**: 9 semantic color variants with complete theme control
+- **View Helpers**: Concise `bui_*` helpers available automatically (no setup required)
 - **Form Builder Integration**: Seamless integration with Rails forms via `UiFormBuilder`
 - **Stimulus Controllers**: Interactive components with built-in JavaScript behaviors
 - **Accessible by Default**: ARIA attributes and keyboard navigation support
@@ -86,11 +83,7 @@ A versatile button component with multiple styles, sizes, and states.
 - **Features**: Loading states, icons, disabled states
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Save Changes",
-  variant: "success",
-  style: "solid"
-) do |c| %>
+<%= bui_button(label: "Save Changes", variant: :success, style: :solid) do |c| %>
   <% c.with_icon_before { "💾" } %>
 <% end %>
 ```
@@ -103,7 +96,7 @@ A flexible container component with customizable padding and optional slots.
 - **Slots**: header, body, footer
 
 ```erb
-<%= render BetterUi::CardComponent.new(size: :lg, style: :bordered) do |c| %>
+<%= bui_card(size: :lg, style: :bordered) do |c| %>
   <% c.with_header { "Card Title" } %>
   <% c.with_body { "Card content goes here" } %>
   <% c.with_footer { "Footer content" } %>
@@ -117,8 +110,8 @@ Display notifications, alerts, and validation messages with style.
 - **Features**: Dismissible, auto-dismiss, titles, icons
 
 ```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: "danger",
+<%= bui_action_messages(
+  variant: :danger,
   title: "Validation Errors",
   messages: @model.errors.full_messages,
   dismissible: true,
@@ -132,7 +125,7 @@ Display notifications, alerts, and validation messages with style.
 Standard text input with error handling and icon support.
 
 ```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
+<%= bui_text_input(
   name: "user[email]",
   label: "Email Address",
   hint: "We'll never share your email",
@@ -146,7 +139,7 @@ Standard text input with error handling and icon support.
 Numeric input with min/max validation and optional spinners.
 
 ```erb
-<%= render BetterUi::Forms::NumberInputComponent.new(
+<%= bui_number_input(
   name: "product[price]",
   label: "Price",
   min: 0,
@@ -161,7 +154,7 @@ Numeric input with min/max validation and optional spinners.
 Password field with visibility toggle functionality.
 
 ```erb
-<%= render BetterUi::Forms::PasswordInputComponent.new(
+<%= bui_password_input(
   name: "user[password]",
   label: "Password",
   hint: "Minimum 8 characters"
@@ -172,7 +165,7 @@ Password field with visibility toggle functionality.
 Multi-line text input with resizing options.
 
 ```erb
-<%= render BetterUi::Forms::TextareaComponent.new(
+<%= bui_textarea(
   name: "post[content]",
   label: "Content",
   rows: 6,
@@ -185,7 +178,7 @@ Multi-line text input with resizing options.
 Single checkbox with color variants and label positioning.
 
 ```erb
-<%= render BetterUi::Forms::CheckboxComponent.new(
+<%= bui_checkbox(
   name: "user[terms]",
   label: "I agree to the terms and conditions",
   variant: :primary
@@ -196,7 +189,7 @@ Single checkbox with color variants and label positioning.
 Multiple checkboxes for selecting from a collection.
 
 ```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
+<%= bui_checkbox_group(
   name: "user[roles]",
   collection: [["Admin", "admin"], ["Editor", "editor"]],
   legend: "User Roles",
@@ -215,13 +208,13 @@ BetterUi provides a complete drawer layout system for building responsive admin 
 - **NavGroupComponent**: Grouped navigation with titles
 
 ```erb
-<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+<%= bui_drawer_layout do |layout| %>
   <% layout.with_header do |header| %>
     <% header.with_logo { "MyApp" } %>
   <% end %>
   <% layout.with_sidebar do |sidebar| %>
     <% sidebar.with_navigation do %>
-      <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Menu") do |group| %>
+      <%= bui_drawer_nav_group(title: "Menu") do |group| %>
         <% group.with_item(label: "Dashboard", href: "/", active: true) %>
         <% group.with_item(label: "Settings", href: "/settings") %>
       <% end %>
@@ -246,6 +239,27 @@ BetterUi includes a custom form builder for seamless Rails form integration:
   <%= f.bui_checkbox_group :roles, [["Admin", "admin"], ["Editor", "editor"]] %>
 <% end %>
 ```
+
+## Available View Helpers
+
+| Helper | Component |
+|--------|-----------|
+| `bui_button` | ButtonComponent |
+| `bui_card` | CardComponent |
+| `bui_action_messages` | ActionMessagesComponent |
+| `bui_text_input` | Forms::TextInputComponent |
+| `bui_number_input` | Forms::NumberInputComponent |
+| `bui_password_input` | Forms::PasswordInputComponent |
+| `bui_textarea` | Forms::TextareaComponent |
+| `bui_checkbox` | Forms::CheckboxComponent |
+| `bui_checkbox_group` | Forms::CheckboxGroupComponent |
+| `bui_drawer_layout` | Drawer::LayoutComponent |
+| `bui_drawer_sidebar` | Drawer::SidebarComponent |
+| `bui_drawer_header` | Drawer::HeaderComponent |
+| `bui_drawer_nav_item` | Drawer::NavItemComponent |
+| `bui_drawer_nav_group` | Drawer::NavGroupComponent |
+
+> **Note**: You can also use ViewComponent directly with `render BetterUi::*Component.new(...)` if you prefer the explicit rendering syntax.
 
 ## Documentation
 
