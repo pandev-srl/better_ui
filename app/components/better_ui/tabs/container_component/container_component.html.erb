@@ -1,0 +1,40 @@
+<div class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+  <%# Tab list %>
+  <div role="tablist"
+       aria-label="Tabs"
+       class="<%= tablist_classes %> <%= tablist_order_class %>">
+    <% tabs.each do |tab| %>
+      <%= tab %>
+    <% end %>
+  </div>
+
+  <%# Panels container (only for JS mode) %>
+  <% if mode == :js && panels.any? %>
+    <div class="<%= panels_classes %> <%= panels_order_class %>">
+      <% panels.each do |panel| %>
+        <%= panel %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Loading overlay for Turbo mode %>
+  <% if mode == :turbo && show_loading %>
+    <div data-<%= controller_name %>-target="loader"
+         class="hidden fixed inset-0 z-50 pointer-events-none"
+         aria-hidden="true"
+         aria-live="polite">
+      <% if loader? %>
+        <%= loader %>
+      <% else %>
+        <div class="absolute bg-white/80 dark:bg-grayscale-900/80 flex items-center justify-center"
+             data-<%= controller_name %>-target="loaderOverlay">
+          <svg class="animate-spin h-8 w-8 <%= spinner_color_class %>" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="sr-only">Caricamento...</span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

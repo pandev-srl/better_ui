@@ -325,5 +325,79 @@ module BetterUi
     def bui_drawer_nav_group(**options, &block)
       render BetterUi::Drawer::NavGroupComponent.new(**options), &block
     end
+
+    # ============================================
+    # Tabs Components
+    # ============================================
+
+    # Renders a tabs container component.
+    #
+    # @param options [Hash] Options passed to Tabs::ContainerComponent
+    # @option options [Symbol] :mode Operating mode (:js, :turbo)
+    # @option options [Symbol] :style Visual style (:underline, :pills, :bordered)
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, etc.)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :alignment Tab alignment (:start, :center, :end, :stretch)
+    # @option options [Symbol] :position Tab list position (:top, :bottom, :left, :right)
+    # @option options [String, nil] :frame_id Turbo Frame ID (required for turbo mode)
+    # @option options [String, nil] :default_tab ID of the default active tab
+    # @option options [Boolean] :persist Persist active tab state
+    # @option options [String, nil] :persist_key localStorage key for persistence
+    # @yield [tabs] Block with tabs slots
+    # @yieldparam tabs [BetterUi::Tabs::ContainerComponent] The tabs container
+    # @return [String] Rendered HTML
+    #
+    # @example JS mode tabs
+    #   <%= bui_tabs(mode: :js, style: :underline) do |tabs| %>
+    #     <% tabs.with_tab(id: "profile", label: "Profile", active: true) %>
+    #     <% tabs.with_tab(id: "settings", label: "Settings") %>
+    #     <% tabs.with_panel(id: "profile", active: true) { "Profile content" } %>
+    #     <% tabs.with_panel(id: "settings") { "Settings content" } %>
+    #   <% end %>
+    #
+    # @example Turbo mode tabs
+    #   <%= bui_tabs(mode: :turbo, frame_id: "tab-content") do |tabs| %>
+    #     <% tabs.with_tab(id: "profile", label: "Profile", href: profile_path, active: true) %>
+    #     <% tabs.with_tab(id: "settings", label: "Settings", href: settings_path) %>
+    #   <% end %>
+    def bui_tabs(**options, &block)
+      render BetterUi::Tabs::ContainerComponent.new(**options), &block
+    end
+
+    # Renders a standalone tab component (used outside container context).
+    #
+    # @param id [String] Unique identifier for this tab
+    # @param label [String] Display text for the tab
+    # @param options [Hash] Options passed to Tabs::TabComponent
+    # @option options [String, nil] :href URL for Turbo mode navigation
+    # @option options [Boolean] :active Whether this tab is initially active
+    # @option options [Boolean] :disabled Whether this tab is disabled
+    # @yield [tab] Block with tab slots
+    # @return [String] Rendered HTML
+    #
+    # @example Tab with icon
+    #   <%= bui_tab(id: "messages", label: "Messages") do |tab| %>
+    #     <% tab.with_icon { icon_svg } %>
+    #     <% tab.with_badge { "3" } %>
+    #   <% end %>
+    def bui_tab(id:, label:, **options, &block)
+      render BetterUi::Tabs::TabComponent.new(id: id, label: label, **options), &block
+    end
+
+    # Renders a standalone tab panel component (used outside container context).
+    #
+    # @param id [String] Unique identifier matching the corresponding tab
+    # @param options [Hash] Options passed to Tabs::PanelComponent
+    # @option options [Boolean] :active Whether this panel is initially visible
+    # @yield Panel content
+    # @return [String] Rendered HTML
+    #
+    # @example Basic panel
+    #   <%= bui_tab_panel(id: "profile", active: true) do %>
+    #     <p>Profile content here</p>
+    #   <% end %>
+    def bui_tab_panel(id:, **options, &block)
+      render BetterUi::Tabs::PanelComponent.new(id: id, **options), &block
+    end
   end
 end

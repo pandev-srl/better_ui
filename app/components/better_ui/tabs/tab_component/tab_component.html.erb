@@ -1,0 +1,9 @@
+<%= content_tag(element_tag, html_attributes) do %>
+  <% if icon? %>
+    <span class="bui-tabs__tab-icon"><%= icon %></span>
+  <% end %>
+  <span class="bui-tabs__tab-label"><%= label %></span>
+  <% if badge? %>
+    <span class="bui-tabs__tab-badge"><%= badge %></span>
+  <% end %>
+<% end %>
