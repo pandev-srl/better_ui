@@ -1,0 +1,34 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Pills Style</h3>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :pills) do |tabs| %>
+    <% tabs.with_tab(id: "all", label: "All", active: true) %>
+    <% tabs.with_tab(id: "active", label: "Active") %>
+    <% tabs.with_tab(id: "draft", label: "Draft") %>
+    <% tabs.with_tab(id: "archived", label: "Archived") %>
+
+    <% tabs.with_panel(id: "all", active: true) do %>
+      <div class="p-4">
+        <p class="text-grayscale-600">Showing all items (15 total)</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "active") do %>
+      <div class="p-4">
+        <p class="text-grayscale-600">Showing active items (8 total)</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "draft") do %>
+      <div class="p-4">
+        <p class="text-grayscale-600">Showing draft items (4 total)</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "archived") do %>
+      <div class="p-4">
+        <p class="text-grayscale-600">Showing archived items (3 total)</p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

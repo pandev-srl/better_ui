@@ -1,0 +1,30 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Bordered Style</h3>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :bordered) do |tabs| %>
+    <% tabs.with_tab(id: "details", label: "Details", active: true) %>
+    <% tabs.with_tab(id: "reviews", label: "Reviews") %>
+    <% tabs.with_tab(id: "shipping", label: "Shipping") %>
+
+    <% tabs.with_panel(id: "details", active: true) do %>
+      <div class="p-4 border border-t-0 border-grayscale-200 rounded-b-lg">
+        <h4 class="font-medium mb-2">Product Details</h4>
+        <p class="text-grayscale-600">High-quality product with premium materials and craftsmanship.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "reviews") do %>
+      <div class="p-4 border border-t-0 border-grayscale-200 rounded-b-lg">
+        <h4 class="font-medium mb-2">Customer Reviews</h4>
+        <p class="text-grayscale-600">4.8 out of 5 stars (128 reviews)</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "shipping") do %>
+      <div class="p-4 border border-t-0 border-grayscale-200 rounded-b-lg">
+        <h4 class="font-medium mb-2">Shipping Information</h4>
+        <p class="text-grayscale-600">Free shipping on orders over $50. Delivery in 3-5 business days.</p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

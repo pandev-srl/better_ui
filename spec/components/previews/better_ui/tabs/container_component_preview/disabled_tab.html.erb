@@ -1,0 +1,65 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Tabs with Disabled State</h3>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :underline) do |tabs| %>
+    <% tabs.with_tab(id: "active", label: "Active Tab", active: true) %>
+    <% tabs.with_tab(id: "enabled", label: "Enabled Tab") %>
+    <% tabs.with_tab(id: "disabled", label: "Disabled Tab", disabled: true) %>
+    <% tabs.with_tab(id: "another", label: "Another Tab") %>
+
+    <% tabs.with_panel(id: "active", active: true) do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Active Tab Content</h4>
+        <p class="text-grayscale-600">This is the currently active tab.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "enabled") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Enabled Tab Content</h4>
+        <p class="text-grayscale-600">This tab can be selected.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "disabled") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Disabled Tab Content</h4>
+        <p class="text-grayscale-600">This content cannot be accessed because the tab is disabled.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "another") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Another Tab Content</h4>
+        <p class="text-grayscale-600">This is another selectable tab.</p>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="mt-8">
+    <h4 class="text-md font-semibold mb-4">Pills Style with Disabled</h4>
+    <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :pills, variant: :success) do |tabs| %>
+      <% tabs.with_tab(id: "pills-active", label: "Active", active: true) %>
+      <% tabs.with_tab(id: "pills-disabled", label: "Coming Soon", disabled: true) %>
+      <% tabs.with_tab(id: "pills-enabled", label: "Enabled") %>
+
+      <% tabs.with_panel(id: "pills-active", active: true) do %>
+        <div class="p-4">
+          <p class="text-grayscale-600">The "Coming Soon" tab is disabled.</p>
+        </div>
+      <% end %>
+
+      <% tabs.with_panel(id: "pills-disabled") do %>
+        <div class="p-4">
+          <p class="text-grayscale-600">Disabled content.</p>
+        </div>
+      <% end %>
+
+      <% tabs.with_panel(id: "pills-enabled") do %>
+        <div class="p-4">
+          <p class="text-grayscale-600">Enabled tab content.</p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

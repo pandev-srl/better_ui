@@ -1,0 +1,30 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Vertical Tabs (Right Position)</h3>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :pills, position: :right, variant: :accent) do |tabs| %>
+    <% tabs.with_tab(id: "overview", label: "Overview", active: true) %>
+    <% tabs.with_tab(id: "analytics", label: "Analytics") %>
+    <% tabs.with_tab(id: "reports", label: "Reports") %>
+
+    <% tabs.with_panel(id: "overview", active: true) do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Dashboard Overview</h4>
+        <p class="text-grayscale-600">View your dashboard metrics and key performance indicators.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "analytics") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Analytics Dashboard</h4>
+        <p class="text-grayscale-600">Dive deep into your analytics data and trends.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "reports") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Reports</h4>
+        <p class="text-grayscale-600">Generate and download custom reports.</p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

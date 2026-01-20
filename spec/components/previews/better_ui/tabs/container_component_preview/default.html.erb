@@ -1,0 +1,30 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Underline Style (Default)</h3>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :underline) do |tabs| %>
+    <% tabs.with_tab(id: "profile", label: "Profile", active: true) %>
+    <% tabs.with_tab(id: "account", label: "Account") %>
+    <% tabs.with_tab(id: "notifications", label: "Notifications") %>
+
+    <% tabs.with_panel(id: "profile", active: true) do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Profile Settings</h4>
+        <p class="text-grayscale-600">Manage your profile information and preferences.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "account") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Account Settings</h4>
+        <p class="text-grayscale-600">Update your account details and security settings.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "notifications") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Notification Preferences</h4>
+        <p class="text-grayscale-600">Choose how you want to receive notifications.</p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

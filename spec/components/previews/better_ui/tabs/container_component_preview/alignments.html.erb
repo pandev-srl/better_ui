@@ -1,0 +1,24 @@
+<div class="p-4 space-y-8">
+  <h3 class="text-lg font-semibold mb-4">Tab Alignments</h3>
+
+  <% %i[start center end].each do |alignment| %>
+    <div class="mb-6">
+      <p class="text-sm font-medium text-grayscale-500 mb-2 capitalize"><%= alignment %></p>
+      <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :pills, alignment: alignment) do |tabs| %>
+        <% tabs.with_tab(id: "#{alignment}-tab1", label: "First", active: true) %>
+        <% tabs.with_tab(id: "#{alignment}-tab2", label: "Second") %>
+        <% tabs.with_tab(id: "#{alignment}-tab3", label: "Third") %>
+
+        <% tabs.with_panel(id: "#{alignment}-tab1", active: true) do %>
+          <div class="p-3 text-sm text-grayscale-600">Alignment: <%= alignment %></div>
+        <% end %>
+        <% tabs.with_panel(id: "#{alignment}-tab2") do %>
+          <div class="p-3 text-sm text-grayscale-600">Tab Two content</div>
+        <% end %>
+        <% tabs.with_panel(id: "#{alignment}-tab3") do %>
+          <div class="p-3 text-sm text-grayscale-600">Tab Three content</div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

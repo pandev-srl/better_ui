@@ -1,0 +1,38 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Vertical Tabs (Left Position)</h3>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :underline, position: :left) do |tabs| %>
+    <% tabs.with_tab(id: "general", label: "General", active: true) %>
+    <% tabs.with_tab(id: "security", label: "Security") %>
+    <% tabs.with_tab(id: "billing", label: "Billing") %>
+    <% tabs.with_tab(id: "team", label: "Team") %>
+
+    <% tabs.with_panel(id: "general", active: true) do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">General Settings</h4>
+        <p class="text-grayscale-600">Configure your general application settings and preferences.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "security") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Security Settings</h4>
+        <p class="text-grayscale-600">Manage your security preferences and two-factor authentication.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "billing") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Billing Information</h4>
+        <p class="text-grayscale-600">View and update your billing details and payment methods.</p>
+      </div>
+    <% end %>
+
+    <% tabs.with_panel(id: "team") do %>
+      <div class="p-4">
+        <h4 class="font-medium mb-2">Team Management</h4>
+        <p class="text-grayscale-600">Invite team members and manage their permissions.</p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

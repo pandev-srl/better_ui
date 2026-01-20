@@ -1,0 +1,24 @@
+<div class="p-4 space-y-8">
+  <h3 class="text-lg font-semibold mb-4">All Color Variants (Underline Style)</h3>
+
+  <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+    <div class="mb-6">
+      <p class="text-sm font-medium text-grayscale-500 mb-2 capitalize"><%= variant %></p>
+      <%= render BetterUi::Tabs::ContainerComponent.new(mode: :js, style: :underline, variant: variant) do |tabs| %>
+        <% tabs.with_tab(id: "#{variant}-tab1", label: "Tab One", active: true) %>
+        <% tabs.with_tab(id: "#{variant}-tab2", label: "Tab Two") %>
+        <% tabs.with_tab(id: "#{variant}-tab3", label: "Tab Three") %>
+
+        <% tabs.with_panel(id: "#{variant}-tab1", active: true) do %>
+          <div class="p-3 text-sm text-grayscale-600">Content for <%= variant %> variant, Tab One</div>
+        <% end %>
+        <% tabs.with_panel(id: "#{variant}-tab2") do %>
+          <div class="p-3 text-sm text-grayscale-600">Content for <%= variant %> variant, Tab Two</div>
+        <% end %>
+        <% tabs.with_panel(id: "#{variant}-tab3") do %>
+          <div class="p-3 text-sm text-grayscale-600">Content for <%= variant %> variant, Tab Three</div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

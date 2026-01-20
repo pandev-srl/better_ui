@@ -1,0 +1,40 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Turbo Mode Example</h3>
+
+  <div class="mb-4 p-4 bg-info-50 border border-info-200 rounded-lg">
+    <p class="text-sm text-info-800">
+      <strong>Note:</strong> Turbo mode tabs use anchor tags that navigate via Turbo Frames.
+      This example shows the HTML structure. In a real application, clicking tabs would
+      load content from the server into the turbo-frame.
+    </p>
+  </div>
+
+  <%= render BetterUi::Tabs::ContainerComponent.new(mode: :turbo, frame_id: "tab-content", style: :underline) do |tabs| %>
+    <% tabs.with_tab(id: "dashboard", label: "Dashboard", href: "#dashboard", active: true) %>
+    <% tabs.with_tab(id: "users", label: "Users", href: "#users") %>
+    <% tabs.with_tab(id: "settings", label: "Settings", href: "#settings") %>
+  <% end %>
+
+  <turbo-frame id="tab-content" class="block p-4 border border-grayscale-200 rounded-b-lg mt-0">
+    <div class="text-grayscale-600">
+      <p>This is a <code class="bg-grayscale-100 px-1 rounded">turbo-frame</code> element.</p>
+      <p class="mt-2">In Turbo mode, clicking a tab navigates to the href and the response is rendered inside this frame.</p>
+    </div>
+  </turbo-frame>
+
+  <div class="mt-8">
+    <h4 class="text-md font-semibold mb-4">Pills Style Turbo Mode</h4>
+
+    <%= render BetterUi::Tabs::ContainerComponent.new(mode: :turbo, frame_id: "pills-content", style: :pills, variant: :accent) do |tabs| %>
+      <% tabs.with_tab(id: "overview", label: "Overview", href: "#overview", active: true) %>
+      <% tabs.with_tab(id: "analytics", label: "Analytics", href: "#analytics") %>
+      <% tabs.with_tab(id: "reports", label: "Reports", href: "#reports") %>
+    <% end %>
+
+    <turbo-frame id="pills-content" class="block p-4 mt-4">
+      <div class="text-grayscale-600">
+        <p>Content loaded via Turbo Frame.</p>
+      </div>
+    </turbo-frame>
+  </div>
+</div>
