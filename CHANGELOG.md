@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-01-30
+
+### Added
+- **Tabs::ContainerComponent**: Flexible tabs container with two operating modes:
+  - **JS mode**: Client-side tab switching with all content rendered in DOM
+  - **Turbo mode**: Server-rendered content via Turbo Frames with animated loader overlay
+  - 3 styles (underline, pills, bordered), 5 sizes, 9 color variants
+  - Horizontal and vertical (left/right) orientations
+  - Tab alignment (start, center, end, stretch)
+  - Custom loader content via `loader` slot
+- **Tabs::TabComponent**: Individual tab with icon, badge, and disabled state support
+- **Tabs::PanelComponent**: Tab panel with lazy-loading support for Turbo mode
+- **Tabs Stimulus controller** (`better-ui--tabs--container`): Handles tab switching, keyboard navigation, Turbo Frame loading, and loader state management
+- **Lookbook previews** for Tabs component: default, Turbo mode, all styles (underline/pills/bordered), sizes, variants, alignments, vertical positions, icons/badges, and disabled states
+- **View helpers auto-inclusion**: `bui_*` helpers are now automatically available in all views without manual `include` — handled by new `better_ui.helpers` engine initializer
+- **`bui_tabs` helper**: Render Tabs component via `bui_tabs` view helper
+
+### Changed
+- **Drawer::SidebarComponent**: Navigation wrapper now applies `space-y-6` vertical spacing between NavGroupComponents automatically, removing the need for manual spacing wrappers in views
+
+### Documentation
+- README rewritten to use `bui_*` helper syntax in all examples
+- INSTALLATION.md updated to document helper auto-inclusion
+- Added MIGRATION_STATUS.md documenting component migration progress
+
 ## [0.7.2] - 2026-01-16
 
 ### Added
