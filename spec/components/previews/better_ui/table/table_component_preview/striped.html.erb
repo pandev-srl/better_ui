@@ -1,0 +1,31 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Striped Table</h2>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :primary, striped: true) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "#") %>
+      <% h.with_cell(label: "Name") %>
+      <% h.with_cell(label: "Department") %>
+      <% h.with_cell(label: "Salary", align: :right) %>
+    <% end %>
+
+    <% [
+      ["1", "Alice Johnson", "Engineering", "$120,000"],
+      ["2", "Bob Smith", "Marketing", "$95,000"],
+      ["3", "Charlie Brown", "Design", "$105,000"],
+      ["4", "Diana Prince", "Engineering", "$130,000"],
+      ["5", "Eve Wilson", "Sales", "$88,000"],
+      ["6", "Frank Castle", "Operations", "$92,000"]
+    ].each do |row_data| %>
+      <% t.with_row do |r| %>
+        <% row_data.each_with_index do |cell, i| %>
+          <% if i == 3 %>
+            <% r.with_cell(align: :right) { cell } %>
+          <% else %>
+            <% r.with_cell { cell } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

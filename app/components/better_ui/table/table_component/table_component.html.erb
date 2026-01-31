@@ -1,0 +1,65 @@
+<div class="<%= wrapper_classes %>">
+  <table class="<%= table_element_classes %>">
+    <% if @caption %>
+      <caption class="<%= caption_classes %>"><%= @caption %></caption>
+    <% end %>
+
+    <% if collection_mode? %>
+      <%# Collection mode rendering %>
+      <% if columns.any? %>
+        <thead class="<%= thead_classes %>">
+          <tr>
+            <% columns.each do |column| %>
+              <th class="<%= collection_header_cell_classes(column) %>"><%= column.display_label %></th>
+            <% end %>
+          </tr>
+        </thead>
+      <% end %>
+
+      <% if @collection.any? %>
+        <tbody class="<%= tbody_classes %>">
+          <% @collection.each do |item| %>
+            <tr class="<%= collection_row_classes %>">
+              <% columns.each do |column| %>
+                <td class="<%= collection_cell_classes(column) %>"><%= column.value_for(item) %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      <% elsif empty_state? %>
+        <tbody>
+          <tr>
+            <td colspan="<%= columns.size %>"><%= empty_state %></td>
+          </tr>
+        </tbody>
+      <% end %>
+    <% else %>
+      <%# Slot mode rendering %>
+      <% if header? %>
+        <thead class="<%= thead_classes %>">
+          <%= header %>
+        </thead>
+      <% end %>
+
+      <% if rows.any? %>
+        <tbody class="<%= tbody_classes %>">
+          <% rows.each do |row| %>
+            <%= row %>
+          <% end %>
+        </tbody>
+      <% elsif empty_state? %>
+        <tbody>
+          <tr>
+            <td colspan="<%= slot_mode_colspan %>"><%= empty_state %></td>
+          </tr>
+        </tbody>
+      <% end %>
+
+      <% if footer_row? %>
+        <tfoot class="<%= tfoot_classes %>">
+          <%= footer_row %>
+        </tfoot>
+      <% end %>
+    <% end %>
+  </table>
+</div>

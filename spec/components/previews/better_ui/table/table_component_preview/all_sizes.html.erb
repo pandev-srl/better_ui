@@ -1,0 +1,28 @@
+<div class="max-w-4xl mx-auto p-6 space-y-8">
+  <h2 class="text-xl font-bold mb-4">All Sizes</h2>
+
+  <% [:xs, :sm, :md, :lg, :xl].each do |size| %>
+    <div>
+      <h3 class="text-lg font-semibold mb-2">Size: <%= size %></h3>
+      <%= render BetterUi::Table::TableComponent.new(variant: :primary, size: size) do |t| %>
+        <% t.with_header do |h| %>
+          <% h.with_cell(label: "Name") %>
+          <% h.with_cell(label: "Email") %>
+          <% h.with_cell(label: "Status", align: :center) %>
+        <% end %>
+
+        <% t.with_row do |r| %>
+          <% r.with_cell { "Alice Johnson" } %>
+          <% r.with_cell { "alice@example.com" } %>
+          <% r.with_cell(align: :center) { "Active" } %>
+        <% end %>
+
+        <% t.with_row do |r| %>
+          <% r.with_cell { "Bob Smith" } %>
+          <% r.with_cell { "bob@example.com" } %>
+          <% r.with_cell(align: :center) { "Inactive" } %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

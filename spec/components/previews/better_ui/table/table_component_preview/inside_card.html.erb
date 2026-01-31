@@ -1,0 +1,172 @@
+<div class="max-w-4xl mx-auto p-6 space-y-10">
+
+  <%# ===== 1. Table inside a bordered Card ===== %>
+  <div>
+    <h2 class="text-xl font-bold mb-4">Table inside a Card (bordered)</h2>
+    <p class="text-sm text-grayscale-500 mb-4">
+      Use <code>body_padding: false</code> on the Card and
+      <code>container_classes: "shadow-none ring-0 rounded-none"</code> on the Table
+      to avoid double card styling.
+    </p>
+
+    <%= render BetterUi::CardComponent.new(
+      style: :bordered,
+      body_padding: false
+    ) do |card| %>
+      <% card.with_header { "Team Members" } %>
+      <% card.with_body do %>
+        <%= render BetterUi::Table::TableComponent.new(
+          variant: :primary,
+          container_classes: "shadow-none ring-0 rounded-none"
+        ) do |t| %>
+          <% t.with_header do |h| %>
+            <% h.with_cell(label: "Name") %>
+            <% h.with_cell(label: "Email") %>
+            <% h.with_cell(label: "Role") %>
+            <% h.with_cell(label: "Status", align: :center) %>
+          <% end %>
+
+          <% t.with_row do |r| %>
+            <% r.with_cell { "Alice Johnson" } %>
+            <% r.with_cell { "alice@example.com" } %>
+            <% r.with_cell { "Admin" } %>
+            <% r.with_cell(align: :center) { "Active" } %>
+          <% end %>
+          <% t.with_row do |r| %>
+            <% r.with_cell { "Bob Smith" } %>
+            <% r.with_cell { "bob@example.com" } %>
+            <% r.with_cell { "Editor" } %>
+            <% r.with_cell(align: :center) { "Active" } %>
+          <% end %>
+          <% t.with_row do |r| %>
+            <% r.with_cell { "Charlie Brown" } %>
+            <% r.with_cell { "charlie@example.com" } %>
+            <% r.with_cell { "Viewer" } %>
+            <% r.with_cell(align: :center) { "Inactive" } %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% card.with_footer do %>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-grayscale-500">3 members</span>
+          <button class="text-sm text-primary-600 font-medium hover:text-primary-800">Add member</button>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# ===== 2. Table inside an outline Card ===== %>
+  <div>
+    <h2 class="text-xl font-bold mb-4">Table inside a Card (outline, success variant)</h2>
+
+    <%= render BetterUi::CardComponent.new(
+      variant: :success,
+      style: :outline,
+      body_padding: false
+    ) do |card| %>
+      <% card.with_header do %>
+        <div class="flex justify-between items-center">
+          <span class="font-semibold">Recent Orders</span>
+          <span class="text-xs bg-success-100 text-success-700 px-2 py-1 rounded-full">Live</span>
+        </div>
+      <% end %>
+      <% card.with_body do %>
+        <%= render BetterUi::Table::TableComponent.new(
+          variant: :success,
+          striped: true,
+          hoverable: true,
+          container_classes: "shadow-none ring-0 rounded-none"
+        ) do |t| %>
+          <% t.with_header do |h| %>
+            <% h.with_cell(label: "Order #") %>
+            <% h.with_cell(label: "Customer") %>
+            <% h.with_cell(label: "Amount", align: :right) %>
+          <% end %>
+
+          <% t.with_row do |r| %>
+            <% r.with_cell { "#1001" } %>
+            <% r.with_cell { "Jane Cooper" } %>
+            <% r.with_cell(align: :right) { "$120.00" } %>
+          <% end %>
+          <% t.with_row do |r| %>
+            <% r.with_cell { "#1002" } %>
+            <% r.with_cell { "Wade Warren" } %>
+            <% r.with_cell(align: :right) { "$89.50" } %>
+          <% end %>
+          <% t.with_row do |r| %>
+            <% r.with_cell { "#1003" } %>
+            <% r.with_cell { "Esther Howard" } %>
+            <% r.with_cell(align: :right) { "$245.00" } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# ===== 3. Collection mode inside a soft Card ===== %>
+  <div>
+    <h2 class="text-xl font-bold mb-4">Collection mode inside a Card (soft, info variant)</h2>
+
+    <%
+      products = [
+        { name: "Widget A", sku: "WA-001", price: "$29.99", stock: 142 },
+        { name: "Widget B", sku: "WB-002", price: "$49.99", stock: 38 },
+        { name: "Gadget C", sku: "GC-003", price: "$99.99", stock: 7 },
+      ]
+    %>
+
+    <%= render BetterUi::CardComponent.new(
+      variant: :info,
+      style: :soft,
+      body_padding: false
+    ) do |card| %>
+      <% card.with_header do %>
+        <span class="font-semibold">Product Inventory</span>
+      <% end %>
+      <% card.with_body do %>
+        <%= render BetterUi::Table::TableComponent.new(
+          collection: products,
+          variant: :info,
+          size: :sm,
+          hoverable: true,
+          container_classes: "shadow-none ring-0 rounded-none"
+        ) do |t| %>
+          <% t.with_column(key: :name, label: "Product") %>
+          <% t.with_column(key: :sku, label: "SKU") %>
+          <% t.with_column(key: :price, label: "Price", align: :right) %>
+          <% t.with_column(key: :stock, label: "Stock", align: :center) { |p| p[:stock].to_s } %>
+        <% end %>
+      <% end %>
+      <% card.with_footer do %>
+        <span class="text-sm text-grayscale-500">Showing 3 of 3 products</span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# ===== 4. Standalone table for comparison ===== %>
+  <div>
+    <h2 class="text-xl font-bold mb-4">Standalone table (for comparison)</h2>
+    <p class="text-sm text-grayscale-500 mb-4">
+      The table renders with its own card styling by default.
+    </p>
+
+    <%= render BetterUi::Table::TableComponent.new(variant: :primary, hoverable: true) do |t| %>
+      <% t.with_header do |h| %>
+        <% h.with_cell(label: "Name") %>
+        <% h.with_cell(label: "Email") %>
+        <% h.with_cell(label: "Role") %>
+      <% end %>
+      <% t.with_row do |r| %>
+        <% r.with_cell { "Alice Johnson" } %>
+        <% r.with_cell { "alice@example.com" } %>
+        <% r.with_cell { "Admin" } %>
+      <% end %>
+      <% t.with_row do |r| %>
+        <% r.with_cell { "Bob Smith" } %>
+        <% r.with_cell { "bob@example.com" } %>
+        <% r.with_cell { "Editor" } %>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>

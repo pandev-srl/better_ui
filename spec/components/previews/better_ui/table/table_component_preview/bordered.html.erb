@@ -1,0 +1,33 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Bordered Table</h2>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :primary, style: :bordered) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Product") %>
+      <% h.with_cell(label: "Category") %>
+      <% h.with_cell(label: "Price", align: :right) %>
+      <% h.with_cell(label: "Stock", align: :center) %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Widget A" } %>
+      <% r.with_cell { "Electronics" } %>
+      <% r.with_cell(align: :right) { "$29.99" } %>
+      <% r.with_cell(align: :center) { "150" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Widget B" } %>
+      <% r.with_cell { "Hardware" } %>
+      <% r.with_cell(align: :right) { "$49.99" } %>
+      <% r.with_cell(align: :center) { "75" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Widget C" } %>
+      <% r.with_cell { "Software" } %>
+      <% r.with_cell(align: :right) { "$9.99" } %>
+      <% r.with_cell(align: :center) { "∞" } %>
+    <% end %>
+  <% end %>
+</div>

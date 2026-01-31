@@ -1,0 +1,40 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Table with Footer</h2>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :primary, caption: "Quarterly Sales Report") do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Quarter") %>
+      <% h.with_cell(label: "Revenue", align: :right) %>
+      <% h.with_cell(label: "Expenses", align: :right) %>
+      <% h.with_cell(label: "Profit", align: :right) %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Q1 2024" } %>
+      <% r.with_cell(align: :right) { "$150,000" } %>
+      <% r.with_cell(align: :right) { "$90,000" } %>
+      <% r.with_cell(align: :right) { "$60,000" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Q2 2024" } %>
+      <% r.with_cell(align: :right) { "$175,000" } %>
+      <% r.with_cell(align: :right) { "$95,000" } %>
+      <% r.with_cell(align: :right) { "$80,000" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Q3 2024" } %>
+      <% r.with_cell(align: :right) { "$200,000" } %>
+      <% r.with_cell(align: :right) { "$110,000" } %>
+      <% r.with_cell(align: :right) { "$90,000" } %>
+    <% end %>
+
+    <% t.with_footer_row do |r| %>
+      <% r.with_cell { "Total" } %>
+      <% r.with_cell(align: :right) { "$525,000" } %>
+      <% r.with_cell(align: :right) { "$295,000" } %>
+      <% r.with_cell(align: :right) { "$230,000" } %>
+    <% end %>
+  <% end %>
+</div>

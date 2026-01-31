@@ -1,0 +1,33 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Default Table</h2>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :primary) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Name") %>
+      <% h.with_cell(label: "Email") %>
+      <% h.with_cell(label: "Role") %>
+      <% h.with_cell(label: "Status", align: :center) %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Alice Johnson" } %>
+      <% r.with_cell { "alice@example.com" } %>
+      <% r.with_cell { "Admin" } %>
+      <% r.with_cell(align: :center) { "Active" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Bob Smith" } %>
+      <% r.with_cell { "bob@example.com" } %>
+      <% r.with_cell { "Editor" } %>
+      <% r.with_cell(align: :center) { "Active" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "Charlie Brown" } %>
+      <% r.with_cell { "charlie@example.com" } %>
+      <% r.with_cell { "Viewer" } %>
+      <% r.with_cell(align: :center) { "Inactive" } %>
+    <% end %>
+  <% end %>
+</div>

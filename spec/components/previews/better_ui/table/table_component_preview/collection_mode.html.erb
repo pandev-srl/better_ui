@@ -1,0 +1,31 @@
+<%
+  users = [
+    OpenStruct.new(name: "Alice Johnson", email: "alice@example.com", role: "admin", active: true),
+    OpenStruct.new(name: "Bob Smith", email: "bob@example.com", role: "editor", active: true),
+    OpenStruct.new(name: "Charlie Brown", email: "charlie@example.com", role: "viewer", active: false),
+    OpenStruct.new(name: "Diana Prince", email: "diana@example.com", role: "admin", active: true)
+  ]
+%>
+
+<div class="max-w-4xl mx-auto p-6 space-y-8">
+  <h2 class="text-xl font-bold mb-4">Collection Mode</h2>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-2">Basic Collection</h3>
+    <%= render BetterUi::Table::TableComponent.new(collection: users, variant: :primary, striped: true) do |t| %>
+      <% t.with_column(key: :name, label: "Name") %>
+      <% t.with_column(key: :email, label: "Email") %>
+      <% t.with_column(key: :role, label: "Role") { |user| user.role.capitalize } %>
+      <% t.with_column(key: :active, label: "Status", align: :center) { |user| user.active ? "Active" : "Inactive" } %>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-2">Collection with Auto-humanized Labels</h3>
+    <%= render BetterUi::Table::TableComponent.new(collection: users, variant: :success) do |t| %>
+      <% t.with_column(key: :name) %>
+      <% t.with_column(key: :email) %>
+      <% t.with_column(key: :role) %>
+    <% end %>
+  </div>
+</div>

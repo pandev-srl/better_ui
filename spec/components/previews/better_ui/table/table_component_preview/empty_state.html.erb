@@ -1,0 +1,36 @@
+<div class="max-w-4xl mx-auto p-6 space-y-8">
+  <h2 class="text-xl font-bold mb-4">Empty State</h2>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-2">Slot Mode - Empty</h3>
+    <%= render BetterUi::Table::TableComponent.new(variant: :primary) do |t| %>
+      <% t.with_header do |h| %>
+        <% h.with_cell(label: "Name") %>
+        <% h.with_cell(label: "Email") %>
+        <% h.with_cell(label: "Role") %>
+      <% end %>
+
+      <% t.with_empty_state do %>
+        <div class="py-8 text-center text-grayscale-500">
+          <p class="text-lg font-medium">No users found</p>
+          <p class="text-sm mt-1">Try adjusting your search criteria.</p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-2">Collection Mode - Empty</h3>
+    <%= render BetterUi::Table::TableComponent.new(collection: [], variant: :info) do |t| %>
+      <% t.with_column(key: :name, label: "Name") %>
+      <% t.with_column(key: :email, label: "Email") %>
+
+      <% t.with_empty_state do %>
+        <div class="py-8 text-center text-grayscale-500">
+          <p class="text-lg font-medium">No records available</p>
+          <p class="text-sm mt-1">Data will appear here once added.</p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

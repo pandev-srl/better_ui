@@ -1,0 +1,27 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Hoverable Table</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Hover over the rows to see the highlight effect.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :info, hoverable: true) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Order #") %>
+      <% h.with_cell(label: "Customer") %>
+      <% h.with_cell(label: "Date") %>
+      <% h.with_cell(label: "Total", align: :right) %>
+    <% end %>
+
+    <% [
+      ["ORD-001", "Alice Johnson", "2024-01-15", "$299.00"],
+      ["ORD-002", "Bob Smith", "2024-01-16", "$149.50"],
+      ["ORD-003", "Charlie Brown", "2024-01-17", "$75.25"],
+      ["ORD-004", "Diana Prince", "2024-01-18", "$512.00"]
+    ].each do |row_data| %>
+      <% t.with_row do |r| %>
+        <% r.with_cell { row_data[0] } %>
+        <% r.with_cell { row_data[1] } %>
+        <% r.with_cell { row_data[2] } %>
+        <% r.with_cell(align: :right) { row_data[3] } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

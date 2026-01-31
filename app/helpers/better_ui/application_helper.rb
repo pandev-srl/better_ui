@@ -395,6 +395,52 @@ module BetterUi
     end
 
     # ============================================
+    # Table Components
+    # ============================================
+
+    # Renders a table component.
+    #
+    # Supports two modes:
+    # - **Slot-based**: Define header, rows, and cells manually using slots
+    # - **Collection-based**: Pass a collection and column definitions
+    #
+    # @param options [Hash] Options passed to Table::TableComponent
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, etc.)
+    # @option options [Symbol] :style Table style (:default, :bordered)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Boolean] :striped Alternating row backgrounds
+    # @option options [Boolean] :hoverable Row hover effect
+    # @option options [Boolean] :responsive Horizontal scroll wrapper (default: true)
+    # @option options [String, nil] :caption Table caption text
+    # @option options [Array, nil] :collection Data collection (triggers collection mode)
+    # @yield [table] Block with table slots
+    # @yieldparam table [BetterUi::Table::TableComponent] The table component
+    # @return [String] Rendered HTML
+    #
+    # @example Slot-based table
+    #   <%= bui_table(variant: :primary, striped: true) do |t| %>
+    #     <% t.with_header do |h| %>
+    #       <% h.with_cell(label: "Name") %>
+    #       <% h.with_cell(label: "Email") %>
+    #     <% end %>
+    #     <% @users.each do |user| %>
+    #       <% t.with_row do |r| %>
+    #         <% r.with_cell { user.name } %>
+    #         <% r.with_cell { user.email } %>
+    #       <% end %>
+    #     <% end %>
+    #   <% end %>
+    #
+    # @example Collection-based table
+    #   <%= bui_table(collection: @users, variant: :primary) do |t| %>
+    #     <% t.with_column(key: :name, label: "Name") %>
+    #     <% t.with_column(key: :email, label: "Email") %>
+    #   <% end %>
+    def bui_table(**options, &block)
+      render BetterUi::Table::TableComponent.new(**options), &block
+    end
+
+    # ============================================
     # Tabs Components
     # ============================================
 
