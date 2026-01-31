@@ -71,6 +71,13 @@ module BetterUi
     # @see BaseComponent
     # @see BetterUi::UiFormBuilder#ui_text_input
     class TextInputComponent < BaseComponent
+      # Available input types for text-based inputs.
+      # Password has its own component ({PasswordInputComponent}) with a Stimulus controller.
+      # Number has its own component ({NumberInputComponent}).
+      #
+      # @return [Array<Symbol>] the list of valid type options
+      TYPES = %i[text email tel date time].freeze
+
       # @!method with_prefix_icon
       #   Slot for rendering an icon or content before (left of) the input text.
       #   The icon is positioned absolutely and input padding is adjusted automatically.
@@ -95,6 +102,7 @@ module BetterUi
       # @see BaseComponent#initialize
       def initialize(
         name:,
+        type: :text,
         value: nil,
         label: nil,
         hint: nil,
@@ -111,6 +119,7 @@ module BetterUi
         error_classes: nil,
         **options
       )
+        @type = validate_type(type)
         super(
           name: name,
           value: value,
@@ -133,12 +142,25 @@ module BetterUi
 
       private
 
+      # Validates that the provided type is one of the allowed TYPES.
+      #
+      # @param type [Symbol] the type to validate
+      # @return [Symbol] the validated type
+      # @raise [ArgumentError] if type is not in TYPES
+      # @api private
+      def validate_type(type)
+        unless TYPES.include?(type)
+          raise ArgumentError, "Invalid type: #{type}. Must be one of #{TYPES.join(', ')}"
+        end
+        type
+      end
+
       # Returns the HTML input type attribute.
       #
-      # @return [String] the input type ("text")
+      # @return [String] the input type
       # @api private
       def input_type
-        "text"
+        @type.to_s
       end
 
       # Checks if a prefix icon has been provided via the slot.

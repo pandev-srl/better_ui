@@ -100,6 +100,91 @@ module BetterUi
       assert_match(/readonly/, output)
     end
 
+    # bui_text_input type option tests
+    test "bui_text_input accepts type option" do
+      output = @builder.bui_text_input(:email, type: :email)
+
+      assert_match(/type="email"/, output)
+    end
+
+    test "bui_text_input defaults to text type without type option" do
+      output = @builder.bui_text_input(:name)
+
+      assert_match(/type="text"/, output)
+    end
+
+    # bui_email_input tests
+    test "bui_email_input renders email type" do
+      @user.email = "jane@example.com"
+      output = @builder.bui_email_input(:email)
+
+      assert_match(/type="email"/, output)
+      assert_match(/name="user\[email\]"/, output)
+      assert_match(/value="jane@example.com"/, output)
+    end
+
+    test "bui_email_input passes through standard options" do
+      output = @builder.bui_email_input(:email, size: :lg, hint: "Your email address")
+
+      assert_match(/type="email"/, output)
+      assert_match(/text-lg/, output)
+      assert_match(/Your email address/, output)
+    end
+
+    test "bui_email_input accepts block for icon slots" do
+      output = @builder.bui_email_input(:email) do |component|
+        component.with_prefix_icon { '<svg class="email-icon"></svg>'.html_safe }
+      end
+
+      assert_match(/email-icon/, output)
+    end
+
+    # bui_tel_input tests
+    test "bui_tel_input renders tel type" do
+      output = @builder.bui_tel_input(:name)
+
+      assert_match(/type="tel"/, output)
+      assert_match(/name="user\[name\]"/, output)
+    end
+
+    test "bui_tel_input passes through standard options" do
+      output = @builder.bui_tel_input(:name, placeholder: "+1 (555) 000-0000")
+
+      assert_match(/type="tel"/, output)
+      assert_match(/placeholder="\+1 \(555\) 000-0000"/, output)
+    end
+
+    # bui_date_input tests
+    test "bui_date_input renders date type" do
+      output = @builder.bui_date_input(:name)
+
+      assert_match(/type="date"/, output)
+      assert_match(/name="user\[name\]"/, output)
+    end
+
+    test "bui_date_input passes through standard options" do
+      output = @builder.bui_date_input(:name, label: "Birth Date", required: true)
+
+      assert_match(/type="date"/, output)
+      assert_match(/Birth Date/, output)
+    end
+
+    # bui_time_input tests
+    test "bui_time_input renders time type" do
+      output = @builder.bui_time_input(:name)
+
+      assert_match(/type="time"/, output)
+      assert_match(/name="user\[name\]"/, output)
+    end
+
+    test "bui_time_input passes through standard options" do
+      output = @builder.bui_time_input(:name, label: "Start Time", disabled: true)
+
+      assert_match(/type="time"/, output)
+      assert_match(/Start Time/, output)
+      assert_match(/disabled/, output)
+    end
+
     # bui_number_input tests
     test "bui_number_input renders NumberInputComponent" do
       @user.age = 25

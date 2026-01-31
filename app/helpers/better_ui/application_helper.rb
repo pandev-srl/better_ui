@@ -113,6 +113,58 @@ module BetterUi
       render BetterUi::Forms::TextInputComponent.new(name: name, **options), &block
     end
 
+    # Renders an email input component.
+    #
+    # @param name [String] Input name attribute
+    # @param options [Hash] Options passed to Forms::TextInputComponent (see {#bui_text_input})
+    # @yield [input] Block with input slots
+    # @return [String] Rendered HTML
+    #
+    # @example Email input
+    #   <%= bui_email_input("email", label: "Email", placeholder: "you@example.com") %>
+    def bui_email_input(name, **options, &block)
+      render BetterUi::Forms::TextInputComponent.new(name: name, type: :email, **options), &block
+    end
+
+    # Renders a telephone input component.
+    #
+    # @param name [String] Input name attribute
+    # @param options [Hash] Options passed to Forms::TextInputComponent (see {#bui_text_input})
+    # @yield [input] Block with input slots
+    # @return [String] Rendered HTML
+    #
+    # @example Telephone input
+    #   <%= bui_tel_input("phone", label: "Phone", placeholder: "+1 (555) 000-0000") %>
+    def bui_tel_input(name, **options, &block)
+      render BetterUi::Forms::TextInputComponent.new(name: name, type: :tel, **options), &block
+    end
+
+    # Renders a date input component.
+    #
+    # @param name [String] Input name attribute
+    # @param options [Hash] Options passed to Forms::TextInputComponent (see {#bui_text_input})
+    # @yield [input] Block with input slots
+    # @return [String] Rendered HTML
+    #
+    # @example Date input
+    #   <%= bui_date_input("birthday", label: "Date of Birth") %>
+    def bui_date_input(name, **options, &block)
+      render BetterUi::Forms::TextInputComponent.new(name: name, type: :date, **options), &block
+    end
+
+    # Renders a time input component.
+    #
+    # @param name [String] Input name attribute
+    # @param options [Hash] Options passed to Forms::TextInputComponent (see {#bui_text_input})
+    # @yield [input] Block with input slots
+    # @return [String] Rendered HTML
+    #
+    # @example Time input
+    #   <%= bui_time_input("start_time", label: "Start Time") %>
+    def bui_time_input(name, **options, &block)
+      render BetterUi::Forms::TextInputComponent.new(name: name, type: :time, **options), &block
+    end
+
     # Renders a number input component.
     #
     # @param name [String] Input name attribute

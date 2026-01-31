@@ -72,12 +72,61 @@ module BetterUi
     #   <% end %>
     def bui_text_input(attribute, options = {}, &block)
       component_options = build_input_options(attribute, options)
+      component_options[:type] = options[:type] if options.key?(:type)
 
       if block_given?
         @template.render(BetterUi::Forms::TextInputComponent.new(**component_options), &block)
       else
         @template.render(BetterUi::Forms::TextInputComponent.new(**component_options))
       end
+    end
+
+    # Renders an email input field using BetterUi::Forms::TextInputComponent with type: :email
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param options [Hash] Additional options to pass to the component (see {#bui_text_input})
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_email_input :email %>
+    def bui_email_input(attribute, options = {}, &block)
+      bui_text_input(attribute, options.merge(type: :email), &block)
+    end
+
+    # Renders a telephone input field using BetterUi::Forms::TextInputComponent with type: :tel
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param options [Hash] Additional options to pass to the component (see {#bui_text_input})
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_tel_input :phone %>
+    def bui_tel_input(attribute, options = {}, &block)
+      bui_text_input(attribute, options.merge(type: :tel), &block)
+    end
+
+    # Renders a date input field using BetterUi::Forms::TextInputComponent with type: :date
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param options [Hash] Additional options to pass to the component (see {#bui_text_input})
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_date_input :birthday %>
+    def bui_date_input(attribute, options = {}, &block)
+      bui_text_input(attribute, options.merge(type: :date), &block)
+    end
+
+    # Renders a time input field using BetterUi::Forms::TextInputComponent with type: :time
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param options [Hash] Additional options to pass to the component (see {#bui_text_input})
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_time_input :start_time %>
+    def bui_time_input(attribute, options = {}, &block)
+      bui_text_input(attribute, options.merge(type: :time), &block)
     end
 
     # Renders a number input field using BetterUi::Forms::NumberInputComponent

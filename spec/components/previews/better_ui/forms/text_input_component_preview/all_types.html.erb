@@ -1,0 +1,12 @@
+<div class="space-y-4 p-4">
+  <% BetterUi::Forms::TextInputComponent::TYPES.each do |type| %>
+    <div>
+      <%= render BetterUi::Forms::TextInputComponent.new(
+        name: "example_#{type}",
+        type: type,
+        label: "Type: #{type}",
+        placeholder: "#{type} input"
+      ) %>
+    </div>
+  <% end %>
+</div>

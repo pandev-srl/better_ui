@@ -133,6 +133,81 @@ module BetterUi
         end
       end
 
+      # @label All Input Types
+      # @display bg_color #f5f5f5
+      def all_types
+        render_with_template
+      end
+
+      # @label Email Type
+      # @display bg_color #f5f5f5
+      def email_type
+        render BetterUi::Forms::TextInputComponent.new(
+          name: "email",
+          type: :email,
+          label: "Email Address",
+          placeholder: "you@example.com",
+          hint: "We'll never share your email with anyone else."
+        ) do |component|
+          component.with_prefix_icon do
+            '<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>'.html_safe
+          end
+        end
+      end
+
+      # @label Telephone Type
+      # @display bg_color #f5f5f5
+      def tel_type
+        render BetterUi::Forms::TextInputComponent.new(
+          name: "phone",
+          type: :tel,
+          label: "Phone Number",
+          placeholder: "+1 (555) 000-0000"
+        ) do |component|
+          component.with_prefix_icon do
+            '<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>'.html_safe
+          end
+        end
+      end
+
+      # @label Date Type
+      # @display bg_color #f5f5f5
+      def date_type
+        render BetterUi::Forms::TextInputComponent.new(
+          name: "birthday",
+          type: :date,
+          label: "Date of Birth",
+          hint: "Select your date of birth"
+        ) do |component|
+          component.with_prefix_icon do
+            '<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>'.html_safe
+          end
+        end
+      end
+
+      # @label Time Type
+      # @display bg_color #f5f5f5
+      def time_type
+        render BetterUi::Forms::TextInputComponent.new(
+          name: "start_time",
+          type: :time,
+          label: "Start Time",
+          hint: "Select a time"
+        ) do |component|
+          component.with_prefix_icon do
+            '<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>'.html_safe
+          end
+        end
+      end
+
       # @label All Sizes
       # @display bg_color #f5f5f5
       def all_sizes
@@ -146,15 +221,17 @@ module BetterUi
       end
 
       # @label Playground
+      # @param type select { choices: [text, email, tel, date, time] }
       # @param size select { choices: [xs, sm, md, lg, xl] }
       # @param disabled toggle
       # @param readonly toggle
       # @param required toggle
       # @param with_hint toggle
       # @param with_error toggle
-      def playground(size: :md, disabled: false, readonly: false, required: false, with_hint: false, with_error: false)
+      def playground(type: :text, size: :md, disabled: false, readonly: false, required: false, with_hint: false, with_error: false)
         render BetterUi::Forms::TextInputComponent.new(
           name: "playground",
+          type: type.to_sym,
           label: "Playground Input",
           placeholder: "Type something...",
           size: size.to_sym,

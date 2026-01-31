@@ -294,6 +294,115 @@ module BetterUi
         assert_selector "input.focus\\:outline-none"
       end
 
+      # Type tests
+      test "TYPES constant contains expected values" do
+        assert_equal %i[text email tel date time], TextInputComponent::TYPES
+      end
+
+      test "renders with default type text" do
+        render_inline(TextInputComponent.new(name: "field"))
+
+        assert_selector "input[type='text']"
+      end
+
+      test "renders with email type" do
+        render_inline(TextInputComponent.new(name: "email", type: :email))
+
+        assert_selector "input[type='email']"
+      end
+
+      test "renders with tel type" do
+        render_inline(TextInputComponent.new(name: "phone", type: :tel))
+
+        assert_selector "input[type='tel']"
+      end
+
+      test "renders with date type" do
+        render_inline(TextInputComponent.new(name: "birthday", type: :date))
+
+        assert_selector "input[type='date']"
+      end
+
+      test "renders with time type" do
+        render_inline(TextInputComponent.new(name: "alarm", type: :time))
+
+        assert_selector "input[type='time']"
+      end
+
+      test "raises ArgumentError for invalid type password" do
+        assert_raises(ArgumentError) do
+          TextInputComponent.new(name: "field", type: :password)
+        end
+      end
+
+      test "raises ArgumentError for invalid type number" do
+        assert_raises(ArgumentError) do
+          TextInputComponent.new(name: "field", type: :number)
+        end
+      end
+
+      test "raises ArgumentError for unknown type" do
+        assert_raises(ArgumentError) do
+          TextInputComponent.new(name: "field", type: :unknown)
+        end
+      end
+
+      test "email type works with label" do
+        render_inline(TextInputComponent.new(name: "email", type: :email, label: "Email Address"))
+
+        assert_selector "label", text: "Email Address"
+        assert_selector "input[type='email']"
+      end
+
+      test "tel type works with errors" do
+        render_inline(TextInputComponent.new(name: "phone", type: :tel, errors: [ "Phone is invalid" ]))
+
+        assert_selector "input[type='tel']"
+        assert_text "Phone is invalid"
+        assert_selector "input.border-danger-500"
+      end
+
+      test "date type works with value" do
+        render_inline(TextInputComponent.new(name: "birthday", type: :date, value: "2024-01-15"))
+
+        assert_selector "input[type='date'][value='2024-01-15']"
+      end
+
+      test "time type works with disabled state" do
+        render_inline(TextInputComponent.new(name: "alarm", type: :time, disabled: true))
+
+        assert_selector "input[type='time'][disabled]"
+      end
+
+      test "email type works with prefix icon" do
+        render_inline(TextInputComponent.new(name: "email", type: :email)) do |component|
+          component.with_prefix_icon { '<svg class="email-icon"></svg>'.html_safe }
+        end
+
+        assert_selector "input[type='email']"
+        assert_selector "svg.email-icon"
+        assert_selector "input.pl-10"
+      end
+
+      test "tel type works with size lg" do
+        render_inline(TextInputComponent.new(name: "phone", type: :tel, size: :lg))
+
+        assert_selector "input[type='tel']"
+        assert_selector "input.text-lg"
+      end
+
+      test "date type works with readonly state" do
+        render_inline(TextInputComponent.new(name: "birthday", type: :date, readonly: true))
+
+        assert_selector "input[type='date'][readonly]"
+      end
+
+      test "time type works with required state" do
+        render_inline(TextInputComponent.new(name: "alarm", type: :time, required: true, label: "Alarm"))
+
+        assert_selector "input[type='time'][required]"
+      end
+
       # Shadow tests
       test "renders with shadow-sm by default" do
         render_inline(TextInputComponent.new(name: "email"))
