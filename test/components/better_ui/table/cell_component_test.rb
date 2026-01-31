@@ -94,11 +94,10 @@ module BetterUi
         refute_selector "td.border"
       end
 
-      test "renders with borders for bordered style" do
+      test "bordered style does not add borders to cells" do
         render_inline(CellComponent.new(style: :bordered)) { "Content" }
 
-        assert_selector "td.border"
-        assert_selector "td.border-grayscale-200"
+        refute_selector "td.border"
       end
 
       # Custom classes

@@ -38,7 +38,7 @@ module BetterUi
           r.with_cell { "Content" }
         end
 
-        assert_selector "td.border"
+        refute_selector "td.border"
       end
 
       # Striped tests

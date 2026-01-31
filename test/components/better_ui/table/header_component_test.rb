@@ -29,8 +29,8 @@ module BetterUi
           h.with_cell(label: "Name")
         end
 
-        assert_selector "th.px-5"
-        assert_selector "th.py-3"
+        assert_selector "th.px-4"
+        assert_selector "th.py-4"
       end
 
       test "passes style to header cells" do
@@ -38,7 +38,7 @@ module BetterUi
           h.with_cell(label: "Name")
         end
 
-        assert_selector "th.border"
+        refute_selector "th.border"
       end
 
       test "renders with custom container classes" do
@@ -72,8 +72,8 @@ module BetterUi
           h.with_cell(label: "Name")
         end
 
-        assert_selector "th.px-4"
-        assert_selector "th.py-2"
+        assert_selector "th.px-3"
+        assert rendered_html.include?("py-3.5"), "Expected py-3.5 class"
       end
 
       test "renders with xs size" do
@@ -82,7 +82,7 @@ module BetterUi
         end
 
         assert_selector "th.px-2"
-        assert_selector "th.py-1"
+        assert rendered_html.include?("py-1.5"), "Expected py-1.5 class"
       end
 
       test "renders with xl size" do
@@ -91,7 +91,7 @@ module BetterUi
         end
 
         assert_selector "th.px-6"
-        assert_selector "th.py-4"
+        assert_selector "th.py-5"
       end
     end
   end

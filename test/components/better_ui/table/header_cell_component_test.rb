@@ -119,11 +119,10 @@ module BetterUi
         refute_selector "th.border"
       end
 
-      test "renders with borders for bordered style" do
+      test "bordered style does not add borders to header cells" do
         render_inline(HeaderCellComponent.new(label: "Name", style: :bordered))
 
-        assert_selector "th.border"
-        assert_selector "th.border-grayscale-200"
+        refute_selector "th.border"
       end
 
       # Custom classes
