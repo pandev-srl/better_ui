@@ -75,12 +75,12 @@ module BetterUi
       end
     end
 
-    # @label Bordered Style (Neutral)
+    # @label Bordered Style
     # @display bg_color #f5f5f5
     def bordered_style
       render BetterUi::CardComponent.new(style: :bordered) do |card|
         card.with_header { "Bordered Card" }
-        card.with_body { "Neutral gray border for visual content separation. Variant-agnostic - perfect for isolating content." }
+        card.with_body { "White background with variant-colored border. Defaults to light variant. Positioned between soft and outline in visual weight." }
       end
     end
 

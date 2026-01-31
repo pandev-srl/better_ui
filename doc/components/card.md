@@ -6,7 +6,7 @@ A flexible container component that provides structured content areas with consi
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | Symbol | `:primary` | Color variant (see VARIANTS constant) |
+| `variant` | Symbol | `:primary` (`:light` for bordered) | Color variant (see VARIANTS constant) |
 | `style` | Symbol | `:solid` | Visual style: `:solid`, `:outline`, `:ghost`, `:soft`, `:bordered` |
 | `size` | Symbol | `:md` | Size variant: `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
 | `shadow` | Boolean | `true` | Whether to apply shadow effect |
@@ -27,7 +27,7 @@ A flexible container component that provides structured content areas with consi
 | `:outline` | White background with prominent colored border |
 | `:ghost` | Transparent background, colored text only |
 | `:soft` | Very light background with minimal border |
-| `:bordered` | Neutral white background with gray border (variant-agnostic) |
+| `:bordered` | White background with variant-colored border (defaults to `:light`) |
 
 ## Slots
 
@@ -83,9 +83,14 @@ A flexible container component that provides structured content areas with consi
   <% c.with_body { "Soft success card" } %>
 <% end %>
 
-<%# Bordered card (variant-agnostic) %>
+<%# Bordered card (defaults to :light variant) %>
 <%= bui_card(style: :bordered) do |c| %>
-  <% c.with_body { "Neutral bordered card" } %>
+  <% c.with_body { "Bordered card with light variant" } %>
+<% end %>
+
+<%# Bordered card with explicit variant %>
+<%= bui_card(variant: :danger, style: :bordered) do |c| %>
+  <% c.with_body { "Bordered card with danger-colored border" } %>
 <% end %>
 ```
 

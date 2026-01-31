@@ -43,7 +43,7 @@ module BetterUi
   #   # Soft: Light colored background
   #   <%= render BetterUi::CardComponent.new(style: :soft) { "Soft card" } %>
   #
-  #   # Bordered: Neutral gray border (variant-agnostic)
+  #   # Bordered: White background with variant-colored border (defaults to :light)
   #   <%= render BetterUi::CardComponent.new(style: :bordered) { "Bordered card" } %>
   class CardComponent < ApplicationComponent
     # Size configurations for padding, text, and border radius
@@ -78,7 +78,8 @@ module BetterUi
 
     # Initializes a new card component.
     #
-    # @param variant [Symbol] the color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark), defaults to :primary
+    # @param variant [Symbol, nil] the color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark).
+    #   Defaults to :primary for most styles, :light for :bordered style.
     # @param style [Symbol] the visual style (:solid, :outline, :ghost, :soft, :bordered), defaults to :solid
     # @param size [Symbol] the size variant (:xs, :sm, :md, :lg, :xl), defaults to :md
     # @param shadow [Boolean] whether to apply shadow, defaults to true
@@ -127,7 +128,7 @@ module BetterUi
     #     <% end %>
     #   <% end %>
     def initialize(
-      variant: :primary,
+      variant: nil,
       style: :solid,
       size: :md,
       shadow: :sm,
@@ -140,8 +141,9 @@ module BetterUi
       footer_classes: nil,
       **options
     )
-      @variant = validate_variant(variant)
       @style = validate_style(style)
+      resolved_variant = variant || default_variant_for_style
+      @variant = validate_variant(resolved_variant)
       @size = validate_size(size)
       @shadow = normalize_shadow(shadow)
       @header_padding = header_padding
@@ -299,13 +301,23 @@ module BetterUi
     end
 
     # Returns CSS classes for bordered style.
-    # Neutral white background with gray border, variant-agnostic.
-    # Perfect for visual content separation and isolation.
+    # White background with variant-colored border.
+    # Positioned between soft and outline in visual weight.
     #
     # @return [Array<String>] array of CSS classes
     # @api private
     def bordered_classes
-      [ "bg-white", "border", "border-gray-300", "text-gray-900" ]
+      case @variant
+      when :primary   then [ "bg-white", "border", "border-primary-300",   "text-grayscale-900" ]
+      when :secondary then [ "bg-white", "border", "border-secondary-300", "text-grayscale-900" ]
+      when :accent    then [ "bg-white", "border", "border-accent-300",    "text-grayscale-900" ]
+      when :success   then [ "bg-white", "border", "border-success-300",   "text-grayscale-900" ]
+      when :danger    then [ "bg-white", "border", "border-danger-300",    "text-grayscale-900" ]
+      when :warning   then [ "bg-white", "border", "border-warning-300",   "text-grayscale-900" ]
+      when :info      then [ "bg-white", "border", "border-info-300",      "text-grayscale-900" ]
+      when :light     then [ "bg-white", "border", "border-grayscale-300", "text-grayscale-900" ]
+      when :dark      then [ "bg-white", "border", "border-grayscale-700", "text-grayscale-900" ]
+      end
     end
 
     # Returns shadow CSS classes based on the shadow parameter.
@@ -406,7 +418,17 @@ module BetterUi
       when :ghost
         "border-transparent"
       when :bordered
-        "border-gray-300"
+        case @variant
+        when :primary   then "border-primary-200"
+        when :secondary then "border-secondary-200"
+        when :accent    then "border-accent-200"
+        when :success   then "border-success-200"
+        when :danger    then "border-danger-200"
+        when :warning   then "border-warning-200"
+        when :info      then "border-info-200"
+        when :light     then "border-grayscale-200"
+        when :dark      then "border-grayscale-600"
+        end
       end
     end
 
@@ -416,6 +438,18 @@ module BetterUi
     # @api private
     def html_attributes
       @options
+    end
+
+    # Returns the default variant for the current style.
+    # Bordered style defaults to :light (neutral gray), all others default to :primary.
+    #
+    # @return [Symbol] the default variant
+    # @api private
+    def default_variant_for_style
+      case @style
+      when :bordered then :light
+      else :primary
+      end
     end
 
     # Validates the variant parameter.

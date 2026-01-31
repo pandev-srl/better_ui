@@ -32,7 +32,7 @@ module BetterUi
       test "renders content inside a card component" do
         render_inline(ConfirmComponent.new(title: "Confirm"))
 
-        assert_selector ".bg-white.border.border-gray-300"
+        assert_selector ".bg-white.border.border-grayscale-300"
         assert_selector ".shadow-sm"
       end
 

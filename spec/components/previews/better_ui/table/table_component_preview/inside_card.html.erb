@@ -11,6 +11,7 @@
 
     <%= render BetterUi::CardComponent.new(
       style: :bordered,
+      variant: :primary,
       body_padding: false
     ) do |card| %>
       <% card.with_header { "Team Members" } %>

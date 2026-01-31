@@ -155,7 +155,21 @@ module BetterUi
       render_inline(CardComponent.new(style: :bordered)) { "Content" }
 
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-grayscale-300" # defaults to :light variant
+      assert_selector "div.text-grayscale-900"
+    end
+
+    test "bordered defaults to light variant when no variant specified" do
+      render_inline(CardComponent.new(style: :bordered)) { "Content" }
+
+      assert_selector "div.border-grayscale-300"
+    end
+
+    test "bordered uses explicit variant when provided" do
+      render_inline(CardComponent.new(variant: :danger, style: :bordered)) { "Content" }
+
+      assert_selector "div.border-danger-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "raises error for invalid style" do
@@ -584,55 +598,64 @@ module BetterUi
     test "renders primary bordered card" do
       render_inline(CardComponent.new(variant: :primary, style: :bordered)) { "Primary" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-primary-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders secondary bordered card" do
       render_inline(CardComponent.new(variant: :secondary, style: :bordered)) { "Secondary" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-secondary-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders accent bordered card" do
       render_inline(CardComponent.new(variant: :accent, style: :bordered)) { "Accent" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-accent-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders success bordered card" do
       render_inline(CardComponent.new(variant: :success, style: :bordered)) { "Success" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-success-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders danger bordered card" do
       render_inline(CardComponent.new(variant: :danger, style: :bordered)) { "Danger" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-danger-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders warning bordered card" do
       render_inline(CardComponent.new(variant: :warning, style: :bordered)) { "Warning" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-warning-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders info bordered card" do
       render_inline(CardComponent.new(variant: :info, style: :bordered)) { "Info" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-info-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders light bordered card" do
       render_inline(CardComponent.new(variant: :light, style: :bordered)) { "Light" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-grayscale-300"
+      assert_selector "div.text-grayscale-900"
     end
 
     test "renders dark bordered card" do
       render_inline(CardComponent.new(variant: :dark, style: :bordered)) { "Dark" }
       assert_selector "div.bg-white"
-      assert_selector "div.border-gray-300"
+      assert_selector "div.border-grayscale-700"
+      assert_selector "div.text-grayscale-900"
     end
 
     # Additional outline tests for missing variants
