@@ -380,35 +380,34 @@ module BetterUi
         assert_selector "tbody.bg-white"
       end
 
-      test "renders bordered style with border on table" do
-        render_inline(TableComponent.new(style: :bordered)) do |t|
+      test "bordered style uses variant ring color on wrapper" do
+        render_inline(TableComponent.new(style: :bordered, variant: :primary)) do |t|
           t.with_row do |r|
             r.with_cell { "Content" }
           end
         end
 
-        assert_selector "table.border"
-        assert_selector "table.border-grayscale-200"
+        assert_selector "div.ring-primary-300"
       end
 
-      test "bordered style adds borders to cells" do
+      test "bordered style does not add borders to cells" do
         render_inline(TableComponent.new(style: :bordered)) do |t|
           t.with_row do |r|
             r.with_cell { "Content" }
           end
         end
 
-        assert_selector "td.border"
+        refute_selector "td.border"
       end
 
-      test "bordered style does not add divide-y to tbody" do
+      test "bordered style adds divide-y to tbody like default" do
         render_inline(TableComponent.new(style: :bordered)) do |t|
           t.with_row do |r|
             r.with_cell { "Content" }
           end
         end
 
-        refute_selector "tbody.divide-y"
+        assert_selector "tbody.divide-y"
       end
 
       test "raises error for invalid style" do
@@ -488,7 +487,7 @@ module BetterUi
           end
         end
 
-        assert_selector "tr.hover\\:bg-grayscale-100"
+        assert_selector "tr.hover\\:bg-primary-100"
       end
 
       test "collection mode rows get hoverable classes" do
@@ -498,7 +497,7 @@ module BetterUi
           t.with_column(key: :name, label: "Name")
         end
 
-        assert_selector "tr.hover\\:bg-grayscale-100"
+        assert_selector "tr.hover\\:bg-primary-100"
       end
 
       # ==========================================
@@ -707,15 +706,17 @@ module BetterUi
       # Bordered style in collection mode
       # ==========================================
 
-      test "bordered style in collection mode adds borders to cells" do
+      test "bordered style in collection mode uses variant ring and dividers" do
         users = [ ::OpenStruct.new(name: "John") ]
 
-        render_inline(TableComponent.new(collection: users, style: :bordered)) do |t|
+        render_inline(TableComponent.new(collection: users, style: :bordered, variant: :primary)) do |t|
           t.with_column(key: :name, label: "Name")
         end
 
-        assert_selector "th.border"
-        assert_selector "td.border"
+        assert_selector "div.ring-primary-300"
+        assert_selector "table.divide-y"
+        refute_selector "th.border"
+        refute_selector "td.border"
       end
 
       # ==========================================

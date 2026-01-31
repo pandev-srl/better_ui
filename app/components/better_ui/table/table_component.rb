@@ -113,11 +113,31 @@ module BetterUi
         css_classes([
           SHADOWS[@shadow],
           "ring-1",
-          "ring-black/5",
+          wrapper_ring_color,
           "sm:rounded-lg",
           @responsive ? "overflow-x-auto" : "overflow-hidden",
           @container_classes
         ].compact)
+      end
+
+      def wrapper_ring_color
+        return "ring-black/5" unless @style == :bordered
+        variant_ring_color
+      end
+
+      # Variant ring color for bordered style (literal strings for Tailwind JIT)
+      def variant_ring_color
+        case @variant
+        when :primary then "ring-primary-300"
+        when :secondary then "ring-secondary-300"
+        when :accent then "ring-accent-300"
+        when :success then "ring-success-300"
+        when :danger then "ring-danger-300"
+        when :warning then "ring-warning-300"
+        when :info then "ring-info-300"
+        when :light then "ring-grayscale-300"
+        when :dark then "ring-grayscale-700"
+        end
       end
 
       # <table> element classes
@@ -131,7 +151,7 @@ module BetterUi
       end
 
       def table_border_classes
-        "border border-grayscale-200" if @style == :bordered
+        nil
       end
 
       # <thead> classes
@@ -152,7 +172,6 @@ module BetterUi
       end
 
       def body_divide_classes
-        return nil unless @style == :default
         css_classes([
           "divide-y",
           variant_body_divide_color,
@@ -265,7 +284,17 @@ module BetterUi
 
       def collection_hoverable_classes
         return nil unless @hoverable
-        "hover:bg-grayscale-100 transition-colors"
+        case @variant
+        when :primary then "hover:bg-primary-100 transition-colors"
+        when :secondary then "hover:bg-secondary-100 transition-colors"
+        when :accent then "hover:bg-accent-100 transition-colors"
+        when :success then "hover:bg-success-100 transition-colors"
+        when :danger then "hover:bg-danger-100 transition-colors"
+        when :warning then "hover:bg-warning-100 transition-colors"
+        when :info then "hover:bg-info-100 transition-colors"
+        when :light then "hover:bg-grayscale-100 transition-colors"
+        when :dark then "hover:bg-grayscale-600 transition-colors"
+        end
       end
 
       # Collection mode: cell classes
@@ -283,14 +312,13 @@ module BetterUi
         ].compact)
       end
 
-      # Shared bordered cell classes
+      # Shared bordered cell classes (bordered now uses dividers like default)
       def bordered_cell_classes
-        "border border-grayscale-200" if @style == :bordered
+        nil
       end
 
       # Table element divide classes (literal strings for Tailwind JIT)
       def table_divide_classes
-        return nil unless @style == :default
         case @variant
         when :primary then "divide-y divide-primary-300"
         when :secondary then "divide-y divide-secondary-300"

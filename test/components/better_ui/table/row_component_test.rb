@@ -136,7 +136,7 @@ module BetterUi
           r.with_cell { "Content" }
         end
 
-        assert_selector "tr.hover\\:bg-grayscale-100"
+        assert_selector "tr.hover\\:bg-primary-100"
         assert_selector "tr.transition-colors"
       end
 

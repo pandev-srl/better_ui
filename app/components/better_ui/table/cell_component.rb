@@ -63,7 +63,7 @@ module BetterUi
       end
 
       def border_classes
-        "border border-grayscale-200" if @style == :bordered
+        nil
       end
 
       def validate_align(align)

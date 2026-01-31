@@ -53,7 +53,17 @@ module BetterUi
 
       def hoverable_classes
         return nil unless @hoverable
-        "hover:bg-grayscale-100 transition-colors"
+        case @variant
+        when :primary then "hover:bg-primary-100 transition-colors"
+        when :secondary then "hover:bg-secondary-100 transition-colors"
+        when :accent then "hover:bg-accent-100 transition-colors"
+        when :success then "hover:bg-success-100 transition-colors"
+        when :danger then "hover:bg-danger-100 transition-colors"
+        when :warning then "hover:bg-warning-100 transition-colors"
+        when :info then "hover:bg-info-100 transition-colors"
+        when :light then "hover:bg-grayscale-100 transition-colors"
+        when :dark then "hover:bg-grayscale-600 transition-colors"
+        end
       end
     end
   end
