@@ -1,0 +1,14 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Without Icon</h3>
+
+  <%= render BetterUi::Dialog::AlertComponent.new(
+    variant: :warning,
+    title: "Warning",
+    text: "This alert has no icon displayed.",
+    icon: false
+  ) do |a| %>
+    <% a.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :warning)) do %>Show Alert (No Icon)<% end %>
+    <% end %>
+  <% end %>
+</div>

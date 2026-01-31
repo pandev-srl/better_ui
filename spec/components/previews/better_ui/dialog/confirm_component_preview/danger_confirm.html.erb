@@ -1,0 +1,15 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Danger Confirm (Delete)</h3>
+
+  <%= render BetterUi::Dialog::ConfirmComponent.new(
+    variant: :danger,
+    title: "Delete Item?",
+    text: "This action cannot be undone. This will permanently delete the item and all associated data.",
+    confirm_label: "Yes, delete it",
+    cancel_label: "No, keep it"
+  ) do |c| %>
+    <% c.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :danger)) do %>Delete Item<% end %>
+    <% end %>
+  <% end %>
+</div>

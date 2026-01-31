@@ -1,0 +1,44 @@
+<div <%= tag.attributes(component_attributes) %>>
+  <% if trigger? %>
+    <div data-action="click->better-ui--dialog--dialog#open">
+      <%= trigger %>
+    </div>
+  <% end %>
+
+  <div data-dialog-overlay
+       role="dialog"
+       aria-modal="true"
+       class="fixed inset-0 z-[1000]"
+       <%= "hidden" unless open %>>
+    <%# Backdrop %>
+    <div data-better-ui--dialog--dialog-target="backdrop"
+         data-action="click->better-ui--dialog--dialog#backdropClick"
+         class="fixed inset-0 bg-black/50 transition-opacity duration-200 <%= open ? 'opacity-100' : 'opacity-0' %>">
+    </div>
+
+    <%# Centering wrapper %>
+    <div class="fixed inset-0 overflow-y-auto">
+      <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0"
+           data-action="click->better-ui--dialog--dialog#backdropClick">
+        <%# Panel (size-only wrapper) %>
+        <div data-better-ui--dialog--dialog-target="panel"
+             class="<%= panel_classes %>"
+             role="document">
+
+          <% if show_close_button %>
+            <button type="button"
+                    class="absolute right-4 top-4 text-grayscale-400 hover:text-grayscale-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-md p-1 z-10"
+                    data-action="click->better-ui--dialog--dialog#close"
+                    aria-label="Close">
+              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          <% end %>
+
+          <%= content %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

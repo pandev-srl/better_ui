@@ -327,6 +327,74 @@ module BetterUi
     end
 
     # ============================================
+    # Dialog Components
+    # ============================================
+
+    # Renders a dialog component.
+    #
+    # @param options [Hash] Options passed to Dialog::DialogComponent
+    # @option options [Symbol] :size Dialog width (:sm, :md, :lg, :xl, :xxl, :full)
+    # @option options [Boolean] :close_on_backdrop Close on backdrop click (default: true)
+    # @option options [Boolean] :close_on_escape Close on Escape key (default: true)
+    # @option options [Boolean] :open Initial open state (default: false)
+    # @option options [Boolean] :show_close_button Show X close button (default: true)
+    # @yield [dialog] Block with dialog slots
+    # @yieldparam dialog [BetterUi::Dialog::DialogComponent] The dialog component
+    # @return [String] Rendered HTML
+    #
+    # @example Dialog with trigger
+    #   <%= bui_dialog(size: :md) do |d| %>
+    #     <% d.with_trigger { bui_button(variant: :primary) { "Open" } } %>
+    #     <% d.with_header { "Dialog Title" } %>
+    #     <% d.with_body { "Dialog content" } %>
+    #     <% d.with_footer { bui_button(variant: :primary) { "Save" } } %>
+    #   <% end %>
+    def bui_dialog(**options, &block)
+      render BetterUi::Dialog::DialogComponent.new(**options), &block
+    end
+
+    # Renders an alert dialog component.
+    #
+    # @param options [Hash] Options passed to Dialog::AlertComponent
+    # @option options [Symbol] :variant Color variant (:primary, :success, :danger, :warning, :info, etc.)
+    # @option options [String, nil] :title Alert title
+    # @option options [String, nil] :text Alert message text
+    # @option options [Boolean] :icon Show icon (default: true)
+    # @option options [String] :button_label OK button label (default: "OK")
+    # @option options [Symbol] :size Dialog width (default: :sm)
+    # @yield [alert] Block with alert slots
+    # @return [String] Rendered HTML
+    #
+    # @example Success alert
+    #   <%= bui_dialog_alert(variant: :success, title: "Saved!", text: "Your changes were saved.") do |a| %>
+    #     <% a.with_trigger { bui_button(variant: :success) { "Save" } } %>
+    #   <% end %>
+    def bui_dialog_alert(**options, &block)
+      render BetterUi::Dialog::AlertComponent.new(**options), &block
+    end
+
+    # Renders a confirm dialog component.
+    #
+    # @param options [Hash] Options passed to Dialog::ConfirmComponent
+    # @option options [Symbol] :variant Color variant (default: :warning)
+    # @option options [String, nil] :title Confirm title
+    # @option options [String, nil] :text Confirm message text
+    # @option options [Boolean] :icon Show icon (default: true)
+    # @option options [String] :confirm_label Confirm button label (default: "Confirm")
+    # @option options [String] :cancel_label Cancel button label (default: "Cancel")
+    # @option options [Symbol] :size Dialog width (default: :sm)
+    # @yield [confirm] Block with confirm slots
+    # @return [String] Rendered HTML
+    #
+    # @example Danger confirm
+    #   <%= bui_dialog_confirm(variant: :danger, title: "Delete?", text: "This cannot be undone.") do |c| %>
+    #     <% c.with_trigger { bui_button(variant: :danger) { "Delete" } } %>
+    #   <% end %>
+    def bui_dialog_confirm(**options, &block)
+      render BetterUi::Dialog::ConfirmComponent.new(**options), &block
+    end
+
+    # ============================================
     # Tabs Components
     # ============================================
 

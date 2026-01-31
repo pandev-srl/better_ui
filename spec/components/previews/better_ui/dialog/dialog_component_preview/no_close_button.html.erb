@@ -1,0 +1,28 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">No Close Button</h3>
+
+  <%= render BetterUi::Dialog::DialogComponent.new(size: :sm, show_close_button: false) do |d| %>
+    <% d.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :warning)) do %>Open (No X Button)<% end %>
+    <% end %>
+
+    <%= render BetterUi::CardComponent.new(style: :bordered, shadow: true, size: :md) do |card| %>
+      <% card.with_header do %>
+        <h3 class="text-lg font-semibold text-grayscale-900">No Close Button</h3>
+      <% end %>
+
+      <% card.with_body do %>
+        <p class="text-grayscale-600">This dialog has no X button. You can still close it by clicking the backdrop or pressing Escape, or use the button below.</p>
+      <% end %>
+
+      <% card.with_footer do %>
+        <div class="flex justify-end">
+          <%= render(BetterUi::ButtonComponent.new(
+            variant: :primary,
+            data: { action: "click->better-ui--dialog--dialog#close" }
+          )) do %>Close<% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,16 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">Playground</h3>
+
+  <%= render BetterUi::Dialog::AlertComponent.new(
+    variant: @variant,
+    title: @title,
+    text: @text,
+    icon: @icon,
+    button_label: @button_label,
+    size: @size
+  ) do |a| %>
+    <% a.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: @variant.presence || :info)) do %>Show Alert<% end %>
+    <% end %>
+  <% end %>
+</div>

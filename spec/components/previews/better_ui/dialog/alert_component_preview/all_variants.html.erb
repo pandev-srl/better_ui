@@ -1,0 +1,17 @@
+<div class="p-4 space-y-4">
+  <h3 class="text-lg font-semibold mb-4">All Variants</h3>
+
+  <div class="flex flex-wrap gap-3">
+    <% BetterUi::ApplicationComponent::VARIANTS.each do |variant, _| %>
+      <%= render BetterUi::Dialog::AlertComponent.new(
+        variant: variant,
+        title: variant.to_s.capitalize,
+        text: "This is a #{variant} alert dialog."
+      ) do |a| %>
+        <% a.with_trigger do %>
+          <%= render(BetterUi::ButtonComponent.new(variant: variant, style: :outline)) do %><%= variant.to_s.capitalize %><% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<%= render BetterUi::Dialog::DialogComponent.new(
+  size: size,
+  close_on_backdrop: close_on_backdrop,
+  close_on_escape: close_on_escape,
+  show_close_button: false,
+  **options
+) do |dialog| %>
+  <% if trigger? %>
+    <% dialog.with_trigger do %>
+      <%= trigger %>
+    <% end %>
+  <% end %>
+
+  <%= render BetterUi::CardComponent.new(style: :bordered, shadow: true, size: :md) do |card| %>
+    <% card.with_body do %>
+      <div class="text-center">
+        <% if icon %>
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full <%= icon_color_classes %>">
+            <% case icon_name %>
+            <% when :check_circle %>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            <% when :exclamation_circle %>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
+            <% when :exclamation_triangle %>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            <% when :information_circle %>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if title %>
+          <h3 class="mt-4 text-lg font-semibold text-grayscale-900"><%= title %></h3>
+        <% end %>
+
+        <% if text %>
+          <p class="mt-2 text-sm text-grayscale-500"><%= text %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% card.with_footer do %>
+      <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+        <%= render(BetterUi::ButtonComponent.new(
+          variant: variant,
+          style: :solid,
+          container_classes: "w-full",
+          data: { action: "click->better-ui--dialog--dialog#close" }
+        )) do %><%= button_label %><% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

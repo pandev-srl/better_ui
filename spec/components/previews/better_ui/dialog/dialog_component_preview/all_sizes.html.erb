@@ -1,0 +1,32 @@
+<div class="p-4 space-y-4">
+  <h3 class="text-lg font-semibold mb-4">All Sizes</h3>
+
+  <div class="flex flex-wrap gap-3">
+    <% %i[sm md lg xl xxl full].each do |size| %>
+      <%= render BetterUi::Dialog::DialogComponent.new(size: size) do |d| %>
+        <% d.with_trigger do %>
+          <%= render(BetterUi::ButtonComponent.new(variant: :primary, style: :outline)) do %><%= size.to_s.upcase %><% end %>
+        <% end %>
+
+        <%= render BetterUi::CardComponent.new(style: :bordered, shadow: true, size: :md) do |card| %>
+          <% card.with_header do %>
+            <h3 class="text-lg font-semibold text-grayscale-900">Size: <%= size.to_s.upcase %></h3>
+          <% end %>
+
+          <% card.with_body do %>
+            <p class="text-grayscale-600">This dialog uses the <code class="bg-grayscale-100 px-1 rounded"><%= size %></code> size option.</p>
+          <% end %>
+
+          <% card.with_footer do %>
+            <div class="flex justify-end">
+              <%= render(BetterUi::ButtonComponent.new(
+                variant: :primary,
+                data: { action: "click->better-ui--dialog--dialog#close" }
+              )) do %>Close<% end %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

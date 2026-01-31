@@ -1,0 +1,52 @@
+<div class="p-4">
+  <h3 class="text-lg font-semibold mb-4">With Card Content</h3>
+
+  <%= render BetterUi::Dialog::DialogComponent.new(size: :lg) do |d| %>
+    <% d.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :success)) do %>Open Full Dialog<% end %>
+    <% end %>
+
+    <%= render BetterUi::CardComponent.new(style: :bordered, shadow: true, size: :md) do |card| %>
+      <% card.with_header do %>
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-success-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h3 class="text-lg font-semibold text-grayscale-900">Edit Profile</h3>
+        </div>
+      <% end %>
+
+      <% card.with_body do %>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-grayscale-700 mb-1">Name</label>
+            <input type="text" value="John Doe" class="w-full rounded-md border-grayscale-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-grayscale-700 mb-1">Email</label>
+            <input type="email" value="john@example.com" class="w-full rounded-md border-grayscale-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-grayscale-700 mb-1">Bio</label>
+            <textarea rows="3" class="w-full rounded-md border-grayscale-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border">Software developer and coffee enthusiast.</textarea>
+          </div>
+        </div>
+      <% end %>
+
+      <% card.with_footer do %>
+        <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+          <%= render(BetterUi::ButtonComponent.new(
+            variant: :secondary,
+            style: :outline,
+            data: { action: "click->better-ui--dialog--dialog#close" }
+          )) do %>Cancel<% end %>
+          <%= render(BetterUi::ButtonComponent.new(
+            variant: :success,
+            style: :solid,
+            data: { action: "click->better-ui--dialog--dialog#close" }
+          )) do %>Save Changes<% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
