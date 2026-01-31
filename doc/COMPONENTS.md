@@ -58,6 +58,14 @@ All form components support both standalone helpers and form builder integration
 | [CheckboxComponent](components/forms/checkbox.md) | Single checkbox with label | `bui_checkbox` | `f.bui_checkbox` |
 | [CheckboxGroupComponent](components/forms/checkbox_group.md) | Multiple checkboxes for multi-select | `bui_checkbox_group` | `f.bui_checkbox_group` |
 
+### Dialog Components
+
+| Component | Description | Helper |
+|-----------|-------------|--------|
+| [DialogComponent](components/dialog/dialog.md) | Overlay-only modal (backdrop + centering + size) | `bui_dialog` |
+| [AlertComponent](components/dialog/alert.md) | Alert dialog with icon, message, and OK button | `bui_dialog_alert` |
+| [ConfirmComponent](components/dialog/confirm.md) | Confirm dialog with Cancel and Confirm buttons | `bui_dialog_confirm` |
+
 ### Drawer/Layout Components
 
 | Component | Description | Helper |
@@ -87,10 +95,17 @@ graph TD
     A --> T[Drawer::SidebarComponent]
     A --> U[Drawer::NavItemComponent]
     A --> V[Drawer::NavGroupComponent]
+    A --> W[Dialog::DialogComponent]
+    A --> X[Dialog::AlertComponent]
+    A --> Y[Dialog::ConfirmComponent]
     R --> S
     R --> T
     T --> U
     T --> V
+    X --> W
+    X --> C
+    Y --> W
+    Y --> C
     J[UiFormBuilder] --> F
     J --> G
     J --> H
@@ -111,6 +126,7 @@ graph TD
     M --> D
     M --> H
     M --> R
+    M --> W
 ```
 
 ## ApplicationComponent (Base Class)
