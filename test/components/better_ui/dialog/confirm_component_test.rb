@@ -33,7 +33,7 @@ module BetterUi
         render_inline(ConfirmComponent.new(title: "Confirm"))
 
         assert_selector ".bg-white.border.border-gray-300"
-        assert_selector ".shadow-md"
+        assert_selector ".shadow-sm"
       end
 
       # Variant tests

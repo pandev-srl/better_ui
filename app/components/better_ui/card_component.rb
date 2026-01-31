@@ -130,7 +130,7 @@ module BetterUi
       variant: :primary,
       style: :solid,
       size: :md,
-      shadow: true,
+      shadow: :sm,
       header_padding: true,
       body_padding: true,
       footer_padding: true,
@@ -143,7 +143,7 @@ module BetterUi
       @variant = validate_variant(variant)
       @style = validate_style(style)
       @size = validate_size(size)
-      @shadow = shadow
+      @shadow = normalize_shadow(shadow)
       @header_padding = header_padding
       @body_padding = body_padding
       @footer_padding = footer_padding
@@ -313,7 +313,7 @@ module BetterUi
     # @return [String, nil] shadow class or nil
     # @api private
     def shadow_classes
-      @shadow ? "shadow-md" : nil
+      SHADOWS[@shadow]
     end
 
     # Returns the size configuration hash for the current size.

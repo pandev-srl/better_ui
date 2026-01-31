@@ -75,6 +75,7 @@ module BetterUi
         striped: false,
         hoverable: false,
         responsive: true,
+        shadow: :sm,
         caption: nil,
         collection: nil,
         container_classes: nil,
@@ -90,6 +91,7 @@ module BetterUi
         @striped = striped
         @hoverable = hoverable
         @responsive = responsive
+        @shadow = normalize_shadow(shadow)
         @caption = caption
         @collection = collection
         @container_classes = container_classes
@@ -109,7 +111,7 @@ module BetterUi
       # Wrapper div classes (card container)
       def wrapper_classes
         css_classes([
-          "shadow",
+          SHADOWS[@shadow],
           "ring-1",
           "ring-black/5",
           "sm:rounded-lg",

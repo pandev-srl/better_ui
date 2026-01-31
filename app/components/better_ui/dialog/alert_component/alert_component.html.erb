@@ -11,7 +11,7 @@
     <% end %>
   <% end %>
 
-  <%= render BetterUi::CardComponent.new(style: :bordered, shadow: true, size: :md) do |card| %>
+  <%= render BetterUi::CardComponent.new(style: :bordered, shadow: :sm, size: :md) do |card| %>
     <% card.with_body do %>
       <div class="text-center">
         <% if icon %>

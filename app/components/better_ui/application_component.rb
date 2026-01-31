@@ -49,7 +49,41 @@ module BetterUi
       dark: 900          # Dark backgrounds and dark text
     }.freeze
 
+    # Shadow size definitions mapping to Tailwind shadow classes.
+    # Used across all components for consistent elevation styling.
+    #
+    # @example Usage in component
+    #   SHADOWS[@shadow] # => "shadow-sm"
+    SHADOWS = {
+      none: nil,
+      sm: "shadow-sm",
+      md: "shadow-md",
+      lg: "shadow-lg",
+      xl: "shadow-xl"
+    }.freeze
+
     private
+
+    # Normalizes a shadow parameter value.
+    # Accepts Symbol sizes (:sm, :md, etc.), booleans for backward compatibility,
+    # or false/nil to disable shadows.
+    #
+    # @param value [Symbol, Boolean] the shadow value to normalize
+    # @param default [Symbol] the default shadow size (used when value is true)
+    # @return [Symbol] normalized shadow key
+    def normalize_shadow(value, default: :sm)
+      case value
+      when false, nil, :none then :none
+      when true then default
+      when Symbol
+        unless SHADOWS.key?(value)
+          raise ArgumentError, "Invalid shadow: #{value}. Must be one of: #{SHADOWS.keys.join(', ')}"
+        end
+        value
+      else
+        raise ArgumentError, "Invalid shadow: #{value}. Must be a Symbol or Boolean"
+      end
+    end
 
     # Helper to merge CSS classes intelligently using TailwindMerge
     # Resolves conflicting Tailwind utility classes

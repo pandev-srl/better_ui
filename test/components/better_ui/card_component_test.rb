@@ -10,7 +10,7 @@ module BetterUi
       assert_selector "div.flex.flex-col"
       assert_selector "div.rounded-lg" # default size (md)
       assert_selector "div.bg-primary-50" # default variant (primary) with solid style
-      assert_selector "div.shadow-md" # default shadow
+      assert_selector "div.shadow-sm" # default shadow
       assert_text "Card content"
     end
 
@@ -215,16 +215,43 @@ module BetterUi
     end
 
     # Shadow tests
-    test "renders with shadow by default" do
+    test "renders with shadow-sm by default" do
       render_inline(CardComponent.new) { "Content" }
 
-      assert_selector "div.shadow-md"
+      assert_selector "div.shadow-sm"
     end
 
     test "renders without shadow when disabled" do
       render_inline(CardComponent.new(shadow: false)) { "Content" }
 
+      refute_selector "div.shadow-sm"
       refute_selector "div.shadow-md"
+    end
+
+    test "renders with shadow-md when specified" do
+      render_inline(CardComponent.new(shadow: :md)) { "Content" }
+
+      assert_selector "div.shadow-md"
+    end
+
+    test "renders with shadow-lg when specified" do
+      render_inline(CardComponent.new(shadow: :lg)) { "Content" }
+
+      assert_selector "div.shadow-lg"
+    end
+
+    test "renders with shadow-sm for boolean true (backward compat)" do
+      render_inline(CardComponent.new(shadow: true)) { "Content" }
+
+      assert_selector "div.shadow-sm"
+    end
+
+    test "raises error for invalid shadow value" do
+      error = assert_raises(ArgumentError) do
+        CardComponent.new(shadow: :huge)
+      end
+
+      assert_match(/Invalid shadow/, error.message)
     end
 
     # Padding tests

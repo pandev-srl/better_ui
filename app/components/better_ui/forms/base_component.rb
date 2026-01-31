@@ -92,6 +92,7 @@ module BetterUi
         readonly: false,
         required: false,
         errors: nil,
+        shadow: :sm,
         container_classes: nil,
         label_classes: nil,
         input_classes: nil,
@@ -109,6 +110,7 @@ module BetterUi
         @readonly = readonly
         @required = required
         @errors = Array(errors).compact.reject(&:blank?)
+        @shadow = normalize_shadow(shadow)
         @container_classes = container_classes
         @label_classes = label_classes
         @input_classes = input_classes
@@ -238,7 +240,7 @@ module BetterUi
           "w-full",
           "rounded-md",
           "border",
-          "shadow-sm",
+          SHADOWS[@shadow],
           "transition-colors",
           "duration-200"
         ]

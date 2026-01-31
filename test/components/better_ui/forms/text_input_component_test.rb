@@ -293,6 +293,26 @@ module BetterUi
         assert_selector "input.focus\\:ring-primary-500"
         assert_selector "input.focus\\:outline-none"
       end
+
+      # Shadow tests
+      test "renders with shadow-sm by default" do
+        render_inline(TextInputComponent.new(name: "email"))
+
+        assert_selector "input.shadow-sm"
+      end
+
+      test "renders with shadow-md when specified" do
+        render_inline(TextInputComponent.new(name: "email", shadow: :md))
+
+        assert_selector "input.shadow-md"
+      end
+
+      test "renders without shadow when disabled" do
+        render_inline(TextInputComponent.new(name: "email", shadow: false))
+
+        refute_selector "input.shadow-sm"
+        refute_selector "input.shadow-md"
+      end
     end
   end
 end

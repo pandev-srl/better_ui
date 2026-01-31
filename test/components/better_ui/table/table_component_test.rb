@@ -34,7 +34,7 @@ module BetterUi
         end
 
         assert_selector "div.overflow-x-auto"
-        assert_selector "div.shadow"
+        assert_selector "div.shadow-sm"
         assert_selector "div.sm\\:rounded-lg"
         assert_selector "div.overflow-x-auto table"
       end
@@ -51,7 +51,7 @@ module BetterUi
 
         refute_selector "div.overflow-x-auto"
         assert_selector "div.overflow-hidden"
-        assert_selector "div.shadow"
+        assert_selector "div.shadow-sm"
         assert_selector "div.sm\\:rounded-lg"
         assert_selector "div table"
       end
@@ -525,6 +525,51 @@ module BetterUi
         end
 
         refute_selector "caption"
+      end
+
+      # ==========================================
+      # Shadow tests
+      # ==========================================
+
+      test "renders with shadow-sm by default" do
+        render_inline(TableComponent.new) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.shadow-sm"
+      end
+
+      test "renders with shadow-md when specified" do
+        render_inline(TableComponent.new(shadow: :md)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.shadow-md"
+      end
+
+      test "renders without shadow when disabled" do
+        render_inline(TableComponent.new(shadow: false)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        refute_selector "div.shadow-sm"
+        refute_selector "div.shadow-md"
+      end
+
+      test "renders with shadow-sm for boolean true (backward compat)" do
+        render_inline(TableComponent.new(shadow: true)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.shadow-sm"
       end
 
       # ==========================================
