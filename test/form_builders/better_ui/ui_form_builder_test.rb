@@ -10,7 +10,7 @@ module BetterUi
       include ActiveModel::Validations
 
       attr_accessor :name, :email, :age, :password, :bio, :price,
-                    :newsletter, :terms, :active, :roles, :permissions
+                    :newsletter, :terms, :active, :roles, :permissions, :country
 
       validates :name, presence: true
       validates :email, presence: true, format: { with: /@/, message: "is invalid" }
@@ -798,6 +798,110 @@ module BetterUi
       output = @builder.bui_checkbox_group(:roles, [ "Admin" ], id: "roles-group")
 
       assert_match(/id="roles-group"/, output)
+    end
+
+    # bui_select tests
+    test "bui_select renders SelectComponent" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ], [ "France", "fr" ] ])
+
+      assert_match(/role="combobox"/, output)
+      assert_match(/role="listbox"/, output)
+      assert_match(/name="user\[country\]"/, output)
+    end
+
+    test "bui_select renders collection options" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ], [ "France", "fr" ] ])
+
+      assert_match(/data-value="it"/, output)
+      assert_match(/data-value="fr"/, output)
+      assert_match(/Italy/, output)
+      assert_match(/France/, output)
+    end
+
+    test "bui_select uses humanized attribute name as default label" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ])
+
+      assert_match(/Country/, output)
+    end
+
+    test "bui_select accepts custom label" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], label: "Select Country")
+
+      assert_match(/Select Country/, output)
+    end
+
+    test "bui_select auto-populates value from model" do
+      @user.country = "fr"
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ], [ "France", "fr" ] ])
+
+      assert_match(/value="fr"/, output)
+      assert_match(/France/, output) # Selected label displayed
+    end
+
+    test "bui_select shows errors from model" do
+      @user.valid? # trigger validations (country won't have errors since no validation)
+      # Add errors manually for testing
+      @user.errors.add(:country, "must be selected")
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ])
+
+      assert_match(/Country must be selected/, output)
+      assert_match(/border-danger-500/, output)
+    end
+
+    test "bui_select accepts placeholder" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], placeholder: "Choose a country")
+
+      assert_match(/Choose a country/, output)
+    end
+
+    test "bui_select accepts clearable option" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], clearable: true)
+
+      assert_match(/clearable-value="true"/, output)
+    end
+
+    test "bui_select accepts disabled option" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], disabled: true)
+
+      assert_match(/disabled/, output)
+    end
+
+    test "bui_select accepts readonly option" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], readonly: true)
+
+      assert_match(/aria-readonly="true"/, output)
+    end
+
+    test "bui_select accepts size option" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], size: :lg)
+
+      assert_match(/text-lg/, output)
+    end
+
+    test "bui_select accepts block for prefix icon" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ]) do |component|
+        component.with_prefix_icon { '<svg class="globe-icon"></svg>'.html_safe }
+      end
+
+      assert_match(/globe-icon/, output)
+    end
+
+    test "bui_select includes Stimulus controller" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ])
+
+      assert_match(/data-controller="better-ui--forms--select"/, output)
+    end
+
+    test "bui_select passes through data attributes" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], data: { custom: "value" })
+
+      assert_match(/data-custom="value"/, output)
+    end
+
+    test "bui_select passes through id attribute" do
+      output = @builder.bui_select(:country, [ [ "Italy", "it" ] ], id: "country-select")
+
+      assert_match(/id="country-select"/, output)
     end
   end
 end

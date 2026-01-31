@@ -1,0 +1,64 @@
+<div class="space-y-6 max-w-md">
+  <% countries = [["Italy", "it"], ["France", "fr"], ["Germany", "de"], ["Spain", "es"]] %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "normal",
+    collection: countries,
+    label: "Normal",
+    placeholder: "Select a country..."
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "with_value",
+    collection: countries,
+    label: "With Value",
+    value: "fr"
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "required",
+    collection: countries,
+    label: "Required",
+    required: true,
+    placeholder: "Select a country..."
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "disabled",
+    collection: countries,
+    label: "Disabled",
+    value: "it",
+    disabled: true
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "readonly",
+    collection: countries,
+    label: "Readonly",
+    value: "de",
+    readonly: true
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "with_errors",
+    collection: countries,
+    label: "With Errors",
+    errors: ["Country can't be blank", "Country is not included in the list"]
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "clearable",
+    collection: countries,
+    label: "Clearable",
+    value: "es",
+    clearable: true
+  ) %>
+
+  <%= render BetterUi::Forms::SelectComponent.new(
+    name: "with_hint",
+    collection: countries,
+    label: "With Hint",
+    hint: "Select the country you currently reside in.",
+    placeholder: "Select a country..."
+  ) %>
+</div>

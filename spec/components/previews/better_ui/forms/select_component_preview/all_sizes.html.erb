@@ -1,0 +1,13 @@
+<div class="space-y-6 max-w-md">
+  <% countries = [["Italy", "it"], ["France", "fr"], ["Germany", "de"], ["Spain", "es"]] %>
+
+  <% BetterUi::Forms::BaseComponent::SIZES.each do |size| %>
+    <%= render BetterUi::Forms::SelectComponent.new(
+      name: "size_#{size}",
+      collection: countries,
+      label: "Size: #{size}",
+      placeholder: "Select a country...",
+      size: size
+    ) %>
+  <% end %>
+</div>

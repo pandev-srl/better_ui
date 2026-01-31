@@ -279,6 +279,36 @@ module BetterUi
       render BetterUi::Forms::CheckboxGroupComponent.new(name: name, collection: collection, **options)
     end
 
+    # Renders a custom select dropdown component.
+    #
+    # @param name [String] Input name attribute
+    # @param collection [Array] Collection of options (values or [label, value] pairs)
+    # @param options [Hash] Options passed to Forms::SelectComponent
+    # @option options [String, nil] :value Selected value
+    # @option options [String, nil] :label Label text
+    # @option options [String, nil] :hint Hint text
+    # @option options [String, nil] :placeholder Placeholder text
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Boolean] :disabled Disabled state
+    # @option options [Boolean] :readonly Readonly state
+    # @option options [Boolean] :required Required field
+    # @option options [Boolean] :clearable Show clear button
+    # @option options [String, nil] :dropdown_classes Custom dropdown classes
+    # @option options [Array<String>, String, nil] :errors Error messages
+    # @yield [select] Block with select slots (e.g., prefix_icon)
+    # @return [String] Rendered HTML
+    #
+    # @example Basic select
+    #   <%= bui_select("country", [["Italy", "it"], ["France", "fr"]], label: "Country") %>
+    #
+    # @example With prefix icon
+    #   <%= bui_select("country", [["Italy", "it"]], clearable: true) do |s| %>
+    #     <% s.with_prefix_icon { icon_svg } %>
+    #   <% end %>
+    def bui_select(name, collection, **options, &block)
+      render BetterUi::Forms::SelectComponent.new(name: name, collection: collection, **options), &block
+    end
+
     # ============================================
     # Drawer Components
     # ============================================

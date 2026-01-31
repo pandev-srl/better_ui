@@ -318,6 +318,47 @@ module BetterUi
       @template.render(BetterUi::Forms::CheckboxGroupComponent.new(**component_options))
     end
 
+    # Renders a custom select dropdown using BetterUi::Forms::SelectComponent
+    #
+    # @param attribute [Symbol] The attribute name
+    # @param collection [Array] The collection of options, can be:
+    #   - Array of values (e.g., ["Red", "Blue"])
+    #   - Array of [label, value] pairs (e.g., [["Italy", "it"], ["France", "fr"]])
+    # @param options [Hash] Additional options to pass to the component
+    # @option options [String] :label Custom label text (defaults to humanized attribute name)
+    # @option options [String] :hint Hint text to display below the select
+    # @option options [String] :placeholder Placeholder text
+    # @option options [Symbol] :size Size variant (:xs, :sm, :md, :lg, :xl)
+    # @option options [Boolean] :disabled Whether the select is disabled
+    # @option options [Boolean] :readonly Whether the select is readonly
+    # @option options [Boolean] :required Whether the select is required
+    # @option options [Boolean] :clearable Whether to show a clear button
+    # @option options [String] :dropdown_classes Custom CSS classes for the dropdown
+    # @return [String] Rendered component HTML
+    #
+    # @example Basic usage
+    #   <%= f.bui_select :country, [["Italy", "it"], ["France", "fr"]] %>
+    #
+    # @example With options
+    #   <%= f.bui_select :country, [["Italy", "it"]], clearable: true, size: :lg %>
+    #
+    # @example With prefix icon
+    #   <%= f.bui_select :country, [["Italy", "it"]] do |c| %>
+    #     <% c.with_prefix_icon { icon_svg } %>
+    #   <% end %>
+    def bui_select(attribute, collection, options = {}, &block)
+      component_options = build_input_options(attribute, options)
+      component_options[:collection] = collection
+      component_options[:clearable] = options.fetch(:clearable, false)
+      component_options[:dropdown_classes] = options[:dropdown_classes] if options.key?(:dropdown_classes)
+
+      if block_given?
+        @template.render(BetterUi::Forms::SelectComponent.new(**component_options), &block)
+      else
+        @template.render(BetterUi::Forms::SelectComponent.new(**component_options))
+      end
+    end
+
     private
 
     # Builds common options for input components.
