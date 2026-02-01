@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-02-01
+
+### Fixed
+- **Gemspec**: Include `spec/components/previews` in packaged gem files, so Lookbook previews are available to host applications
+
 ## [0.9.0] - 2026-02-01
 
 ### Added
