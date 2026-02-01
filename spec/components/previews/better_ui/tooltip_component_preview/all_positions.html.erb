@@ -1,0 +1,25 @@
+<div class="p-16 space-y-12">
+  <h3 class="text-lg font-semibold mb-6">Tooltip Positions</h3>
+
+  <div class="flex flex-wrap gap-16 items-center justify-center">
+    <% %i[top right bottom left].each do |position| %>
+      <%= render BetterUi::TooltipComponent.new(text: "Tooltip on #{position}", position: position) do %>
+        <button class="px-4 py-2 bg-primary-600 text-white rounded-md">
+          <%= position.to_s.capitalize %>
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h3 class="text-lg font-semibold mb-6 mt-12">Positions with Light Variant</h3>
+
+  <div class="flex flex-wrap gap-16 items-center justify-center">
+    <% %i[top right bottom left].each do |position| %>
+      <%= render BetterUi::TooltipComponent.new(text: "Light tooltip on #{position}", position: position, variant: :light) do %>
+        <button class="px-4 py-2 bg-grayscale-200 text-grayscale-900 rounded-md">
+          <%= position.to_s.capitalize %>
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="flex flex-wrap items-center gap-6 p-4">
+  <% [:circle, :square, :rounded].each do |shape| %>
+    <div class="flex flex-col items-center gap-2">
+      <%= render BetterUi::AvatarComponent.new(
+        src: "https://i.pravatar.cc/150?u=#{shape}",
+        alt: "Avatar #{shape}",
+        size: :lg,
+        shape: shape
+      ) %>
+      <span class="text-sm text-grayscale-600"><%= shape %></span>
+    </div>
+  <% end %>
+</div>
+<div class="flex flex-wrap items-center gap-6 p-4 mt-4">
+  <% [:circle, :square, :rounded].each do |shape| %>
+    <div class="flex flex-col items-center gap-2">
+      <%= render BetterUi::AvatarComponent.new(
+        name: "John Doe",
+        variant: :primary,
+        size: :lg,
+        shape: shape
+      ) %>
+      <span class="text-sm text-grayscale-600"><%= shape %></span>
+    </div>
+  <% end %>
+</div>

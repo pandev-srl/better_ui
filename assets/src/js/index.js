@@ -4,6 +4,7 @@ import "../css/index.css"
 // BetterUi Stimulus Controllers
 import ButtonController from "./button_controller"
 import ActionMessagesController from "./action_messages_controller"
+import TagController from "./tag_controller"
 import PasswordInputController from "./forms/password_input_controller"
 import SelectController from "./forms/select_controller"
 import DrawerLayoutController from "./drawer/layout_controller"
@@ -11,7 +12,7 @@ import TabsContainerController from "./tabs/container_controller"
 import DialogController from "./dialog/dialog_controller"
 
 // Export individual controllers for selective imports
-export { ButtonController, ActionMessagesController, PasswordInputController, SelectController, DrawerLayoutController, TabsContainerController, DialogController }
+export { ButtonController, ActionMessagesController, TagController, PasswordInputController, SelectController, DrawerLayoutController, TabsContainerController, DialogController }
 
 /**
  * Register all BetterUi controllers with a Stimulus application
@@ -27,6 +28,7 @@ export { ButtonController, ActionMessagesController, PasswordInputController, Se
 export function registerControllers(application) {
   application.register("better-ui--button", ButtonController)
   application.register("better-ui--action-messages", ActionMessagesController)
+  application.register("better-ui--tag", TagController)
   application.register("better-ui--forms--password-input", PasswordInputController)
   application.register("better-ui--forms--select", SelectController)
   application.register("better-ui--drawer--layout", DrawerLayoutController)

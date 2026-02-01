@@ -1,0 +1,34 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Dismissible Tags</h3>
+    <div class="flex flex-wrap gap-3">
+      <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+        <%= render BetterUi::TagComponent.new(variant: variant, dismissible: true) do %>
+          <%= variant.to_s.capitalize %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Dismissible Outline Tags</h3>
+    <div class="flex flex-wrap gap-3">
+      <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+        <%= render BetterUi::TagComponent.new(variant: variant, style: :outline, dismissible: true) do %>
+          <%= variant.to_s.capitalize %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Dismissible Soft Tags</h3>
+    <div class="flex flex-wrap gap-3">
+      <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+        <%= render BetterUi::TagComponent.new(variant: variant, style: :soft, dismissible: true) do %>
+          <%= variant.to_s.capitalize %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

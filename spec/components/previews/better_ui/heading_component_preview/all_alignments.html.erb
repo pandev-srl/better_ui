@@ -1,0 +1,12 @@
+<div class="space-y-6 p-4">
+  <% %i[left center right].each do |align| %>
+    <div class="border border-grayscale-200 rounded-lg p-4">
+      <%= render BetterUi::HeadingComponent.new(
+        level: :h3,
+        align: align,
+        subtitle: "This heading is aligned to the #{align}",
+        divider: true
+      ) { "#{align.to_s.capitalize} Aligned" } %>
+    </div>
+  <% end %>
+</div>

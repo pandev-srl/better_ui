@@ -1,0 +1,11 @@
+<div class="<%= wrapper_classes %>">
+  <div class="flex items-center justify-between">
+    <<%= heading_tag %> class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>><%= content %></<%= heading_tag %>>
+    <% if actions? %>
+      <div class="flex items-center gap-2"><%= actions %></div>
+    <% end %>
+  </div>
+  <% if show_subtitle? %>
+    <p class="<%= subtitle_classes %>"><%= subtitle? ? subtitle : @subtitle_text %></p>
+  <% end %>
+</div>

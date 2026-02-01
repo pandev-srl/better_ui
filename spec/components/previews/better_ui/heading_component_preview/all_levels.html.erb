@@ -1,0 +1,7 @@
+<div class="space-y-6 p-4">
+  <% %i[h1 h2 h3 h4 h5 h6].each do |level| %>
+    <div>
+      <%= render BetterUi::HeadingComponent.new(level: level, subtitle: "This is the #{level} heading level with its default typography") { "#{level.to_s.upcase} Heading" } %>
+    </div>
+  <% end %>
+</div>

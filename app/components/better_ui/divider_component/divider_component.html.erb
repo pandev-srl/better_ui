@@ -1,0 +1,11 @@
+<% if horizontal? && has_label? %>
+  <div class="<%= wrapper_classes %>" role="separator" <%= tag.attributes(html_attributes) %>>
+    <div class="<%= line_classes(:first) %>"></div>
+    <span class="<%= label_text_classes %>"><%= @label %></span>
+    <div class="<%= line_classes(:second) %>"></div>
+  </div>
+<% elsif horizontal? %>
+  <hr class="<%= component_classes %>" <%= tag.attributes(html_attributes) %>>
+<% else %>
+  <div class="<%= component_classes %>" role="separator" <%= tag.attributes(html_attributes) %>></div>
+<% end %>

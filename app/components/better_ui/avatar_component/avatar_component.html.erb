@@ -1,0 +1,15 @@
+<div class="relative inline-flex <%= @container_classes %>">
+  <% if @src %>
+    <img src="<%= @src %>" alt="<%= alt_text %>" class="<%= component_classes %> object-cover" />
+  <% else %>
+    <div class="<%= component_classes %> flex items-center justify-center font-medium">
+      <%= initials %>
+    </div>
+  <% end %>
+  <% if @status %>
+    <span class="absolute bottom-0 right-0 block <%= status_classes %> rounded-full ring-2 ring-white"></span>
+  <% end %>
+  <% if badge? %>
+    <span class="absolute -top-1 -right-1"><%= badge %></span>
+  <% end %>
+</div>

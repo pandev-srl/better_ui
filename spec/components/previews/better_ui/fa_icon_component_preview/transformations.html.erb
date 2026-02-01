@@ -1,0 +1,88 @@
+<div class="p-8 space-y-8">
+  <h3 class="text-lg font-semibold mb-6">FontAwesome Icon Transformations</h3>
+
+  <div class="space-y-8 text-2xl">
+    <%# Flip transformations %>
+    <div>
+      <h4 class="text-base font-medium mb-4 text-gray-700">Flip</h4>
+      <div class="space-y-4">
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">Normal</span>
+          <%= render BetterUi::FaIconComponent.new(name: "flag", style: :solid) %>
+          <%= render BetterUi::FaIconComponent.new(name: "shield", style: :solid) %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">Horizontal</span>
+          <%= render BetterUi::FaIconComponent.new(name: "flag", style: :solid, flip: :horizontal) %>
+          <%= render BetterUi::FaIconComponent.new(name: "shield", style: :solid, flip: :horizontal) %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">Vertical</span>
+          <%= render BetterUi::FaIconComponent.new(name: "flag", style: :solid, flip: :vertical) %>
+          <%= render BetterUi::FaIconComponent.new(name: "shield", style: :solid, flip: :vertical) %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">Both</span>
+          <%= render BetterUi::FaIconComponent.new(name: "flag", style: :solid, flip: :both) %>
+          <%= render BetterUi::FaIconComponent.new(name: "shield", style: :solid, flip: :both) %>
+        </div>
+      </div>
+    </div>
+
+    <%# Rotate transformations %>
+    <div>
+      <h4 class="text-base font-medium mb-4 text-gray-700">Rotate</h4>
+      <div class="space-y-4">
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">Normal</span>
+          <%= render BetterUi::FaIconComponent.new(name: "arrow-right", style: :solid) %>
+          <%= render BetterUi::FaIconComponent.new(name: "phone", style: :solid) %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">90 degrees</span>
+          <%= render BetterUi::FaIconComponent.new(name: "arrow-right", style: :solid, rotate: 90) %>
+          <%= render BetterUi::FaIconComponent.new(name: "phone", style: :solid, rotate: 90) %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">180 degrees</span>
+          <%= render BetterUi::FaIconComponent.new(name: "arrow-right", style: :solid, rotate: 180) %>
+          <%= render BetterUi::FaIconComponent.new(name: "phone", style: :solid, rotate: 180) %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="w-32 text-sm font-medium text-gray-600">270 degrees</span>
+          <%= render BetterUi::FaIconComponent.new(name: "arrow-right", style: :solid, rotate: 270) %>
+          <%= render BetterUi::FaIconComponent.new(name: "phone", style: :solid, rotate: 270) %>
+        </div>
+      </div>
+    </div>
+
+    <%# Fixed width %>
+    <div>
+      <h4 class="text-base font-medium mb-4 text-gray-700">Fixed Width</h4>
+      <div class="space-y-2">
+        <div class="flex items-center gap-1 bg-gray-100 p-2 rounded">
+          <%= render BetterUi::FaIconComponent.new(name: "home", style: :solid, fixed_width: true) %>
+          <span class="text-sm">Home</span>
+        </div>
+        <div class="flex items-center gap-1 bg-gray-100 p-2 rounded">
+          <%= render BetterUi::FaIconComponent.new(name: "info", style: :solid, fixed_width: true) %>
+          <span class="text-sm">Info</span>
+        </div>
+        <div class="flex items-center gap-1 bg-gray-100 p-2 rounded">
+          <%= render BetterUi::FaIconComponent.new(name: "book", style: :solid, fixed_width: true) %>
+          <span class="text-sm">Book</span>
+        </div>
+        <div class="flex items-center gap-1 bg-gray-100 p-2 rounded">
+          <%= render BetterUi::FaIconComponent.new(name: "music", style: :solid, fixed_width: true) %>
+          <span class="text-sm">Music</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

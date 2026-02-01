@@ -1,0 +1,26 @@
+<div class="p-8 space-y-8">
+  <h3 class="text-lg font-semibold mb-6">FontAwesome Icon Animations</h3>
+
+  <div class="space-y-6 text-2xl">
+    <div class="flex items-center gap-4">
+      <span class="w-32 text-sm font-medium text-gray-600">No animation</span>
+      <%= render BetterUi::FaIconComponent.new(name: "spinner", style: :solid) %>
+      <%= render BetterUi::FaIconComponent.new(name: "gear", style: :solid) %>
+      <%= render BetterUi::FaIconComponent.new(name: "circle-notch", style: :solid) %>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <span class="w-32 text-sm font-medium text-gray-600">Spin</span>
+      <%= render BetterUi::FaIconComponent.new(name: "spinner", style: :solid, spin: true) %>
+      <%= render BetterUi::FaIconComponent.new(name: "gear", style: :solid, spin: true) %>
+      <%= render BetterUi::FaIconComponent.new(name: "circle-notch", style: :solid, spin: true) %>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <span class="w-32 text-sm font-medium text-gray-600">Pulse</span>
+      <%= render BetterUi::FaIconComponent.new(name: "spinner", style: :solid, pulse: true) %>
+      <%= render BetterUi::FaIconComponent.new(name: "gear", style: :solid, pulse: true) %>
+      <%= render BetterUi::FaIconComponent.new(name: "circle-notch", style: :solid, pulse: true) %>
+    </div>
+  </div>
+</div>

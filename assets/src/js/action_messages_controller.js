@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import { dismissElement } from "./utils/dismiss";
 
 /**
  * ActionMessages Stimulus Controller
@@ -33,11 +34,10 @@ export default class extends Controller {
    * Starts auto-dismiss timer if autoDismiss value is configured
    */
   connect() {
-    // Start auto-dismiss timer if configured (value > 0)
     if (this.hasAutoDismissValue && this.autoDismissValue > 0) {
       this.timeout = setTimeout(() => {
         this.dismiss();
-      }, this.autoDismissValue * 1000); // Convert seconds to milliseconds
+      }, this.autoDismissValue * 1000);
     }
   }
 
@@ -46,7 +46,6 @@ export default class extends Controller {
    * Cleans up timeout to prevent memory leaks
    */
   disconnect() {
-    // Cleanup timer to prevent memory leaks
     if (this.timeout) {
       clearTimeout(this.timeout);
       this.timeout = null;
@@ -56,28 +55,13 @@ export default class extends Controller {
   /**
    * Action: Dismiss the message with fade-out animation
    * Can be triggered manually (button click) or automatically (timer)
-   *
-   * Process:
-   * 1. Clear any existing auto-dismiss timer
-   * 2. Apply CSS transition for smooth fade-out
-   * 3. Set opacity to 0
-   * 4. Remove element from DOM after animation completes
    */
   dismiss() {
-    // Cleanup timer if manually dismissed before auto-dismiss
     if (this.timeout) {
       clearTimeout(this.timeout);
       this.timeout = null;
     }
 
-    // Add fade-out CSS transition (300ms duration)
-    this.element.style.transition = "opacity 0.3s ease-out";
-    this.element.style.opacity = "0";
-
-    // Remove element from DOM after animation completes
-    // Timeout matches CSS transition duration (300ms)
-    setTimeout(() => {
-      this.element.remove();
-    }, 300);
+    dismissElement(this.element, { duration: 300 });
   }
 }

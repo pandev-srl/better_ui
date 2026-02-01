@@ -1,0 +1,19 @@
+<div class="p-8 space-y-6">
+  <h3 class="text-lg font-semibold mb-4">FontAwesome Icon Styles</h3>
+
+  <div class="space-y-4">
+    <% (@styles || BetterUi::FaIconComponent::STYLES.keys).each do |style| %>
+      <div class="flex items-center gap-4">
+        <span class="w-24 text-sm font-medium text-gray-600 capitalize"><%= style %></span>
+
+        <div class="flex gap-4 items-center text-2xl">
+          <%= render BetterUi::FaIconComponent.new(name: "user", style: style) %>
+          <%= render BetterUi::FaIconComponent.new(name: "heart", style: style) %>
+          <%= render BetterUi::FaIconComponent.new(name: "star", style: style) %>
+          <%= render BetterUi::FaIconComponent.new(name: "bell", style: style) %>
+          <%= render BetterUi::FaIconComponent.new(name: "bookmark", style: style) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

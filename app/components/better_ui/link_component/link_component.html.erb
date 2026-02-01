@@ -1,0 +1,5 @@
+<a <%= tag.attributes(component_attributes) %> href="<%= @disabled ? nil : @href %>" class="<%= component_classes %>">
+  <%= icon_before if icon_before? %>
+  <%= content %>
+  <%= icon_after if icon_after? %>
+</a>

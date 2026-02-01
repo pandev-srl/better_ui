@@ -1,0 +1,33 @@
+<% if link? %>
+<a <%= tag.attributes(component_attributes) %> class="<%= component_classes %>">
+  <% if icon_before? %>
+    <span class="inline-flex items-center <%= SIZES[size][:icon] %>">
+      <%= icon_before %>
+    </span>
+  <% end %>
+  <%= content %>
+  <% if dismissible %>
+    <button type="button" data-action="click->better-ui--tag#dismiss" class="inline-flex items-center ml-1 hover:opacity-75 focus:outline-none" aria-label="Dismiss">
+      <svg class="<%= dismiss_icon_classes %>" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  <% end %>
+</a>
+<% else %>
+<span <%= tag.attributes(component_attributes) %> class="<%= component_classes %>">
+  <% if icon_before? %>
+    <span class="inline-flex items-center <%= SIZES[size][:icon] %>">
+      <%= icon_before %>
+    </span>
+  <% end %>
+  <%= content %>
+  <% if dismissible %>
+    <button type="button" data-action="click->better-ui--tag#dismiss" class="inline-flex items-center ml-1 hover:opacity-75 focus:outline-none" aria-label="Dismiss">
+      <svg class="<%= dismiss_icon_classes %>" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  <% end %>
+</span>
+<% end %>

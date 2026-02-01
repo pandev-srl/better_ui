@@ -1,0 +1,22 @@
+<div class="flex flex-wrap items-center gap-6 p-4">
+  <% [
+    ["Alice", :primary],
+    ["Bob Smith", :secondary],
+    ["Charlie Brown", :accent],
+    ["Diana", :success],
+    ["Edward Norton", :danger],
+    ["Fiona Apple", :warning],
+    ["George", :info],
+    ["Helen Troy", :light],
+    ["Ivan Drago", :dark]
+  ].each do |name, variant| %>
+    <div class="flex flex-col items-center gap-2">
+      <%= render BetterUi::AvatarComponent.new(
+        name: name,
+        variant: variant,
+        size: :lg
+      ) %>
+      <span class="text-sm text-grayscale-600"><%= name %></span>
+    </div>
+  <% end %>
+</div>

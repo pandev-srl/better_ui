@@ -1,0 +1,14 @@
+<div class="space-y-4 p-4">
+  <div class="mb-6">
+    <%= render BetterUi::HeadingComponent.new(level: :h3) { "No Variant (inherits color)" } %>
+  </div>
+  <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+    <div>
+      <%= render BetterUi::HeadingComponent.new(
+        level: :h3,
+        variant: variant,
+        subtitle: "This heading uses the #{variant} color variant"
+      ) { "#{variant.to_s.capitalize} Variant" } %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,11 @@
+<div class="p-8 space-y-8">
+  <h3 class="text-lg font-semibold mb-4">Progress Variants</h3>
+  <div class="space-y-4 max-w-lg">
+    <% (@variants || BetterUi::ApplicationComponent::VARIANTS.keys).each do |variant| %>
+      <div>
+        <span class="text-sm font-medium text-gray-600 capitalize mb-1 block"><%= variant %></span>
+        <%= render BetterUi::ProgressComponent.new(value: 65, variant: variant, size: :md) %>
+      </div>
+    <% end %>
+  </div>
+</div>

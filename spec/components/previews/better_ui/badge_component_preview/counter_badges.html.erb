@@ -1,0 +1,39 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Counter Badges (Solid)</h3>
+    <div class="flex flex-wrap gap-3 items-center">
+      <% BetterUi::ApplicationComponent::VARIANTS.each do |variant, _| %>
+        <%= render BetterUi::BadgeComponent.new(variant: variant, counter: rand(1..99)) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Counter Badges (Outline)</h3>
+    <div class="flex flex-wrap gap-3 items-center">
+      <% BetterUi::ApplicationComponent::VARIANTS.each do |variant, _| %>
+        <%= render BetterUi::BadgeComponent.new(variant: variant, style: :outline, counter: rand(1..99)) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Counter Sizes</h3>
+    <div class="flex flex-wrap gap-3 items-center">
+      <%= render BetterUi::BadgeComponent.new(size: :xs, variant: :danger, counter: 3) %>
+      <%= render BetterUi::BadgeComponent.new(size: :sm, variant: :danger, counter: 12) %>
+      <%= render BetterUi::BadgeComponent.new(size: :md, variant: :danger, counter: 42) %>
+      <%= render BetterUi::BadgeComponent.new(size: :lg, variant: :danger, counter: 99) %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-4">Pill vs Rounded Counters</h3>
+    <div class="flex flex-wrap gap-3 items-center">
+      <%= render BetterUi::BadgeComponent.new(variant: :primary, counter: 7, pill: true) %>
+      <%= render BetterUi::BadgeComponent.new(variant: :primary, counter: 7, pill: false) %>
+      <%= render BetterUi::BadgeComponent.new(variant: :danger, counter: 99, pill: true) %>
+      <%= render BetterUi::BadgeComponent.new(variant: :danger, counter: 99, pill: false) %>
+    </div>
+  </div>
+</div>

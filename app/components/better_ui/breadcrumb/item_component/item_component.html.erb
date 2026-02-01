@@ -1,0 +1,11 @@
+<% if current? %>
+  <span class="<%= current_classes %>" aria-current="page">
+    <%= icon_before if icon_before? %>
+    <%= @label %>
+  </span>
+<% else %>
+  <a href="<%= @href %>" class="<%= link_classes %>">
+    <%= icon_before if icon_before? %>
+    <%= @label %>
+  </a>
+<% end %>

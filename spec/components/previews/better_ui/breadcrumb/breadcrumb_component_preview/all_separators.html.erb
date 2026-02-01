@@ -1,0 +1,47 @@
+<div class="p-6 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold text-grayscale-900 mb-2">Slash Separator (default)</h3>
+    <%= render BetterUi::Breadcrumb::BreadcrumbComponent.new(separator: :slash) do |breadcrumb| %>
+      <% breadcrumb.with_item(label: "Home", href: "#") %>
+      <% breadcrumb.with_item(label: "Products", href: "#") %>
+      <% breadcrumb.with_item(label: "Widget") %>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold text-grayscale-900 mb-2">Chevron Separator</h3>
+    <%= render BetterUi::Breadcrumb::BreadcrumbComponent.new(separator: :chevron) do |breadcrumb| %>
+      <% breadcrumb.with_item(label: "Home", href: "#") %>
+      <% breadcrumb.with_item(label: "Products", href: "#") %>
+      <% breadcrumb.with_item(label: "Widget") %>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold text-grayscale-900 mb-2">Dot Separator</h3>
+    <%= render BetterUi::Breadcrumb::BreadcrumbComponent.new(separator: :dot) do |breadcrumb| %>
+      <% breadcrumb.with_item(label: "Home", href: "#") %>
+      <% breadcrumb.with_item(label: "Products", href: "#") %>
+      <% breadcrumb.with_item(label: "Widget") %>
+    <% end %>
+  </div>
+
+  <hr class="border-grayscale-200">
+
+  <div>
+    <h3 class="text-lg font-semibold text-grayscale-900 mb-4">All Sizes</h3>
+
+    <div class="space-y-4">
+      <% BetterUi::Breadcrumb::BreadcrumbComponent::SIZES.each do |size| %>
+        <div>
+          <p class="text-sm text-grayscale-500 mb-1">Size: <%= size %></p>
+          <%= render BetterUi::Breadcrumb::BreadcrumbComponent.new(separator: :chevron, size: size) do |breadcrumb| %>
+            <% breadcrumb.with_item(label: "Home", href: "#") %>
+            <% breadcrumb.with_item(label: "Products", href: "#") %>
+            <% breadcrumb.with_item(label: "Widget") %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

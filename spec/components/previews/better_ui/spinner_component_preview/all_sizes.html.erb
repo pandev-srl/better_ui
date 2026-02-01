@@ -1,0 +1,17 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-6">Spinner Sizes</h3>
+
+  <div class="space-y-6">
+    <% (@sizes || [:xs, :sm, :md, :lg, :xl]).each do |size| %>
+      <div class="flex items-center gap-4">
+        <span class="w-20 text-sm font-medium text-gray-600 uppercase"><%= size %></span>
+
+        <div class="flex flex-wrap gap-6 items-center">
+          <%= render BetterUi::SpinnerComponent.new(size: size, variant: :primary) %>
+          <%= render BetterUi::SpinnerComponent.new(size: size, variant: :success) %>
+          <%= render BetterUi::SpinnerComponent.new(size: size, variant: :danger) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

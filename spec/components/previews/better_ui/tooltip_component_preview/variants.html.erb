@@ -1,0 +1,37 @@
+<div class="p-16 space-y-12">
+  <h3 class="text-lg font-semibold mb-6">Dark Variant (default)</h3>
+
+  <div class="flex flex-wrap gap-12 items-center">
+    <% %i[sm md].each do |size| %>
+      <%= render BetterUi::TooltipComponent.new(text: "Dark tooltip (#{size})", variant: :dark, size: size) do %>
+        <button class="px-4 py-2 bg-primary-600 text-white rounded-md">
+          Dark (<%= size.to_s.upcase %>)
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h3 class="text-lg font-semibold mb-6 mt-12">Light Variant</h3>
+
+  <div class="flex flex-wrap gap-12 items-center">
+    <% %i[sm md].each do |size| %>
+      <%= render BetterUi::TooltipComponent.new(text: "Light tooltip (#{size})", variant: :light, size: size) do %>
+        <button class="px-4 py-2 bg-grayscale-200 text-grayscale-900 rounded-md">
+          Light (<%= size.to_s.upcase %>)
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h3 class="text-lg font-semibold mb-6 mt-12">Sizes Comparison</h3>
+
+  <div class="flex flex-wrap gap-12 items-center">
+    <%= render BetterUi::TooltipComponent.new(text: "Small tooltip", size: :sm) do %>
+      <button class="px-4 py-2 bg-primary-600 text-white rounded-md">Small (SM)</button>
+    <% end %>
+
+    <%= render BetterUi::TooltipComponent.new(text: "Medium tooltip", size: :md) do %>
+      <button class="px-4 py-2 bg-primary-600 text-white rounded-md">Medium (MD)</button>
+    <% end %>
+  </div>
+</div>

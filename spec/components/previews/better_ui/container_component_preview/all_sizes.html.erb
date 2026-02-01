@@ -1,0 +1,13 @@
+<div class="space-y-6 p-4">
+  <% [:sm, :md, :lg, :xl, :full].each do |size| %>
+    <div>
+      <p class="text-sm font-medium text-gray-500 mb-2">Size: <code><%= size %></code></p>
+      <%= render BetterUi::ContainerComponent.new(size: size, container_classes: "bg-blue-50 border border-blue-200 rounded-lg") do %>
+        <div class="bg-white p-4 rounded shadow-sm text-center">
+          Container with <strong><%= size %></strong> max-width
+          (<%= size == :full ? "max-w-full" : "max-w-screen-#{size}" %>)
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,26 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-6">FontAwesome Icon Variants</h3>
+
+  <div class="space-y-4">
+    <div class="flex items-center gap-4 mb-2">
+      <span class="w-24 text-sm font-medium text-gray-600">inherit</span>
+      <div class="flex gap-4 items-center text-2xl">
+        <%= render BetterUi::FaIconComponent.new(name: "user", style: :solid) %>
+        <%= render BetterUi::FaIconComponent.new(name: "heart", style: :solid) %>
+        <%= render BetterUi::FaIconComponent.new(name: "star", style: :solid) %>
+      </div>
+    </div>
+
+    <% (@variants || BetterUi::ApplicationComponent::VARIANTS.keys).each do |variant| %>
+      <div class="flex items-center gap-4">
+        <span class="w-24 text-sm font-medium text-gray-600 capitalize"><%= variant %></span>
+
+        <div class="flex gap-4 items-center text-2xl">
+          <%= render BetterUi::FaIconComponent.new(name: "user", style: :solid, variant: variant) %>
+          <%= render BetterUi::FaIconComponent.new(name: "heart", style: :solid, variant: variant) %>
+          <%= render BetterUi::FaIconComponent.new(name: "star", style: :solid, variant: variant) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

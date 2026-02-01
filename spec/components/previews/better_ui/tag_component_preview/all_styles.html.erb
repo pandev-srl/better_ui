@@ -1,0 +1,14 @@
+<div class="p-8 space-y-8">
+  <% [:xs, :sm, :md, :lg].each do |size| %>
+    <div>
+      <h3 class="text-lg font-semibold mb-4 capitalize">Size: <%= size %></h3>
+      <div class="flex flex-wrap gap-3">
+        <% [:solid, :outline, :soft].each do |style| %>
+          <%= render BetterUi::TagComponent.new(style: style, size: size) do %>
+            <%= style.to_s.capitalize %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

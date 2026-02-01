@@ -1,0 +1,58 @@
+<div class="space-y-8 p-4">
+  <div>
+    <h3 class="text-sm font-semibold text-grayscale-700 mb-2">Solid (default)</h3>
+    <%= render BetterUi::DividerComponent.new(style: :solid) %>
+  </div>
+
+  <div>
+    <h3 class="text-sm font-semibold text-grayscale-700 mb-2">Dashed</h3>
+    <%= render BetterUi::DividerComponent.new(style: :dashed) %>
+  </div>
+
+  <div>
+    <h3 class="text-sm font-semibold text-grayscale-700 mb-2">Dotted</h3>
+    <%= render BetterUi::DividerComponent.new(style: :dotted) %>
+  </div>
+
+  <hr class="my-8 border-grayscale-200">
+
+  <h3 class="text-sm font-semibold text-grayscale-700 mb-4">Sizes</h3>
+
+  <div>
+    <p class="text-xs text-grayscale-500 mb-1">Extra Small (xs)</p>
+    <%= render BetterUi::DividerComponent.new(size: :xs) %>
+  </div>
+
+  <div>
+    <p class="text-xs text-grayscale-500 mb-1">Small (sm)</p>
+    <%= render BetterUi::DividerComponent.new(size: :sm) %>
+  </div>
+
+  <div>
+    <p class="text-xs text-grayscale-500 mb-1">Medium (md)</p>
+    <%= render BetterUi::DividerComponent.new(size: :md) %>
+  </div>
+
+  <hr class="my-8 border-grayscale-200">
+
+  <h3 class="text-sm font-semibold text-grayscale-700 mb-4">Variants</h3>
+
+  <% [nil, :primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark].each do |variant| %>
+    <div>
+      <p class="text-xs text-grayscale-500 mb-1"><%= variant ? variant.to_s.capitalize : "Default (nil)" %></p>
+      <%= render BetterUi::DividerComponent.new(variant: variant, size: :sm) %>
+    </div>
+  <% end %>
+
+  <hr class="my-8 border-grayscale-200">
+
+  <h3 class="text-sm font-semibold text-grayscale-700 mb-4">Spacing</h3>
+
+  <% BetterUi::DividerComponent::SPACINGS.each do |spacing| %>
+    <div class="bg-grayscale-100 rounded">
+      <p class="text-xs text-grayscale-500 px-2 pt-1"><%= spacing %> spacing</p>
+      <%= render BetterUi::DividerComponent.new(spacing: spacing, variant: :primary) %>
+      <p class="text-xs text-grayscale-500 px-2 pb-1">Content below</p>
+    </div>
+  <% end %>
+</div>

@@ -41,6 +41,28 @@ module BetterUi
       render BetterUi::ButtonComponent.new(**options), &block
     end
 
+    # Renders a link component.
+    #
+    # @param href [String] Link URL (required)
+    # @param options [Hash] Options passed to LinkComponent
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :style Link style (:default, :underline, :ghost)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [String, nil] :target Link target (_blank, _self, etc.)
+    # @option options [String, nil] :rel Custom rel attribute
+    # @option options [Boolean] :disabled Disable the link
+    # @yield Link content
+    # @return [String] Rendered HTML
+    #
+    # @example Simple link
+    #   <%= bui_link("/users", variant: :primary) { "View Users" } %>
+    #
+    # @example External link
+    #   <%= bui_link("https://example.com", target: "_blank") { "External" } %>
+    def bui_link(href, **options, &block)
+      render BetterUi::LinkComponent.new(href: href, **options), &block
+    end
+
     # Renders a card component.
     #
     # @param options [Hash] Options passed to CardComponent
@@ -62,6 +84,96 @@ module BetterUi
       render BetterUi::CardComponent.new(**options), &block
     end
 
+    # Renders an avatar component for displaying user images or initials.
+    #
+    # @param options [Hash] Options passed to AvatarComponent
+    # @option options [String, nil] :src Image URL
+    # @option options [String, nil] :alt Image alt text (falls back to name)
+    # @option options [String, nil] :name Full name for generating initials
+    # @option options [Symbol] :variant Color variant for initials background
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :shape Shape (:circle, :square, :rounded)
+    # @option options [Symbol, nil] :status Status indicator (:online, :offline, :busy, :away)
+    # @yield [avatar] Block with avatar slots (badge)
+    # @yieldparam avatar [BetterUi::AvatarComponent] The avatar component for slot access
+    # @return [String] Rendered HTML
+    #
+    # @example Avatar with image
+    #   <%= bui_avatar(src: user.avatar_url, alt: user.name) %>
+    #
+    # @example Avatar with initials and status
+    #   <%= bui_avatar(name: "John Doe", variant: :primary, status: :online) %>
+    def bui_avatar(**options, &block)
+      render BetterUi::AvatarComponent.new(**options), &block
+    end
+
+    # Renders a container component for constraining content width.
+    #
+    # @param options [Hash] Options passed to ContainerComponent
+    # @option options [Symbol] :size Max-width size (:sm, :md, :lg, :xl, :full)
+    # @option options [Boolean] :padding Apply horizontal padding (default: true)
+    # @option options [Boolean] :centered Center with mx-auto (default: true)
+    # @option options [String, nil] :container_classes Additional CSS classes
+    # @yield Container content
+    # @return [String] Rendered HTML
+    #
+    # @example Default container
+    #   <%= bui_container { "Page content" } %>
+    #
+    # @example Full-width container without padding
+    #   <%= bui_container(size: :full, padding: false) { "Edge-to-edge content" } %>
+    def bui_container(**options, &block)
+      render BetterUi::ContainerComponent.new(**options), &block
+    end
+
+    # Renders a heading component.
+    #
+    # @param options [Hash] Options passed to HeadingComponent
+    # @option options [Symbol] :level Heading level (:h1, :h2, :h3, :h4, :h5, :h6)
+    # @option options [String, nil] :subtitle Subtitle text
+    # @option options [Boolean] :divider Show divider line below
+    # @option options [Symbol, nil] :variant Color variant (:primary, :secondary, etc.) or nil for inherit
+    # @option options [Symbol] :align Text alignment (:left, :center, :right)
+    # @option options [String, nil] :container_classes Additional CSS classes
+    # @yield [heading] Block with heading slots and content
+    # @yieldparam heading [BetterUi::HeadingComponent] The heading component for slot access
+    # @return [String] Rendered HTML
+    #
+    # @example Simple heading
+    #   <%= bui_heading(level: :h1, variant: :primary) { "Page Title" } %>
+    #
+    # @example Heading with subtitle and actions
+    #   <%= bui_heading(level: :h2, subtitle: "Description") do |heading| %>
+    #     <% heading.with_actions { bui_button(variant: :primary) { "Add" } } %>
+    #     Page Title
+    #   <% end %>
+    def bui_heading(**options, &block)
+      render BetterUi::HeadingComponent.new(**options), &block
+    end
+
+    # Renders a tag component.
+    #
+    # @param options [Hash] Options passed to TagComponent
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :style Tag style (:solid, :outline, :soft)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg)
+    # @option options [Boolean] :dismissible Show dismiss button (default: false)
+    # @option options [String, nil] :href Makes tag clickable (renders as <a>)
+    # @yield Tag content
+    # @return [String] Rendered HTML
+    #
+    # @example Simple tag
+    #   <%= bui_tag(variant: :success) { "Active" } %>
+    #
+    # @example Dismissible tag
+    #   <%= bui_tag(variant: :info, dismissible: true) { "New" } %>
+    #
+    # @example Tag as link
+    #   <%= bui_tag(variant: :primary, href: "/tags/ruby") { "Ruby" } %>
+    def bui_tag(**options, &block)
+      render BetterUi::TagComponent.new(**options), &block
+    end
+
     # Renders action messages (alerts/flash messages).
     #
     # @param messages [Array<String>] Messages to display
@@ -80,6 +192,143 @@ module BetterUi
     #   <%= bui_action_messages(@errors, variant: :danger, title: "Errors occurred") %>
     def bui_action_messages(messages = [], **options)
       render BetterUi::ActionMessagesComponent.new(messages: messages, **options)
+    end
+
+    # Renders a progress bar component.
+    #
+    # @param options [Hash] Options passed to ProgressComponent
+    # @option options [Numeric] :value Current value (0-100 by default)
+    # @option options [Numeric] :max Maximum value (default: 100)
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :size Bar height (:xs, :sm, :md, :lg)
+    # @option options [String, nil] :label Text above the bar
+    # @option options [Boolean] :show_value Show percentage text
+    # @option options [Boolean] :animated Striped animation effect
+    # @option options [String, nil] :container_classes Additional CSS classes
+    # @return [String] Rendered HTML
+    #
+    # @example Default progress bar
+    #   <%= bui_progress(value: 50) %>
+    #
+    # @example With label and value display
+    #   <%= bui_progress(value: 75, label: "Upload progress", show_value: true, variant: :success) %>
+    def bui_progress(**options)
+      render BetterUi::ProgressComponent.new(**options)
+    end
+
+    # Renders a spinner (loading indicator) component.
+    #
+    # @param options [Hash] Options passed to SpinnerComponent
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [String, nil] :label Accessible sr-only label text
+    # @option options [String, nil] :container_classes Additional CSS classes
+    # @return [String] Rendered HTML
+    #
+    # @example Default spinner
+    #   <%= bui_spinner %>
+    #
+    # @example Large success spinner with label
+    #   <%= bui_spinner(variant: :success, size: :lg, label: "Saving...") %>
+    def bui_spinner(**options)
+      render BetterUi::SpinnerComponent.new(**options)
+    end
+
+    # Renders a FontAwesome icon component.
+    #
+    # @param name [String] FontAwesome icon name (e.g., "user", "check", "arrow-right")
+    # @param options [Hash] Options passed to FaIconComponent
+    # @option options [Symbol] :style Icon style (:regular, :solid, :light, :thin, :brands)
+    # @option options [Symbol, nil] :variant Color variant (nil = inherit, or :primary, :secondary, etc.)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl, :"2xl")
+    # @option options [Boolean] :spin Spin animation (default: false)
+    # @option options [Boolean] :pulse Pulse animation (default: false)
+    # @option options [Symbol, nil] :flip Flip transformation (:horizontal, :vertical, :both)
+    # @option options [Integer, nil] :rotate Rotation (90, 180, 270)
+    # @option options [Boolean] :fixed_width Fixed width (default: false)
+    # @option options [String, nil] :container_classes Additional CSS classes
+    # @return [String] Rendered HTML
+    #
+    # @example Default icon
+    #   <%= bui_fa_icon("user") %>
+    #
+    # @example Solid icon with color and size
+    #   <%= bui_fa_icon("heart", style: :solid, variant: :danger, size: :lg) %>
+    #
+    # @example Spinning icon
+    #   <%= bui_fa_icon("spinner", style: :solid, spin: true) %>
+    def bui_fa_icon(name, **options)
+      render BetterUi::FaIconComponent.new(name: name, **options)
+    end
+
+    # Renders a badge component.
+    #
+    # @param options [Hash] Options passed to BadgeComponent
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :style Badge style (:solid, :outline, :soft, :ghost)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg)
+    # @option options [Boolean] :pill Pill shape (default: true)
+    # @option options [Boolean] :dot Show dot indicator
+    # @option options [Integer, nil] :counter Show numeric counter
+    # @yield Badge content
+    # @return [String] Rendered HTML
+    #
+    # @example Simple badge
+    #   <%= bui_badge(variant: :success) { "Active" } %>
+    #
+    # @example Counter badge
+    #   <%= bui_badge(variant: :danger, counter: 5) %>
+    #
+    # @example Dot badge
+    #   <%= bui_badge(variant: :success, dot: true) %>
+    def bui_badge(**options, &block)
+      render BetterUi::BadgeComponent.new(**options), &block
+    end
+
+    # Renders a divider component for visually separating content.
+    #
+    # @param options [Hash] Options passed to DividerComponent
+    # @option options [Symbol] :orientation Direction (:horizontal, :vertical)
+    # @option options [Symbol] :style Border style (:solid, :dashed, :dotted)
+    # @option options [Symbol, nil] :variant Color variant (nil for default gray)
+    # @option options [Symbol] :size Thickness (:xs, :sm, :md)
+    # @option options [String, nil] :label Centered text label
+    # @option options [Symbol] :label_position Label alignment (:left, :center, :right)
+    # @option options [Symbol] :spacing Outer margins (:xs, :sm, :md, :lg, :xl)
+    # @return [String] Rendered HTML
+    #
+    # @example Basic divider
+    #   <%= bui_divider %>
+    #
+    # @example Dashed divider with label
+    #   <%= bui_divider(style: :dashed, label: "OR", variant: :primary) %>
+    #
+    # @example Vertical divider
+    #   <%= bui_divider(orientation: :vertical) %>
+    def bui_divider(**options)
+      render BetterUi::DividerComponent.new(**options)
+    end
+
+    # Renders a tooltip component that wraps content and shows a tooltip on hover.
+    #
+    # @param text [String] Tooltip content (required)
+    # @param options [Hash] Options passed to TooltipComponent
+    # @option options [Symbol] :position Tooltip position (:top, :right, :bottom, :left)
+    # @option options [Symbol] :variant Tooltip style (:dark, :light)
+    # @option options [Symbol] :size Tooltip size (:sm, :md)
+    # @option options [String, nil] :container_classes Additional CSS classes
+    # @yield Content to wrap with the tooltip
+    # @return [String] Rendered HTML
+    #
+    # @example Simple tooltip
+    #   <%= bui_tooltip("Save changes") { bui_button(variant: :primary) { "Save" } } %>
+    #
+    # @example Tooltip with position
+    #   <%= bui_tooltip("Delete item", position: :bottom, variant: :light) do %>
+    #     <button>Delete</button>
+    #   <% end %>
+    def bui_tooltip(text, **options, &block)
+      render BetterUi::TooltipComponent.new(text: text, **options), &block
     end
 
     # ============================================
@@ -594,6 +843,30 @@ module BetterUi
     #   <% end %>
     def bui_tab_panel(id:, **options, &block)
       render BetterUi::Tabs::PanelComponent.new(id: id, **options), &block
+    end
+
+    # ============================================
+    # Breadcrumb Components
+    # ============================================
+
+    # Renders a breadcrumb navigation component.
+    #
+    # @param options [Hash] Options passed to Breadcrumb::BreadcrumbComponent
+    # @option options [Symbol] :separator Separator type (:slash, :chevron, :dot)
+    # @option options [Symbol] :size Text size (:sm, :md, :lg)
+    # @option options [String, nil] :container_classes Additional CSS classes for the nav element
+    # @yield [breadcrumb] Block with breadcrumb item slots
+    # @yieldparam breadcrumb [BetterUi::Breadcrumb::BreadcrumbComponent] The breadcrumb component
+    # @return [String] Rendered HTML
+    #
+    # @example Basic breadcrumb
+    #   <%= bui_breadcrumb(separator: :chevron) do |bc| %>
+    #     <% bc.with_item(label: "Home", href: root_path) %>
+    #     <% bc.with_item(label: "Products", href: products_path) %>
+    #     <% bc.with_item(label: "Widget") %>
+    #   <% end %>
+    def bui_breadcrumb(**options, &block)
+      render BetterUi::Breadcrumb::BreadcrumbComponent.new(**options), &block
     end
   end
 end

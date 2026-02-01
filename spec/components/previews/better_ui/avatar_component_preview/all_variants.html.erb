@@ -1,0 +1,12 @@
+<div class="flex flex-wrap items-center gap-6 p-4">
+  <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
+    <div class="flex flex-col items-center gap-2">
+      <%= render BetterUi::AvatarComponent.new(
+        name: variant.to_s.capitalize,
+        variant: variant,
+        size: :lg
+      ) %>
+      <span class="text-sm text-grayscale-600"><%= variant %></span>
+    </div>
+  <% end %>
+</div>

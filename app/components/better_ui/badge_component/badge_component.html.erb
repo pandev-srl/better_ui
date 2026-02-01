@@ -1,0 +1,16 @@
+<span <%= tag.attributes(component_attributes) %> class="<%= component_classes %>">
+  <% if dot %>
+    <span class="w-2 h-2 rounded-full <%= dot_classes %>"></span>
+  <% else %>
+    <% if icon_before? %>
+      <span class="inline-flex items-center <%= SIZES[size][:icon] %>">
+        <%= icon_before %>
+      </span>
+    <% end %>
+    <% if counter %>
+      <%= counter %>
+    <% else %>
+      <%= content %>
+    <% end %>
+  <% end %>
+</span>

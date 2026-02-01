@@ -1,0 +1,26 @@
+<div class="p-8 space-y-8">
+  <% (@styles || [:solid, :outline, :soft, :ghost]).each do |style| %>
+    <div>
+      <h3 class="text-lg font-semibold mb-4 capitalize"><%= style %> Style</h3>
+      <div class="flex flex-wrap gap-3 items-center">
+        <% BetterUi::ApplicationComponent::VARIANTS.each do |variant, _| %>
+          <%= render BetterUi::BadgeComponent.new(variant: variant, style: style) do %>
+            <%= variant.to_s.capitalize %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <h3 class="text-lg font-semibold mb-4 mt-8">Pill vs Rounded</h3>
+  <div class="flex flex-wrap gap-3 items-center">
+    <% (@styles || [:solid, :outline, :soft, :ghost]).each do |style| %>
+      <%= render BetterUi::BadgeComponent.new(style: style, pill: true) do %>
+        Pill (<%= style %>)
+      <% end %>
+      <%= render BetterUi::BadgeComponent.new(style: style, pill: false) do %>
+        Rounded (<%= style %>)
+      <% end %>
+    <% end %>
+  </div>
+</div>

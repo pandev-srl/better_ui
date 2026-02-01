@@ -1,0 +1,29 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-6">Badge Sizes</h3>
+
+  <div class="space-y-6">
+    <% (@sizes || [:xs, :sm, :md, :lg]).each do |size| %>
+      <div class="flex items-center gap-4">
+        <span class="w-20 text-sm font-medium text-gray-600 uppercase"><%= size %></span>
+
+        <div class="flex flex-wrap gap-3 items-center">
+          <%= render BetterUi::BadgeComponent.new(size: size, variant: :primary) do %>
+            Solid <%= size.to_s.upcase %>
+          <% end %>
+
+          <%= render BetterUi::BadgeComponent.new(size: size, variant: :secondary, style: :outline) do %>
+            Outline <%= size.to_s.upcase %>
+          <% end %>
+
+          <%= render BetterUi::BadgeComponent.new(size: size, variant: :success, style: :soft) do %>
+            Soft <%= size.to_s.upcase %>
+          <% end %>
+
+          <%= render BetterUi::BadgeComponent.new(size: size, variant: :danger, style: :ghost) do %>
+            Ghost <%= size.to_s.upcase %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
