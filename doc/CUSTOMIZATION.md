@@ -348,10 +348,7 @@ Components use size variants (xs, sm, md, lg, xl). Customize padding/spacing:
 Use the `container_classes` parameter:
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Custom Button",
-  container_classes: "rounded-full shadow-lg hover:shadow-xl"
-) %>
+<%= bui_button(container_classes: "rounded-full shadow-lg hover:shadow-xl") { "Custom Button" } %>
 ```
 
 ### Method 2: Component Inheritance
@@ -631,10 +628,7 @@ Create a test page with all components to verify theming:
 <!-- app/views/theme_test.html.erb -->
 <div class="p-8 space-y-8">
   <% BetterUi::ApplicationComponent::VARIANTS.keys.each do |variant| %>
-    <%= render BetterUi::ButtonComponent.new(
-      label: variant.to_s.capitalize,
-      variant: variant
-    ) %>
+    <%= bui_button(variant: variant) { variant.to_s.capitalize } %>
   <% end %>
 </div>
 ```

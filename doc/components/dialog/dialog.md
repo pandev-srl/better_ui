@@ -107,12 +107,12 @@ The dialog body is rendered via the **block content** (not a slot).
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Dialog::DialogComponent.new(size: :lg) do |d| %>
+<%= bui_dialog(size: :lg) do |d| %>
   <% d.with_trigger do %>
-    <%= render(BetterUi::ButtonComponent.new(variant: :primary)) do %>Open<% end %>
+    <%= bui_button(variant: :primary) { "Open" } %>
   <% end %>
 
-  <%= render BetterUi::CardComponent.new(style: :bordered, shadow: true) do |card| %>
+  <%= bui_card(style: :bordered, shadow: true) do |card| %>
     <% card.with_body { "Content here" } %>
   <% end %>
 <% end %>

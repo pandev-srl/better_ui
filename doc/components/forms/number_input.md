@@ -107,8 +107,7 @@ Numeric input field with min/max validation and optional spinner controls.
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Forms::NumberInputComponent.new(
-  name: "product[price]",
+<%= bui_number_input("product[price]",
   label: "Price",
   min: 0,
   max: 99999,
@@ -120,8 +119,7 @@ Numeric input field with min/max validation and optional spinner controls.
 ```
 
 ```erb
-<%= render BetterUi::Forms::NumberInputComponent.new(
-  name: "user[age]",
+<%= bui_number_input("user[age]",
   label: "Age",
   min: 0,
   max: 120,

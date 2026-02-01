@@ -97,8 +97,7 @@ The form builder automatically:
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
-  name: "user[email]",
+<%= bui_text_input("user[email]",
   label: "Email Address",
   hint: "We'll never share your email",
   placeholder: "you@example.com",
@@ -107,17 +106,13 @@ The form builder automatically:
 ```
 
 ```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
-  name: "user[username]",
-  label: "Username"
-) do |c| %>
+<%= bui_text_input("user[username]", label: "Username") do |c| %>
   <% c.with_prefix_icon { "@" } %>
 <% end %>
 ```
 
 ```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
-  name: "user[email]",
+<%= bui_text_input("user[email]",
   label: "Email",
   value: "invalid-email",
   errors: ["Email is invalid", "Email has already been taken"]

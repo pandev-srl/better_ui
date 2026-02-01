@@ -80,7 +80,7 @@ The `items` slot accepts the same parameters as `NavItemComponent`:
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Drawer::NavGroupComponent.new(title: "Main") do |group| %>
+<%= bui_drawer_nav_group(title: "Main") do |group| %>
   <% group.with_item(label: "Dashboard", href: dashboard_path, active: true) do |item| %>
     <% item.with_icon { "🏠" } %>
   <% end %>
@@ -91,17 +91,14 @@ The `items` slot accepts the same parameters as `NavItemComponent`:
 ```
 
 ```erb
-<%= render BetterUi::Drawer::NavGroupComponent.new do |group| %>
+<%= bui_drawer_nav_group do |group| %>
   <% group.with_item(label: "Home", href: root_path) %>
   <% group.with_item(label: "Profile", href: profile_path) %>
 <% end %>
 ```
 
 ```erb
-<%= render BetterUi::Drawer::NavGroupComponent.new(
-  title: "Menu",
-  variant: :dark
-) do |group| %>
+<%= bui_drawer_nav_group(title: "Menu", variant: :dark) do |group| %>
   <% group.with_item(label: "Dashboard", href: "/") %>
 <% end %>
 ```

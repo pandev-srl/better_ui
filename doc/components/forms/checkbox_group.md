@@ -120,26 +120,23 @@ The `collection` parameter accepts two formats:
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
-  name: "user[roles]",
-  collection: ["Admin", "Editor", "Viewer"],
+<%= bui_checkbox_group("user[roles]",
+  ["Admin", "Editor", "Viewer"],
   legend: "User Roles"
 ) %>
 ```
 
 ```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
-  name: "user[permissions]",
-  collection: [["Read", "read"], ["Write", "write"], ["Delete", "delete"]],
+<%= bui_checkbox_group("user[permissions]",
+  [["Read", "read"], ["Write", "write"], ["Delete", "delete"]],
   selected: ["read", "write"],
   legend: "Permissions"
 ) %>
 ```
 
 ```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
-  name: "options",
-  collection: ["Option A", "Option B", "Option C"],
+<%= bui_checkbox_group("options",
+  ["Option A", "Option B", "Option C"],
   orientation: :horizontal
 ) %>
 ```

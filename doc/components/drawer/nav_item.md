@@ -96,18 +96,11 @@ A navigation item component for sidebar menus with icon, label, and badge suppor
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Drawer::NavItemComponent.new(
-  label: "Dashboard",
-  href: dashboard_path
-) %>
+<%= bui_drawer_nav_item("Dashboard", dashboard_path) %>
 ```
 
 ```erb
-<%= render BetterUi::Drawer::NavItemComponent.new(
-  label: "Dashboard",
-  href: dashboard_path,
-  active: true
-) do |item| %>
+<%= bui_drawer_nav_item("Dashboard", dashboard_path, active: true) do |item| %>
   <% item.with_icon do %>
     <svg class="w-5 h-5"><!-- icon --></svg>
   <% end %>
@@ -115,21 +108,14 @@ A navigation item component for sidebar menus with icon, label, and badge suppor
 ```
 
 ```erb
-<%= render BetterUi::Drawer::NavItemComponent.new(
-  label: "Messages",
-  href: messages_path
-) do |item| %>
+<%= bui_drawer_nav_item("Messages", messages_path) do |item| %>
   <% item.with_icon { "📧" } %>
   <% item.with_badge { "5" } %>
 <% end %>
 ```
 
 ```erb
-<%= render BetterUi::Drawer::NavItemComponent.new(
-  label: "Logout",
-  href: logout_path,
-  method: :delete
-) %>
+<%= bui_drawer_nav_item("Logout", logout_path, method: :delete) %>
 ```
 
 ## Common Patterns

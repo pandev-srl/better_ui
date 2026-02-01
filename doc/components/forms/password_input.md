@@ -90,8 +90,7 @@ Password input field with built-in visibility toggle functionality.
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Forms::PasswordInputComponent.new(
-  name: "user[password]",
+<%= bui_password_input("user[password]",
   label: "Password",
   hint: "Must be at least 8 characters",
   required: true
@@ -99,13 +98,11 @@ Password input field with built-in visibility toggle functionality.
 ```
 
 ```erb
-<%= render BetterUi::Forms::PasswordInputComponent.new(
-  name: "user[password]",
+<%= bui_password_input("user[password]",
   label: "Password"
 ) %>
 
-<%= render BetterUi::Forms::PasswordInputComponent.new(
-  name: "user[password_confirmation]",
+<%= bui_password_input("user[password_confirmation]",
   label: "Confirm Password"
 ) %>
 ```

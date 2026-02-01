@@ -103,10 +103,7 @@ A flexible header component for drawer layouts with support for logo, navigation
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Drawer::HeaderComponent.new(
-  sticky: true,
-  variant: :light
-) do |header| %>
+<%= bui_drawer_header(sticky: true, variant: :light) do |header| %>
   <% header.with_logo { image_tag("logo.svg", class: "h-8") } %>
 
   <% header.with_navigation do %>

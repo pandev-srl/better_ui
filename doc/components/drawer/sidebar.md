@@ -85,14 +85,11 @@ A flexible sidebar component for drawer layouts with support for header, navigat
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Drawer::SidebarComponent.new(
-  variant: :light,
-  width: :md
-) do |sidebar| %>
+<%= bui_drawer_sidebar(variant: :light, width: :md) do |sidebar| %>
   <% sidebar.with_header { image_tag("logo.svg") } %>
 
   <% sidebar.with_navigation do %>
-    <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Main") do |group| %>
+    <%= bui_drawer_nav_group(title: "Main") do |group| %>
       <% group.with_item(label: "Dashboard", href: dashboard_path, active: true) %>
       <% group.with_item(label: "Settings", href: settings_path) %>
     <% end %>

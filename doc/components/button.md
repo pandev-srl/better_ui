@@ -159,32 +159,27 @@ Disabled links use `aria-disabled="true"`, remove the `href`, and add `pointer-e
 ) { "Process" } %>
 ```
 
-### Direct Render
+### More Examples
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Click me",
-  variant: :primary
-) %>
+<%= bui_button(variant: :primary) { "Click me" } %>
 ```
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Submit Form",
+<%= bui_button(
   variant: :success,
   style: :solid,
   type: :submit,
   size: :lg
-) %>
+) { "Submit Form" } %>
 ```
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Download"
-) do |c| %>
+<%= bui_button do |c| %>
   <% c.with_icon_before do %>
     <svg class="w-5 h-5"><!-- Download icon --></svg>
   <% end %>
+  Download
 <% end %>
 ```
 

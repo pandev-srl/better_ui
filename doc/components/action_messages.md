@@ -118,32 +118,6 @@ end
 <% end %>
 ```
 
-### Direct Render
-
-```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  messages: ["Operation completed successfully"]
-) %>
-```
-
-```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: :danger,
-  title: "Please correct the following errors:",
-  messages: @user.errors.full_messages
-) %>
-```
-
-```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: :success,
-  style: :solid,
-  dismissible: true,
-  auto_dismiss: 5,
-  messages: ["Your changes have been saved."]
-) %>
-```
-
 ## Stimulus Controller
 
 Includes an action messages controller that handles:

@@ -71,7 +71,7 @@ A responsive layout component that composes header and sidebar with mobile drawe
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
+<%= bui_drawer_layout do |layout| %>
   <% layout.with_header(sticky: true) do |header| %>
     <% header.with_logo { image_tag("logo.svg") } %>
     <% header.with_mobile_menu_button do %>

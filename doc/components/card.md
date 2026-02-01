@@ -133,35 +133,6 @@ A flexible container component that provides structured content areas with consi
 <% end %>
 ```
 
-### Direct Render
-
-```erb
-<%= render BetterUi::CardComponent.new do |c| %>
-  <% c.with_body do %>
-    <p>Card content goes here</p>
-  <% end %>
-<% end %>
-```
-
-```erb
-<%= render BetterUi::CardComponent.new(size: :lg, shadow: true) do |c| %>
-  <% c.with_header do %>
-    <h3 class="text-lg font-semibold">Card Title</h3>
-  <% end %>
-
-  <% c.with_body do %>
-    <p>Main content area with automatic padding based on size.</p>
-  <% end %>
-
-  <% c.with_footer do %>
-    <div class="flex justify-end gap-2">
-      <%= render BetterUi::ButtonComponent.new(label: "Cancel", style: :ghost) %>
-      <%= render BetterUi::ButtonComponent.new(label: "Save") %>
-    </div>
-  <% end %>
-<% end %>
-```
-
 ## Related
 
 - [ButtonComponent](button.md) - Often used in card footers for actions

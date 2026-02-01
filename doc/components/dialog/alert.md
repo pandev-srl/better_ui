@@ -113,13 +113,13 @@ The consumer only provides a trigger slot and configuration params -- the card l
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Dialog::AlertComponent.new(
+<%= bui_dialog_alert(
   variant: :success,
   title: "Saved!",
   text: "Your changes have been saved."
 ) do |a| %>
   <% a.with_trigger do %>
-    <%= render(BetterUi::ButtonComponent.new(variant: :success)) do %>Save<% end %>
+    <%= bui_button(variant: :success) { "Save" } %>
   <% end %>
 <% end %>
 ```

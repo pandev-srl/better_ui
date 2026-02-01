@@ -119,8 +119,12 @@ The npm package provides:
 - `ButtonController` - Loading states and click handling
 - `ActionMessagesController` - Dismissible alerts with auto-dismiss
 - `PasswordInputController` - Password visibility toggle
+- `SelectController` - Custom dropdown with keyboard navigation
 - `DrawerLayoutController` - Mobile drawer toggle and responsive behavior
-- `registerControllers()` - Helper to register all controllers
+- `DialogController` - Modal open/close behavior
+- `TabsContainerController` - Tab switching and Turbo Frame loading
+- `TagController` - Dismissible tags
+- `registerControllers()` - Helper to register all controllers at once
 
 **CSS (Theme):**
 - 9 semantic color variants (primary, secondary, accent, success, danger, warning, info, light, dark)
@@ -133,12 +137,13 @@ The npm package provides:
 
 The gem provides:
 
-**ViewComponents:**
-- `BetterUi::ButtonComponent`
-- `BetterUi::CardComponent`
-- `BetterUi::ActionMessagesComponent`
-- Form components (TextInput, NumberInput, PasswordInput, Textarea, Checkbox, CheckboxGroup)
-- Drawer components (Layout, Header, Sidebar, NavItem, NavGroup)
+**ViewComponents (42 total):**
+- Core: Button, Link, Card, ActionMessages, Avatar, Badge, Tag, Heading, Spinner, Progress, Divider, Tooltip, Container, FaIcon, Breadcrumb
+- Forms: TextInput, NumberInput, PasswordInput, Textarea, Checkbox, CheckboxGroup, Select
+- Table: Table, Header, HeaderCell, Row, Cell, Column
+- Dialog: Dialog, Alert, Confirm
+- Tabs: Container, Tab, Panel
+- Drawer: Layout, Header, Sidebar, NavItem, NavGroup
 
 **View Helpers:**
 - `BetterUi::ApplicationHelper` with `bui_*` helper methods (auto-included in all views)
@@ -177,20 +182,25 @@ BetterUi provides `bui_*` view helpers that are **automatically available** in a
 <% end %>
 ```
 
-**Available helpers:** `bui_button`, `bui_card`, `bui_action_messages`, `bui_text_input`, `bui_number_input`, `bui_password_input`, `bui_textarea`, `bui_checkbox`, `bui_checkbox_group`, `bui_drawer_layout`, `bui_drawer_sidebar`, `bui_drawer_header`, `bui_drawer_nav_item`, `bui_drawer_nav_group`.
+**Available helpers:**
+
+| Category | Helpers |
+|----------|---------|
+| Core | `bui_button`, `bui_link`, `bui_card`, `bui_action_messages`, `bui_avatar`, `bui_badge`, `bui_tag`, `bui_heading`, `bui_spinner`, `bui_progress`, `bui_divider`, `bui_tooltip`, `bui_container`, `bui_fa_icon`, `bui_breadcrumb` |
+| Forms | `bui_text_input`, `bui_email_input`, `bui_tel_input`, `bui_date_input`, `bui_time_input`, `bui_number_input`, `bui_password_input`, `bui_textarea`, `bui_checkbox`, `bui_checkbox_group`, `bui_select` |
+| Table | `bui_table` |
+| Dialog | `bui_dialog`, `bui_dialog_alert`, `bui_dialog_confirm` |
+| Tabs | `bui_tabs`, `bui_tab`, `bui_tab_panel` |
+| Drawer | `bui_drawer_layout`, `bui_drawer_sidebar`, `bui_drawer_header`, `bui_drawer_nav_item`, `bui_drawer_nav_group` |
 
 ### Direct Component Usage
 
 You can also use ViewComponent directly if you prefer the explicit syntax:
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Click me",
-  variant: "primary",
-  size: "lg"
-) %>
+<%= bui_button(variant: :primary, size: :lg) { "Click me" } %>
 
-<%= render BetterUi::CardComponent.new(size: "lg") do |c| %>
+<%= bui_card(size: :lg) do |c| %>
   <% c.with_header { "Card Title" } %>
   <% c.with_body { "Card content" } %>
 <% end %>
@@ -200,10 +210,14 @@ You can also use ViewComponent directly if you prefer the explicit syntax:
 
 ```erb
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  <%= f.ui_text_input :name %>
-  <%= f.ui_text_input :email, hint: "We'll never share your email" %>
-  <%= f.ui_password_input :password %>
-  <%= f.ui_textarea :bio, rows: 6 %>
+  <%= f.bui_text_input :name %>
+  <%= f.bui_text_input :email, hint: "We'll never share your email" %>
+  <%= f.bui_password_input :password %>
+  <%= f.bui_textarea :bio, rows: 6 %>
+  <%= f.bui_number_input :age, min: 18 %>
+  <%= f.bui_checkbox :terms, label: "I agree to the terms" %>
+  <%= f.bui_select :country, [["Italy", "it"], ["France", "fr"]] %>
+  <%= bui_button(type: :submit, variant: :primary) { "Submit" } %>
 <% end %>
 ```
 

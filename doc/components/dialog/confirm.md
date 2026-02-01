@@ -119,7 +119,7 @@ The consumer only provides a trigger slot and configuration params -- the card l
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Dialog::ConfirmComponent.new(
+<%= bui_dialog_confirm(
   variant: :danger,
   title: "Delete?",
   text: "This cannot be undone.",
@@ -127,7 +127,7 @@ The consumer only provides a trigger slot and configuration params -- the card l
   cancel_label: "Keep"
 ) do |c| %>
   <% c.with_trigger do %>
-    <%= render(BetterUi::ButtonComponent.new(variant: :danger)) do %>Delete<% end %>
+    <%= bui_button(variant: :danger) { "Delete" } %>
   <% end %>
 <% end %>
 ```

@@ -4,11 +4,13 @@
 
 | Categoria                     | v1 (Alessio) | v2 (Corrente) |
 | ----------------------------- | ------------ | ------------- |
-| General/UI Components         | 18           | 4             |
+| General/UI Components         | 18           | 16            |
 | Application/Layout Components | 3            | 5             |
-| Form Components               | 0            | 7             |
-| Table Components              | 7            | 0             |
-| **Totale**                    | **28**       | **16**        |
+| Form Components               | 0            | 9             |
+| Table Components              | 7            | 6             |
+| Dialog Components             | 0            | 3             |
+| Tabs Components               | 0            | 3             |
+| **Totale**                    | **28**       | **42**        |
 
 ---
 
@@ -19,21 +21,21 @@
 | #   | Componente v1  | Path v1                           | Stato v2            | Note                                                |
 | --- | -------------- | --------------------------------- | ------------------- | --------------------------------------------------- |
 | 1   | **Button**     | `general/button/component.rb`     | ✅ Implementato     | `ButtonComponent` - Rifatto con varianti semantiche |
-| 2   | **Badge**      | `general/badge/component.rb`      | ❌ Non implementato | -                                                   |
-| 3   | **Avatar**     | `general/avatar/component.rb`     | ❌ Non implementato | -                                                   |
-| 4   | **Heading**    | `general/heading/component.rb`    | ❌ Non implementato | -                                                   |
-| 5   | **Icon**       | `general/icon/component.rb`       | ❌ Non implementato | -                                                   |
-| 6   | **Link**       | `general/link/component.rb`       | ❌ Non implementato | -                                                   |
+| 2   | **Badge**      | `general/badge/component.rb`      | ✅ Implementato     | `BadgeComponent` - Con dot, counter, pill, stili solid/outline/soft/ghost |
+| 3   | **Avatar**     | `general/avatar/component.rb`     | ✅ Implementato     | `AvatarComponent` - Con shape, status indicator, iniziali auto |
+| 4   | **Heading**    | `general/heading/component.rb`    | ✅ Implementato     | `HeadingComponent` - Livelli h1-h6, sottotitolo, divider, actions slot |
+| 5   | **Icon**       | `general/icon/component.rb`       | ✅ Implementato     | `FaIconComponent` - Wrapper FontAwesome con spin/pulse/flip/rotate |
+| 6   | **Link**       | `general/link/component.rb`       | ✅ Implementato     | `LinkComponent` - Con stili default/underline/ghost, icone slot |
 | 7   | **Alert**      | `general/alert/component.rb`      | ✅ Implementato     | `ActionMessagesComponent` - Simile funzionalità     |
 | 8   | **Card**       | `general/card/component.rb`       | ✅ Implementato     | `CardComponent` - Rifatto con slots                 |
-| 9   | **Panel**      | `general/panel/component.rb`      | ❌ Non implementato | Potrebbe essere coperto da Card                     |
-| 10  | **Breadcrumb** | `general/breadcrumb/component.rb` | ❌ Non implementato | -                                                   |
-| 11  | **Spinner**    | `general/spinner/component.rb`    | ❌ Non implementato | Parziale: loading state in Button                   |
-| 12  | **Progress**   | `general/progress/component.rb`   | ❌ Non implementato | -                                                   |
-| 13  | **Divider**    | `general/divider/component.rb`    | ❌ Non implementato | -                                                   |
-| 14  | **Container**  | `general/container/component.rb`  | ❌ Non implementato | -                                                   |
-| 15  | **Tag**        | `general/tag/component.rb`        | ❌ Non implementato | -                                                   |
-| 16  | **Tooltip**    | `general/tooltip/component.rb`    | ❌ Non implementato | -                                                   |
+| 9   | **Panel**      | `general/panel/component.rb`      | ➖ Non necessario   | Funzionalità coperta da CardComponent (style: :bordered) |
+| 10  | **Breadcrumb** | `general/breadcrumb/component.rb` | ✅ Implementato     | `Breadcrumb::BreadcrumbComponent` - Con separatori slash/chevron/dot |
+| 11  | **Spinner**    | `general/spinner/component.rb`    | ✅ Implementato     | `SpinnerComponent` - Standalone con varianti e label |
+| 12  | **Progress**   | `general/progress/component.rb`   | ✅ Implementato     | `ProgressComponent` - Con label, show_value, animated |
+| 13  | **Divider**    | `general/divider/component.rb`    | ✅ Implementato     | `DividerComponent` - Con solid/dashed/dotted, orientamento, label |
+| 14  | **Container**  | `general/container/component.rb`  | ✅ Implementato     | `ContainerComponent` - Con max-width responsive, padding, centered |
+| 15  | **Tag**        | `general/tag/component.rb`        | ✅ Implementato     | `TagComponent` - Con solid/outline/soft, dismissible, link mode |
+| 16  | **Tooltip**    | `general/tooltip/component.rb`    | ✅ Implementato     | `TooltipComponent` - CSS-only con posizioni top/right/bottom/left |
 | 17  | **Table**      | `general/table/component.rb`      | ✅ Implementato     | `Table::TableComponent` - Riscritto con slot/collection mode, sortable, highlighted, rounded, partials |
 
 ### Table Sub-Components (v1)
@@ -61,68 +63,46 @@
 
 ### Form Components (completamente nuovi)
 
-| #   | Componente v2                     | Descrizione                            |
-| --- | --------------------------------- | -------------------------------------- |
-| 1   | **Forms::BaseComponent**          | Classe base astratta per form inputs   |
-| 2   | **Forms::TextInputComponent**     | Input di testo con prefix/suffix icons |
-| 3   | **Forms::NumberInputComponent**   | Input numerico con min/max/step        |
-| 4   | **Forms::PasswordInputComponent** | Password con toggle visibilità         |
-| 5   | **Forms::TextareaComponent**      | Textarea multi-linea                   |
-| 6   | **Forms::CheckboxComponent**      | Checkbox singolo                       |
-| 7   | **Forms::CheckboxGroupComponent** | Gruppo di checkbox                     |
-| 8   | **UiFormBuilder**                 | Form builder Rails integrato           |
+| #   | Componente v2                     | Helper                | Descrizione                            |
+| --- | --------------------------------- | --------------------- | -------------------------------------- |
+| 1   | **Forms::BaseComponent**          | —                     | Classe base astratta per form inputs   |
+| 2   | **Forms::TextInputComponent**     | `bui_text_input`      | Input di testo con prefix/suffix icons |
+| 3   | **Forms::NumberInputComponent**   | `bui_number_input`    | Input numerico con min/max/step        |
+| 4   | **Forms::PasswordInputComponent** | `bui_password_input`  | Password con toggle visibilita         |
+| 5   | **Forms::TextareaComponent**      | `bui_textarea`        | Textarea multi-linea                   |
+| 6   | **Forms::CheckboxComponent**      | `bui_checkbox`        | Checkbox singolo                       |
+| 7   | **Forms::CheckboxGroupComponent** | `bui_checkbox_group`  | Gruppo di checkbox                     |
+| 8   | **Forms::SelectComponent**        | `bui_select`          | Select custom con dropdown, keyboard nav |
+| 9   | **UiFormBuilder**                 | —                     | Form builder Rails integrato           |
+
+### Dialog Components (completamente nuovi)
+
+| #   | Componente v2                 | Helper               | Descrizione                   |
+| --- | ----------------------------- | -------------------- | ----------------------------- |
+| 1   | **Dialog::DialogComponent**   | `bui_dialog`         | Modal con `<dialog>`, Stimulus, backdrop |
+| 2   | **Dialog::AlertComponent**    | `bui_dialog_alert`   | Dialog alert con icona e bottone OK |
+| 3   | **Dialog::ConfirmComponent**  | `bui_dialog_confirm` | Dialog conferma con confirm/cancel |
+
+### Tabs Components (completamente nuovi)
+
+| #   | Componente v2                 | Helper           | Descrizione                   |
+| --- | ----------------------------- | ---------------- | ----------------------------- |
+| 1   | **Tabs::ContainerComponent**  | `bui_tabs`       | JS mode + Turbo mode, stili underline/pills/bordered |
+| 2   | **Tabs::TabComponent**        | `bui_tab`        | Tab button/link con icona e badge |
+| 3   | **Tabs::PanelComponent**      | `bui_tab_panel`  | Pannello contenuto tab |
 
 ### Layout Components Aggiuntivi
 
-| #   | Componente v2                 | Descrizione                   |
-| --- | ----------------------------- | ----------------------------- |
-| 1   | **Drawer::NavGroupComponent** | Gruppo di navigazione sidebar |
-| 2   | **Drawer::NavItemComponent**  | Item singolo di navigazione   |
-
----
-
-## Differenze Architetturali
-
-| Aspetto                  | v1 (Alessio)                           | v2 (Corrente)                           |
-| ------------------------ | -------------------------------------- | --------------------------------------- |
-| **Namespace**            | `BetterUi::General::Button::Component` | `BetterUi::ButtonComponent`             |
-| **Varianti colore**      | Colori diretti (red, blue, green...)   | Semantici (primary, success, danger...) |
-| **CSS**                  | SCSS compilato + Tailwind v3           | Tailwind CSS v4 puro (OKLCH)            |
-| **JavaScript**           | Nessun Stimulus controller             | 4 Stimulus controllers                  |
-| **Form Builder**         | Solo placeholder                       | Completamente implementato              |
-| **Distribuzione CSS/JS** | Asset pipeline Rails                   | npm package separato                    |
-| **Preview system**       | test/components/previews               | spec/components/previews (Lookbook)     |
-
----
-
-## Componenti da Migrare (Priorità Suggerita)
-
-### Alta Priorità
-
-1. **Badge** - Molto usato per status/contatori
-2. **Spinner** - Utile per loading states standalone
-3. **Avatar** - Comune in UI utente
-
-### Media Priorità
-
-4. **Breadcrumb** - Navigazione
-5. **Progress** - Feedback visivo
-6. **Tooltip** - UX migliorata
-7. **Tag** - Categorizzazione
-
-### Bassa Priorità
-
-8. **Heading** - Può usare Tailwind diretto
-9. **Icon** - Dipende da libreria icone
-10. **Link** - Rails helper sufficiente
-11. **Panel** - Coperto da Card
-12. **Divider** - Semplice con Tailwind
-13. **Container** - Layout Tailwind
+| #   | Componente v2                 | Helper                | Descrizione                   |
+| --- | ----------------------------- | --------------------- | ----------------------------- |
+| 1   | **Drawer::NavGroupComponent** | `bui_drawer_nav_group` | Gruppo di navigazione sidebar |
+| 2   | **Drawer::NavItemComponent**  | `bui_drawer_nav_item`  | Item singolo di navigazione   |
 
 ---
 
 ## Statistiche
 
-- **Componenti v1 migrati in v2:** 13/28 (46%) — Button, Alert, Card, Navbar, Sidebar, Main/Layout + Table (7 componenti: Table, TR, TH, TD, THEAD, TBODY, TFOOT)
-- **Componenti v1 da migrare:** 15
-- **Componenti nuovi in v2:** 10 (principalmente Forms)
+- **Componenti v1 migrati in v2:** 27/28 (96%) — Tutti tranne Panel (coperto da Card)
+- **Componenti v1 da migrare:** 0 (Panel funzionalmente coperto da Card)
+- **Componenti nuovi in v2:** 19 (Forms 9, Dialog 3, Tabs 3, Nav 2, Table::ColumnComponent 1, SelectComponent)
+- **Totale componenti v2:** 42

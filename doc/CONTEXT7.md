@@ -89,114 +89,75 @@ Versatile button with multiple styles, sizes, and states. Supports loading indic
 - `icon_before` - Icon before button text
 - `icon_after` - Icon after button text
 
-### Basic Usage
+### Usage
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Click me",
-  variant: :primary
-) %>
-```
+<%# Basic button %>
+<%= bui_button(variant: :primary) { "Click me" } %>
 
-### Button with Block Content
+<%# Submit button with loader %>
+<%= bui_button(type: :submit, variant: :success, show_loader_on_click: true) { "Save Changes" } %>
 
-```erb
-<%= render BetterUi::ButtonComponent.new(variant: :success) do %>
-  Save Changes
-<% end %>
-```
-
-### Submit Button
-
-```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Submit Form",
-  variant: :success,
-  type: :submit,
-  size: :lg
-) %>
-```
-
-### Button with Icon
-
-```erb
-<%= render BetterUi::ButtonComponent.new(label: "Download") do |c| %>
+<%# Button with icon %>
+<%= bui_button(variant: :primary) do |c| %>
   <% c.with_icon_before do %>
-    <svg class="w-5 h-5"><use href="#download-icon"/></svg>
+    <%= bui_fa_icon("download", style: :solid, size: :sm) %>
   <% end %>
+  Download
 <% end %>
+
+<%# Link button %>
+<%= bui_button(href: users_path, variant: :info) { "View Users" } %>
+
+<%# Danger button %>
+<%= bui_button(variant: :danger, style: :outline) { "Delete" } %>
+
+<%# Ghost button %>
+<%= bui_button(variant: :secondary, style: :ghost) { "Cancel" } %>
+
+<%# All sizes %>
+<%= bui_button(size: :xs) { "XS" } %>
+<%= bui_button(size: :sm) { "SM" } %>
+<%= bui_button(size: :md) { "MD" } %>
+<%= bui_button(size: :lg) { "LG" } %>
+<%= bui_button(size: :xl) { "XL" } %>
 ```
 
-### Loading Button
+---
+
+## LinkComponent
+
+Styled link with variants, icons, and sizes.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `href` | String | Required | Link URL |
+| `variant` | Symbol | `:primary` | Color variant |
+| `style` | Symbol | `:default` | `:default`, `:underline`, `:ghost` |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `target` | String | `nil` | Link target |
+| `rel` | String | `nil` | Rel attribute (auto-set for `_blank`) |
+| `disabled` | Boolean | `false` | Disable link |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Slots
+
+- `icon_before` - Icon before text
+- `icon_after` - Icon after text
+
+### Usage
 
 ```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Processing...",
-  show_loader: true,
-  disabled: true
-) %>
-```
+<%= bui_link("/users", variant: :primary) { "View Users" } %>
 
-### Auto-Loading on Click
+<%= bui_link("https://example.com", target: "_blank", style: :underline) { "External Link" } %>
 
-```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Save",
-  show_loader_on_click: true,
-  type: :submit
-) %>
-```
-
-### Link Button
-
-```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "View Users",
-  href: users_path
-) %>
-```
-
-### External Link Button
-
-```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Visit Site",
-  href: "https://example.com",
-  target: "_blank"
-) %>
-```
-
-### Danger Button with Confirmation
-
-```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Delete",
-  variant: :danger,
-  style: :outline,
-  href: user_path(@user),
-  method: :delete,
-  data: { turbo_confirm: "Are you sure?" }
-) %>
-```
-
-### Ghost Button
-
-```erb
-<%= render BetterUi::ButtonComponent.new(
-  label: "Cancel",
-  variant: :secondary,
-  style: :ghost
-) %>
-```
-
-### Button Sizes
-
-```erb
-<%= render BetterUi::ButtonComponent.new(label: "XS", size: :xs) %>
-<%= render BetterUi::ButtonComponent.new(label: "SM", size: :sm) %>
-<%= render BetterUi::ButtonComponent.new(label: "MD", size: :md) %>
-<%= render BetterUi::ButtonComponent.new(label: "LG", size: :lg) %>
-<%= render BetterUi::ButtonComponent.new(label: "XL", size: :xl) %>
+<%= bui_link("/settings", variant: :secondary) do |link| %>
+  <% link.with_icon_before { bui_fa_icon("cog", style: :solid, size: :sm) } %>
+  Settings
+<% end %>
 ```
 
 ---
@@ -217,9 +178,6 @@ Flexible container with header, body, and footer slots.
 | `body_padding` | Boolean | `true` | Padding on body |
 | `footer_padding` | Boolean | `true` | Padding on footer |
 | `container_classes` | String | `nil` | Container CSS classes |
-| `header_classes` | String | `nil` | Header CSS classes |
-| `body_classes` | String | `nil` | Body CSS classes |
-| `footer_classes` | String | `nil` | Footer CSS classes |
 
 ### Slots
 
@@ -227,79 +185,38 @@ Flexible container with header, body, and footer slots.
 - `body` - Main content
 - `footer` - Bottom section
 
-### Basic Card
+### Usage
 
 ```erb
-<%= render BetterUi::CardComponent.new do |c| %>
-  <% c.with_body do %>
-    <p>Card content goes here</p>
-  <% end %>
+<%# Basic card %>
+<%= bui_card do |c| %>
+  <% c.with_body { "Card content goes here" } %>
 <% end %>
-```
 
-### Full Card Structure
-
-```erb
-<%= render BetterUi::CardComponent.new(size: :lg, shadow: true) do |c| %>
+<%# Full card structure %>
+<%= bui_card(size: :lg, shadow: true) do |c| %>
   <% c.with_header do %>
     <h3 class="text-lg font-semibold">Card Title</h3>
   <% end %>
-
   <% c.with_body do %>
     <p>Main content area.</p>
   <% end %>
-
   <% c.with_footer do %>
     <div class="flex justify-end gap-2">
-      <%= render BetterUi::ButtonComponent.new(label: "Cancel", style: :ghost) %>
-      <%= render BetterUi::ButtonComponent.new(label: "Save") %>
+      <%= bui_button(variant: :secondary, style: :ghost) { "Cancel" } %>
+      <%= bui_button(variant: :primary) { "Save" } %>
     </div>
   <% end %>
 <% end %>
-```
 
-### Outlined Card
-
-```erb
-<%= render BetterUi::CardComponent.new(variant: :primary, style: :outline) do |c| %>
+<%# Outlined card %>
+<%= bui_card(variant: :primary, style: :outline) do |c| %>
   <% c.with_body { "Outlined primary card" } %>
 <% end %>
-```
 
-### Soft Card
-
-```erb
-<%= render BetterUi::CardComponent.new(variant: :success, style: :soft) do |c| %>
-  <% c.with_body { "Soft success card" } %>
-<% end %>
-```
-
-### Bordered Card (Variant-Agnostic)
-
-```erb
-<%= render BetterUi::CardComponent.new(style: :bordered) do |c| %>
+<%# Bordered card (variant-agnostic) %>
+<%= bui_card(style: :bordered) do |c| %>
   <% c.with_body { "Neutral bordered card" } %>
-<% end %>
-```
-
-### Card without Shadow
-
-```erb
-<%= render BetterUi::CardComponent.new(shadow: false) do |c| %>
-  <% c.with_body { "Shadow-free card" } %>
-<% end %>
-```
-
-### Stats Card
-
-```erb
-<%= render BetterUi::CardComponent.new(variant: :info, style: :soft) do |c| %>
-  <% c.with_body do %>
-    <div class="text-center">
-      <p class="text-3xl font-bold">1,234</p>
-      <p class="text-sm text-gray-500">Total Users</p>
-    </div>
-  <% end %>
 <% end %>
 ```
 
@@ -321,59 +238,388 @@ Display flash messages, alerts, and validation errors.
 | `auto_dismiss` | Integer | `nil` | Seconds before auto-dismiss |
 | `container_classes` | String | `nil` | Additional CSS classes |
 
-### Slots
-
-- `icon` - Custom icon slot
-
-### Basic Alert
+### Usage
 
 ```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: :success,
-  messages: ["Your changes have been saved."]
-) %>
-```
+<%# Success message %>
+<%= bui_action_messages(["Your changes have been saved."], variant: :success) %>
 
-### Alert with Title
+<%# Error messages with title %>
+<%= bui_action_messages(@model.errors.full_messages, variant: :danger, title: "Validation Errors") %>
 
-```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: :danger,
-  title: "Validation Errors",
-  messages: @model.errors.full_messages
-) %>
-```
+<%# Auto-dismissing alert %>
+<%= bui_action_messages(["This will disappear in 5 seconds."], variant: :info, auto_dismiss: 5) %>
 
-### Auto-Dismissing Alert
-
-```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: :info,
-  messages: ["This message will disappear in 5 seconds."],
-  auto_dismiss: 5
-) %>
-```
-
-### Non-Dismissible Alert
-
-```erb
-<%= render BetterUi::ActionMessagesComponent.new(
-  variant: :warning,
-  messages: ["Important notice"],
-  dismissible: false
-) %>
-```
-
-### Flash Messages Helper
-
-```erb
+<%# Flash messages %>
 <% flash.each do |type, message| %>
   <% variant = { notice: :success, alert: :danger, warning: :warning }[type.to_sym] || :info %>
-  <%= render BetterUi::ActionMessagesComponent.new(
-    variant: variant,
-    messages: [message],
-    auto_dismiss: 5
-  ) %>
+  <%= bui_action_messages([message], variant: variant, auto_dismiss: 5) %>
+<% end %>
+```
+
+---
+
+## AvatarComponent
+
+User avatar with image, initials fallback, and status indicator.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `src` | String | `nil` | Image URL |
+| `alt` | String | `nil` | Alt text (falls back to name) |
+| `name` | String | `nil` | Full name for generating initials |
+| `variant` | Symbol | `:primary` | Color variant for initials background |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `shape` | Symbol | `:circle` | `:circle`, `:square`, `:rounded` |
+| `status` | Symbol | `nil` | `:online`, `:offline`, `:busy`, `:away` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Slots
+
+- `badge` - Badge overlay at top-right
+
+### Usage
+
+```erb
+<%# Avatar with image %>
+<%= bui_avatar(src: user.avatar_url, alt: user.name) %>
+
+<%# Avatar with initials and status %>
+<%= bui_avatar(name: "John Doe", variant: :primary, status: :online) %>
+
+<%# Square avatar with badge %>
+<%= bui_avatar(name: "Jane", shape: :square, size: :lg) do |a| %>
+  <% a.with_badge { bui_badge(variant: :danger, counter: 3) } %>
+<% end %>
+```
+
+---
+
+## BadgeComponent
+
+Label badge with dot, counter, and pill modes.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:primary` | Color variant |
+| `style` | Symbol | `:solid` | `:solid`, `:outline`, `:soft`, `:ghost` |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg` |
+| `pill` | Boolean | `true` | Pill shape (rounded-full) |
+| `dot` | Boolean | `false` | Show dot indicator |
+| `counter` | Integer | `nil` | Show numeric counter |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Slots
+
+- `icon_before` - Icon before badge text
+
+### Usage
+
+```erb
+<%# Simple badge %>
+<%= bui_badge(variant: :success) { "Active" } %>
+
+<%# Counter badge %>
+<%= bui_badge(variant: :danger, counter: 5) %>
+
+<%# Dot badge %>
+<%= bui_badge(variant: :success, dot: true) %>
+
+<%# Outline badge %>
+<%= bui_badge(variant: :info, style: :outline) { "New" } %>
+```
+
+---
+
+## TagComponent
+
+Dismissible tag with link support and Stimulus controller.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:primary` | Color variant |
+| `style` | Symbol | `:solid` | `:solid`, `:outline`, `:soft` |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg` |
+| `dismissible` | Boolean | `false` | Show dismiss button |
+| `href` | String | `nil` | Makes tag clickable (renders as `<a>`) |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Slots
+
+- `icon_before` - Icon before tag text
+
+### Usage
+
+```erb
+<%# Simple tag %>
+<%= bui_tag(variant: :success) { "Active" } %>
+
+<%# Dismissible tag %>
+<%= bui_tag(variant: :info, dismissible: true) { "New" } %>
+
+<%# Tag as link %>
+<%= bui_tag(variant: :primary, href: "/tags/ruby") { "Ruby" } %>
+
+<%# Tag with icon %>
+<%= bui_tag(variant: :warning) do |t| %>
+  <% t.with_icon_before { bui_fa_icon("exclamation-triangle", style: :solid, size: :xs) } %>
+  Warning
+<% end %>
+```
+
+---
+
+## HeadingComponent
+
+Semantic heading (h1-h6) with optional subtitle, actions, and divider.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `level` | Symbol | `:h2` | `:h1`, `:h2`, `:h3`, `:h4`, `:h5`, `:h6` |
+| `subtitle` | String | `nil` | Subtitle text |
+| `divider` | Boolean | `false` | Show divider line below |
+| `variant` | Symbol | `nil` | Color variant (`nil` for inherit) |
+| `align` | Symbol | `:left` | `:left`, `:center`, `:right` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Slots
+
+- `subtitle` - Rich subtitle content (overrides subtitle param)
+- `actions` - Action buttons or controls
+
+### Usage
+
+```erb
+<%# Simple heading %>
+<%= bui_heading(level: :h1, variant: :primary) { "Page Title" } %>
+
+<%# Heading with subtitle %>
+<%= bui_heading(level: :h2, subtitle: "Manage your account settings") { "Settings" } %>
+
+<%# Heading with actions %>
+<%= bui_heading(level: :h2, divider: true) do |h| %>
+  <% h.with_actions { bui_button(variant: :primary, size: :sm) { "Add New" } } %>
+  Users
+<% end %>
+```
+
+---
+
+## SpinnerComponent
+
+Loading indicator with color and size variants.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:primary` | Color variant |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `label` | String | `nil` | Accessible sr-only label |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Usage
+
+```erb
+<%# Default spinner %>
+<%= bui_spinner %>
+
+<%# Large success spinner %>
+<%= bui_spinner(variant: :success, size: :lg, label: "Saving...") %>
+```
+
+---
+
+## ProgressComponent
+
+Progress bar with label and animation.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | Numeric | `0` | Current value |
+| `max` | Numeric | `100` | Maximum value |
+| `variant` | Symbol | `:primary` | Color variant |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg` |
+| `label` | String | `nil` | Text above the bar |
+| `show_value` | Boolean | `false` | Show percentage text |
+| `animated` | Boolean | `false` | Striped animation |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Usage
+
+```erb
+<%# Default progress %>
+<%= bui_progress(value: 50) %>
+
+<%# With label and value display %>
+<%= bui_progress(value: 75, label: "Upload progress", show_value: true, variant: :success) %>
+
+<%# Animated progress %>
+<%= bui_progress(value: 60, animated: true, variant: :info) %>
+```
+
+---
+
+## DividerComponent
+
+Visual separator with label and orientation.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `orientation` | Symbol | `:horizontal` | `:horizontal`, `:vertical` |
+| `style` | Symbol | `:solid` | `:solid`, `:dashed`, `:dotted` |
+| `variant` | Symbol | `nil` | Color variant (`nil` for gray) |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md` |
+| `label` | String | `nil` | Centered text label |
+| `label_position` | Symbol | `:center` | `:left`, `:center`, `:right` |
+| `spacing` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Usage
+
+```erb
+<%# Basic divider %>
+<%= bui_divider %>
+
+<%# Dashed divider with label %>
+<%= bui_divider(style: :dashed, label: "OR", variant: :primary) %>
+
+<%# Vertical divider (use inside a flex container) %>
+<%= bui_divider(orientation: :vertical) %>
+```
+
+---
+
+## TooltipComponent
+
+CSS-only hover tooltip with position and style.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | String | Required | Tooltip content |
+| `position` | Symbol | `:top` | `:top`, `:right`, `:bottom`, `:left` |
+| `variant` | Symbol | `:dark` | `:dark`, `:light` |
+| `size` | Symbol | `:sm` | `:sm`, `:md` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Usage
+
+```erb
+<%# Simple tooltip %>
+<%= bui_tooltip("Save changes") do %>
+  <%= bui_button(variant: :primary) { "Save" } %>
+<% end %>
+
+<%# Tooltip with position %>
+<%= bui_tooltip("Delete item", position: :bottom, variant: :light) do %>
+  <%= bui_button(variant: :danger, style: :ghost) { "Delete" } %>
+<% end %>
+```
+
+---
+
+## ContainerComponent
+
+Responsive max-width content wrapper.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `size` | Symbol | `:lg` | `:sm`, `:md`, `:lg`, `:xl`, `:full` |
+| `padding` | Boolean | `true` | Apply horizontal padding |
+| `centered` | Boolean | `true` | Center with mx-auto |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Usage
+
+```erb
+<%# Default container %>
+<%= bui_container { "Page content" } %>
+
+<%# Full-width container without padding %>
+<%= bui_container(size: :full, padding: false) { "Edge-to-edge content" } %>
+```
+
+---
+
+## FaIconComponent
+
+FontAwesome icon wrapper with styles, animations, and transformations.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | String | Required | FontAwesome icon name (e.g., "user", "check") |
+| `style` | Symbol | `:regular` | `:regular`, `:solid`, `:light`, `:thin`, `:brands` |
+| `variant` | Symbol | `nil` | Color variant (`nil` = inherit) |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:"2xl"` |
+| `spin` | Boolean | `false` | Spin animation |
+| `pulse` | Boolean | `false` | Pulse animation |
+| `flip` | Symbol | `nil` | `:horizontal`, `:vertical`, `:both` |
+| `rotate` | Integer | `nil` | `90`, `180`, `270` |
+| `fixed_width` | Boolean | `false` | Fixed width |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Usage
+
+```erb
+<%# Default icon %>
+<%= bui_fa_icon("user") %>
+
+<%# Solid icon with color and size %>
+<%= bui_fa_icon("heart", style: :solid, variant: :danger, size: :lg) %>
+
+<%# Spinning icon %>
+<%= bui_fa_icon("spinner", style: :solid, spin: true) %>
+
+<%# Brand icon %>
+<%= bui_fa_icon("github", style: :brands, size: :xl) %>
+```
+
+---
+
+## Breadcrumb
+
+Breadcrumb navigation with configurable separators.
+
+### Parameters (BreadcrumbComponent)
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `separator` | Symbol | `:slash` | `:slash`, `:chevron`, `:dot` |
+| `size` | Symbol | `:md` | `:sm`, `:md`, `:lg` |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Slots
+
+- `items` (multiple) - `Breadcrumb::ItemComponent` instances
+  - `label` (String, required) - Item text
+  - `href` (String, nil) - Link URL (`nil` = current page)
+  - `icon_before` slot - Optional icon
+
+### Usage
+
+```erb
+<%= bui_breadcrumb(separator: :chevron) do |bc| %>
+  <% bc.with_item(label: "Home", href: root_path) %>
+  <% bc.with_item(label: "Products", href: products_path) %>
+  <% bc.with_item(label: "Widget") %>
 <% end %>
 ```
 
@@ -392,7 +638,8 @@ All form components support standalone usage and Rails form builder integration.
   <%= f.bui_textarea :bio %>
   <%= f.bui_number_input :age %>
   <%= f.bui_checkbox :terms %>
-  <%= render BetterUi::ButtonComponent.new(label: "Submit", type: :submit) %>
+  <%= f.bui_select :country, [["Italy", "it"], ["France", "fr"]] %>
+  <%= bui_button(type: :submit) { "Submit" } %>
 <% end %>
 ```
 
@@ -422,60 +669,31 @@ Standard text input with validation and icon support.
 - `prefix_icon` - Icon before input
 - `suffix_icon` - Icon after input
 
-### With Form Builder
+### Usage
 
 ```erb
+<%# With form builder %>
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
   <%= f.bui_text_input :email,
     hint: "We'll never share your email",
     placeholder: "you@example.com" %>
 <% end %>
-```
 
-### With Form Builder and Icon
-
-```erb
+<%# With form builder and icon %>
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
   <%= f.bui_text_input :email do |c| %>
-    <% c.with_prefix_icon do %>
-      <svg class="w-5 h-5 text-gray-400"><use href="#mail-icon"/></svg>
-    <% end %>
+    <% c.with_prefix_icon { bui_fa_icon("envelope", style: :regular, size: :sm) } %>
   <% end %>
 <% end %>
-```
 
-### Standalone Usage
+<%# Standalone %>
+<%= bui_text_input("user[email]", label: "Email", placeholder: "you@example.com", required: true) %>
 
-```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
-  name: "user[email]",
-  label: "Email Address",
-  hint: "We'll never share your email",
-  placeholder: "you@example.com",
-  required: true
-) %>
-```
+<%# Email input shorthand %>
+<%= bui_email_input("email", label: "Email", placeholder: "you@example.com") %>
 
-### With Errors
-
-```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
-  name: "user[email]",
-  label: "Email",
-  value: "invalid-email",
-  errors: ["Email is invalid"]
-) %>
-```
-
-### With Prefix Icon
-
-```erb
-<%= render BetterUi::Forms::TextInputComponent.new(
-  name: "user[username]",
-  label: "Username"
-) do |c| %>
-  <% c.with_prefix_icon { "@" } %>
-<% end %>
+<%# Date input shorthand %>
+<%= bui_date_input("birthday", label: "Date of Birth") %>
 ```
 
 ---
@@ -506,48 +724,28 @@ Numeric input with min/max validation.
 - `prefix_icon` - Icon before input
 - `suffix_icon` - Icon after input
 
-### With Form Builder
+### Usage
 
 ```erb
+<%# With form builder %>
 <%= form_with model: @product, builder: BetterUi::UiFormBuilder do |f| %>
-  <%= f.bui_number_input :price,
-    min: 0,
-    step: 0.01,
-    hint: "Enter price in dollars" %>
+  <%= f.bui_number_input :price, min: 0, step: 0.01, hint: "Enter price in dollars" %>
 <% end %>
-```
 
-### Standalone Usage
-
-```erb
-<%= render BetterUi::Forms::NumberInputComponent.new(
-  name: "product[price]",
-  label: "Price",
-  min: 0,
-  step: 0.01,
-  show_spinner: false
-) do |c| %>
+<%# Standalone with prefix icon %>
+<%= bui_number_input("product[price]", label: "Price", min: 0, step: 0.01) do |c| %>
   <% c.with_prefix_icon { "$" } %>
 <% end %>
-```
 
-### Quantity Input
-
-```erb
-<%= render BetterUi::Forms::NumberInputComponent.new(
-  name: "quantity",
-  label: "Quantity",
-  min: 1,
-  max: 100,
-  value: 1
-) %>
+<%# Quantity input %>
+<%= bui_number_input("quantity", label: "Quantity", min: 1, max: 100, value: 1) %>
 ```
 
 ---
 
 ## PasswordInputComponent
 
-Password input with visibility toggle.
+Password input with visibility toggle via Stimulus controller.
 
 ### Parameters
 
@@ -563,34 +761,16 @@ Password input with visibility toggle.
 | `required` | Boolean | `false` | Mark required |
 | `errors` | Array | `[]` | Error messages |
 
-### With Form Builder
+### Usage
 
 ```erb
+<%# With form builder %>
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  <%= f.bui_password_input :password,
-    hint: "Minimum 8 characters" %>
+  <%= f.bui_password_input :password, hint: "Minimum 8 characters" %>
 <% end %>
-```
 
-### Standalone Usage
-
-```erb
-<%= render BetterUi::Forms::PasswordInputComponent.new(
-  name: "user[password]",
-  label: "Password",
-  hint: "Minimum 8 characters",
-  required: true
-) %>
-```
-
-### Password Confirmation
-
-```erb
-<%= render BetterUi::Forms::PasswordInputComponent.new(
-  name: "user[password_confirmation]",
-  label: "Confirm Password",
-  required: true
-) %>
+<%# Standalone %>
+<%= bui_password_input("user[password]", label: "Password", hint: "Minimum 8 characters", required: true) %>
 ```
 
 ---
@@ -616,37 +796,16 @@ Multi-line text input with resizing options.
 | `required` | Boolean | `false` | Mark required |
 | `errors` | Array | `[]` | Error messages |
 
-### With Form Builder
+### Usage
 
 ```erb
+<%# With form builder %>
 <%= form_with model: @post, builder: BetterUi::UiFormBuilder do |f| %>
-  <%= f.bui_textarea :content,
-    rows: 6,
-    hint: "Write your content here" %>
+  <%= f.bui_textarea :content, rows: 6, hint: "Write your content here" %>
 <% end %>
-```
 
-### Standalone Usage
-
-```erb
-<%= render BetterUi::Forms::TextareaComponent.new(
-  name: "post[content]",
-  label: "Content",
-  rows: 6,
-  resize: :vertical,
-  maxlength: 1000
-) %>
-```
-
-### Non-Resizable
-
-```erb
-<%= render BetterUi::Forms::TextareaComponent.new(
-  name: "comment",
-  label: "Comment",
-  rows: 3,
-  resize: :none
-) %>
+<%# Standalone %>
+<%= bui_textarea("post[content]", label: "Content", rows: 6, resize: :vertical, maxlength: 1000) %>
 ```
 
 ---
@@ -670,34 +829,16 @@ Single checkbox with label and variants.
 | `value` | String | `"1"` | Checkbox value |
 | `errors` | Array | `[]` | Error messages |
 
-### With Form Builder
+### Usage
 
 ```erb
+<%# With form builder %>
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  <%= f.bui_checkbox :terms,
-    label: "I agree to the terms and conditions",
-    required: true %>
+  <%= f.bui_checkbox :terms, label: "I agree to the terms and conditions", required: true %>
 <% end %>
-```
 
-### Standalone Usage
-
-```erb
-<%= render BetterUi::Forms::CheckboxComponent.new(
-  name: "user[newsletter]",
-  label: "Subscribe to newsletter",
-  variant: :primary
-) %>
-```
-
-### Different Variants
-
-```erb
-<%= render BetterUi::Forms::CheckboxComponent.new(
-  name: "accept",
-  label: "Accept terms",
-  variant: :success
-) %>
+<%# Standalone %>
+<%= bui_checkbox("newsletter", label: "Subscribe to newsletter", variant: :primary) %>
 ```
 
 ---
@@ -720,62 +861,82 @@ Multiple checkboxes for multi-select options.
 | `disabled` | Boolean | `false` | Disable all checkboxes |
 | `errors` | Array | `[]` | Error messages |
 
-### With Form Builder
+### Usage
 
 ```erb
+<%# With form builder %>
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
   <%= f.bui_checkbox_group :roles,
     [["Admin", "admin"], ["Editor", "editor"], ["Viewer", "viewer"]],
     legend: "User Roles" %>
 <% end %>
-```
 
-### Standalone Usage
-
-```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
-  name: "user[interests]",
-  collection: [
-    ["Technology", "tech"],
-    ["Sports", "sports"],
-    ["Music", "music"]
-  ],
-  legend: "Select your interests",
-  orientation: :vertical
-) %>
-```
-
-### Horizontal Layout
-
-```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
-  name: "features",
-  collection: [["Feature A", "a"], ["Feature B", "b"]],
+<%# Standalone horizontal layout %>
+<%= bui_checkbox_group("features",
+  [["Feature A", "a"], ["Feature B", "b"]],
   orientation: :horizontal
 ) %>
 ```
 
-### Pre-Selected Values
+---
+
+## SelectComponent
+
+Custom dropdown select with keyboard navigation, type-ahead search, and ARIA support.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | String | Required | Field name |
+| `collection` | Array | Required | `[[label, value], ...]` or `[value, ...]` |
+| `value` | String | `nil` | Selected value |
+| `label` | String | `nil` | Label text |
+| `hint` | String | `nil` | Hint text |
+| `placeholder` | String | `nil` | Placeholder text |
+| `size` | Symbol | `:md` | Input size |
+| `disabled` | Boolean | `false` | Disable select |
+| `required` | Boolean | `false` | Mark required |
+| `clearable` | Boolean | `false` | Show clear button |
+| `dropdown_classes` | String | `nil` | Custom dropdown CSS classes |
+| `errors` | Array | `[]` | Error messages |
+
+### Slots
+
+- `prefix_icon` - Icon before the input
+
+### Usage
 
 ```erb
-<%= render BetterUi::Forms::CheckboxGroupComponent.new(
-  name: "categories",
-  collection: [["Cat 1", "1"], ["Cat 2", "2"], ["Cat 3", "3"]],
-  selected: ["1", "3"]
+<%# Standalone %>
+<%= bui_select("country",
+  [["Italy", "it"], ["France", "fr"], ["Germany", "de"]],
+  label: "Country",
+  placeholder: "Select a country"
 ) %>
+
+<%# Clearable with icon %>
+<%= bui_select("country", [["Italy", "it"], ["France", "fr"]], clearable: true) do |s| %>
+  <% s.with_prefix_icon { bui_fa_icon("globe", style: :solid, size: :sm) } %>
+<% end %>
+
+<%# With form builder %>
+<%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
+  <%= f.bui_select :country, [["Italy", "it"], ["France", "fr"]] %>
+<% end %>
 ```
 
 ---
 
 ## TableComponent
 
-Flexible data table supporting two modes: **slot-based** (manual rows/cells) and **collection-based** (automatic rendering from data). Built with 6 sub-components: TableComponent, HeaderComponent, HeaderCellComponent, RowComponent, CellComponent, ColumnComponent.
+Flexible data table supporting two modes: **slot-based** (manual rows/cells) and **collection-based** (automatic rendering from data).
 
 ### Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | Symbol | `:primary` | Color variant (all 9 semantic variants) |
+| `variant` | Symbol | `:primary` | Color variant |
 | `style` | Symbol | `:default` | `:default`, `:bordered` |
 | `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
 | `rounded` | Symbol | `:md` | `:none`, `:sm`, `:md`, `:lg`, `:xl`, `:full` |
@@ -785,66 +946,16 @@ Flexible data table supporting two modes: **slot-based** (manual rows/cells) and
 | `shadow` | Symbol | `:sm` | `:none`, `:sm`, `:md`, `:lg`, `:xl` |
 | `caption` | String | `nil` | Table caption text |
 | `collection` | Array | `nil` | Data collection (activates collection mode) |
-| `row_highlighted` | Proc | `nil` | Lambda `(item) -> bool` for row highlighting (collection mode) |
-| `body_row_partial` | String | `nil` | Partial path for custom row rendering (collection mode) |
-| `header_partial` | String | `nil` | Partial path for custom header (collection mode) |
-| `footer_partial` | String | `nil` | Partial path for custom footer (collection mode) |
+| `row_highlighted` | Proc | `nil` | Lambda `(item) -> bool` for row highlighting |
+| `body_row_partial` | String | `nil` | Partial path for custom row rendering |
+| `header_partial` | String | `nil` | Partial path for custom header |
+| `footer_partial` | String | `nil` | Partial path for custom footer |
 | `container_classes` | String | `nil` | Wrapper div CSS classes |
-| `table_classes` | String | `nil` | `<table>` CSS classes |
-| `header_classes` | String | `nil` | `<thead>` CSS classes |
-| `body_classes` | String | `nil` | `<tbody>` CSS classes |
-| `footer_classes` | String | `nil` | `<tfoot>` CSS classes |
-
-### Slots (Slot Mode)
-
-- `header` - HeaderComponent (contains header cells)
-- `rows` (multiple) - RowComponent (contains body cells)
-- `footer_row` - RowComponent for footer
-- `empty_state` - Content shown when no rows
-
-### Slots (Collection Mode)
-
-- `columns` (multiple) - ColumnComponent definitions
-- `empty_state` - Content shown when collection is empty
-
-### ColumnComponent Parameters (Collection Mode)
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `key` | Symbol | `nil` | Data attribute key |
-| `label` | String | `nil` | Header label (auto-humanized from key if nil) |
-| `align` | Symbol | `:left` | `:left`, `:center`, `:right` |
-| `sortable` | Boolean | `false` | Show sort indicator |
-| `sorted` | Boolean | `false` | Currently sorted column |
-| `sort_direction` | Symbol | `:asc` | `:asc`, `:desc` |
-| `header_classes` | String | `nil` | Custom `<th>` classes |
-| `cell_classes` | String | `nil` | Custom `<td>` classes |
-
-### HeaderCellComponent Parameters (Slot Mode)
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `label` | String | `nil` | Header text |
-| `align` | Symbol | `:left` | `:left`, `:center`, `:right` |
-| `scope` | Symbol | `:col` | HTML scope attribute (`:col`, `:row`, or `nil` to omit) |
-| `sortable` | Boolean | `false` | Show sort indicator |
-| `sorted` | Boolean | `false` | Currently sorted |
-| `sort_direction` | Symbol | `:asc` | `:asc`, `:desc` |
-
-### RowComponent Parameters (Slot Mode)
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `highlighted` | Boolean | `false` | Highlight row with variant background |
 
 ### Slot-Based Usage
 
 ```erb
-<%= render BetterUi::Table::TableComponent.new(
-  variant: :primary,
-  striped: true,
-  hoverable: true
-) do |t| %>
+<%= bui_table(variant: :primary, striped: true, hoverable: true) do |t| %>
   <% t.with_header do |h| %>
     <% h.with_cell(label: "Name") %>
     <% h.with_cell(label: "Email") %>
@@ -855,7 +966,7 @@ Flexible data table supporting two modes: **slot-based** (manual rows/cells) and
     <% t.with_row do |r| %>
       <% r.with_cell { user.name } %>
       <% r.with_cell { user.email } %>
-      <% r.with_cell(align: :right) { link_to("Edit", user) } %>
+      <% r.with_cell(align: :right) { bui_link(edit_user_path(user)) { "Edit" } } %>
     <% end %>
   <% end %>
 
@@ -866,36 +977,19 @@ Flexible data table supporting two modes: **slot-based** (manual rows/cells) and
 ### Collection-Based Usage
 
 ```erb
-<%= render BetterUi::Table::TableComponent.new(
-  collection: @users,
-  variant: :primary,
-  striped: true
-) do |t| %>
+<%= bui_table(collection: @users, variant: :primary, striped: true) do |t| %>
   <% t.with_column(key: :name, label: "Name") %>
   <% t.with_column(key: :email, label: "Email") %>
   <% t.with_column(key: :role, label: "Role") { |user| user.role.humanize } %>
-  <% t.with_column(key: :actions, label: "Actions", align: :right) { |user| link_to("Edit", user) } %>
+  <% t.with_column(key: :actions, label: "Actions", align: :right) { |user| bui_link(edit_user_path(user)) { "Edit" } } %>
   <% t.with_empty_state { "No users found." } %>
 <% end %>
 ```
 
-### Highlighted Rows (Slot Mode)
+### Highlighted Rows (Collection Mode)
 
 ```erb
-<%= render BetterUi::Table::TableComponent.new(variant: :danger) do |t| %>
-  <% t.with_header do |h| %>
-    <% h.with_cell(label: "Name") %>
-  <% end %>
-  <% t.with_row(highlighted: true) do |r| %>
-    <% r.with_cell { "Flagged user" } %>
-  <% end %>
-<% end %>
-```
-
-### Highlighted Rows (Collection Mode with Proc)
-
-```erb
-<%= render BetterUi::Table::TableComponent.new(
+<%= bui_table(
   collection: @users,
   variant: :warning,
   row_highlighted: ->(user) { user.flagged? }
@@ -904,77 +998,167 @@ Flexible data table supporting two modes: **slot-based** (manual rows/cells) and
 <% end %>
 ```
 
-### Sortable Headers (Slot Mode)
+### Sortable Headers
 
 ```erb
-<%= render BetterUi::Table::TableComponent.new do |t| %>
-  <% t.with_header do |h| %>
-    <% h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
-    <% h.with_cell(label: "Email", sortable: true) %>
-    <% h.with_cell(label: "Role") %>
-  <% end %>
-  <%# ... rows ... %>
-<% end %>
-```
-
-### Sortable Headers (Collection Mode)
-
-```erb
-<%= render BetterUi::Table::TableComponent.new(collection: @users) do |t| %>
+<%= bui_table(collection: @users) do |t| %>
   <% t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
   <% t.with_column(key: :email, label: "Email", sortable: true) %>
-  <% t.with_column(key: :role, label: "Role") %>
 <% end %>
 ```
 
-### Custom Partials (Collection Mode)
+---
+
+## Dialog Components
+
+### DialogComponent
+
+Modal overlay with configurable size, backdrop, and close behavior.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `size` | Symbol | `:md` | `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:full` |
+| `close_on_backdrop` | Boolean | `true` | Close on backdrop click |
+| `close_on_escape` | Boolean | `true` | Close on Escape key |
+| `open` | Boolean | `false` | Initially open |
+| `show_close_button` | Boolean | `true` | Show X close button |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+#### Slots
+
+- `trigger` - Trigger element to open dialog
+
+#### Usage
 
 ```erb
-<%= render BetterUi::Table::TableComponent.new(
-  collection: @users,
-  body_row_partial: "users/table_row",
-  header_partial: "users/table_header",
-  footer_partial: "users/table_footer"
-) do |t| %>
-  <% t.with_column(key: :name, label: "Name") %>
-  <% t.with_column(key: :email, label: "Email") %>
+<%= bui_dialog(size: :md) do |d| %>
+  <% d.with_trigger { bui_button(variant: :primary) { "Open Dialog" } } %>
+  <% d.with_header { "Dialog Title" } %>
+  <% d.with_body { "Dialog content goes here." } %>
+  <% d.with_footer do %>
+    <%= bui_button(variant: :secondary, style: :ghost) { "Cancel" } %>
+    <%= bui_button(variant: :primary) { "Save" } %>
+  <% end %>
 <% end %>
 ```
 
-Partials receive locals: `item`, `index`, `columns` (body_row), `columns` (header), `collection`, `columns` (footer). Partials are ignored in slot mode.
+### AlertComponent
 
-### Configurable Border Radius
+Alert dialog with icon, message, and OK button.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:info` | Color variant |
+| `title` | String | `nil` | Alert title |
+| `text` | String | `nil` | Alert message |
+| `icon` | Boolean | `true` | Show icon |
+| `button_label` | String | `"OK"` | OK button label |
+| `size` | Symbol | `:sm` | Dialog size |
+
+#### Usage
 
 ```erb
-<%# No rounded corners %>
-<%= render BetterUi::Table::TableComponent.new(rounded: :none) do |t| %>
-  <%# ... %>
-<% end %>
-
-<%# Extra rounded %>
-<%= render BetterUi::Table::TableComponent.new(rounded: :xl) do |t| %>
-  <%# ... %>
+<%= bui_dialog_alert(variant: :success, title: "Saved!", text: "Your changes were saved.") do |a| %>
+  <% a.with_trigger { bui_button(variant: :success) { "Save" } } %>
 <% end %>
 ```
 
-### Table with Footer
+### ConfirmComponent
+
+Confirm dialog with Cancel and Confirm buttons.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:warning` | Color variant |
+| `title` | String | `nil` | Confirm title |
+| `text` | String | `nil` | Confirm message |
+| `icon` | Boolean | `true` | Show icon |
+| `confirm_label` | String | `"Confirm"` | Confirm button label |
+| `cancel_label` | String | `"Cancel"` | Cancel button label |
+| `size` | Symbol | `:sm` | Dialog size |
+| `close_on_backdrop` | Boolean | `false` | Close on backdrop click |
+| `close_on_escape` | Boolean | `false` | Close on Escape key |
+
+#### Usage
 
 ```erb
-<%= render BetterUi::Table::TableComponent.new do |t| %>
-  <% t.with_header do |h| %>
-    <% h.with_cell(label: "Item") %>
-    <% h.with_cell(label: "Price", align: :right) %>
-  <% end %>
+<%= bui_dialog_confirm(variant: :danger, title: "Delete?", text: "This action cannot be undone.") do |c| %>
+  <% c.with_trigger { bui_button(variant: :danger) { "Delete" } } %>
+<% end %>
+```
 
-  <% t.with_row do |r| %>
-    <% r.with_cell { "Widget" } %>
-    <% r.with_cell(align: :right) { "$10.00" } %>
-  <% end %>
+---
 
-  <% t.with_footer_row do |r| %>
-    <% r.with_cell { "Total" } %>
-    <% r.with_cell(align: :right) { "$10.00" } %>
+## Tabs Components
+
+### ContainerComponent
+
+Tabs container supporting JS mode (client-side) and Turbo mode (server-rendered via Turbo Frames).
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `mode` | Symbol | `:js` | `:js`, `:turbo` |
+| `style` | Symbol | `:underline` | `:underline`, `:pills`, `:bordered` |
+| `variant` | Symbol | `:primary` | Color variant |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `alignment` | Symbol | `:start` | `:start`, `:center`, `:end`, `:stretch` |
+| `position` | Symbol | `:top` | `:top`, `:bottom`, `:left`, `:right` |
+| `frame_id` | String | `nil` | Turbo Frame ID (required for turbo mode) |
+| `default_tab` | String | `nil` | ID of the default active tab |
+| `persist` | Boolean | `false` | Persist active tab state |
+| `persist_key` | String | `nil` | localStorage key for persistence |
+
+#### Slots
+
+- `tabs` (multiple) - `TabComponent` instances
+- `panels` (multiple) - `PanelComponent` instances (JS mode)
+- `loader` - Custom loader (Turbo mode)
+
+#### Usage (JS Mode)
+
+```erb
+<%= bui_tabs(mode: :js, style: :underline) do |tabs| %>
+  <% tabs.with_tab(id: "profile", label: "Profile", active: true) %>
+  <% tabs.with_tab(id: "settings", label: "Settings") %>
+  <% tabs.with_panel(id: "profile", active: true) { "Profile content" } %>
+  <% tabs.with_panel(id: "settings") { "Settings content" } %>
+<% end %>
+```
+
+#### Usage (Turbo Mode)
+
+```erb
+<%= bui_tabs(mode: :turbo, frame_id: "tab-content") do |tabs| %>
+  <% tabs.with_tab(id: "profile", label: "Profile", href: profile_path, active: true) %>
+  <% tabs.with_tab(id: "settings", label: "Settings", href: settings_path) %>
+<% end %>
+
+<turbo-frame id="tab-content">
+  <%# Content loaded here %>
+</turbo-frame>
+```
+
+#### Usage (Tabs with Icons and Badges)
+
+```erb
+<%= bui_tabs(mode: :js, style: :pills) do |tabs| %>
+  <% tabs.with_tab(id: "messages", label: "Messages", active: true) do |tab| %>
+    <% tab.with_icon { bui_fa_icon("envelope", style: :regular, size: :sm) } %>
+    <% tab.with_badge { bui_badge(variant: :danger, counter: 3) } %>
   <% end %>
+  <% tabs.with_tab(id: "settings", label: "Settings") do |tab| %>
+    <% tab.with_icon { bui_fa_icon("cog", style: :solid, size: :sm) } %>
+  <% end %>
+  <% tabs.with_panel(id: "messages", active: true) { "Messages list" } %>
+  <% tabs.with_panel(id: "settings") { "Settings form" } %>
 <% end %>
 ```
 
@@ -1003,125 +1187,30 @@ Main layout wrapper with header, sidebar, and content.
 - `sidebar` - SidebarComponent
 - `main` - Main content
 
-### Basic Layout
-
-```erb
-<%= render BetterUi::Drawer::LayoutComponent.new do |layout| %>
-  <% layout.with_header(sticky: true) do |header| %>
-    <% header.with_logo { image_tag("logo.svg") } %>
-    <% header.with_mobile_menu_button do %>
-      <button data-action="click->better-ui--drawer--layout#toggle">
-        <svg class="w-6 h-6"><!-- Menu icon --></svg>
-      </button>
-    <% end %>
-  <% end %>
-
-  <% layout.with_sidebar do |sidebar| %>
-    <% sidebar.with_navigation { render "shared/nav" } %>
-  <% end %>
-
-  <% layout.with_main do %>
-    <%= yield %>
-  <% end %>
-<% end %>
-```
-
-### HeaderComponent
-
-Sticky header with logo, navigation, and actions.
-
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `sticky` | Boolean | `true` | Sticky positioning |
-| `variant` | Symbol | `:light` | `:light`, `:dark` |
-| `container_classes` | String | `nil` | Additional CSS |
-
-#### Slots
-
-- `logo` - Logo/brand area
-- `navigation` - Main navigation links
-- `mobile_menu_button` - Mobile toggle button
-- `actions` - Right-side actions (user menu, etc.)
-
-### SidebarComponent
-
-Responsive sidebar with navigation and footer.
-
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `variant` | Symbol | `:light` | `:light`, `:dark` |
-| `width` | Symbol | `:md` | `:sm`, `:md`, `:lg` |
-| `position` | Symbol | `:left` | `:left`, `:right` |
-
-#### Slots
-
-- `navigation` - Navigation content
-- `footer` - Footer content
-
-### NavGroupComponent
-
-Grouped navigation with title.
-
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `title` | String | `nil` | Group title |
-| `variant` | Symbol | `:light` | `:light`, `:dark` |
-| `collapsible` | Boolean | `false` | Enable collapse |
-| `collapsed` | Boolean | `false` | Initial state |
-
-#### Slot
-
-- `item` (multiple) - NavItemComponent instances
-
-### NavItemComponent
-
-Individual navigation item.
-
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `label` | String | Required | Item label |
-| `href` | String | `"#"` | Link URL |
-| `active` | Boolean | `false` | Active state |
-| `variant` | Symbol | `:light` | `:light`, `:dark` |
-| `badge` | String | `nil` | Badge text |
-| `badge_variant` | Symbol | `:primary` | Badge color |
-
-#### Slot
-
-- `icon` - Item icon
-
 ### Complete Admin Layout Example
 
 ```erb
-<%= render BetterUi::Drawer::LayoutComponent.new(sidebar_breakpoint: :lg) do |layout| %>
+<%= bui_drawer_layout(sidebar_breakpoint: :lg) do |layout| %>
   <% layout.with_header(variant: :dark, sticky: true) do |header| %>
     <% header.with_logo { "Admin Panel" } %>
     <% header.with_mobile_menu_button do %>
       <button data-action="click->better-ui--drawer--layout#toggle" class="text-white p-2">
-        <svg class="w-6 h-6"><!-- Hamburger --></svg>
+        <%= bui_fa_icon("bars", style: :solid) %>
       </button>
     <% end %>
     <% header.with_actions do %>
-      <%= render "shared/user_menu" %>
+      <%= bui_avatar(name: current_user.name, size: :sm, status: :online) %>
     <% end %>
   <% end %>
 
   <% layout.with_sidebar(variant: :dark, width: :md) do |sidebar| %>
     <% sidebar.with_navigation do %>
-      <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Dashboard", variant: :dark) do |group| %>
+      <%= bui_drawer_nav_group(title: "Dashboard", variant: :dark) do |group| %>
         <% group.with_item(label: "Overview", href: admin_path, active: true) %>
         <% group.with_item(label: "Analytics", href: admin_analytics_path) %>
       <% end %>
 
-      <%= render BetterUi::Drawer::NavGroupComponent.new(title: "Management", variant: :dark) do |group| %>
+      <%= bui_drawer_nav_group(title: "Management", variant: :dark) do |group| %>
         <% group.with_item(label: "Users", href: admin_users_path, badge: "12", badge_variant: :danger) %>
         <% group.with_item(label: "Settings", href: admin_settings_path) %>
       <% end %>
@@ -1159,14 +1248,12 @@ oklch(lightness chroma hue)
 ### Customizing Primary Color
 
 ```css
-/* app/assets/stylesheets/application.css */
 @import "tailwindcss";
 @import "@pandev-srl/better-ui/theme";
 @import "@pandev-srl/better-ui/typography";
 @import "@pandev-srl/better-ui/utilities";
 
 @theme inline {
-  /* Custom brand blue */
   --color-primary-50: oklch(0.97 0.01 220);
   --color-primary-100: oklch(0.94 0.03 220);
   --color-primary-200: oklch(0.88 0.06 220);
@@ -1183,38 +1270,6 @@ oklch(lightness chroma hue)
 @source "../../../vendor/bundle/**/*.{rb,erb}";
 ```
 
-### Custom Font
-
-```css
-@theme inline {
-  --font-family-sans: "Inter", system-ui, sans-serif;
-}
-```
-
-### Adding a Custom Variant
-
-```css
-@theme inline {
-  --color-brand-50: oklch(0.97 0.02 280);
-  --color-brand-100: oklch(0.93 0.04 280);
-  --color-brand-200: oklch(0.86 0.08 280);
-  --color-brand-300: oklch(0.78 0.12 280);
-  --color-brand-400: oklch(0.69 0.16 280);
-  --color-brand-500: oklch(0.60 0.20 280);
-  --color-brand-600: oklch(0.51 0.22 280);
-  --color-brand-700: oklch(0.43 0.20 280);
-  --color-brand-800: oklch(0.35 0.16 280);
-  --color-brand-900: oklch(0.28 0.12 280);
-  --color-brand-950: oklch(0.20 0.08 280);
-}
-```
-
-Use in templates:
-
-```erb
-<div class="bg-brand-500 text-white">Custom brand element</div>
-```
-
 ---
 
 ## Stimulus Controllers
@@ -1226,7 +1281,11 @@ BetterUi provides these Stimulus controllers:
 | `better-ui--button` | Loading states, click handling |
 | `better-ui--action-messages` | Dismissible alerts, auto-dismiss |
 | `better-ui--forms--password-input` | Password visibility toggle |
+| `better-ui--forms--select` | Custom dropdown, keyboard navigation |
 | `better-ui--drawer--layout` | Mobile drawer toggle |
+| `better-ui--dialog` | Modal open/close behavior |
+| `better-ui--tabs--container` | Tab switching, Turbo Frame loading |
+| `better-ui--tag` | Dismissible tags |
 
 ### Manual Controller Registration
 
@@ -1245,9 +1304,9 @@ application.register("better-ui--action-messages", ActionMessagesController)
 
 ```erb
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder, class: "space-y-6" do |f| %>
-  <%= render BetterUi::CardComponent.new(size: :lg) do |card| %>
+  <%= bui_card(size: :lg) do |card| %>
     <% card.with_header do %>
-      <h2 class="text-xl font-semibold">User Registration</h2>
+      <%= bui_heading(level: :h2) { "User Registration" } %>
     <% end %>
 
     <% card.with_body do %>
@@ -1257,23 +1316,17 @@ application.register("better-ui--action-messages", ActionMessagesController)
         <%= f.bui_text_input :email,
           hint: "We'll never share your email",
           placeholder: "you@example.com" do |c| %>
-          <% c.with_prefix_icon do %>
-            <svg class="w-5 h-5 text-gray-400"><use href="#mail"/></svg>
-          <% end %>
+          <% c.with_prefix_icon { bui_fa_icon("envelope", style: :regular, size: :sm) } %>
         <% end %>
 
-        <%= f.bui_password_input :password,
-          hint: "Minimum 8 characters" %>
-
+        <%= f.bui_password_input :password, hint: "Minimum 8 characters" %>
         <%= f.bui_password_input :password_confirmation %>
 
-        <%= f.bui_textarea :bio,
-          rows: 4,
-          hint: "Tell us about yourself" %>
+        <%= f.bui_textarea :bio, rows: 4, hint: "Tell us about yourself" %>
+        <%= f.bui_number_input :age, min: 18, max: 120 %>
 
-        <%= f.bui_number_input :age,
-          min: 18,
-          max: 120 %>
+        <%= f.bui_select :country, [["Italy", "it"], ["France", "fr"], ["Germany", "de"]],
+          placeholder: "Select your country" %>
 
         <%= f.bui_checkbox_group :interests,
           [["Technology", "tech"], ["Sports", "sports"], ["Music", "music"]],
@@ -1288,18 +1341,8 @@ application.register("better-ui--action-messages", ActionMessagesController)
 
     <% card.with_footer do %>
       <div class="flex justify-end gap-3">
-        <%= render BetterUi::ButtonComponent.new(
-          label: "Cancel",
-          variant: :secondary,
-          style: :ghost,
-          href: root_path
-        ) %>
-        <%= render BetterUi::ButtonComponent.new(
-          label: "Create Account",
-          variant: :primary,
-          type: :submit,
-          show_loader_on_click: true
-        ) %>
+        <%= bui_button(variant: :secondary, style: :ghost, href: root_path) { "Cancel" } %>
+        <%= bui_button(variant: :primary, type: :submit, show_loader_on_click: true) { "Create Account" } %>
       </div>
     <% end %>
   <% end %>

@@ -104,15 +104,13 @@ A checkbox input component with support for labels, hints, errors, and color var
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Forms::CheckboxComponent.new(
-  name: "user[terms]",
+<%= bui_checkbox("user[terms]",
   label: "I agree to the terms and conditions"
 ) %>
 ```
 
 ```erb
-<%= render BetterUi::Forms::CheckboxComponent.new(
-  name: "settings[notifications]",
+<%= bui_checkbox("settings[notifications]",
   label: "Enable notifications",
   variant: :success,
   checked: true
@@ -120,8 +118,7 @@ A checkbox input component with support for labels, hints, errors, and color var
 ```
 
 ```erb
-<%= render BetterUi::Forms::CheckboxComponent.new(
-  name: "user[active]",
+<%= bui_checkbox("user[active]",
   label: "Active",
   label_position: :left
 ) %>

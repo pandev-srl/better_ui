@@ -96,8 +96,7 @@ Multi-line text input with adjustable rows and resize behavior.
 ### Direct Render
 
 ```erb
-<%= render BetterUi::Forms::TextareaComponent.new(
-  name: "post[content]",
+<%= bui_textarea("post[content]",
   label: "Content",
   rows: 10,
   placeholder: "Write your content here...",
@@ -107,8 +106,7 @@ Multi-line text input with adjustable rows and resize behavior.
 ```
 
 ```erb
-<%= render BetterUi::Forms::TextareaComponent.new(
-  name: "user[bio]",
+<%= bui_textarea("user[bio]",
   label: "Bio",
   rows: 6,
   resize: :none
