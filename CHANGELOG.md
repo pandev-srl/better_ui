@@ -7,6 +7,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-02-01
+
+### Added
+- **Dialog::DialogComponent**: Modal dialog with configurable size (sm/md/lg/xl/full), backdrop/escape close, optional close button, focus trap, and Stimulus controller (`better-ui--dialog--dialog`)
+- **Dialog::AlertComponent**: Alert dialog with variant-based icon, title, message, and OK button
+- **Dialog::ConfirmComponent**: Confirmation dialog with cancel/confirm buttons, destructive action support, and custom events
+- **Table::TableComponent**: Dual-mode table (slot-based and collection-based) with card-style design, colspan/rowspan support, empty state, and inside-card rendering
+- **Table::HeaderComponent**: Table header row with cell slots
+- **Table::HeaderCellComponent**: Header cell with scope attribute, sortable option, and sort direction indicator
+- **Table::RowComponent**: Table body row with striped, hoverable, and highlighted options
+- **Table::CellComponent**: Standard table data cell with alignment and sizing
+- **Table::ColumnComponent**: Column configuration for collection-based table mode
+- **Dropdown::DropdownComponent**: Composable dropdown menu with keyboard navigation, auto-close, placement options (top/bottom/left/right), and Stimulus controller (`better-ui--dropdown--dropdown`)
+- **Dropdown::ItemComponent**: Dropdown menu item with icon slot, link/button modes, and danger variant
+- **Dropdown::DividerComponent**: Visual separator for dropdown menus
+- **Dropdown::HeaderComponent**: Non-interactive header text for dropdown sections
+- **AvatarComponent**: User avatar with image or initials fallback, 3 shapes (circle, square, rounded), 5 sizes, status indicator (online, offline, busy, away), and badge slot
+- **BadgeComponent**: Inline label with dot/counter modes, 4 styles (solid, outline, soft, ghost), 4 sizes, pill option, and icon slot; uses `InlineLabelStyles` concern
+- **TagComponent**: Dismissible label with 3 styles (solid, outline, soft), link mode, icon slot, and Stimulus controller (`better-ui--tag`)
+- **LinkComponent**: Styled anchor with 3 styles (default, underline, ghost), icon slots, disabled state, and target/rel handling
+- **HeadingComponent**: Semantic heading (h1-h6) with subtitle, divider, color variants, alignment, and actions slot
+- **SpinnerComponent**: Loading indicator with color variants, 5 sizes, and optional label
+- **ProgressComponent**: Percentage progress bar with label, value display, animation, and color variants
+- **DividerComponent**: Horizontal/vertical separator with 3 styles (solid, dashed, dotted), optional label, and configurable spacing
+- **ContainerComponent**: Responsive max-width container with 5 sizes (sm, md, lg, xl, full), padding, and centering options
+- **FaIconComponent**: FontAwesome icon wrapper with spin, pulse, flip, rotate, fixed-width, and size options
+- **Breadcrumb::BreadcrumbComponent**: Breadcrumb navigation with 3 separator types (slash, chevron, dot) and size variants
+- **Breadcrumb::ItemComponent**: Breadcrumb item with label, href, and optional icon
+- **Concerns::InlineLabelStyles**: Shared concern for Badge and Tag inline label styling
+- **Forms::SelectComponent**: Custom select dropdown with keyboard navigation, type-ahead search, clearable option, ARIA support, and Stimulus controller (`better-ui--forms--select`)
+- **Forms::TextInputComponent**: Added configurable input types (`:email`, `:tel`, `:date`, `:time`) with corresponding `bui_email_input`, `bui_tel_input`, `bui_date_input`, `bui_time_input` view helpers
+- **Table enhancements**: Added scope attribute on header cells, configurable rounded borders (none/sm/md/lg/xl/full), row highlighting, sortable headers with sort direction indicator, and partials system for header/row/footer customization
+- **Tooltip Stimulus controller** (`better-ui--tooltip`): Fixed positioning with viewport boundary detection and automatic flipping to escape overflow clipping
+- **Tag Stimulus controller** (`better-ui--tag`): Dismissible tags with shared fade-out animation via `utils/dismiss.js`
+- **Dismiss utility** (`utils/dismiss.js`): Shared fade-out dismiss animation used by ActionMessages and Tag controllers
+- **`bui_*` view helpers**: Added helpers for all new components — `bui_dialog`, `bui_dialog_alert`, `bui_dialog_confirm`, `bui_table`, `bui_dropdown`, `bui_avatar`, `bui_badge`, `bui_tag`, `bui_link`, `bui_heading`, `bui_spinner`, `bui_progress`, `bui_divider`, `bui_container`, `bui_fa_icon`, `bui_breadcrumb`, `bui_tooltip`, `bui_select`, `bui_email_input`, `bui_tel_input`, `bui_date_input`, `bui_time_input`
+- **Lookbook previews** for all new components with multiple variants, sizes, styles, and interactive examples
+- **Test coverage** for all new components and form builder integration
+
+### Changed
+- **ApplicationComponent**: Added unified `SHADOWS` constant (none/sm/md/lg/xl) for consistent shadow parameter across all components
+- **CardComponent**: Bordered style is now variant-specific with default `:light`, producing colored borders per variant
+- **Table::TableComponent**: Hoverable and bordered styles are now variant-aware, applying variant-specific colors
+- **Gemspec**: Updated description to reference Tailwind CSS v4 (removed outdated BEM methodology reference)
+
+### Fixed
+- **TooltipComponent**: Replaced CSS-only positioning with Stimulus controller using fixed positioning to properly escape overflow clipping in scrollable containers
+- **Lookbook previews**: Removed trailing text in `@param` annotations that broke Lookbook variant select dropdowns (ActionMessages, Badge, Button, Link previews)
+- **Table tests**: Aligned assertions with bordered style and header size changes
+
+### Documentation
+- Added comprehensive documentation for Dialog, Table, Dropdown, and all 13 migrated general components
+- Updated all existing component docs to use `bui_*` helper syntax
+- Added COMPONENT_COMPARISON.md documenting old vs new component architecture
+- Fixed inconsistencies across README, INSTALLATION.md, CLAUDE.md, and gemspec (helper counts, controller lists, component hierarchy, method names)
+
 ## [0.8.0] - 2026-01-30
 
 ### Added
