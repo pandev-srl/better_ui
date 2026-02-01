@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://github.com/pandev-srl/better_ui"
   spec.summary     = "Elegant and reusable UI components for Rails with integrated documentation"
   spec.description = "Better UI is a Rails gem that works as a mountable engine containing reusable UI components, " \
-                     "built with ViewComponent and Tailwind CSS, following the BEM methodology. " \
+                     "built with ViewComponent and Tailwind CSS v4. " \
                      "It includes documentation and interactive previews with Lookbook."
   spec.license     = "MIT"
 

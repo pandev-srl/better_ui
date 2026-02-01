@@ -115,15 +115,17 @@ module.exports = {
 
 The npm package provides:
 
-**JavaScript (Stimulus Controllers):**
+**JavaScript (10 Stimulus Controllers):**
 - `ButtonController` - Loading states and click handling
 - `ActionMessagesController` - Dismissible alerts with auto-dismiss
+- `TagController` - Dismissible tags
 - `PasswordInputController` - Password visibility toggle
 - `SelectController` - Custom dropdown with keyboard navigation
 - `DrawerLayoutController` - Mobile drawer toggle and responsive behavior
-- `DialogController` - Modal open/close behavior
 - `TabsContainerController` - Tab switching and Turbo Frame loading
-- `TagController` - Dismissible tags
+- `DialogController` - Modal open/close behavior
+- `DropdownController` - Dropdown menu with keyboard navigation
+- `TooltipController` - Fixed-position tooltips with viewport flipping
 - `registerControllers()` - Helper to register all controllers at once
 
 **CSS (Theme):**

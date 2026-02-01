@@ -69,7 +69,7 @@ For detailed installation and configuration instructions, see the [Installation 
 
 - Rails 8.1.1 or higher
 - Node.js and npm (for Tailwind CSS)
-- Tailwind CSS v4 (currently in beta)
+- Tailwind CSS v4
 
 ## Component Overview
 
@@ -230,11 +230,12 @@ BetterUi includes a custom form builder for seamless Rails form integration:
 
 ```erb
 <%= form_with model: @user, builder: BetterUi::UiFormBuilder do |f| %>
-  <%= f.ui_text_input :name %>
-  <%= f.ui_text_input :email, hint: "We'll never share your email" %>
-  <%= f.ui_password_input :password %>
-  <%= f.ui_textarea :bio, rows: 6 %>
-  <%= f.ui_number_input :age, min: 0, max: 120 %>
+  <%= f.bui_text_input :name %>
+  <%= f.bui_text_input :email, hint: "We'll never share your email" %>
+  <%= f.bui_password_input :password %>
+  <%= f.bui_textarea :bio, rows: 6 %>
+  <%= f.bui_number_input :age, min: 0, max: 120 %>
+  <%= f.bui_select :role, [["Admin", "admin"], ["Editor", "editor"]] %>
   <%= f.bui_checkbox :newsletter, label: "Subscribe to newsletter" %>
   <%= f.bui_checkbox_group :roles, [["Admin", "admin"], ["Editor", "editor"]] %>
 <% end %>
@@ -242,22 +243,64 @@ BetterUi includes a custom form builder for seamless Rails form integration:
 
 ## Available View Helpers
 
+### Core Components
+
 | Helper | Component |
 |--------|-----------|
 | `bui_button` | ButtonComponent |
+| `bui_link` | LinkComponent |
 | `bui_card` | CardComponent |
 | `bui_action_messages` | ActionMessagesComponent |
+| `bui_avatar` | AvatarComponent |
+| `bui_badge` | BadgeComponent |
+| `bui_tag` | TagComponent |
+| `bui_heading` | HeadingComponent |
+| `bui_spinner` | SpinnerComponent |
+| `bui_progress` | ProgressComponent |
+| `bui_divider` | DividerComponent |
+| `bui_tooltip` | TooltipComponent |
+| `bui_container` | ContainerComponent |
+| `bui_fa_icon` | FaIconComponent |
+| `bui_breadcrumb` | Breadcrumb::BreadcrumbComponent |
+
+### Form Components
+
+| Helper | Component |
+|--------|-----------|
 | `bui_text_input` | Forms::TextInputComponent |
+| `bui_email_input` | Forms::TextInputComponent (type: :email) |
+| `bui_tel_input` | Forms::TextInputComponent (type: :tel) |
+| `bui_date_input` | Forms::TextInputComponent (type: :date) |
+| `bui_time_input` | Forms::TextInputComponent (type: :time) |
 | `bui_number_input` | Forms::NumberInputComponent |
 | `bui_password_input` | Forms::PasswordInputComponent |
 | `bui_textarea` | Forms::TextareaComponent |
 | `bui_checkbox` | Forms::CheckboxComponent |
 | `bui_checkbox_group` | Forms::CheckboxGroupComponent |
+| `bui_select` | Forms::SelectComponent |
+
+### Layout & Navigation
+
+| Helper | Component |
+|--------|-----------|
 | `bui_drawer_layout` | Drawer::LayoutComponent |
 | `bui_drawer_sidebar` | Drawer::SidebarComponent |
 | `bui_drawer_header` | Drawer::HeaderComponent |
 | `bui_drawer_nav_item` | Drawer::NavItemComponent |
 | `bui_drawer_nav_group` | Drawer::NavGroupComponent |
+
+### Interactive Components
+
+| Helper | Component |
+|--------|-----------|
+| `bui_dialog` | Dialog::DialogComponent |
+| `bui_dialog_alert` | Dialog::AlertComponent |
+| `bui_dialog_confirm` | Dialog::ConfirmComponent |
+| `bui_dropdown` | Dropdown::DropdownComponent |
+| `bui_tabs` | Tabs::ContainerComponent |
+| `bui_tab` | Tabs::TabComponent |
+| `bui_tab_panel` | Tabs::PanelComponent |
+| `bui_table` | Table::TableComponent |
 
 > **Note**: You can also use ViewComponent directly with `render BetterUi::*Component.new(...)` if you prefer the explicit rendering syntax.
 

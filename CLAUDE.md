@@ -80,17 +80,45 @@ bundle exec rails server
 ```
 ApplicationComponent (base class)
 ├── VARIANTS constant (9 semantic color variants: primary, secondary, accent, success, danger, warning, info, light, dark)
+├── SHADOWS constant (5 shadow sizes)
 ├── css_classes() helper (uses TailwindMerge for intelligent class merging)
 │
-├── ButtonComponent (with Stimulus controller)
+├── ButtonComponent (with Stimulus controller, slots: icon_before, icon_after)
+├── LinkComponent (slots: icon_before, icon_after)
 ├── CardComponent (slots: header, body, footer)
 ├── ActionMessagesComponent (with Stimulus controller)
+├── AvatarComponent (slots: badge)
+├── BadgeComponent (includes InlineLabelStyles, slots: icon_before)
+├── TagComponent (with Stimulus controller, includes InlineLabelStyles, slots: icon_before)
+├── HeadingComponent (slots: subtitle, actions)
+├── SpinnerComponent
+├── ProgressComponent
+├── DividerComponent
+├── TooltipComponent (with Stimulus controller)
+├── ContainerComponent
+├── FaIconComponent
+│
+├── Breadcrumb::BreadcrumbComponent (slots: items)
+│   └── Breadcrumb::ItemComponent (slots: icon_before)
+│
+├── Dialog::DialogComponent (with Stimulus controller, slots: trigger)
+├── Dialog::AlertComponent (slots: trigger)
+├── Dialog::ConfirmComponent (slots: trigger)
+│
+├── Dropdown::DropdownComponent (with Stimulus controller, slots: trigger, items)
+├── Dropdown::ItemComponent (slots: icon)
+├── Dropdown::DividerComponent
+├── Dropdown::HeaderComponent
 │
 ├── Drawer::LayoutComponent (with Stimulus controller, slots: header, sidebar, main)
-├── Drawer::HeaderComponent (slots: logo, navigation, actions)
+├── Drawer::HeaderComponent (slots: logo, navigation, actions, mobile_menu_button)
 ├── Drawer::SidebarComponent (slots: header, navigation, footer)
 ├── Drawer::NavGroupComponent (slots: items)
-├── Drawer::NavItemComponent
+├── Drawer::NavItemComponent (slots: icon, badge)
+│
+├── Tabs::ContainerComponent (with Stimulus controller, slots: tabs, panels, loader)
+├── Tabs::TabComponent (slots: icon, badge)
+├── Tabs::PanelComponent
 │
 ├── Table::TableComponent (dual-mode: slot-based + collection-based)
 │   ├── Table::HeaderComponent (slots: cells)
@@ -99,13 +127,15 @@ ApplicationComponent (base class)
 │   ├── Table::CellComponent
 │   └── Table::ColumnComponent (collection mode column config)
 │
-└── Forms::BaseComponent (abstract base for form inputs)
-    ├── Forms::TextInputComponent
-    ├── Forms::NumberInputComponent
-    ├── Forms::PasswordInputComponent (with Stimulus controller)
-    ├── Forms::TextareaComponent
-    ├── Forms::CheckboxComponent
-    └── Forms::CheckboxGroupComponent
+├── Forms::BaseComponent (abstract base for text/number/select inputs)
+│   ├── Forms::TextInputComponent (slots: prefix_icon, suffix_icon)
+│   │   └── Forms::PasswordInputComponent (with Stimulus controller)
+│   ├── Forms::NumberInputComponent (slots: prefix_icon, suffix_icon)
+│   ├── Forms::TextareaComponent (slots: prefix_icon, suffix_icon)
+│   └── Forms::SelectComponent (with Stimulus controller, slots: prefix_icon)
+│
+├── Forms::CheckboxComponent (inherits ApplicationComponent directly)
+└── Forms::CheckboxGroupComponent (inherits ApplicationComponent directly)
 
 UiFormBuilder (Rails form builder, integrates all form components)
 ```
@@ -125,10 +155,20 @@ UiFormBuilder (Rails form builder, integrates all form components)
 - `assets/src/js/index.js` - Entry point with `registerControllers()` helper
 - `assets/src/js/button_controller.js` - Loading states and click handling
 - `assets/src/js/action_messages_controller.js` - Dismissible alerts with auto-dismiss timer
-- `assets/src/js/drawer/layout_controller.js` - Mobile drawer toggle (responsive sidebar)
+- `assets/src/js/tag_controller.js` - Dismissible tags
+- `assets/src/js/tooltip_controller.js` - Fixed-position tooltips with viewport flipping
 - `assets/src/js/forms/password_input_controller.js` - Password visibility toggle
+- `assets/src/js/forms/select_controller.js` - Custom select dropdown with keyboard navigation
+- `assets/src/js/drawer/layout_controller.js` - Mobile drawer toggle (responsive sidebar)
+- `assets/src/js/tabs/container_controller.js` - Tab switching and Turbo Frame loading
+- `assets/src/js/dialog/dialog_controller.js` - Modal open/close with focus trap
+- `assets/src/js/dropdown/dropdown_controller.js` - Dropdown menu with keyboard navigation
+- `assets/src/js/utils/dismiss.js` - Shared fade-out dismiss utility
 
 **Naming convention**: Stimulus identifiers use hyphens (e.g., `data-controller="better-ui--button"`), while file paths use underscores. This is critical for proper registration.
+
+**Registered controller identifiers** (10 total):
+`better-ui--button`, `better-ui--action-messages`, `better-ui--tag`, `better-ui--tooltip`, `better-ui--forms--password-input`, `better-ui--forms--select`, `better-ui--drawer--layout`, `better-ui--tabs--container`, `better-ui--dialog--dialog`, `better-ui--dropdown--dropdown`
 
 **Host app integration**:
 ```javascript
@@ -214,12 +254,19 @@ assets/
 ├── tsconfig.json         # TypeScript declarations
 ├── postcss.config.mjs    # PostCSS with Tailwind
 ├── src/
-│   ├── js/               # Stimulus controllers
+│   ├── js/               # Stimulus controllers (10 total)
 │   │   ├── index.js      # Entry point + registerControllers()
 │   │   ├── button_controller.js
 │   │   ├── action_messages_controller.js
+│   │   ├── tag_controller.js
+│   │   ├── tooltip_controller.js
+│   │   ├── utils/dismiss.js
+│   │   ├── forms/password_input_controller.js
+│   │   ├── forms/select_controller.js
 │   │   ├── drawer/layout_controller.js
-│   │   └── forms/password_input_controller.js
+│   │   ├── tabs/container_controller.js
+│   │   ├── dialog/dialog_controller.js
+│   │   └── dropdown/dropdown_controller.js
 │   └── css/              # Theme CSS
 │       ├── index.css     # Entry point (imports all modules)
 │       ├── theme.css     # Design tokens (OKLCH colors)
