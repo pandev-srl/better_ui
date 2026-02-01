@@ -13,7 +13,6 @@ module BetterUi
 
       assert_selector "div.relative"
       assert_selector "div.inline-flex"
-      assert_selector "div.group"
       assert_text "Hover me"
       assert_text "Tooltip text"
     end
@@ -24,22 +23,11 @@ module BetterUi
       assert_selector "[role='tooltip']", text: "Help text"
     end
 
-    test "has group class on wrapper for CSS-only hover" do
-      render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
-
-      assert_selector "div.group"
-    end
-
-    test "tooltip is hidden by default with opacity-0" do
+    test "tooltip is hidden by default with opacity-0 and invisible" do
       render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
 
       assert_selector "[role='tooltip'].opacity-0"
-    end
-
-    test "tooltip shows on hover with group-hover:opacity-100" do
-      render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
-
-      assert_selector "[role='tooltip'].group-hover\\:opacity-100"
+      assert_selector "[role='tooltip'].invisible"
     end
 
     test "tooltip has transition classes" do
@@ -58,7 +46,43 @@ module BetterUi
     test "wraps block content" do
       render_inline(TooltipComponent.new(text: "Info")) { '<button class="my-btn">Click</button>'.html_safe }
 
-      assert_selector "div.group button.my-btn", text: "Click"
+      assert_selector "div button.my-btn", text: "Click"
+    end
+
+    # ============================================
+    # Stimulus data attributes
+    # ============================================
+
+    test "wrapper has Stimulus controller data attribute" do
+      render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
+
+      assert_selector "[data-controller='better-ui--tooltip']"
+    end
+
+    test "wrapper has position value data attribute defaulting to top" do
+      render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
+
+      assert_selector "[data-better-ui--tooltip-position-value='top']"
+    end
+
+    test "wrapper has position value matching provided position" do
+      render_inline(TooltipComponent.new(text: "Tip", position: :bottom)) { "Content" }
+
+      assert_selector "[data-better-ui--tooltip-position-value='bottom']"
+    end
+
+    test "tooltip element has target data attribute" do
+      render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
+
+      assert_selector "[data-better-ui--tooltip-target='tooltip']"
+    end
+
+    test "position value is set for all positions" do
+      %i[top right bottom left].each do |position|
+        render_inline(TooltipComponent.new(text: "Tip", position: position)) { "Content" }
+
+        assert_selector "[data-better-ui--tooltip-position-value='#{position}']"
+      end
     end
 
     # ============================================
@@ -134,53 +158,8 @@ module BetterUi
     end
 
     # ============================================
-    # Position tests
+    # Position validation tests
     # ============================================
-
-    test "renders top position by default" do
-      render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
-
-      assert_selector "[role='tooltip'].bottom-full"
-      assert_selector "[role='tooltip'].left-1\\/2"
-      assert_selector "[role='tooltip'].-translate-x-1\\/2"
-      assert_selector "[role='tooltip'].mb-2"
-    end
-
-    test "renders top position explicitly" do
-      render_inline(TooltipComponent.new(text: "Tip", position: :top)) { "Content" }
-
-      assert_selector "[role='tooltip'].bottom-full"
-      assert_selector "[role='tooltip'].left-1\\/2"
-      assert_selector "[role='tooltip'].-translate-x-1\\/2"
-      assert_selector "[role='tooltip'].mb-2"
-    end
-
-    test "renders right position" do
-      render_inline(TooltipComponent.new(text: "Tip", position: :right)) { "Content" }
-
-      assert_selector "[role='tooltip'].left-full"
-      assert_selector "[role='tooltip'].top-1\\/2"
-      assert_selector "[role='tooltip'].-translate-y-1\\/2"
-      assert_selector "[role='tooltip'].ml-2"
-    end
-
-    test "renders bottom position" do
-      render_inline(TooltipComponent.new(text: "Tip", position: :bottom)) { "Content" }
-
-      assert_selector "[role='tooltip'].top-full"
-      assert_selector "[role='tooltip'].left-1\\/2"
-      assert_selector "[role='tooltip'].-translate-x-1\\/2"
-      assert_selector "[role='tooltip'].mt-2"
-    end
-
-    test "renders left position" do
-      render_inline(TooltipComponent.new(text: "Tip", position: :left)) { "Content" }
-
-      assert_selector "[role='tooltip'].right-full"
-      assert_selector "[role='tooltip'].top-1\\/2"
-      assert_selector "[role='tooltip'].-translate-y-1\\/2"
-      assert_selector "[role='tooltip'].mr-2"
-    end
 
     test "raises error for invalid position" do
       error = assert_raises(ArgumentError) do
@@ -205,7 +184,6 @@ module BetterUi
 
       assert_selector "div.ml-4"
       assert_selector "div.mt-2"
-      assert_selector "div.group"
       assert_selector "div.relative"
     end
 
@@ -223,16 +201,16 @@ module BetterUi
     # Common classes tests
     # ============================================
 
-    test "tooltip has absolute positioning" do
+    test "tooltip has fixed positioning" do
       render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
 
-      assert_selector "[role='tooltip'].absolute"
+      assert_selector "[role='tooltip'].fixed"
     end
 
-    test "tooltip has z-50" do
+    test "tooltip has z-[9999]" do
       render_inline(TooltipComponent.new(text: "Tip")) { "Content" }
 
-      assert_selector "[role='tooltip'].z-50"
+      assert_selector "[role='tooltip'].z-\\[9999\\]"
     end
 
     test "tooltip has rounded-md" do
@@ -261,9 +239,9 @@ module BetterUi
 
       assert_selector "[role='tooltip'].bg-white"
       assert_selector "[role='tooltip'].text-grayscale-900"
-      assert_selector "[role='tooltip'].top-full"
       assert_selector "[role='tooltip'].text-sm"
       assert_selector "[role='tooltip'].px-3"
+      assert_selector "[data-better-ui--tooltip-position-value='bottom']"
       assert_text "Details"
       assert_text "Info"
     end
@@ -278,9 +256,9 @@ module BetterUi
 
       assert_selector "[role='tooltip'].bg-grayscale-900"
       assert_selector "[role='tooltip'].text-white"
-      assert_selector "[role='tooltip'].right-full"
       assert_selector "[role='tooltip'].text-xs"
       assert_selector "[role='tooltip'].px-2"
+      assert_selector "[data-better-ui--tooltip-position-value='left']"
       assert_text "Help"
     end
   end

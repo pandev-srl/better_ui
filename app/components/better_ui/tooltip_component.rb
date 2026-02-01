@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module BetterUi
-  # A CSS-only tooltip component that shows a tooltip on hover.
+  # A tooltip component that shows a tooltip on hover/focus.
   #
-  # The component wraps any content passed in a block and displays
-  # a tooltip on hover using CSS group-hover utilities.
+  # Uses a Stimulus controller with fixed positioning to escape
+  # overflow:hidden/auto clipping contexts.
   #
   # @example Basic tooltip
   #   <%= render BetterUi::TooltipComponent.new(text: "Save changes") do %>
@@ -66,41 +66,28 @@ module BetterUi
     def tooltip_classes
       css_classes([
         base_classes,
-        position_classes,
         variant_classes,
         size_classes
       ].flatten.compact)
     end
 
     # Returns base classes common to all tooltips.
+    # Positioning is handled by the Stimulus controller via inline styles.
     #
     # @return [Array<String>] base CSS classes
     # @api private
     def base_classes
       [
-        "absolute",
-        "z-50",
+        "fixed",
+        "z-[9999]",
         "rounded-md",
         "whitespace-nowrap",
         "pointer-events-none",
         "opacity-0",
-        "group-hover:opacity-100",
+        "invisible",
         "transition-opacity",
         "duration-200"
       ]
-    end
-
-    # Returns position-specific CSS classes.
-    #
-    # @return [String] position CSS classes
-    # @api private
-    def position_classes
-      case @position
-      when :top    then "bottom-full left-1/2 -translate-x-1/2 mb-2"
-      when :right  then "left-full top-1/2 -translate-y-1/2 ml-2"
-      when :bottom then "top-full left-1/2 -translate-x-1/2 mt-2"
-      when :left   then "right-full top-1/2 -translate-y-1/2 mr-2"
-      end
     end
 
     # Returns variant-specific CSS classes.

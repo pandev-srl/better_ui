@@ -11,9 +11,10 @@ import DrawerLayoutController from "./drawer/layout_controller"
 import TabsContainerController from "./tabs/container_controller"
 import DialogController from "./dialog/dialog_controller"
 import DropdownController from "./dropdown/dropdown_controller"
+import TooltipController from "./tooltip_controller"
 
 // Export individual controllers for selective imports
-export { ButtonController, ActionMessagesController, TagController, PasswordInputController, SelectController, DrawerLayoutController, TabsContainerController, DialogController, DropdownController }
+export { ButtonController, ActionMessagesController, TagController, PasswordInputController, SelectController, DrawerLayoutController, TabsContainerController, DialogController, DropdownController, TooltipController }
 
 /**
  * Register all BetterUi controllers with a Stimulus application
@@ -36,4 +37,5 @@ export function registerControllers(application) {
   application.register("better-ui--tabs--container", TabsContainerController)
   application.register("better-ui--dialog--dialog", DialogController)
   application.register("better-ui--dropdown--dropdown", DropdownController)
+  application.register("better-ui--tooltip", TooltipController)
 }

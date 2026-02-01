@@ -1,6 +1,11 @@
-<div class="relative inline-flex group <%= @container_classes %>" <%= tag.attributes(@options) %>>
+<div class="relative inline-flex <%= @container_classes %>"
+     data-controller="better-ui--tooltip"
+     data-better-ui--tooltip-position-value="<%= @position %>"
+     <%= tag.attributes(@options) %>>
   <%= content %>
-  <div class="<%= tooltip_classes %>" role="tooltip">
+  <div class="<%= tooltip_classes %>"
+       role="tooltip"
+       data-better-ui--tooltip-target="tooltip">
     <%= @text %>
   </div>
 </div>
