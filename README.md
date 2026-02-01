@@ -304,6 +304,10 @@ BetterUi includes a custom form builder for seamless Rails form integration:
 
 > **Note**: You can also use ViewComponent directly with `render BetterUi::*Component.new(...)` if you prefer the explicit rendering syntax.
 
+## Live Demo
+
+Check out the live example application at [better-ui.pandev.it](https://better-ui.pandev.it) to see all components in action.
+
 ## Documentation
 
 - [**Installation Guide**](doc/INSTALLATION.md) - Detailed setup and configuration instructions
