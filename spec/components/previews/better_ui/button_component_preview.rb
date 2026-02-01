@@ -55,7 +55,7 @@ module BetterUi
     end
 
     # @label Playground
-    # @param variant select { choices: [primary, secondary, accent, success, danger, warning, info, light, dark] } Matches ApplicationComponent::VARIANTS.keys
+    # @param variant select { choices: [primary, secondary, accent, success, danger, warning, info, light, dark] }
     # @param style select { choices: [solid, outline, ghost, soft] }
     # @param size select { choices: [xs, sm, md, lg, xl] }
     # @param show_loader toggle

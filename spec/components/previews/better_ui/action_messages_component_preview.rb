@@ -191,7 +191,7 @@ module BetterUi
     # Interactive playground with configurable parameters
     # Experiment with different variants, styles, and features in real-time
     # @label Playground
-    # @param variant select { choices: [primary, secondary, accent, success, danger, warning, info, light, dark] } Matches ApplicationComponent::VARIANTS.keys
+    # @param variant select { choices: [primary, secondary, accent, success, danger, warning, info, light, dark] }
     # @param style select { choices: [solid, soft, outline, ghost] }
     # @param dismissible toggle
     # @param auto_dismiss number
