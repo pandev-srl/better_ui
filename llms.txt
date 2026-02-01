@@ -1,0 +1,16 @@
+# BetterUi
+
+> Rails 8.1+ ViewComponent UI library with Tailwind CSS v4 and OKLCH theming. Install both the gem (better_ui) and npm package (@pandev-srl/better-ui).
+
+BetterUi provides 42+ production-ready ViewComponents with bui_* view helpers, a UiFormBuilder for Rails forms, 10 Stimulus controllers, and a complete OKLCH color theme system.
+
+## Docs
+
+- [Full API Reference](https://raw.githubusercontent.com/AltriPandev/better_ui/main/doc/CONTEXT7.md): Complete component reference with parameters, slots, and usage examples
+- [Installation Guide](https://raw.githubusercontent.com/AltriPandev/better_ui/main/doc/INSTALLATION.md): Setup instructions for gem, npm, Tailwind CSS v4
+- [Component Index](https://raw.githubusercontent.com/AltriPandev/better_ui/main/doc/COMPONENTS.md): Component hierarchy and API overview
+- [Theme Customization](https://raw.githubusercontent.com/AltriPandev/better_ui/main/doc/CUSTOMIZATION.md): OKLCH color system and design tokens
+
+## Optional
+
+- [README](https://raw.githubusercontent.com/AltriPandev/better_ui/main/README.md): Quick start and features overview

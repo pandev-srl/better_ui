@@ -26,7 +26,8 @@
     "Gemfile",
     "Gemfile.lock",
     "Rakefile",
-    "better_ui.gemspec"
+    "better_ui.gemspec",
+    "COMPONENT_COMPARISON.md"
   ],
   "rules": [
     "Use BetterUi::UiFormBuilder for Rails form integration",

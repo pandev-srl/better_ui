@@ -1,6 +1,6 @@
 # TooltipComponent
 
-CSS-only hover tooltip with position and style.
+Stimulus-powered tooltip with fixed positioning that escapes overflow clipping. Supports position and style variants.
 
 ## Helper
 

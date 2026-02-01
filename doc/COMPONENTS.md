@@ -49,7 +49,7 @@ BetterUi provides two ways to use components:
 | SpinnerComponent | Loading indicator with color and size variants | `bui_spinner` | [spinner.md](components/spinner.md) |
 | ProgressComponent | Progress bar with label and animation | `bui_progress` | [progress.md](components/progress.md) |
 | DividerComponent | Visual separator with label and orientation | `bui_divider` | [divider.md](components/divider.md) |
-| TooltipComponent | Hover tooltip with position and style | `bui_tooltip` | [tooltip.md](components/tooltip.md) |
+| TooltipComponent | Stimulus-powered tooltip with fixed positioning | `bui_tooltip` | [tooltip.md](components/tooltip.md) |
 | ContainerComponent | Responsive max-width content wrapper | `bui_container` | [container.md](components/container.md) |
 | FaIconComponent | FontAwesome icon wrapper with animations | `bui_fa_icon` | [fa_icon.md](components/fa_icon.md) |
 | Breadcrumb | Breadcrumb navigation with configurable separators | `bui_breadcrumb` | [breadcrumb.md](components/breadcrumb.md) |
@@ -98,6 +98,15 @@ All form components support both standalone helpers and form builder integration
 | ContainerComponent | Tabs container with JS and Turbo modes | `bui_tabs` | [container.md](components/tabs/container.md) |
 | TabComponent | Individual tab with icon, badge, and disabled state | `bui_tab` | [tab.md](components/tabs/tab.md) |
 | PanelComponent | Tab panel content container | `bui_tab_panel` | [panel.md](components/tabs/panel.md) |
+
+### Dropdown Components
+
+| Component | Description | Helper | Docs |
+|-----------|-------------|--------|------|
+| DropdownComponent | Composable dropdown menu with keyboard nav and auto-close | `bui_dropdown` | [dropdown.md](components/dropdown/dropdown.md) |
+| ItemComponent | Clickable menu item with icon, variant, and disabled state | — | [item.md](components/dropdown/item.md) |
+| HeaderComponent | Non-interactive section title | — | [header.md](components/dropdown/header.md) |
+| DividerComponent | Visual separator between items | — | [divider.md](components/dropdown/divider.md) |
 
 ### Drawer/Layout Components
 
@@ -154,6 +163,10 @@ graph TD
     A --> TB[Tabs::ContainerComponent]
     TB --> TBC[Tabs::TabComponent]
     TB --> TBP[Tabs::PanelComponent]
+    A --> DD[Dropdown::DropdownComponent]
+    DD --> DDI[Dropdown::ItemComponent]
+    DD --> DDH[Dropdown::HeaderComponent]
+    DD --> DDD[Dropdown::DividerComponent]
     R --> S
     R --> T
     T --> U
@@ -188,6 +201,8 @@ graph TD
     M --> TB
     M --> TG
     M --> SEL
+    M --> TT
+    M --> DD
 ```
 
 ## ApplicationComponent (Base Class)

@@ -504,7 +504,7 @@ Visual separator with label and orientation.
 
 ## TooltipComponent
 
-CSS-only hover tooltip with position and style.
+Stimulus-powered tooltip with fixed positioning that escapes overflow clipping. Supports position and style variants.
 
 ### Parameters
 
@@ -1164,6 +1164,118 @@ Tabs container supporting JS mode (client-side) and Turbo mode (server-rendered 
 
 ---
 
+## Dropdown Components
+
+### DropdownComponent
+
+Composable dropdown menu with trigger, items (item/divider/header), keyboard navigation, and auto-close. Uses Stimulus controller for toggle, click-outside detection, and full ARIA support.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `size` | Symbol | `:md` | Menu width: `:sm` (w-40), `:md` (w-56), `:lg` (w-72) |
+| `placement` | Symbol | `:bottom_start` | `:bottom_start`, `:bottom_end`, `:top_start`, `:top_end` |
+| `shadow` | Symbol | `:lg` | Shadow size: `:sm`, `:md`, `:lg`, `:xl`, or `false` |
+| `auto_close` | Boolean | `true` | Close on click outside |
+| `close_on_item_click` | Boolean | `true` | Close menu after item click |
+| `container_classes` | String | `nil` | Additional CSS classes for root element |
+| `menu_classes` | String | `nil` | Additional CSS classes for menu panel |
+
+#### Slots
+
+- `trigger` (single) - Element that toggles the dropdown (typically a button)
+- `items` (polymorphic, multiple) - Menu entries, one of three types:
+  - `item` → `ItemComponent` - Clickable menu item
+  - `divider` → `DividerComponent` - Visual separator
+  - `header` → `HeaderComponent` - Section title
+
+#### Usage
+
+```erb
+<%# Basic dropdown %>
+<%= bui_dropdown(placement: :bottom_start) do |d| %>
+  <% d.with_trigger do %>
+    <%= bui_button(variant: :primary) { "Options" } %>
+  <% end %>
+  <% d.with_item(href: edit_path) { "Edit" } %>
+  <% d.with_item(href: show_path) { "View" } %>
+<% end %>
+
+<%# Dropdown with headers, dividers, icons, and danger item %>
+<%= bui_dropdown(size: :lg, placement: :bottom_end) do |d| %>
+  <% d.with_trigger do %>
+    <%= bui_button(variant: :secondary, style: :outline) { "Actions" } %>
+  <% end %>
+  <% d.with_header(text: "Navigation") %>
+  <% d.with_item(href: dashboard_path) do |item| %>
+    <% item.with_icon { bui_fa_icon("home", style: :solid, size: :sm) } %>
+    Dashboard
+  <% end %>
+  <% d.with_item(href: settings_path) do |item| %>
+    <% item.with_icon { bui_fa_icon("cog", style: :solid, size: :sm) } %>
+    Settings
+  <% end %>
+  <% d.with_divider %>
+  <% d.with_item(href: logout_path, variant: :danger, method: :delete) do |item| %>
+    <% item.with_icon { bui_fa_icon("sign-out-alt", style: :solid, size: :sm) } %>
+    Sign Out
+  <% end %>
+<% end %>
+
+<%# Dropdown with active and disabled items %>
+<%= bui_dropdown do |d| %>
+  <% d.with_trigger do %>
+    <%= bui_button(variant: :primary) { "Menu" } %>
+  <% end %>
+  <% d.with_item(active: true) { "Current Page" } %>
+  <% d.with_item(href: other_path) { "Other Page" } %>
+  <% d.with_item(disabled: true) { "Coming Soon" } %>
+<% end %>
+```
+
+### Dropdown::ItemComponent
+
+Individual menu item rendered as `<a>` (when `href` is set) or `<button>`.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `href` | String | `nil` | Link URL (renders `<a>` if present, `<button>` otherwise) |
+| `disabled` | Boolean | `false` | Disable the item |
+| `method` | Symbol | `nil` | HTTP method for Turbo (`:get`, `:post`, `:put`, `:patch`, `:delete`) |
+| `active` | Boolean | `false` | Highlight item with background |
+| `variant` | Symbol | `:default` | `:default` (grayscale) or `:danger` (red text/hover) |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+#### Slots
+
+- `icon` - Icon displayed before item text
+
+### Dropdown::HeaderComponent
+
+Non-interactive section title within the dropdown menu.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | String | `nil` | Header text (can also use block content) |
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+### Dropdown::DividerComponent
+
+Visual separator line between dropdown items.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `container_classes` | String | `nil` | Additional CSS classes |
+
+---
+
 ## Drawer Layout Components
 
 Complete responsive layout system for admin dashboards.
@@ -1280,12 +1392,14 @@ BetterUi provides these Stimulus controllers:
 |------------|---------|
 | `better-ui--button` | Loading states, click handling |
 | `better-ui--action-messages` | Dismissible alerts, auto-dismiss |
-| `better-ui--forms--password-input` | Password visibility toggle |
-| `better-ui--forms--select` | Custom dropdown, keyboard navigation |
-| `better-ui--drawer--layout` | Mobile drawer toggle |
-| `better-ui--dialog` | Modal open/close behavior |
-| `better-ui--tabs--container` | Tab switching, Turbo Frame loading |
 | `better-ui--tag` | Dismissible tags |
+| `better-ui--tooltip` | Fixed-position tooltip with viewport flipping |
+| `better-ui--forms--password-input` | Password visibility toggle |
+| `better-ui--forms--select` | Custom select dropdown, keyboard navigation |
+| `better-ui--drawer--layout` | Mobile drawer toggle |
+| `better-ui--tabs--container` | Tab switching, Turbo Frame loading |
+| `better-ui--dialog--dialog` | Modal open/close with focus trap |
+| `better-ui--dropdown--dropdown` | Dropdown menu, keyboard nav, auto-close |
 
 ### Manual Controller Registration
 
