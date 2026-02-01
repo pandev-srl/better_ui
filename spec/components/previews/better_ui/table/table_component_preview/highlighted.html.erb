@@ -1,0 +1,64 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Row Highlighting (Slot Mode)</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Specific rows can be highlighted to draw attention.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :primary) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Order #") %>
+      <% h.with_cell(label: "Customer") %>
+      <% h.with_cell(label: "Status") %>
+      <% h.with_cell(label: "Total", align: :right) %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "ORD-001" } %>
+      <% r.with_cell { "Alice Johnson" } %>
+      <% r.with_cell { "Shipped" } %>
+      <% r.with_cell(align: :right) { "$299.00" } %>
+    <% end %>
+
+    <% t.with_row(highlighted: true) do |r| %>
+      <% r.with_cell { "ORD-002" } %>
+      <% r.with_cell { "Bob Smith" } %>
+      <% r.with_cell { "Pending Review" } %>
+      <% r.with_cell(align: :right) { "$149.50" } %>
+    <% end %>
+
+    <% t.with_row do |r| %>
+      <% r.with_cell { "ORD-003" } %>
+      <% r.with_cell { "Charlie Brown" } %>
+      <% r.with_cell { "Delivered" } %>
+      <% r.with_cell(align: :right) { "$75.25" } %>
+    <% end %>
+
+    <% t.with_row(highlighted: true) do |r| %>
+      <% r.with_cell { "ORD-004" } %>
+      <% r.with_cell { "Diana Prince" } %>
+      <% r.with_cell { "Pending Review" } %>
+      <% r.with_cell(align: :right) { "$512.00" } %>
+    <% end %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Row Highlighting (Collection Mode with Proc)</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Highlighting applied dynamically based on item data.</p>
+
+  <%
+    orders = [
+      OpenStruct.new(number: "ORD-001", customer: "Alice Johnson", status: "Shipped", total: "$299.00", pending: false),
+      OpenStruct.new(number: "ORD-002", customer: "Bob Smith", status: "Pending Review", total: "$149.50", pending: true),
+      OpenStruct.new(number: "ORD-003", customer: "Charlie Brown", status: "Delivered", total: "$75.25", pending: false),
+      OpenStruct.new(number: "ORD-004", customer: "Diana Prince", status: "Pending Review", total: "$512.00", pending: true)
+    ]
+  %>
+
+  <%= render BetterUi::Table::TableComponent.new(
+    collection: orders,
+    variant: :warning,
+    row_highlighted: ->(item) { item.pending }
+  ) do |t| %>
+    <% t.with_column(key: :number, label: "Order #") %>
+    <% t.with_column(key: :customer, label: "Customer") %>
+    <% t.with_column(key: :status, label: "Status") %>
+    <% t.with_column(key: :total, label: "Total", align: :right) %>
+  <% end %>
+</div>

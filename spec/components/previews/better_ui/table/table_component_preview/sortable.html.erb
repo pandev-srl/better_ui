@@ -1,0 +1,44 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Sortable Headers (Slot Mode)</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Headers can indicate sort state with directional icons.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :primary) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
+      <% h.with_cell(label: "Email", sortable: true) %>
+      <% h.with_cell(label: "Role") %>
+      <% h.with_cell(label: "Joined", sortable: true, sorted: true, sort_direction: :desc) %>
+    <% end %>
+
+    <% [
+      ["Alice Johnson", "alice@example.com", "Admin", "2024-01-15"],
+      ["Bob Smith", "bob@example.com", "Editor", "2024-02-20"],
+      ["Charlie Brown", "charlie@example.com", "Viewer", "2024-03-10"]
+    ].each do |row_data| %>
+      <% t.with_row do |r| %>
+        <% r.with_cell { row_data[0] } %>
+        <% r.with_cell { row_data[1] } %>
+        <% r.with_cell { row_data[2] } %>
+        <% r.with_cell { row_data[3] } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Sortable Headers (Collection Mode)</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Sort indicators in collection mode columns.</p>
+
+  <%
+    users = [
+      OpenStruct.new(name: "Alice Johnson", email: "alice@example.com", role: "Admin", joined: "2024-01-15"),
+      OpenStruct.new(name: "Bob Smith", email: "bob@example.com", role: "Editor", joined: "2024-02-20"),
+      OpenStruct.new(name: "Charlie Brown", email: "charlie@example.com", role: "Viewer", joined: "2024-03-10")
+    ]
+  %>
+
+  <%= render BetterUi::Table::TableComponent.new(collection: users, variant: :info) do |t| %>
+    <% t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
+    <% t.with_column(key: :email, label: "Email", sortable: true) %>
+    <% t.with_column(key: :role, label: "Role") %>
+    <% t.with_column(key: :joined, label: "Joined", sortable: true, sorted: true, sort_direction: :desc) %>
+  <% end %>
+</div>

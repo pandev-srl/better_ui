@@ -38,6 +38,15 @@ module BetterUi
         xl: { th_padding: "px-6 py-5", td_padding: "px-6 py-6", text: "text-lg" }
       }.freeze
 
+      ROUNDED = {
+        none: nil,
+        sm: "sm:rounded-sm",
+        md: "sm:rounded-lg",
+        lg: "sm:rounded-xl",
+        xl: "sm:rounded-2xl",
+        full: "sm:rounded-full"
+      }.freeze
+
       STYLES = %i[default bordered].freeze
 
       # Slot-mode slots
@@ -72,12 +81,17 @@ module BetterUi
         variant: :primary,
         style: :default,
         size: :md,
+        rounded: :md,
         striped: false,
         hoverable: false,
         responsive: true,
         shadow: :sm,
         caption: nil,
         collection: nil,
+        row_highlighted: nil,
+        body_row_partial: nil,
+        header_partial: nil,
+        footer_partial: nil,
         container_classes: nil,
         table_classes: nil,
         header_classes: nil,
@@ -88,12 +102,17 @@ module BetterUi
         @variant = validate_variant(variant)
         @style = validate_style(style)
         @size = validate_size(size)
+        @rounded = validate_rounded(rounded)
         @striped = striped
         @hoverable = hoverable
         @responsive = responsive
         @shadow = normalize_shadow(shadow)
         @caption = caption
         @collection = collection
+        @row_highlighted = row_highlighted
+        @body_row_partial = body_row_partial
+        @header_partial = header_partial
+        @footer_partial = footer_partial
         @container_classes = container_classes
         @table_classes = table_classes
         @header_classes = header_classes
@@ -114,7 +133,7 @@ module BetterUi
           SHADOWS[@shadow],
           "ring-1",
           wrapper_ring_color,
-          "sm:rounded-lg",
+          ROUNDED[@rounded],
           @responsive ? "overflow-x-auto" : "overflow-hidden",
           @container_classes
         ].compact)
@@ -255,15 +274,17 @@ module BetterUi
           align_class(column.align),
           first_last_cell_classes,
           bordered_cell_classes,
+          collection_header_sortable_classes(column),
           column.header_classes
         ].compact)
       end
 
       # Collection mode: row classes
-      def collection_row_classes
+      def collection_row_classes(item = nil)
         css_classes([
           collection_striped_classes,
-          collection_hoverable_classes
+          collection_hoverable_classes,
+          collection_highlighted_classes(item)
         ].compact)
       end
 
@@ -294,6 +315,21 @@ module BetterUi
         when :info then "hover:bg-info-100 transition-colors"
         when :light then "hover:bg-grayscale-100 transition-colors"
         when :dark then "hover:bg-grayscale-600 transition-colors"
+        end
+      end
+
+      def collection_highlighted_classes(item)
+        return nil unless @row_highlighted && item && @row_highlighted.call(item)
+        case @variant
+        when :primary then "bg-primary-100"
+        when :secondary then "bg-secondary-100"
+        when :accent then "bg-accent-100"
+        when :success then "bg-success-100"
+        when :danger then "bg-danger-100"
+        when :warning then "bg-warning-100"
+        when :info then "bg-info-100"
+        when :light then "bg-grayscale-100"
+        when :dark then "bg-grayscale-700"
         end
       end
 
@@ -345,6 +381,53 @@ module BetterUi
         end
       end
 
+      # Collection mode: sortable header classes
+      def collection_header_sortable_classes(column)
+        return nil unless column.sortable
+        "cursor-pointer select-none"
+      end
+
+      # Collection mode: sort icon
+      def collection_sort_icon(column)
+        return nil unless column.sortable
+        return "↕" unless column.sorted
+
+        case column.sort_direction
+        when :asc then "↑"
+        when :desc then "↓"
+        end
+      end
+
+      # Collection mode: sort icon classes
+      def collection_sort_icon_classes(column)
+        return "text-grayscale-400" unless column.sorted
+
+        case @variant
+        when :primary then "text-primary-700"
+        when :secondary then "text-secondary-700"
+        when :accent then "text-accent-700"
+        when :success then "text-success-700"
+        when :danger then "text-danger-700"
+        when :warning then "text-warning-700"
+        when :info then "text-info-700"
+        when :light then "text-grayscale-500"
+        when :dark then "text-grayscale-300"
+        end
+      end
+
+      # Partial helpers
+      def body_row_partial?
+        @body_row_partial.present?
+      end
+
+      def header_partial?
+        @header_partial.present?
+      end
+
+      def footer_partial?
+        @footer_partial.present?
+      end
+
       # Slot-mode empty state colspan
       def slot_mode_colspan
         return 1 unless header?
@@ -371,6 +454,13 @@ module BetterUi
           raise ArgumentError, "Invalid size: #{size}. Must be one of: #{SIZES.keys.join(', ')}"
         end
         size
+      end
+
+      def validate_rounded(rounded)
+        unless ROUNDED.key?(rounded)
+          raise ArgumentError, "Invalid rounded: #{rounded}. Must be one of: #{ROUNDED.keys.join(', ')}"
+        end
+        rounded
       end
     end
   end

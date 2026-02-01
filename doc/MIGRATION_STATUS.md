@@ -34,18 +34,18 @@
 | 14  | **Container**  | `general/container/component.rb`  | ❌ Non implementato | -                                                   |
 | 15  | **Tag**        | `general/tag/component.rb`        | ❌ Non implementato | -                                                   |
 | 16  | **Tooltip**    | `general/tooltip/component.rb`    | ❌ Non implementato | -                                                   |
-| 17  | **Table**      | `general/table/component.rb`      | ❌ Non implementato | -                                                   |
+| 17  | **Table**      | `general/table/component.rb`      | ✅ Implementato     | `Table::TableComponent` - Riscritto con slot/collection mode, sortable, highlighted, rounded, partials |
 
 ### Table Sub-Components (v1)
 
-| #   | Componente v1 | Stato v2            |
-| --- | ------------- | ------------------- |
-| 1   | **TR**        | ❌ Non implementato |
-| 2   | **TH**        | ❌ Non implementato |
-| 3   | **TD**        | ❌ Non implementato |
-| 4   | **THEAD**     | ❌ Non implementato |
-| 5   | **TBODY**     | ❌ Non implementato |
-| 6   | **TFOOT**     | ❌ Non implementato |
+| #   | Componente v1 | Stato v2            | Note                                  |
+| --- | ------------- | ------------------- | ------------------------------------- |
+| 1   | **TR**        | ✅ Implementato     | `Table::RowComponent` con striped/hoverable/highlighted |
+| 2   | **TH**        | ✅ Implementato     | `Table::HeaderCellComponent` con scope/sortable |
+| 3   | **TD**        | ✅ Implementato     | `Table::CellComponent` con alignment/sizing |
+| 4   | **THEAD**     | ✅ Implementato     | `Table::HeaderComponent` con cell slots |
+| 5   | **TBODY**     | ✅ Implementato     | Integrato in `Table::TableComponent` template |
+| 6   | **TFOOT**     | ✅ Implementato     | Integrato in `Table::TableComponent` con footer_row slot e footer_partial |
 
 ### Application/Layout Components
 
@@ -119,14 +119,10 @@
 12. **Divider** - Semplice con Tailwind
 13. **Container** - Layout Tailwind
 
-### Da Valutare
-
-- **Table** (+ 6 sub-components) - Complesso, valutare se serve
-
 ---
 
 ## Statistiche
 
-- **Componenti v1 migrati in v2:** 6/28 (21%)
-- **Componenti v1 da migrare:** 22
+- **Componenti v1 migrati in v2:** 13/28 (46%) — Button, Alert, Card, Navbar, Sidebar, Main/Layout + Table (7 componenti: Table, TR, TH, TD, THEAD, TBODY, TFOOT)
+- **Componenti v1 da migrare:** 15
 - **Componenti nuovi in v2:** 10 (principalmente Forms)

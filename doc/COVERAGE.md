@@ -4,11 +4,11 @@ BetterUi uses [SimpleCov](https://github.com/simplecov-ruby/simplecov) to track 
 
 ## Current Coverage
 
-**Line Coverage: 100% (895 / 895 lines)**
+**Line Coverage: 96.32% (2955 / 3068 lines)**
 
 ### Coverage by Group
 
-- **Components**: ViewComponent classes (Button, Card, ActionMessages, Forms)
+- **Components**: ViewComponent classes (Button, Card, ActionMessages, Forms, Table, Dialog, Drawer, etc.)
 - **Form Builders**: Rails form builder integration
 - **Lib**: Engine configuration and utilities
 

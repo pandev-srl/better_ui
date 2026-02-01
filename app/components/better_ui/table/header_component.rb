@@ -15,7 +15,7 @@ module BetterUi
     #   <% end %>
     class HeaderComponent < ApplicationComponent
       renders_many :cells, lambda { |**args|
-        HeaderCellComponent.new(size: @size, style: @style, **args)
+        HeaderCellComponent.new(size: @size, style: @style, variant: @variant, **args)
       }
 
       def initialize(size: :md, variant: :primary, style: :default, container_classes: nil)

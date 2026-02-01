@@ -1,7 +1,18 @@
-<th class="<%= component_classes %>" <%= tag.attributes(@options) %>>
-  <% if @label.present? %>
-    <%= @label %>
+<th class="<%= component_classes %>"<% if @scope %> scope="<%= @scope %>"<% end %> <%= tag.attributes(@options) %>>
+  <% if @sortable %>
+    <span class="flex items-center gap-1">
+      <% if @label.present? %>
+        <%= @label %>
+      <% else %>
+        <%= content %>
+      <% end %>
+      <span class="<%= sort_icon_classes %>"><%= sort_icon %></span>
+    </span>
   <% else %>
-    <%= content %>
+    <% if @label.present? %>
+      <%= @label %>
+    <% else %>
+      <%= content %>
+    <% end %>
   <% end %>
 </th>

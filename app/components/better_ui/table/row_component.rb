@@ -17,11 +17,13 @@ module BetterUi
         CellComponent.new(size: @size, style: @style, **args)
       }
 
-      def initialize(size: :md, striped: false, variant: :primary, hoverable: false, style: :default, container_classes: nil)
+      def initialize(size: :md, striped: false, variant: :primary, hoverable: false, highlighted: false,
+                     style: :default, container_classes: nil)
         @size = size
         @striped = striped
         @variant = variant
         @hoverable = hoverable
+        @highlighted = highlighted
         @style = style
         @container_classes = container_classes
       end
@@ -32,6 +34,7 @@ module BetterUi
         css_classes([
           striped_classes,
           hoverable_classes,
+          highlighted_classes,
           @container_classes
         ].compact)
       end
@@ -63,6 +66,21 @@ module BetterUi
         when :info then "hover:bg-info-100 transition-colors"
         when :light then "hover:bg-grayscale-100 transition-colors"
         when :dark then "hover:bg-grayscale-600 transition-colors"
+        end
+      end
+
+      def highlighted_classes
+        return nil unless @highlighted
+        case @variant
+        when :primary then "bg-primary-100"
+        when :secondary then "bg-secondary-100"
+        when :accent then "bg-accent-100"
+        when :success then "bg-success-100"
+        when :danger then "bg-danger-100"
+        when :warning then "bg-warning-100"
+        when :info then "bg-info-100"
+        when :light then "bg-grayscale-100"
+        when :dark then "bg-grayscale-700"
         end
       end
     end

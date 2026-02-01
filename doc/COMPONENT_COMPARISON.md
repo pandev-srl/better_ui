@@ -9,7 +9,7 @@
 | **Stili** | Variano per componente (`filled, outline, light`, ecc.) | Uniformi: `solid, outline, ghost, soft` (+ `bordered` per card/table) |
 | **Sizing** | `small, medium, large` (3 livelli) | `xs, sm, md, lg, xl` (5 livelli) |
 | **Icone** | FontAwesome integrato (componente Icon dedicato) | Slot-based (`icon_before`, `icon_after`) + FaIconComponent wrapper |
-| **Bordi arrotondati** | Parametro `rounded` esplicito | Integrato nel `size` |
+| **Bordi arrotondati** | Parametro `rounded` esplicito | Generalmente integrato nel `size`; Table ha parametro `rounded:` esplicito (none/sm/md/lg/xl/full) |
 | **Ombre** | Assenti o parametro dedicato | Sistema unificato `SHADOWS` in ApplicationComponent |
 | **Stimulus** | Non presente | 8 controller Stimulus |
 | **Base class** | Non chiara | `ApplicationComponent < ViewComponent::Base` con `css_classes()` e TailwindMerge |
@@ -43,7 +43,7 @@
 
 | Componente | Old | New | Note |
 |---|---|---|---|
-| **Table** | `general/table` (monolitico) | `table/TableComponent` | New: completamente riscritto con slot-based + collection mode, sub-componenti Row/Header/Cell/HeaderCell/Column |
+| **Table** | `general/table` (monolitico) | `table/TableComponent` | New: completamente riscritto con slot-based + collection mode, sub-componenti Row/Header/Cell/HeaderCell/Column, sortable headers, row highlighting, configurable rounded, scope attribute, partials system |
 | **Row** | Sub-componenti inline | `table/RowComponent` | New: componente separato con slots |
 | **Header** | Sub-componenti inline | `table/HeaderComponent` | New: componente separato |
 | **Cell** | Sub-componenti inline | `table/CellComponent` | New: alignment, sizing indipendente |

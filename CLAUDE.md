@@ -92,6 +92,13 @@ ApplicationComponent (base class)
 ├── Drawer::NavGroupComponent (slots: items)
 ├── Drawer::NavItemComponent
 │
+├── Table::TableComponent (dual-mode: slot-based + collection-based)
+│   ├── Table::HeaderComponent (slots: cells)
+│   ├── Table::HeaderCellComponent (scope, sortable, sort direction)
+│   ├── Table::RowComponent (striped, hoverable, highlighted)
+│   ├── Table::CellComponent
+│   └── Table::ColumnComponent (collection mode column config)
+│
 └── Forms::BaseComponent (abstract base for form inputs)
     ├── Forms::TextInputComponent
     ├── Forms::NumberInputComponent

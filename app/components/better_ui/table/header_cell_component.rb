@@ -22,12 +22,20 @@ module BetterUi
       }.freeze
 
       ALIGNMENTS = %i[left center right].freeze
+      SORT_DIRECTIONS = %i[asc desc].freeze
 
-      def initialize(label: nil, align: :left, size: :md, style: :default, container_classes: nil, **options)
+      def initialize(label: nil, align: :left, size: :md, style: :default, scope: :col,
+                     variant: :primary, sortable: false, sorted: false, sort_direction: :asc,
+                     container_classes: nil, **options)
         @label = label
         @align = validate_align(align)
         @size = validate_size(size)
         @style = style
+        @scope = scope&.to_s
+        @variant = variant
+        @sortable = sortable
+        @sorted = sorted
+        @sort_direction = validate_sort_direction(sort_direction)
         @container_classes = container_classes
         @options = options
       end
@@ -43,6 +51,7 @@ module BetterUi
           align_class,
           first_last_cell_classes,
           border_classes,
+          sortable_classes,
           @container_classes
         ].compact)
       end
@@ -67,6 +76,42 @@ module BetterUi
         nil
       end
 
+      # Sortable feature methods
+      def sortable_classes
+        return nil unless @sortable
+        "cursor-pointer select-none"
+      end
+
+      def sort_icon
+        return nil unless @sortable
+        return "↕" unless @sorted
+
+        case @sort_direction
+        when :asc then "↑"
+        when :desc then "↓"
+        end
+      end
+
+      def sort_icon_classes
+        return nil unless @sortable
+
+        if @sorted
+          case @variant
+          when :primary then "text-primary-700"
+          when :secondary then "text-secondary-700"
+          when :accent then "text-accent-700"
+          when :success then "text-success-700"
+          when :danger then "text-danger-700"
+          when :warning then "text-warning-700"
+          when :info then "text-info-700"
+          when :light then "text-grayscale-500"
+          when :dark then "text-grayscale-300"
+          end
+        else
+          "text-grayscale-400"
+        end
+      end
+
       def validate_align(align)
         unless ALIGNMENTS.include?(align)
           raise ArgumentError, "Invalid align: #{align}. Must be one of: #{ALIGNMENTS.join(', ')}"
@@ -79,6 +124,14 @@ module BetterUi
           raise ArgumentError, "Invalid size: #{size}. Must be one of: #{SIZES.keys.join(', ')}"
         end
         size
+      end
+
+      def validate_sort_direction(direction)
+        unless SORT_DIRECTIONS.include?(direction)
+          raise ArgumentError,
+                "Invalid sort_direction: #{direction}. Must be one of: #{SORT_DIRECTIONS.join(', ')}"
+        end
+        direction
       end
     end
   end

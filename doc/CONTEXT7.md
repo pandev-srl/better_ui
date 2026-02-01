@@ -767,6 +767,219 @@ Multiple checkboxes for multi-select options.
 
 ---
 
+## TableComponent
+
+Flexible data table supporting two modes: **slot-based** (manual rows/cells) and **collection-based** (automatic rendering from data). Built with 6 sub-components: TableComponent, HeaderComponent, HeaderCellComponent, RowComponent, CellComponent, ColumnComponent.
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:primary` | Color variant (all 9 semantic variants) |
+| `style` | Symbol | `:default` | `:default`, `:bordered` |
+| `size` | Symbol | `:md` | `:xs`, `:sm`, `:md`, `:lg`, `:xl` |
+| `rounded` | Symbol | `:md` | `:none`, `:sm`, `:md`, `:lg`, `:xl`, `:full` |
+| `striped` | Boolean | `false` | Alternate row backgrounds |
+| `hoverable` | Boolean | `false` | Hover highlight on rows |
+| `responsive` | Boolean | `true` | Horizontal scroll wrapper |
+| `shadow` | Symbol | `:sm` | `:none`, `:sm`, `:md`, `:lg`, `:xl` |
+| `caption` | String | `nil` | Table caption text |
+| `collection` | Array | `nil` | Data collection (activates collection mode) |
+| `row_highlighted` | Proc | `nil` | Lambda `(item) -> bool` for row highlighting (collection mode) |
+| `body_row_partial` | String | `nil` | Partial path for custom row rendering (collection mode) |
+| `header_partial` | String | `nil` | Partial path for custom header (collection mode) |
+| `footer_partial` | String | `nil` | Partial path for custom footer (collection mode) |
+| `container_classes` | String | `nil` | Wrapper div CSS classes |
+| `table_classes` | String | `nil` | `<table>` CSS classes |
+| `header_classes` | String | `nil` | `<thead>` CSS classes |
+| `body_classes` | String | `nil` | `<tbody>` CSS classes |
+| `footer_classes` | String | `nil` | `<tfoot>` CSS classes |
+
+### Slots (Slot Mode)
+
+- `header` - HeaderComponent (contains header cells)
+- `rows` (multiple) - RowComponent (contains body cells)
+- `footer_row` - RowComponent for footer
+- `empty_state` - Content shown when no rows
+
+### Slots (Collection Mode)
+
+- `columns` (multiple) - ColumnComponent definitions
+- `empty_state` - Content shown when collection is empty
+
+### ColumnComponent Parameters (Collection Mode)
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `key` | Symbol | `nil` | Data attribute key |
+| `label` | String | `nil` | Header label (auto-humanized from key if nil) |
+| `align` | Symbol | `:left` | `:left`, `:center`, `:right` |
+| `sortable` | Boolean | `false` | Show sort indicator |
+| `sorted` | Boolean | `false` | Currently sorted column |
+| `sort_direction` | Symbol | `:asc` | `:asc`, `:desc` |
+| `header_classes` | String | `nil` | Custom `<th>` classes |
+| `cell_classes` | String | `nil` | Custom `<td>` classes |
+
+### HeaderCellComponent Parameters (Slot Mode)
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `label` | String | `nil` | Header text |
+| `align` | Symbol | `:left` | `:left`, `:center`, `:right` |
+| `scope` | Symbol | `:col` | HTML scope attribute (`:col`, `:row`, or `nil` to omit) |
+| `sortable` | Boolean | `false` | Show sort indicator |
+| `sorted` | Boolean | `false` | Currently sorted |
+| `sort_direction` | Symbol | `:asc` | `:asc`, `:desc` |
+
+### RowComponent Parameters (Slot Mode)
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `highlighted` | Boolean | `false` | Highlight row with variant background |
+
+### Slot-Based Usage
+
+```erb
+<%= render BetterUi::Table::TableComponent.new(
+  variant: :primary,
+  striped: true,
+  hoverable: true
+) do |t| %>
+  <% t.with_header do |h| %>
+    <% h.with_cell(label: "Name") %>
+    <% h.with_cell(label: "Email") %>
+    <% h.with_cell(label: "Actions", align: :right) %>
+  <% end %>
+
+  <% @users.each do |user| %>
+    <% t.with_row do |r| %>
+      <% r.with_cell { user.name } %>
+      <% r.with_cell { user.email } %>
+      <% r.with_cell(align: :right) { link_to("Edit", user) } %>
+    <% end %>
+  <% end %>
+
+  <% t.with_empty_state { "No users found." } %>
+<% end %>
+```
+
+### Collection-Based Usage
+
+```erb
+<%= render BetterUi::Table::TableComponent.new(
+  collection: @users,
+  variant: :primary,
+  striped: true
+) do |t| %>
+  <% t.with_column(key: :name, label: "Name") %>
+  <% t.with_column(key: :email, label: "Email") %>
+  <% t.with_column(key: :role, label: "Role") { |user| user.role.humanize } %>
+  <% t.with_column(key: :actions, label: "Actions", align: :right) { |user| link_to("Edit", user) } %>
+  <% t.with_empty_state { "No users found." } %>
+<% end %>
+```
+
+### Highlighted Rows (Slot Mode)
+
+```erb
+<%= render BetterUi::Table::TableComponent.new(variant: :danger) do |t| %>
+  <% t.with_header do |h| %>
+    <% h.with_cell(label: "Name") %>
+  <% end %>
+  <% t.with_row(highlighted: true) do |r| %>
+    <% r.with_cell { "Flagged user" } %>
+  <% end %>
+<% end %>
+```
+
+### Highlighted Rows (Collection Mode with Proc)
+
+```erb
+<%= render BetterUi::Table::TableComponent.new(
+  collection: @users,
+  variant: :warning,
+  row_highlighted: ->(user) { user.flagged? }
+) do |t| %>
+  <% t.with_column(key: :name, label: "Name") %>
+<% end %>
+```
+
+### Sortable Headers (Slot Mode)
+
+```erb
+<%= render BetterUi::Table::TableComponent.new do |t| %>
+  <% t.with_header do |h| %>
+    <% h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
+    <% h.with_cell(label: "Email", sortable: true) %>
+    <% h.with_cell(label: "Role") %>
+  <% end %>
+  <%# ... rows ... %>
+<% end %>
+```
+
+### Sortable Headers (Collection Mode)
+
+```erb
+<%= render BetterUi::Table::TableComponent.new(collection: @users) do |t| %>
+  <% t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
+  <% t.with_column(key: :email, label: "Email", sortable: true) %>
+  <% t.with_column(key: :role, label: "Role") %>
+<% end %>
+```
+
+### Custom Partials (Collection Mode)
+
+```erb
+<%= render BetterUi::Table::TableComponent.new(
+  collection: @users,
+  body_row_partial: "users/table_row",
+  header_partial: "users/table_header",
+  footer_partial: "users/table_footer"
+) do |t| %>
+  <% t.with_column(key: :name, label: "Name") %>
+  <% t.with_column(key: :email, label: "Email") %>
+<% end %>
+```
+
+Partials receive locals: `item`, `index`, `columns` (body_row), `columns` (header), `collection`, `columns` (footer). Partials are ignored in slot mode.
+
+### Configurable Border Radius
+
+```erb
+<%# No rounded corners %>
+<%= render BetterUi::Table::TableComponent.new(rounded: :none) do |t| %>
+  <%# ... %>
+<% end %>
+
+<%# Extra rounded %>
+<%= render BetterUi::Table::TableComponent.new(rounded: :xl) do |t| %>
+  <%# ... %>
+<% end %>
+```
+
+### Table with Footer
+
+```erb
+<%= render BetterUi::Table::TableComponent.new do |t| %>
+  <% t.with_header do |h| %>
+    <% h.with_cell(label: "Item") %>
+    <% h.with_cell(label: "Price", align: :right) %>
+  <% end %>
+
+  <% t.with_row do |r| %>
+    <% r.with_cell { "Widget" } %>
+    <% r.with_cell(align: :right) { "$10.00" } %>
+  <% end %>
+
+  <% t.with_footer_row do |r| %>
+    <% r.with_cell { "Total" } %>
+    <% r.with_cell(align: :right) { "$10.00" } %>
+  <% end %>
+<% end %>
+```
+
+---
+
 ## Drawer Layout Components
 
 Complete responsive layout system for admin dashboards.

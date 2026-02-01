@@ -801,6 +801,480 @@ module BetterUi
         end
         assert_selector "tr.even\\:bg-primary-50"
       end
+
+      # ==========================================
+      # Scope attribute tests (Feature 1)
+      # ==========================================
+
+      test "slot mode header cell has scope col by default" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name")
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector 'th[scope="col"]', text: "Name"
+      end
+
+      test "slot mode header cell with scope row" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name", scope: :row)
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector 'th[scope="row"]', text: "Name"
+      end
+
+      test "slot mode header cell with scope nil omits attribute" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name", scope: nil)
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "th", text: "Name"
+        refute_selector "th[scope]"
+      end
+
+      test "collection mode header has scope col" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector 'th[scope="col"]', text: "Name"
+      end
+
+      # ==========================================
+      # Border radius tests (Feature 2)
+      # ==========================================
+
+      test "renders with default rounded md" do
+        render_inline(TableComponent.new) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.sm\\:rounded-lg"
+      end
+
+      test "renders with rounded none" do
+        render_inline(TableComponent.new(rounded: :none)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        refute_selector "div.sm\\:rounded-lg"
+        refute_selector "div.sm\\:rounded-sm"
+      end
+
+      test "renders with rounded sm" do
+        render_inline(TableComponent.new(rounded: :sm)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.sm\\:rounded-sm"
+      end
+
+      test "renders with rounded lg" do
+        render_inline(TableComponent.new(rounded: :lg)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.sm\\:rounded-xl"
+      end
+
+      test "renders with rounded xl" do
+        render_inline(TableComponent.new(rounded: :xl)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.sm\\:rounded-2xl"
+      end
+
+      test "renders with rounded full" do
+        render_inline(TableComponent.new(rounded: :full)) do |t|
+          t.with_row do |r|
+            r.with_cell { "Content" }
+          end
+        end
+
+        assert_selector "div.sm\\:rounded-full"
+      end
+
+      test "raises error for invalid rounded" do
+        error = assert_raises(ArgumentError) do
+          TableComponent.new(rounded: :invalid)
+        end
+
+        assert_match(/Invalid rounded/, error.message)
+      end
+
+      # ==========================================
+      # Row highlighting tests (Feature 3)
+      # ==========================================
+
+      test "slot mode row not highlighted by default" do
+        render_inline(TableComponent.new(variant: :primary)) do |t|
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        refute_selector "tr.bg-primary-100"
+      end
+
+      test "slot mode row highlighted with primary variant" do
+        render_inline(TableComponent.new(variant: :primary)) do |t|
+          t.with_row(highlighted: true) do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "tr.bg-primary-100"
+      end
+
+      test "slot mode row highlighted with success variant" do
+        render_inline(TableComponent.new(variant: :success)) do |t|
+          t.with_row(highlighted: true) do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "tr.bg-success-100"
+      end
+
+      test "slot mode row highlighted with danger variant" do
+        render_inline(TableComponent.new(variant: :danger)) do |t|
+          t.with_row(highlighted: true) do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "tr.bg-danger-100"
+      end
+
+      test "slot mode row highlighted with dark variant" do
+        render_inline(TableComponent.new(variant: :dark)) do |t|
+          t.with_row(highlighted: true) do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "tr.bg-grayscale-700"
+      end
+
+      test "slot mode row highlighted combined with hoverable" do
+        render_inline(TableComponent.new(variant: :primary, hoverable: true)) do |t|
+          t.with_row(highlighted: true) do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "tr.bg-primary-100"
+        assert_selector "tr.hover\\:bg-primary-100"
+      end
+
+      test "collection mode row highlighting with proc" do
+        users = [
+          ::OpenStruct.new(name: "John", active: true),
+          ::OpenStruct.new(name: "Jane", active: false)
+        ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          variant: :primary,
+          row_highlighted: ->(item) { item.active }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        rows = html_doc.css("tbody tr")
+        assert rows[0]["class"].include?("bg-primary-100"), "First row should be highlighted"
+        refute rows[1]["class"].include?("bg-primary-100"), "Second row should not be highlighted"
+      end
+
+      test "collection mode row highlighting with danger variant" do
+        users = [ ::OpenStruct.new(name: "John", flagged: true) ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          variant: :danger,
+          row_highlighted: ->(item) { item.flagged }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tr.bg-danger-100"
+      end
+
+      test "collection mode no highlighting without proc" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users, variant: :primary)) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        refute_selector "tr.bg-primary-100"
+      end
+
+      # ==========================================
+      # Sortable header tests (Feature 4)
+      # ==========================================
+
+      test "slot mode header cell not sortable by default" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name")
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        refute_selector "th.cursor-pointer"
+        refute_selector "th span.flex"
+      end
+
+      test "slot mode sortable header cell has cursor-pointer" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name", sortable: true)
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "th.cursor-pointer"
+        assert_selector "th.select-none"
+      end
+
+      test "slot mode sortable header has unsorted icon" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name", sortable: true)
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "th span.flex.items-center.gap-1"
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        assert th_content.include?("↕"), "Expected unsorted icon ↕ in header"
+      end
+
+      test "slot mode sorted asc header has up arrow" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc)
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        assert th_content.include?("↑"), "Expected asc icon ↑ in header"
+      end
+
+      test "slot mode sorted desc header has down arrow" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :desc)
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        assert th_content.include?("↓"), "Expected desc icon ↓ in header"
+      end
+
+      test "slot mode non-sortable header has no icon" do
+        render_inline(TableComponent.new) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name")
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        refute th_content.include?("↕"), "Expected no sort icon in non-sortable header"
+        refute th_content.include?("↑"), "Expected no sort icon in non-sortable header"
+        refute th_content.include?("↓"), "Expected no sort icon in non-sortable header"
+      end
+
+      test "raises error for invalid sort_direction" do
+        error = assert_raises(ArgumentError) do
+          HeaderCellComponent.new(label: "Name", sortable: true, sort_direction: :invalid)
+        end
+
+        assert_match(/Invalid sort_direction/, error.message)
+      end
+
+      test "collection mode sortable column" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+        end
+
+        assert_selector "th.cursor-pointer"
+        assert_selector "th.select-none"
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        assert th_content.include?("↕"), "Expected unsorted icon ↕ in collection header"
+      end
+
+      test "collection mode sorted asc column" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :asc)
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        assert th_content.include?("↑"), "Expected asc icon ↑ in collection header"
+      end
+
+      test "collection mode sorted desc column" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :desc)
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        assert th_content.include?("↓"), "Expected desc icon ↓ in collection header"
+      end
+
+      test "collection mode non-sortable column has no icon" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        refute_selector "th.cursor-pointer"
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        th_content = html_doc.at_css("th").text.strip
+        refute th_content.include?("↕"), "Expected no sort icon in non-sortable column"
+      end
+
+      # ==========================================
+      # Partials system tests (Feature 5)
+      # ==========================================
+
+      test "collection mode renders body_row_partial for each item" do
+        users = [
+          ::OpenStruct.new(name: "John", email: "john@example.com"),
+          ::OpenStruct.new(name: "Jane", email: "jane@example.com")
+        ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          body_row_partial: "shared/test_table_row"
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+          t.with_column(key: :email, label: "Email")
+        end
+
+        assert_selector "tr.custom-row", count: 2
+        assert_text "Custom: John"
+        assert_text "Custom: Jane"
+      end
+
+      test "collection mode falls back to default rendering without body_row_partial" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "td", text: "John"
+        refute_selector "tr.custom-row"
+      end
+
+      test "collection mode renders header_partial override" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          header_partial: "shared/test_table_header"
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "thead"
+        assert_text "Custom Header"
+      end
+
+      test "collection mode renders footer_partial" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          footer_partial: "shared/test_table_footer"
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tfoot"
+        assert_text "Custom Footer"
+      end
+
+      test "partials are ignored in slot mode" do
+        render_inline(TableComponent.new(
+          body_row_partial: "shared/test_table_row",
+          header_partial: "shared/test_table_header",
+          footer_partial: "shared/test_table_footer"
+        )) do |t|
+          t.with_header do |h|
+            h.with_cell(label: "Name")
+          end
+          t.with_row do |r|
+            r.with_cell { "John" }
+          end
+        end
+
+        assert_selector "th", text: "Name"
+        assert_selector "td", text: "John"
+        refute_selector "tr.custom-row"
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        assert_not html_doc.text.include?("Custom Header"), "Expected 'Custom Header' not to be rendered in slot mode"
+        assert_not html_doc.text.include?("Custom Footer"), "Expected 'Custom Footer' not to be rendered in slot mode"
+      end
     end
   end
 end

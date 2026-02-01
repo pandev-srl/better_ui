@@ -7,23 +7,42 @@
     <% if collection_mode? %>
       <%# Collection mode rendering %>
       <% if columns.any? %>
-        <thead class="<%= thead_classes %>">
-          <tr>
-            <% columns.each do |column| %>
-              <th class="<%= collection_header_cell_classes(column) %>"><%= column.display_label %></th>
-            <% end %>
-          </tr>
-        </thead>
+        <% if header_partial? %>
+          <thead class="<%= thead_classes %>">
+            <%= render partial: @header_partial, locals: { columns: columns } %>
+          </thead>
+        <% else %>
+          <thead class="<%= thead_classes %>">
+            <tr>
+              <% columns.each do |column| %>
+                <th class="<%= collection_header_cell_classes(column) %>" scope="col">
+                  <% if column.sortable %>
+                    <span class="flex items-center gap-1">
+                      <%= column.display_label %>
+                      <span class="<%= collection_sort_icon_classes(column) %>"><%= collection_sort_icon(column) %></span>
+                    </span>
+                  <% else %>
+                    <%= column.display_label %>
+                  <% end %>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+        <% end %>
       <% end %>
 
       <% if @collection.any? %>
         <tbody class="<%= tbody_classes %>">
-          <% @collection.each do |item| %>
-            <tr class="<%= collection_row_classes %>">
-              <% columns.each do |column| %>
-                <td class="<%= collection_cell_classes(column) %>"><%= column.value_for(item) %></td>
-              <% end %>
-            </tr>
+          <% @collection.each_with_index do |item, index| %>
+            <% if body_row_partial? %>
+              <%= render partial: @body_row_partial, locals: { item: item, index: index, columns: columns } %>
+            <% else %>
+              <tr class="<%= collection_row_classes(item) %>">
+                <% columns.each do |column| %>
+                  <td class="<%= collection_cell_classes(column) %>"><%= column.value_for(item) %></td>
+                <% end %>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       <% elsif empty_state? %>
@@ -32,6 +51,12 @@
             <td colspan="<%= columns.size %>"><%= empty_state %></td>
           </tr>
         </tbody>
+      <% end %>
+
+      <% if footer_partial? %>
+        <tfoot class="<%= tfoot_classes %>">
+          <%= render partial: @footer_partial, locals: { collection: @collection, columns: columns } %>
+        </tfoot>
       <% end %>
     <% else %>
       <%# Slot mode rendering %>

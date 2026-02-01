@@ -58,6 +58,17 @@ All form components support both standalone helpers and form builder integration
 | [CheckboxComponent](components/forms/checkbox.md) | Single checkbox with label | `bui_checkbox` | `f.bui_checkbox` |
 | [CheckboxGroupComponent](components/forms/checkbox_group.md) | Multiple checkboxes for multi-select | `bui_checkbox_group` | `f.bui_checkbox_group` |
 
+### Table Components
+
+| Component | Description |
+|-----------|-------------|
+| TableComponent | Flexible table with slot-based and collection-based modes. Supports variants, striping, hoverable rows, highlighted rows, sortable headers, configurable border radius, and partial overrides. |
+| HeaderComponent | Table header row with header cell slots |
+| HeaderCellComponent | Table header cell with scope attribute, sortable indicators, and sort direction icons |
+| RowComponent | Table body row with cell slots, striping, hoverable, and highlighted support |
+| CellComponent | Table body cell with alignment and sizing |
+| ColumnComponent | Collection mode column configuration (key, label, align, sortable, formatter) |
+
 ### Dialog Components
 
 | Component | Description | Helper |
@@ -95,6 +106,12 @@ graph TD
     A --> T[Drawer::SidebarComponent]
     A --> U[Drawer::NavItemComponent]
     A --> V[Drawer::NavGroupComponent]
+    A --> Z1[Table::TableComponent]
+    Z1 --> Z2[Table::HeaderComponent]
+    Z1 --> Z3[Table::RowComponent]
+    Z2 --> Z4[Table::HeaderCellComponent]
+    Z3 --> Z5[Table::CellComponent]
+    Z1 --> Z6[Table::ColumnComponent]
     A --> W[Dialog::DialogComponent]
     A --> X[Dialog::AlertComponent]
     A --> Y[Dialog::ConfirmComponent]

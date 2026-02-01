@@ -62,6 +62,18 @@ module BetterUi
       def inside_card
         render_with_template
       end
+
+      # @label Highlighted Rows
+      # @display bg_color "#f5f5f5"
+      def highlighted
+        render_with_template
+      end
+
+      # @label Sortable Headers
+      # @display bg_color "#f5f5f5"
+      def sortable
+        render_with_template
+      end
     end
   end
 end
