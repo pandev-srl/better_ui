@@ -1,0 +1,14 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-4">Disabled Items</h3>
+
+  <%= render BetterUi::Dropdown::DropdownComponent.new do |d| %>
+    <% d.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :primary)) do %>Actions<% end %>
+    <% end %>
+    <% d.with_item(href: "#edit") { "Edit" } %>
+    <% d.with_item(href: "#duplicate", disabled: true) { "Duplicate (disabled)" } %>
+    <% d.with_item(href: "#archive") { "Archive" } %>
+    <% d.with_divider %>
+    <% d.with_item(href: "#delete", variant: :danger, disabled: true) { "Delete (disabled)" } %>
+  <% end %>
+</div>

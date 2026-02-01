@@ -1,0 +1,16 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-4">Placement Options</h3>
+
+  <div class="flex flex-wrap gap-8 items-center justify-center" style="min-height: 300px;">
+    <% [:bottom_start, :bottom_end, :top_start, :top_end].each do |placement| %>
+      <%= render BetterUi::Dropdown::DropdownComponent.new(placement: placement) do |d| %>
+        <% d.with_trigger do %>
+          <%= render(BetterUi::ButtonComponent.new(variant: :info, style: :outline, size: :sm)) do %><%= placement %><% end %>
+        <% end %>
+        <% d.with_item(href: "#") { "Action One" } %>
+        <% d.with_item(href: "#") { "Action Two" } %>
+        <% d.with_item(href: "#") { "Action Three" } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

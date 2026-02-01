@@ -1,0 +1,19 @@
+<%= tag.div(class: root_classes, data: controller_data) do %>
+  <% if trigger? %>
+    <div aria-haspopup="true"
+         aria-expanded="false"
+         data-action="click->better-ui--dropdown--dropdown#toggle"
+         data-better-ui--dropdown--dropdown-target="trigger">
+      <%= trigger %>
+    </div>
+  <% end %>
+
+  <div role="menu"
+       hidden
+       data-better-ui--dropdown--dropdown-target="menu"
+       class="<%= menu_classes %>">
+    <% items.each do |item| %>
+      <%= item %>
+    <% end %>
+  </div>
+<% end %>

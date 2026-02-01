@@ -1,0 +1,7 @@
+<% tag_name = link? ? :a : :button %>
+<%= content_tag(tag_name, **component_attributes) do %>
+  <% if icon? %>
+    <span class="flex-shrink-0"><%= icon %></span>
+  <% end %>
+  <span class="flex-1"><%= content %></span>
+<% end %>

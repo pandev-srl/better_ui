@@ -1,0 +1,12 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-4">Default Dropdown</h3>
+
+  <%= render BetterUi::Dropdown::DropdownComponent.new do |d| %>
+    <% d.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :primary)) do %>Options<% end %>
+    <% end %>
+    <% d.with_item(href: "#edit") { "Edit" } %>
+    <% d.with_item(href: "#duplicate") { "Duplicate" } %>
+    <% d.with_item(href: "#archive") { "Archive" } %>
+  <% end %>
+</div>

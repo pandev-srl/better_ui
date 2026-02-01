@@ -1,0 +1,18 @@
+<div class="p-8">
+  <h3 class="text-lg font-semibold mb-4">With Dividers and Section Headers</h3>
+
+  <%= render BetterUi::Dropdown::DropdownComponent.new(size: :lg) do |d| %>
+    <% d.with_trigger do %>
+      <%= render(BetterUi::ButtonComponent.new(variant: :secondary, style: :outline)) do %>Account Menu<% end %>
+    <% end %>
+    <% d.with_header(text: "Account") %>
+    <% d.with_item(href: "#profile") { "My Profile" } %>
+    <% d.with_item(href: "#settings") { "Settings" } %>
+    <% d.with_divider %>
+    <% d.with_header(text: "Team") %>
+    <% d.with_item(href: "#members") { "Members" } %>
+    <% d.with_item(href: "#billing") { "Billing" } %>
+    <% d.with_divider %>
+    <% d.with_item(href: "#logout", variant: :danger) { "Sign Out" } %>
+  <% end %>
+</div>

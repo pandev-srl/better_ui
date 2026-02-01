@@ -868,5 +868,37 @@ module BetterUi
     def bui_breadcrumb(**options, &block)
       render BetterUi::Breadcrumb::BreadcrumbComponent.new(**options), &block
     end
+
+    # ============================================
+    # Dropdown Components
+    # ============================================
+
+    # Renders a dropdown menu component for actions, navigation, or context menus.
+    #
+    # @param options [Hash] Options passed to Dropdown::DropdownComponent
+    # @option options [Symbol] :size Menu width (:sm, :md, :lg)
+    # @option options [Symbol] :placement Menu position (:bottom_start, :bottom_end, :top_start, :top_end)
+    # @option options [Symbol, Boolean] :shadow Shadow size (:sm, :md, :lg, :xl, or false)
+    # @option options [Boolean] :auto_close Close on click outside (default: true)
+    # @option options [Boolean] :close_on_item_click Close on item click (default: true)
+    # @option options [String, nil] :container_classes Additional CSS classes for root element
+    # @option options [String, nil] :menu_classes Additional CSS classes for menu panel
+    # @yield [dropdown] Block with dropdown slots
+    # @yieldparam dropdown [BetterUi::Dropdown::DropdownComponent] The dropdown component
+    # @return [String] Rendered HTML
+    #
+    # @example Action dropdown
+    #   <%= bui_dropdown(placement: :bottom_start) do |d| %>
+    #     <% d.with_trigger do %>
+    #       <%= bui_button(variant: :primary) { "Options" } %>
+    #     <% end %>
+    #     <% d.with_header(text: "Actions") %>
+    #     <% d.with_item(href: edit_path) { "Edit" } %>
+    #     <% d.with_divider %>
+    #     <% d.with_item(href: delete_path, variant: :danger) { "Delete" } %>
+    #   <% end %>
+    def bui_dropdown(**options, &block)
+      render BetterUi::Dropdown::DropdownComponent.new(**options), &block
+    end
   end
 end
