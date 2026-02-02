@@ -950,6 +950,10 @@ Flexible data table supporting two modes: **slot-based** (manual rows/cells) and
 | `body_row_partial` | String | `nil` | Partial path for custom row rendering |
 | `header_partial` | String | `nil` | Partial path for custom header |
 | `footer_partial` | String | `nil` | Partial path for custom footer |
+| `sort_column` | Symbol | `nil` | Currently sorted column key (auto-derives `sorted` per column) |
+| `sort_direction` | Symbol | `nil` | Current sort direction (`:asc` or `:desc`) |
+| `sort_url` | Proc | `nil` | Lambda `(key, direction) -> url` for generating sort links |
+| `sort_html` | Hash | `{}` | HTML attributes for sort links (e.g. `data-turbo-frame`) |
 | `container_classes` | String | `nil` | Wrapper div CSS classes |
 
 ### Slot-Based Usage
@@ -1000,12 +1004,89 @@ Flexible data table supporting two modes: **slot-based** (manual rows/cells) and
 
 ### Sortable Headers
 
+#### Sort Indicators (No Links)
+
+Sortable columns display directional SVG chevron icons. Without `sort_url`, headers render as non-clickable spans.
+
 ```erb
+<%# Slot mode %>
+<%= bui_table(variant: :primary) do |t| %>
+  <% t.with_header do |h| %>
+    <% h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
+    <% h.with_cell(label: "Email", sortable: true) %>
+    <% h.with_cell(label: "Role") %>
+  <% end %>
+  <%# ... rows ... %>
+<% end %>
+
+<%# Collection mode %>
 <%= bui_table(collection: @users) do |t| %>
   <% t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :asc) %>
   <% t.with_column(key: :email, label: "Email", sortable: true) %>
+  <% t.with_column(key: :role, label: "Role") %>
 <% end %>
 ```
+
+#### Sort Links (Table-Level)
+
+Use `sort_column`, `sort_direction`, `sort_url`, and `sort_html` on the table to auto-generate sort links for all sortable columns. `sort_column` auto-derives the `sorted` state per column, eliminating per-column `sorted:`/`sort_direction:` boilerplate. Clicking a sorted column toggles asc/desc; unsorted columns default to asc.
+
+```erb
+<%= bui_table(
+  collection: @users,
+  variant: :accent,
+  sort_column: params[:sort]&.to_sym,
+  sort_direction: params[:direction]&.to_sym || :asc,
+  sort_url: ->(key, dir) { users_path(sort: key, direction: dir) },
+  sort_html: { data: { turbo_frame: "_top" } }
+) do |t| %>
+  <% t.with_column(key: :name, label: "Name", sortable: true) %>
+  <% t.with_column(key: :email, label: "Email", sortable: true) %>
+  <% t.with_column(key: :role, label: "Role") %>
+  <% t.with_column(key: :joined, label: "Joined", sortable: true) %>
+<% end %>
+```
+
+#### Sort Links (Column-Level)
+
+Individual columns can specify `sort_url` (String) and `sort_html` (Hash) to override the table-level sort URL or provide per-column links. This also works in slot mode via `HeaderCellComponent`.
+
+```erb
+<%# Collection mode: per-column sort_url %>
+<%= bui_table(collection: @users) do |t| %>
+  <% t.with_column(key: :name, label: "Name", sortable: true,
+                   sort_url: users_path(sort: :name, direction: :asc),
+                   sort_html: { data: { turbo_frame: "users" } }) %>
+  <% t.with_column(key: :email, label: "Email", sortable: true,
+                   sort_url: users_path(sort: :email, direction: :asc)) %>
+<% end %>
+
+<%# Slot mode: sort_url on HeaderCellComponent %>
+<%= bui_table(variant: :success) do |t| %>
+  <% t.with_header do |h| %>
+    <% h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc,
+                   sort_url: "?sort=name&direction=desc",
+                   sort_html: { data: { turbo_frame: "_top" } }) %>
+    <% h.with_cell(label: "Email", sortable: true,
+                   sort_url: "?sort=email&direction=asc") %>
+  <% end %>
+  <%# ... rows ... %>
+<% end %>
+```
+
+**ColumnComponent sort parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sort_url` | String | `nil` | URL for this column's sort link (overrides table-level `sort_url`) |
+| `sort_html` | Hash | `{}` | HTML attributes merged over table-level `sort_html` |
+
+**HeaderCellComponent sort parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sort_url` | String | `nil` | URL for this header's sort link |
+| `sort_html` | Hash | `{}` | HTML attributes for the sort link |
 
 ---
 

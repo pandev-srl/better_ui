@@ -13,6 +13,7 @@ module BetterUi
     # @example Header cell with block content
     #   <%= render BetterUi::Table::HeaderCellComponent.new(align: :right) { "Actions" } %>
     class HeaderCellComponent < ApplicationComponent
+      include Concerns::SortIcons
       SIZES = {
         xs: { padding: "px-2 py-1.5", text: "text-xs" },
         sm: { padding: "px-3 py-2", text: "text-sm" },
@@ -26,6 +27,7 @@ module BetterUi
 
       def initialize(label: nil, align: :left, size: :md, style: :default, scope: :col,
                      variant: :primary, sortable: false, sorted: false, sort_direction: :asc,
+                     sort_url: nil, sort_html: {},
                      container_classes: nil, **options)
         @label = label
         @align = validate_align(align)
@@ -36,6 +38,8 @@ module BetterUi
         @sortable = sortable
         @sorted = sorted
         @sort_direction = validate_sort_direction(sort_direction)
+        @sort_url = sort_url
+        @sort_html = sort_html || {}
         @container_classes = container_classes
         @options = options
       end
@@ -84,12 +88,8 @@ module BetterUi
 
       def sort_icon
         return nil unless @sortable
-        return "↕" unless @sorted
 
-        case @sort_direction
-        when :asc then "↑"
-        when :desc then "↓"
-        end
+        sort_icon_svg(sorted: @sorted, direction: @sort_direction)
       end
 
       def sort_icon_classes
@@ -110,6 +110,14 @@ module BetterUi
         else
           "text-grayscale-400"
         end
+      end
+
+      def sort_link?
+        @sortable && @sort_url.present?
+      end
+
+      def sort_link_html
+        @sort_html
       end
 
       def validate_align(align)

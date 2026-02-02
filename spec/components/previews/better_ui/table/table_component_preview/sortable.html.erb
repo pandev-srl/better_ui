@@ -29,9 +29,9 @@
 
   <%
     users = [
-      OpenStruct.new(name: "Alice Johnson", email: "alice@example.com", role: "Admin", joined: "2024-01-15"),
-      OpenStruct.new(name: "Bob Smith", email: "bob@example.com", role: "Editor", joined: "2024-02-20"),
-      OpenStruct.new(name: "Charlie Brown", email: "charlie@example.com", role: "Viewer", joined: "2024-03-10")
+      ::OpenStruct.new(name: "Alice Johnson", email: "alice@example.com", role: "Admin", joined: "2024-01-15"),
+      ::OpenStruct.new(name: "Bob Smith", email: "bob@example.com", role: "Editor", joined: "2024-02-20"),
+      ::OpenStruct.new(name: "Charlie Brown", email: "charlie@example.com", role: "Viewer", joined: "2024-03-10")
     ]
   %>
 
@@ -40,5 +40,47 @@
     <% t.with_column(key: :email, label: "Email", sortable: true) %>
     <% t.with_column(key: :role, label: "Role") %>
     <% t.with_column(key: :joined, label: "Joined", sortable: true, sorted: true, sort_direction: :desc) %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Sortable with Links (Slot Mode)</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Sort headers wrapped in clickable links with sort_url.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(variant: :success) do |t| %>
+    <% t.with_header do |h| %>
+      <% h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc,
+                      sort_url: "?sort=name&direction=desc",
+                      sort_html: { data: { turbo_frame: "_top" } }) %>
+      <% h.with_cell(label: "Email", sortable: true,
+                      sort_url: "?sort=email&direction=asc") %>
+      <% h.with_cell(label: "Role") %>
+    <% end %>
+
+    <% [
+      ["Alice Johnson", "alice@example.com", "Admin"],
+      ["Bob Smith", "bob@example.com", "Editor"]
+    ].each do |row_data| %>
+      <% t.with_row do |r| %>
+        <% r.with_cell { row_data[0] } %>
+        <% r.with_cell { row_data[1] } %>
+        <% r.with_cell { row_data[2] } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Sortable with Links (Collection Mode + Table-level sort_url)</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Table-level sort_url auto-generates links for all sortable columns, with sort_column deriving the sorted state.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(
+    collection: users,
+    variant: :accent,
+    sort_column: :name,
+    sort_direction: :asc,
+    sort_url: ->(key, dir) { "?sort=#{key}&direction=#{dir}" },
+    sort_html: { data: { turbo_frame: "_top" } }
+  ) do |t| %>
+    <% t.with_column(key: :name, label: "Name", sortable: true) %>
+    <% t.with_column(key: :email, label: "Email", sortable: true) %>
+    <% t.with_column(key: :role, label: "Role") %>
+    <% t.with_column(key: :joined, label: "Joined", sortable: true) %>
   <% end %>
 </div>

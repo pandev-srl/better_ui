@@ -1,12 +1,21 @@
 <th class="<%= component_classes %>"<% if @scope %> scope="<%= @scope %>"<% end %> <%= tag.attributes(@options) %>>
-  <% if @sortable %>
+  <% if sort_link? %>
+    <%= link_to @sort_url, **sort_link_html, class: "flex items-center gap-1 no-underline text-inherit" do %>
+      <% if @label.present? %>
+        <%= @label %>
+      <% else %>
+        <%= content %>
+      <% end %>
+      <span class="<%= sort_icon_classes %>"><%= raw sort_icon %></span>
+    <% end %>
+  <% elsif @sortable %>
     <span class="flex items-center gap-1">
       <% if @label.present? %>
         <%= @label %>
       <% else %>
         <%= content %>
       <% end %>
-      <span class="<%= sort_icon_classes %>"><%= sort_icon %></span>
+      <span class="<%= sort_icon_classes %>"><%= raw sort_icon %></span>
     </span>
   <% else %>
     <% if @label.present? %>

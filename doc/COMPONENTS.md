@@ -78,10 +78,10 @@ All form components support both standalone helpers and form builder integration
 |-----------|-------------|--------|------|
 | TableComponent | Flexible table with slot-based and collection-based modes | `bui_table` | — |
 | HeaderComponent | Table header row with header cell slots | — | — |
-| HeaderCellComponent | Table header cell with scope, sortable indicators | — | — |
+| HeaderCellComponent | Table header cell with scope, sortable indicators, and sort links | — | — |
 | RowComponent | Table body row with striping, hoverable, and highlighted support | — | — |
 | CellComponent | Table body cell with alignment and sizing | — | — |
-| ColumnComponent | Collection mode column configuration | — | — |
+| ColumnComponent | Collection mode column config with sort_url and sort_html | — | — |
 
 ### Dialog Components
 

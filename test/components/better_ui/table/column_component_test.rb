@@ -125,6 +125,31 @@ module BetterUi
 
         assert_equal formatter, column.formatter
       end
+
+      # Sort URL and HTML tests
+      test "stores sort_url" do
+        column = ColumnComponent.new(key: :name, sort_url: "/users?sort=name")
+
+        assert_equal "/users?sort=name", column.sort_url
+      end
+
+      test "sort_url defaults to nil" do
+        column = ColumnComponent.new(key: :name)
+
+        assert_nil column.sort_url
+      end
+
+      test "stores sort_html" do
+        column = ColumnComponent.new(key: :name, sort_html: { data: { turbo_frame: "main" } })
+
+        assert_equal({ data: { turbo_frame: "main" } }, column.sort_html)
+      end
+
+      test "sort_html defaults to empty hash" do
+        column = ColumnComponent.new(key: :name)
+
+        assert_equal({}, column.sort_html)
+      end
     end
   end
 end

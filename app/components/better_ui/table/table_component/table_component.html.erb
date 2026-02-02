@@ -16,10 +16,15 @@
             <tr>
               <% columns.each do |column| %>
                 <th class="<%= collection_header_cell_classes(column) %>" scope="col">
-                  <% if column.sortable %>
+                  <% if column.sortable && collection_sort_link?(column) %>
+                    <%= link_to collection_sort_url(column), **collection_sort_link_html(column), class: "flex items-center gap-1 no-underline text-inherit" do %>
+                      <%= column.display_label %>
+                      <span class="<%= collection_sort_icon_classes(column) %>"><%= raw collection_sort_icon(column) %></span>
+                    <% end %>
+                  <% elsif column.sortable %>
                     <span class="flex items-center gap-1">
                       <%= column.display_label %>
-                      <span class="<%= collection_sort_icon_classes(column) %>"><%= collection_sort_icon(column) %></span>
+                      <span class="<%= collection_sort_icon_classes(column) %>"><%= raw collection_sort_icon(column) %></span>
                     </span>
                   <% else %>
                     <%= column.display_label %>

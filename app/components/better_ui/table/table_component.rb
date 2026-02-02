@@ -30,6 +30,7 @@ module BetterUi
     #     <% t.with_column(key: :role, label: "Role") { |user| user.role.humanize } %>
     #   <% end %>
     class TableComponent < ApplicationComponent
+      include Concerns::SortIcons
       SIZES = {
         xs: { th_padding: "px-2 py-1.5", td_padding: "px-2 py-2", text: "text-xs" },
         sm: { th_padding: "px-3 py-2", td_padding: "px-3 py-2.5", text: "text-sm" },
@@ -93,6 +94,10 @@ module BetterUi
         body_row_partial: nil,
         header_partial: nil,
         footer_partial: nil,
+        sort_column: nil,
+        sort_direction: nil,
+        sort_url: nil,
+        sort_html: {},
         container_classes: nil,
         table_classes: nil,
         header_classes: nil,
@@ -115,6 +120,10 @@ module BetterUi
         @body_row_partial = body_row_partial
         @header_partial = header_partial
         @footer_partial = footer_partial
+        @sort_column = sort_column&.to_sym
+        @table_sort_direction = sort_direction&.to_sym
+        @sort_url = sort_url
+        @sort_html = sort_html || {}
         @container_classes = container_classes
         @table_classes = table_classes
         @header_classes = header_classes
@@ -417,20 +426,41 @@ module BetterUi
         "cursor-pointer select-none"
       end
 
-      # Collection mode: sort icon
+      # Collection mode: whether this column is currently sorted
+      # Table-level sort_column overrides column-level sorted
+      def effective_sorted?(column)
+        if @sort_column
+          column.key && column.key.to_sym == @sort_column
+        else
+          column.sorted
+        end
+      end
+
+      # Collection mode: effective sort direction for a column
+      # Table-level overrides column-level when the column is the sorted one
+      def effective_sort_direction(column)
+        if @sort_column && effective_sorted?(column) && @table_sort_direction
+          @table_sort_direction
+        else
+          column.sort_direction
+        end
+      end
+
+      # Collection mode: next sort direction (toggles asc↔desc)
+      def next_sort_direction(column)
+        effective_sorted?(column) && effective_sort_direction(column) == :asc ? :desc : :asc
+      end
+
+      # Collection mode: sort icon SVG
       def collection_sort_icon(column)
         return nil unless column.sortable
-        return "↕" unless column.sorted
 
-        case column.sort_direction
-        when :asc then "↑"
-        when :desc then "↓"
-        end
+        sort_icon_svg(sorted: effective_sorted?(column), direction: effective_sort_direction(column))
       end
 
       # Collection mode: sort icon classes
       def collection_sort_icon_classes(column)
-        return "text-grayscale-400" unless column.sorted
+        return "text-grayscale-400" unless effective_sorted?(column)
 
         case @variant
         when :primary then "text-primary-700"
@@ -443,6 +473,28 @@ module BetterUi
         when :light then "text-grayscale-500"
         when :dark then "text-grayscale-300"
         end
+      end
+
+      # Collection mode: whether a column should render a sort link
+      def collection_sort_link?(column)
+        return false unless column.sortable
+        column.sort_url.present? || @sort_url.present?
+      end
+
+      # Collection mode: resolved sort URL for a column
+      def collection_sort_url(column)
+        if column.sort_url.present?
+          column.sort_url
+        elsif @sort_url.present?
+          @sort_url.call(column.key, next_sort_direction(column))
+        end
+      end
+
+      # Collection mode: merged sort link HTML attributes
+      def collection_sort_link_html(column)
+        base = @sort_html.dup
+        override = column.sort_html
+        base.merge(override)
       end
 
       # Partial helpers

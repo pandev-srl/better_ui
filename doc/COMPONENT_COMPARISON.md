@@ -43,7 +43,7 @@
 
 | Componente | Old | New | Note |
 |---|---|---|---|
-| **Table** | `general/table` (monolitico) | `table/TableComponent` | New: completamente riscritto con slot-based + collection mode, sub-componenti Row/Header/Cell/HeaderCell/Column, sortable headers, row highlighting, configurable rounded, scope attribute, partials system |
+| **Table** | `general/table` (monolitico) | `table/TableComponent` | New: completamente riscritto con slot-based + collection mode, sub-componenti Row/Header/Cell/HeaderCell/Column, sortable headers con sort links, row highlighting, configurable rounded, scope attribute, partials system |
 | **Row** | Sub-componenti inline | `table/RowComponent` | New: componente separato con slots |
 | **Header** | Sub-componenti inline | `table/HeaderComponent` | New: componente separato |
 | **Cell** | Sub-componenti inline | `table/CellComponent` | New: alignment, sizing indipendente |

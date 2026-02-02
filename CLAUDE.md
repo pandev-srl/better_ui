@@ -120,12 +120,13 @@ ApplicationComponent (base class)
 ├── Tabs::TabComponent (slots: icon, badge)
 ├── Tabs::PanelComponent
 │
-├── Table::TableComponent (dual-mode: slot-based + collection-based)
+├── Table::TableComponent (dual-mode: slot-based + collection-based, sort links)
 │   ├── Table::HeaderComponent (slots: cells)
-│   ├── Table::HeaderCellComponent (scope, sortable, sort direction)
+│   ├── Table::HeaderCellComponent (scope, sortable, sort direction, sort links)
 │   ├── Table::RowComponent (striped, hoverable, highlighted)
 │   ├── Table::CellComponent
-│   └── Table::ColumnComponent (collection mode column config)
+│   ├── Table::ColumnComponent (collection mode column config, sort_url, sort_html)
+│   └── Table::Concerns::SortIcons (shared SVG sort icons)
 │
 ├── Forms::BaseComponent (abstract base for text/number/select inputs)
 │   ├── Forms::TextInputComponent (slots: prefix_icon, suffix_icon)

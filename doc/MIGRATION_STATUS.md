@@ -36,14 +36,14 @@
 | 14  | **Container**  | `general/container/component.rb`  | ✅ Implementato     | `ContainerComponent` - Con max-width responsive, padding, centered |
 | 15  | **Tag**        | `general/tag/component.rb`        | ✅ Implementato     | `TagComponent` - Con solid/outline/soft, dismissible, link mode |
 | 16  | **Tooltip**    | `general/tooltip/component.rb`    | ✅ Implementato     | `TooltipComponent` - CSS-only con posizioni top/right/bottom/left |
-| 17  | **Table**      | `general/table/component.rb`      | ✅ Implementato     | `Table::TableComponent` - Riscritto con slot/collection mode, sortable, highlighted, rounded, partials |
+| 17  | **Table**      | `general/table/component.rb`      | ✅ Implementato     | `Table::TableComponent` - Riscritto con slot/collection mode, sortable, sort links, highlighted, rounded, partials |
 
 ### Table Sub-Components (v1)
 
 | #   | Componente v1 | Stato v2            | Note                                  |
 | --- | ------------- | ------------------- | ------------------------------------- |
 | 1   | **TR**        | ✅ Implementato     | `Table::RowComponent` con striped/hoverable/highlighted |
-| 2   | **TH**        | ✅ Implementato     | `Table::HeaderCellComponent` con scope/sortable |
+| 2   | **TH**        | ✅ Implementato     | `Table::HeaderCellComponent` con scope/sortable/sort links |
 | 3   | **TD**        | ✅ Implementato     | `Table::CellComponent` con alignment/sizing |
 | 4   | **THEAD**     | ✅ Implementato     | `Table::HeaderComponent` con cell slots |
 | 5   | **TBODY**     | ✅ Implementato     | Integrato in `Table::TableComponent` template |

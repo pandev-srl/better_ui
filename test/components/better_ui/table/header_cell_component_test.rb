@@ -166,6 +166,49 @@ module BetterUi
         assert rendered_html.include?("last:pe-4"), "Expected last:pe-4 class"
         assert rendered_html.include?("sm:last:pe-6"), "Expected sm:last:pe-6 class"
       end
+
+      # Sort link tests
+      test "sortable header renders SVG icon" do
+        render_inline(HeaderCellComponent.new(label: "Name", sortable: true))
+
+        assert_selector "th span svg"
+      end
+
+      test "sortable header with sort_url renders link" do
+        render_inline(HeaderCellComponent.new(
+          label: "Name", sortable: true,
+          sort_url: "/users?sort=name&direction=asc"
+        ))
+
+        assert_selector 'th a[href="/users?sort=name&direction=asc"]'
+        assert_selector "th a svg"
+      end
+
+      test "sortable header without sort_url renders span (no link)" do
+        render_inline(HeaderCellComponent.new(label: "Name", sortable: true))
+
+        refute_selector "th a"
+        assert_selector "th span.flex"
+      end
+
+      test "sortable header with sort_html adds data attributes to link" do
+        render_inline(HeaderCellComponent.new(
+          label: "Name", sortable: true,
+          sort_url: "/users?sort=name",
+          sort_html: { data: { turbo_frame: "users" } }
+        ))
+
+        assert_selector 'th a[data-turbo-frame="users"]'
+      end
+
+      test "non-sortable header ignores sort_url" do
+        render_inline(HeaderCellComponent.new(
+          label: "Name", sortable: false,
+          sort_url: "/users?sort=name"
+        ))
+
+        refute_selector "th a"
+      end
     end
   end
 end

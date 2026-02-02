@@ -1070,7 +1070,7 @@ module BetterUi
         assert_selector "th.select-none"
       end
 
-      test "slot mode sortable header has unsorted icon" do
+      test "slot mode sortable header has unsorted SVG icon" do
         render_inline(TableComponent.new) do |t|
           t.with_header do |h|
             h.with_cell(label: "Name", sortable: true)
@@ -1081,12 +1081,10 @@ module BetterUi
         end
 
         assert_selector "th span.flex.items-center.gap-1"
-        html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        assert th_content.include?("↕"), "Expected unsorted icon ↕ in header"
+        assert_selector "th span svg"
       end
 
-      test "slot mode sorted asc header has up arrow" do
+      test "slot mode sorted asc header has chevron-up SVG" do
         render_inline(TableComponent.new) do |t|
           t.with_header do |h|
             h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :asc)
@@ -1096,12 +1094,14 @@ module BetterUi
           end
         end
 
+        assert_selector "th span svg"
+        # Asc SVG has a single path (chevron up)
         html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        assert th_content.include?("↑"), "Expected asc icon ↑ in header"
+        svg = html_doc.at_css("th span svg")
+        assert svg, "Expected SVG icon in sorted asc header"
       end
 
-      test "slot mode sorted desc header has down arrow" do
+      test "slot mode sorted desc header has chevron-down SVG" do
         render_inline(TableComponent.new) do |t|
           t.with_header do |h|
             h.with_cell(label: "Name", sortable: true, sorted: true, sort_direction: :desc)
@@ -1111,12 +1111,13 @@ module BetterUi
           end
         end
 
+        assert_selector "th span svg"
         html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        assert th_content.include?("↓"), "Expected desc icon ↓ in header"
+        svg = html_doc.at_css("th span svg")
+        assert svg, "Expected SVG icon in sorted desc header"
       end
 
-      test "slot mode non-sortable header has no icon" do
+      test "slot mode non-sortable header has no SVG icon" do
         render_inline(TableComponent.new) do |t|
           t.with_header do |h|
             h.with_cell(label: "Name")
@@ -1126,11 +1127,7 @@ module BetterUi
           end
         end
 
-        html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        refute th_content.include?("↕"), "Expected no sort icon in non-sortable header"
-        refute th_content.include?("↑"), "Expected no sort icon in non-sortable header"
-        refute th_content.include?("↓"), "Expected no sort icon in non-sortable header"
+        refute_selector "th svg"
       end
 
       test "raises error for invalid sort_direction" do
@@ -1141,7 +1138,7 @@ module BetterUi
         assert_match(/Invalid sort_direction/, error.message)
       end
 
-      test "collection mode sortable column" do
+      test "collection mode sortable column has SVG icon" do
         users = [ ::OpenStruct.new(name: "John") ]
 
         render_inline(TableComponent.new(collection: users)) do |t|
@@ -1150,36 +1147,30 @@ module BetterUi
 
         assert_selector "th.cursor-pointer"
         assert_selector "th.select-none"
-        html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        assert th_content.include?("↕"), "Expected unsorted icon ↕ in collection header"
+        assert_selector "th span svg"
       end
 
-      test "collection mode sorted asc column" do
+      test "collection mode sorted asc column has SVG icon" do
         users = [ ::OpenStruct.new(name: "John") ]
 
         render_inline(TableComponent.new(collection: users)) do |t|
           t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :asc)
         end
 
-        html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        assert th_content.include?("↑"), "Expected asc icon ↑ in collection header"
+        assert_selector "th span svg"
       end
 
-      test "collection mode sorted desc column" do
+      test "collection mode sorted desc column has SVG icon" do
         users = [ ::OpenStruct.new(name: "John") ]
 
         render_inline(TableComponent.new(collection: users)) do |t|
           t.with_column(key: :name, label: "Name", sortable: true, sorted: true, sort_direction: :desc)
         end
 
-        html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        assert th_content.include?("↓"), "Expected desc icon ↓ in collection header"
+        assert_selector "th span svg"
       end
 
-      test "collection mode non-sortable column has no icon" do
+      test "collection mode non-sortable column has no SVG icon" do
         users = [ ::OpenStruct.new(name: "John") ]
 
         render_inline(TableComponent.new(collection: users)) do |t|
@@ -1187,9 +1178,212 @@ module BetterUi
         end
 
         refute_selector "th.cursor-pointer"
+        refute_selector "th svg"
+      end
+
+      # ==========================================
+      # Sort link tests (Feature 7)
+      # ==========================================
+
+      test "collection mode sortable column with sort_url renders link" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true,
+                        sort_url: "/users?sort=name&direction=desc")
+        end
+
+        assert_selector 'th a[href="/users?sort=name&direction=desc"]'
+        assert_selector "th a svg"
+      end
+
+      test "collection mode sortable column without sort_url renders span" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+        end
+
+        refute_selector "th a"
+        assert_selector "th span.flex"
+      end
+
+      test "collection mode sort_url column with sort_html adds data attributes" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true,
+                        sort_url: "/users?sort=name",
+                        sort_html: { data: { turbo_frame: "users_list" } })
+        end
+
+        assert_selector 'th a[data-turbo-frame="users_list"]'
+      end
+
+      test "table-level sort_url renders links on all sortable columns" do
+        users = [ ::OpenStruct.new(name: "John", email: "j@example.com") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_url: ->(key, dir) { "/users?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+          t.with_column(key: :email, label: "Email", sortable: true)
+          t.with_column(key: :role, label: "Role")
+        end
+
         html_doc = Nokogiri::HTML.fragment(rendered_html)
-        th_content = html_doc.at_css("th").text.strip
-        refute th_content.include?("↕"), "Expected no sort icon in non-sortable column"
+        links = html_doc.css("th a")
+        assert_equal 2, links.size, "Expected 2 sort links (only sortable columns)"
+      end
+
+      test "table-level sort_column derives sorted state" do
+        users = [ ::OpenStruct.new(name: "John", email: "j@example.com") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_column: :name,
+          sort_direction: :asc,
+          sort_url: ->(key, dir) { "/users?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+          t.with_column(key: :email, label: "Email", sortable: true)
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        # Name column should be sorted (variant icon color)
+        name_th = html_doc.css("th").first
+        name_icon_span = name_th.at_css("a > span")
+        assert name_icon_span, "Expected icon span in name header"
+
+        # Email column should be unsorted (grayscale icon color)
+        email_th = html_doc.css("th").last
+        email_icon_span = email_th.at_css("a > span")
+        assert email_icon_span, "Expected icon span in email header"
+        assert email_icon_span["class"].include?("text-grayscale-400"), "Expected unsorted icon class"
+      end
+
+      test "table-level sort_url generates next direction URL (asc toggles to desc)" do
+        users = [ ::OpenStruct.new(name: "John") ]
+        captured_args = []
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_column: :name,
+          sort_direction: :asc,
+          sort_url: ->(key, dir) { captured_args << [ key, dir ]; "/users?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+        end
+
+        assert_equal [ :name, :desc ], captured_args.first, "Expected next direction to be :desc when current is :asc"
+      end
+
+      test "table-level sort_url generates next direction URL (desc toggles to asc)" do
+        users = [ ::OpenStruct.new(name: "John") ]
+        captured_args = []
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_column: :name,
+          sort_direction: :desc,
+          sort_url: ->(key, dir) { captured_args << [ key, dir ]; "/users?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+        end
+
+        assert_equal [ :name, :asc ], captured_args.first, "Expected next direction to be :asc when current is :desc"
+      end
+
+      test "table-level sort_url unsorted column defaults to asc" do
+        users = [ ::OpenStruct.new(name: "John", email: "j@example.com") ]
+        captured_args = []
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_column: :name,
+          sort_direction: :asc,
+          sort_url: ->(key, dir) { captured_args << [ key, dir ]; "/users?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+          t.with_column(key: :email, label: "Email", sortable: true)
+        end
+
+        email_args = captured_args.find { |k, _| k == :email }
+        assert_equal [ :email, :asc ], email_args, "Expected unsorted column to default to :asc"
+      end
+
+      test "table-level sort_html adds attributes to all sort links" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_url: ->(key, dir) { "/users?sort=#{key}&direction=#{dir}" },
+          sort_html: { data: { turbo_frame: "main" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+        end
+
+        assert_selector 'th a[data-turbo-frame="main"]'
+      end
+
+      test "column-level sort_url overrides table-level sort_url" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_url: ->(key, dir) { "/table-level?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true,
+                        sort_url: "/column-level?sort=name")
+        end
+
+        assert_selector 'th a[href="/column-level?sort=name"]'
+        refute_selector 'th a[href^="/table-level"]'
+      end
+
+      test "column-level sort_html overrides table-level sort_html" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_url: ->(key, dir) { "/users?sort=#{key}&direction=#{dir}" },
+          sort_html: { data: { turbo_frame: "table-frame" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true,
+                        sort_html: { data: { turbo_frame: "column-frame" } })
+        end
+
+        assert_selector 'th a[data-turbo-frame="column-frame"]'
+        refute_selector 'th a[data-turbo-frame="table-frame"]'
+      end
+
+      test "non-sortable column never gets sort link even with table-level sort_url" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_url: ->(key, dir) { "/users?sort=#{key}&direction=#{dir}" }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        refute_selector "th a"
+      end
+
+      test "header_partial still overrides sort link rendering" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          sort_url: ->(key, dir) { "/users?sort=#{key}&direction=#{dir}" },
+          header_partial: "shared/test_table_header"
+        )) do |t|
+          t.with_column(key: :name, label: "Name", sortable: true)
+        end
+
+        refute_selector "th a"
+        assert_text "Custom Header"
       end
 
       # ==========================================

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 module BetterUi
   module Table
     class TableComponentPreview < ViewComponent::Preview

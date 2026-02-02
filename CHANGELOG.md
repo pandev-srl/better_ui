@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-02-02
+
+### Added
+- **Table::TableComponent**: Sort link rendering for sortable headers
+  - Table-level `sort_column`, `sort_direction`, `sort_url` (Proc), `sort_html` for auto-generating sort links on all sortable columns
+  - Column-level `sort_url` (String) and `sort_html` (Hash) for per-column overrides
+  - `sort_column` auto-derives `sorted` state and `sort_direction` per column, eliminating per-column `sorted:`/`sort_direction:` boilerplate
+  - Direction toggling: clicking a sorted column flips asc/desc; unsorted columns default to asc
+  - SVG chevron icons replace text arrows for sort direction indicators
+  - `BetterUi::Table::Concerns::SortIcons` shared concern for icon rendering
+  - HeaderCellComponent also supports `sort_url` and `sort_html` for slot-mode sort links
+  - Backward compatible: sortable columns without `sort_url` render as before (span + icon, no link)
+
+### Fixed
+- **Lookbook Previews**: Use `::OpenStruct` (top-level constant) in table preview templates for Ruby 3.4 compatibility (`require "ostruct"` added to preview class)
+- **Pagination::PaginationComponent**: RuboCop array literal spacing fix (style only, no behavior change)
+
 ## [0.10.0] - 2026-02-02
 
 ### Added

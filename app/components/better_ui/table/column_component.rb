@@ -21,10 +21,11 @@ module BetterUi
       SORT_DIRECTIONS = %i[asc desc].freeze
 
       attr_reader :key, :label, :align, :header_classes, :cell_classes, :formatter,
-                  :sortable, :sorted, :sort_direction
+                  :sortable, :sorted, :sort_direction, :sort_url, :sort_html
 
       def initialize(key: nil, label: nil, align: :left, header_classes: nil, cell_classes: nil,
-                     sortable: false, sorted: false, sort_direction: :asc, &formatter)
+                     sortable: false, sorted: false, sort_direction: :asc,
+                     sort_url: nil, sort_html: {}, &formatter)
         @key = key
         @label = label
         @align = validate_align(align)
@@ -33,6 +34,8 @@ module BetterUi
         @sortable = sortable
         @sorted = sorted
         @sort_direction = validate_sort_direction(sort_direction)
+        @sort_url = sort_url
+        @sort_html = sort_html || {}
         @formatter = formatter
       end
 

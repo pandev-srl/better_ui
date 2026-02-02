@@ -44,10 +44,10 @@
 
   <%
     orders = [
-      OpenStruct.new(number: "ORD-001", customer: "Alice Johnson", status: "Shipped", total: "$299.00", pending: false),
-      OpenStruct.new(number: "ORD-002", customer: "Bob Smith", status: "Pending Review", total: "$149.50", pending: true),
-      OpenStruct.new(number: "ORD-003", customer: "Charlie Brown", status: "Delivered", total: "$75.25", pending: false),
-      OpenStruct.new(number: "ORD-004", customer: "Diana Prince", status: "Pending Review", total: "$512.00", pending: true)
+      ::OpenStruct.new(number: "ORD-001", customer: "Alice Johnson", status: "Shipped", total: "$299.00", pending: false),
+      ::OpenStruct.new(number: "ORD-002", customer: "Bob Smith", status: "Pending Review", total: "$149.50", pending: true),
+      ::OpenStruct.new(number: "ORD-003", customer: "Charlie Brown", status: "Delivered", total: "$75.25", pending: false),
+      ::OpenStruct.new(number: "ORD-004", customer: "Diana Prince", status: "Pending Review", total: "$512.00", pending: true)
     ]
   %>
 
