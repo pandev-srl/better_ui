@@ -1,0 +1,314 @@
+<%= render "navigation" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Pagination Component</h1>
+    <p class="text-lg text-gray-600">Framework-agnostic pagination with page windowing, multiple visual styles, and accessibility built-in.</p>
+  </div>
+
+  <!-- Default Pagination -->
+  <%= render BetterUi::CardComponent.new(variant: :primary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Default Pagination</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-3">Page 5 of 20</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 5,
+            total_pages: 20,
+            url: ->(page) { "#page-#{page}" }
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-3">First page (prev disabled)</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 1,
+            total_pages: 20,
+            url: ->(page) { "#page-#{page}" }
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-3">Last page (next disabled)</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 20,
+            total_pages: 20,
+            url: ->(page) { "#page-#{page}" }
+          ) %>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 5, total_pages: 20, url: -&gt;(p) { users_path(page: p) }) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Variants Section -->
+  <%= render BetterUi::CardComponent.new(variant: :secondary, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Variants</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <% BetterUi::ApplicationComponent::VARIANTS.each_key do |variant| %>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500 mb-2 capitalize"><%= variant %></h3>
+            <%= render BetterUi::Pagination::PaginationComponent.new(
+              current_page: 5,
+              total_pages: 15,
+              url: ->(page) { "#page-#{page}" },
+              variant: variant
+            ) %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 5, total_pages: 15, url: url_proc, variant: :success) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Styles Section -->
+  <%= render BetterUi::CardComponent.new(variant: :accent, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Visual Styles</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <% [:solid, :outline, :ghost, :soft].each do |style| %>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500 mb-2 capitalize"><%= style %></h3>
+            <%= render BetterUi::Pagination::PaginationComponent.new(
+              current_page: 5,
+              total_pages: 15,
+              url: ->(page) { "#page-#{page}" },
+              style: style
+            ) %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 5, total_pages: 15, url: url_proc, style: :solid) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Sizes Section -->
+  <%= render BetterUi::CardComponent.new(variant: :success, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Sizes</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <% [:xs, :sm, :md, :lg, :xl].each do |size| %>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500 mb-2 uppercase"><%= size %></h3>
+            <%= render BetterUi::Pagination::PaginationComponent.new(
+              current_page: 5,
+              total_pages: 15,
+              url: ->(page) { "#page-#{page}" },
+              size: size
+            ) %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 5, total_pages: 15, url: url_proc, size: :lg) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Rounded Section -->
+  <%= render BetterUi::CardComponent.new(variant: :info, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Border Radius</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <% [:none, :sm, :md, :lg, :full].each do |rounded| %>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500 mb-2 capitalize"><%= rounded %></h3>
+            <%= render BetterUi::Pagination::PaginationComponent.new(
+              current_page: 5,
+              total_pages: 15,
+              url: ->(page) { "#page-#{page}" },
+              rounded: rounded,
+              style: :solid
+            ) %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 5, total_pages: 15, url: url_proc, rounded: :full) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- First/Last & Custom Labels -->
+  <%= render BetterUi::CardComponent.new(variant: :warning, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Navigation Options</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">With First/Last Buttons</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 10,
+            total_pages: 20,
+            url: ->(page) { "#page-#{page}" },
+            show_first_last: true
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">Custom Text Labels</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 10,
+            total_pages: 20,
+            url: ->(page) { "#page-#{page}" },
+            show_first_last: true,
+            first_label: "First",
+            last_label: "Last",
+            prev_label: "Prev",
+            next_label: "Next"
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">Prev/Next Only (no page numbers)</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 5,
+            total_pages: 20,
+            url: ->(page) { "#page-#{page}" },
+            show_page_numbers: false,
+            prev_label: "Previous",
+            next_label: "Next"
+          ) %>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 10, total_pages: 20, url: url_proc, show_first_last: true, prev_label: "Prev", next_label: "Next") %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Info Text -->
+  <%= render BetterUi::CardComponent.new(variant: :danger, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Info Text</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">Auto-generated Info</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 3,
+            total_pages: 10,
+            url: ->(page) { "#page-#{page}" },
+            show_info: true,
+            per_page: 20,
+            total_count: 195
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">Custom Info Slot</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 3,
+            total_pages: 10,
+            url: ->(page) { "#page-#{page}" }
+          ) do |pg| %>
+            <% pg.with_info do %>
+              <strong>Page 3</strong> of 10 &mdash; Displaying items 41&ndash;60
+            <% end %>
+          <% end %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">Last Page (partial results)</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 10,
+            total_pages: 10,
+            url: ->(page) { "#page-#{page}" },
+            show_info: true,
+            per_page: 20,
+            total_count: 195
+          ) %>
+        </div>
+      </div>
+      <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+        <code class="text-sm">&lt;%= bui_pagination(current_page: 3, total_pages: 10, url: url_proc, show_info: true, per_page: 20, total_count: 195) %&gt;</code>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Edge Cases -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :bordered, container_classes: "mb-8") do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Edge Cases</h2>
+    <% end %>
+    <% card.with_body do %>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">2 Pages</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 1,
+            total_pages: 2,
+            url: ->(page) { "#page-#{page}" }
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">5 Pages (no gaps)</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 3,
+            total_pages: 5,
+            url: ->(page) { "#page-#{page}" }
+          ) %>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-medium text-gray-500 mb-2">100 Pages (middle, dual gap)</h3>
+          <%= render BetterUi::Pagination::PaginationComponent.new(
+            current_page: 50,
+            total_pages: 100,
+            url: ->(page) { "#page-#{page}" },
+            show_first_last: true
+          ) %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Complete Example -->
+  <%= render BetterUi::CardComponent.new(variant: :dark, style: :soft) do |card| %>
+    <% card.with_header do %>
+      <h2 class="text-xl font-semibold">Complete Example</h2>
+    <% end %>
+    <% card.with_body do %>
+      <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto"><code>&lt;%= bui_pagination(
+  current_page: 5,
+  total_pages: 20,
+  url: -&gt;(page) { users_path(page: page) },
+  variant: :primary,
+  style: :outline,
+  size: :md,
+  rounded: :md,
+  window: 2,
+  show_first_last: true,
+  show_info: true,
+  per_page: 25,
+  total_count: 487
+) do |pg| %&gt;
+  &lt;% pg.with_info { "Showing 101-125 of 487 users" } %&gt;
+&lt;% end %&gt;
+
+&lt;%# Pagy convenience helper %&gt;
+&lt;%= bui_pagination_for(@pagy, variant: :success, show_first_last: true) %&gt;</code></pre>
+    <% end %>
+  <% end %>
+</div>

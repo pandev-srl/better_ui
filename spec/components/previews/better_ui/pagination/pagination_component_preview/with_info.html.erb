@@ -1,0 +1,38 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Auto Info Text</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 3,
+      total_pages: 10,
+      url: ->(page) { "#page-#{page}" },
+      show_info: true,
+      per_page: 20,
+      total_count: 195
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Custom Info Slot</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 3,
+      total_pages: 10,
+      url: ->(page) { "#page-#{page}" }
+    ) do |pg| %>
+      <% pg.with_info do %>
+        <strong>Page 3</strong> of 10 &mdash; Displaying items 41&ndash;60
+      <% end %>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Last Page Info (partial page)</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 10,
+      total_pages: 10,
+      url: ->(page) { "#page-#{page}" },
+      show_info: true,
+      per_page: 20,
+      total_count: 195
+    ) %>
+  </div>
+</div>

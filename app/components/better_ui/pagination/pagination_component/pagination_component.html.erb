@@ -1,0 +1,137 @@
+<nav aria-label="Pagination" class="<%= nav_classes %>">
+  <%# Info section %>
+  <% if info? %>
+    <div class="mb-2 text-sm text-grayscale-600">
+      <%= info %>
+    </div>
+  <% elsif auto_info_text %>
+    <div class="mb-2 text-sm text-grayscale-600">
+      <%= auto_info_text %>
+    </div>
+  <% end %>
+
+  <ul role="list" class="<%= list_classes %>">
+    <%# First button %>
+    <% if show_first_last %>
+      <li>
+        <% if first_page? %>
+          <span aria-disabled="true" aria-label="First page" class="<%= disabled_classes %>">
+            <% if first_label %>
+              <%= first_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M15.79 14.77a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L11.832 10l3.938 3.71a.75.75 0 01.02 1.06zm-6 0a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L5.832 10l3.938 3.71a.75.75 0 01.02 1.06z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </span>
+        <% else %>
+          <a href="<%= page_url(1) %>" aria-label="First page" class="<%= nav_button_classes %>">
+            <% if first_label %>
+              <%= first_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M15.79 14.77a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L11.832 10l3.938 3.71a.75.75 0 01.02 1.06zm-6 0a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L5.832 10l3.938 3.71a.75.75 0 01.02 1.06z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </a>
+        <% end %>
+      </li>
+    <% end %>
+
+    <%# Previous button %>
+    <% if show_prev_next %>
+      <li>
+        <% if first_page? %>
+          <span aria-disabled="true" aria-label="Previous page" class="<%= disabled_classes %>">
+            <% if prev_label %>
+              <%= prev_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </span>
+        <% else %>
+          <a href="<%= page_url(current_page - 1) %>" rel="prev" aria-label="Previous page" class="<%= nav_button_classes %>">
+            <% if prev_label %>
+              <%= prev_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </a>
+        <% end %>
+      </li>
+    <% end %>
+
+    <%# Page numbers %>
+    <% if show_page_numbers %>
+      <% page_items.each do |item| %>
+        <li>
+          <% if item == :gap %>
+            <span aria-hidden="true" class="<%= gap_classes %>"><%= gap_label %></span>
+          <% elsif item == current_page %>
+            <span aria-current="page" aria-label="Page <%= item %>" class="<%= active_page_classes %>"><%= item %></span>
+          <% else %>
+            <a href="<%= page_url(item) %>" aria-label="Go to page <%= item %>" class="<%= inactive_page_classes %>"><%= item %></a>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+
+    <%# Next button %>
+    <% if show_prev_next %>
+      <li>
+        <% if last_page? %>
+          <span aria-disabled="true" aria-label="Next page" class="<%= disabled_classes %>">
+            <% if next_label %>
+              <%= next_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </span>
+        <% else %>
+          <a href="<%= page_url(current_page + 1) %>" rel="next" aria-label="Next page" class="<%= nav_button_classes %>">
+            <% if next_label %>
+              <%= next_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </a>
+        <% end %>
+      </li>
+    <% end %>
+
+    <%# Last button %>
+    <% if show_first_last %>
+      <li>
+        <% if last_page? %>
+          <span aria-disabled="true" aria-label="Last page" class="<%= disabled_classes %>">
+            <% if last_label %>
+              <%= last_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10.21 14.77a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L6.832 10l3.938 3.71a.75.75 0 01.02 1.06zm6 0a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L12.832 10l3.938 3.71a.75.75 0 01.02 1.06z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </span>
+        <% else %>
+          <a href="<%= page_url(total_pages) %>" aria-label="Last page" class="<%= nav_button_classes %>">
+            <% if last_label %>
+              <%= last_label %>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="<%= icon_classes %>" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10.21 14.77a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L6.832 10l3.938 3.71a.75.75 0 01.02 1.06zm6 0a.75.75 0 01-1.06.02l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 111.04 1.08L12.832 10l3.938 3.71a.75.75 0 01.02 1.06z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </a>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

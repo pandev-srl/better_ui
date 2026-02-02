@@ -1,0 +1,82 @@
+<div class="p-8 space-y-8">
+  <div>
+    <h3 class="text-lg font-semibold mb-3">2 Pages (first page)</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 1,
+      total_pages: 2,
+      url: ->(page) { "#page-#{page}" }
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">2 Pages (last page)</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 2,
+      total_pages: 2,
+      url: ->(page) { "#page-#{page}" }
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">5 Pages (no gaps)</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 3,
+      total_pages: 5,
+      url: ->(page) { "#page-#{page}" }
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">First Page of Many</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 1,
+      total_pages: 100,
+      url: ->(page) { "#page-#{page}" },
+      show_first_last: true
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Last Page of Many</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 100,
+      total_pages: 100,
+      url: ->(page) { "#page-#{page}" },
+      show_first_last: true
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Middle of Many (dual gap)</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 50,
+      total_pages: 100,
+      url: ->(page) { "#page-#{page}" },
+      show_first_last: true
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Prev/Next Only (no page numbers)</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 5,
+      total_pages: 20,
+      url: ->(page) { "#page-#{page}" },
+      show_page_numbers: false,
+      prev_label: "Previous",
+      next_label: "Next"
+    ) %>
+  </div>
+
+  <div>
+    <h3 class="text-lg font-semibold mb-3">Full Rounded</h3>
+    <%= render BetterUi::Pagination::PaginationComponent.new(
+      current_page: 5,
+      total_pages: 20,
+      url: ->(page) { "#page-#{page}" },
+      rounded: :full,
+      style: :solid,
+      variant: :success
+    ) %>
+  </div>
+</div>

@@ -60,6 +60,19 @@
         <% end %>
       <% end %>
     <% end %>
+
+    <%= link_to demos_pagination_path, class: "block" do %>
+      <%= render BetterUi::CardComponent.new(variant: :warning, style: :outline, size: :md) do |card| %>
+        <% card.with_header do %>
+          <h3 class="text-lg font-semibold">Pagination</h3>
+        <% end %>
+        <% card.with_body do %>
+          <p class="text-sm text-gray-600">
+            Framework-agnostic pagination with page windowing, multiple styles, sizes, and Pagy integration.
+          </p>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 
   <%= render BetterUi::CardComponent.new(variant: :info, style: :soft) do |card| %>

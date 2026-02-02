@@ -1,0 +1,28 @@
+<div class="p-8 space-y-6">
+  <h3 class="text-lg font-semibold mb-4">Default Pagination</h3>
+  <%= render BetterUi::Pagination::PaginationComponent.new(
+    current_page: 5,
+    total_pages: 20,
+    url: ->(page) { "#page-#{page}" }
+  ) %>
+
+  <h3 class="text-lg font-semibold mb-4 mt-8">With First/Last Buttons</h3>
+  <%= render BetterUi::Pagination::PaginationComponent.new(
+    current_page: 10,
+    total_pages: 20,
+    url: ->(page) { "#page-#{page}" },
+    show_first_last: true
+  ) %>
+
+  <h3 class="text-lg font-semibold mb-4 mt-8">With Custom Labels</h3>
+  <%= render BetterUi::Pagination::PaginationComponent.new(
+    current_page: 5,
+    total_pages: 20,
+    url: ->(page) { "#page-#{page}" },
+    show_first_last: true,
+    first_label: "First",
+    last_label: "Last",
+    prev_label: "Prev",
+    next_label: "Next"
+  ) %>
+</div>

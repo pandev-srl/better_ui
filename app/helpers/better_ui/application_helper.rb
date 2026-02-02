@@ -902,5 +902,77 @@ module BetterUi
     def bui_dropdown(**options, &block)
       render BetterUi::Dropdown::DropdownComponent.new(**options), &block
     end
+
+    # ============================================
+    # Pagination Components
+    # ============================================
+
+    # Renders a pagination component for navigating between pages.
+    #
+    # @param options [Hash] Options passed to Pagination::PaginationComponent
+    # @option options [Integer] :current_page Current page number (1-indexed, required)
+    # @option options [Integer] :total_pages Total number of pages (required)
+    # @option options [Proc] :url Proc that receives a page number and returns a URL (required)
+    # @option options [Symbol] :variant Color variant (:primary, :secondary, :accent, :success, :danger, :warning, :info, :light, :dark)
+    # @option options [Symbol] :style Pagination style (:solid, :outline, :ghost, :soft)
+    # @option options [Symbol] :size Size (:xs, :sm, :md, :lg, :xl)
+    # @option options [Symbol] :rounded Border radius (:none, :sm, :md, :lg, :full)
+    # @option options [Symbol] :shadow Shadow size (:none, :sm, :md, :lg, :xl)
+    # @option options [Integer] :window Pages shown each side of current (default: 2)
+    # @option options [Boolean] :show_first_last Show first/last buttons (default: false)
+    # @option options [Boolean] :show_prev_next Show prev/next buttons (default: true)
+    # @option options [Boolean] :show_page_numbers Show numbered pages (default: true)
+    # @option options [Boolean] :show_info Auto-generate info text (default: false)
+    # @option options [Integer, nil] :per_page Items per page (for auto info text)
+    # @option options [Integer, nil] :total_count Total item count (for auto info text)
+    # @option options [String, nil] :prev_label Custom previous button text (nil = SVG icon)
+    # @option options [String, nil] :next_label Custom next button text (nil = SVG icon)
+    # @option options [String, nil] :first_label Custom first button text (nil = SVG icon)
+    # @option options [String, nil] :last_label Custom last button text (nil = SVG icon)
+    # @option options [String] :gap_label Ellipsis character (default: "...")
+    # @option options [String, nil] :container_classes Additional CSS classes on nav
+    # @yield [pagination] Block with pagination slots
+    # @yieldparam pagination [BetterUi::Pagination::PaginationComponent] The pagination component for slot access
+    # @return [String] Rendered HTML
+    #
+    # @example Basic pagination
+    #   <%= bui_pagination(current_page: 5, total_pages: 20, url: ->(p) { users_path(page: p) }) %>
+    #
+    # @example With info slot
+    #   <%= bui_pagination(current_page: 5, total_pages: 20, url: ->(p) { users_path(page: p) }) do |pg| %>
+    #     <% pg.with_info { "Showing 41-50 of 200 results" } %>
+    #   <% end %>
+    def bui_pagination(**options, &block)
+      render BetterUi::Pagination::PaginationComponent.new(**options), &block
+    end
+
+    # Renders a pagination component from a Pagy object.
+    #
+    # Convenience helper for Pagy users. Extracts current_page, total_pages,
+    # total_count, and per_page from the Pagy object. Does not add a Pagy
+    # gem dependency -- uses the host app's `pagy_url_for` helper.
+    #
+    # @param pagy [Object] Pagy pagination object
+    # @param options [Hash] Options passed to Pagination::PaginationComponent (see {#bui_pagination})
+    # @option options [Proc, nil] :url Custom URL proc (default: uses pagy_url_for)
+    # @yield [pagination] Block with pagination slots
+    # @return [String] Rendered HTML
+    #
+    # @example Basic Pagy usage
+    #   <%= bui_pagination_for(@pagy) %>
+    #
+    # @example With options
+    #   <%= bui_pagination_for(@pagy, variant: :success, show_first_last: true) %>
+    def bui_pagination_for(pagy, **options, &block)
+      url_proc = options.delete(:url) || ->(page) { pagy_url_for(pagy, page) }
+      render BetterUi::Pagination::PaginationComponent.new(
+        current_page: pagy.page,
+        total_pages: pagy.last,
+        url: url_proc,
+        total_count: pagy.count,
+        per_page: pagy.vars[:items],
+        **options
+      ), &block
+    end
   end
 end

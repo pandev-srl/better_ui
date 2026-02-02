@@ -1,0 +1,13 @@
+<div class="p-8 space-y-8">
+  <% (@sizes || [:xs, :sm, :md, :lg, :xl]).each do |size| %>
+    <div>
+      <h3 class="text-lg font-semibold mb-3 capitalize"><%= size %></h3>
+      <%= render BetterUi::Pagination::PaginationComponent.new(
+        current_page: 5,
+        total_pages: 20,
+        url: ->(page) { "#page-#{page}" },
+        size: size
+      ) %>
+    </div>
+  <% end %>
+</div>

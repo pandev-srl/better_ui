@@ -16,6 +16,9 @@ class DemosController < ApplicationController
   def forms
   end
 
+  def pagination
+  end
+
   def layout
   end
 
