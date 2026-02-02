@@ -744,6 +744,8 @@ module BetterUi
     # @option options [Boolean] :responsive Horizontal scroll wrapper (default: true)
     # @option options [String, nil] :caption Table caption text
     # @option options [Array, nil] :collection Data collection (triggers collection mode)
+    # @option options [Proc, nil] :row_html Proc returning a Hash of HTML attributes for each <tr> in collection mode.
+    #   Accepts 1-arg `(item)` or 2-arg `(item, index)`. Return nil for no-op. Classes are merged with built-in classes.
     # @yield [table] Block with table slots
     # @yieldparam table [BetterUi::Table::TableComponent] The table component
     # @return [String] Rendered HTML

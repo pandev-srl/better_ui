@@ -37,11 +37,11 @@
             <% if body_row_partial? %>
               <%= render partial: @body_row_partial, locals: { item: item, index: index, columns: columns } %>
             <% else %>
-              <tr class="<%= collection_row_classes(item) %>">
+              <%= tag.tr(**collection_row_attributes(item, index)) do %>
                 <% columns.each do |column| %>
                   <td class="<%= collection_cell_classes(column) %>"><%= column.value_for(item) %></td>
                 <% end %>
-              </tr>
+              <% end %>
             <% end %>
           <% end %>
         </tbody>

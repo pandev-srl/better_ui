@@ -1254,6 +1254,173 @@ module BetterUi
         assert_text "Custom Footer"
       end
 
+      # ==========================================
+      # row_html customization tests (Feature 6)
+      # ==========================================
+
+      test "row_html adds custom CSS classes to collection rows" do
+        users = [ ::OpenStruct.new(name: "John", admin: true) ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          row_html: ->(_user) { { class: "font-bold" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tr.font-bold"
+      end
+
+      test "row_html merges classes with striped classes" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          striped: true,
+          variant: :primary,
+          row_html: ->(_user) { { class: "font-bold" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        row = html_doc.at_css("tbody tr")
+        assert row["class"].include?("font-bold"), "Expected custom class"
+        assert row["class"].include?("even:bg-primary-50"), "Expected striped class"
+      end
+
+      test "row_html merges classes with highlighted classes" do
+        users = [ ::OpenStruct.new(name: "John", active: true) ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          variant: :primary,
+          row_highlighted: ->(item) { item.active },
+          row_html: ->(_user) { { class: "custom-highlight" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        html_doc = Nokogiri::HTML.fragment(rendered_html)
+        row = html_doc.at_css("tbody tr")
+        assert row["class"].include?("custom-highlight"), "Expected custom class"
+        assert row["class"].include?("bg-primary-100"), "Expected highlighted class"
+      end
+
+      test "row_html adds data attributes to rows" do
+        users = [ ::OpenStruct.new(name: "John", id: 42) ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          row_html: ->(user) { { data: { id: user.id } } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector 'tr[data-id="42"]'
+      end
+
+      test "row_html adds id attribute to rows" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          row_html: ->(_user) { { id: "user-row" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tr#user-row"
+      end
+
+      test "row_html 2-arity proc receives item and index" do
+        users = [
+          ::OpenStruct.new(name: "John"),
+          ::OpenStruct.new(name: "Jane")
+        ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          row_html: ->(_user, idx) { { id: "row-#{idx}" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tr#row-0"
+        assert_selector "tr#row-1"
+      end
+
+      test "row_html nil return from proc is treated as no-op" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          row_html: ->(_user) { nil }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tbody tr"
+        assert_text "John"
+      end
+
+      test "row_html raises ArgumentError for non-hash return" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        error = assert_raises(ArgumentError) do
+          render_inline(TableComponent.new(
+            collection: users,
+            row_html: ->(_user) { "invalid" }
+          )) do |t|
+            t.with_column(key: :name, label: "Name")
+          end
+        end
+
+        assert_match(/row_html proc must return a Hash or nil/, error.message)
+      end
+
+      test "row_html combines multiple attributes (id + class + data)" do
+        users = [ ::OpenStruct.new(name: "John", id: 7) ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          row_html: ->(user) { { id: "user-#{user.id}", class: "special", data: { role: "admin" } } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector 'tr#user-7.special[data-role="admin"]'
+      end
+
+      test "row_html is ignored when body_row_partial is set" do
+        users = [
+          ::OpenStruct.new(name: "John", email: "john@example.com")
+        ]
+
+        render_inline(TableComponent.new(
+          collection: users,
+          body_row_partial: "shared/test_table_row",
+          row_html: ->(_user) { { class: "should-not-appear" } }
+        )) do |t|
+          t.with_column(key: :name, label: "Name")
+          t.with_column(key: :email, label: "Email")
+        end
+
+        assert_selector "tr.custom-row"
+        refute_selector "tr.should-not-appear"
+      end
+
+      test "collection mode works without row_html (backward compat)" do
+        users = [ ::OpenStruct.new(name: "John") ]
+
+        render_inline(TableComponent.new(collection: users)) do |t|
+          t.with_column(key: :name, label: "Name")
+        end
+
+        assert_selector "tbody tr"
+        assert_text "John"
+      end
+
       test "partials are ignored in slot mode" do
         render_inline(TableComponent.new(
           body_row_partial: "shared/test_table_row",

@@ -74,6 +74,12 @@ module BetterUi
       def sortable
         render_with_template
       end
+
+      # @label Row HTML Customization
+      # @display bg_color "#f5f5f5"
+      def row_html
+        render_with_template
+      end
     end
   end
 end

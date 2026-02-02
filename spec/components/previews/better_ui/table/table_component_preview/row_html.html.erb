@@ -1,0 +1,64 @@
+<div class="max-w-4xl mx-auto p-6">
+  <h2 class="text-xl font-bold mb-4">Row HTML: Data Attributes</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Each row gets custom data attributes from the item.</p>
+
+  <%
+    users = [
+      OpenStruct.new(id: 1, name: "Alice Johnson", email: "alice@example.com", role: "Admin"),
+      OpenStruct.new(id: 2, name: "Bob Smith", email: "bob@example.com", role: "Editor"),
+      OpenStruct.new(id: 3, name: "Charlie Brown", email: "charlie@example.com", role: "Viewer")
+    ]
+  %>
+
+  <%= render BetterUi::Table::TableComponent.new(
+    collection: users,
+    variant: :primary,
+    row_html: ->(user) { { data: { id: user.id, role: user.role.downcase } } }
+  ) do |t| %>
+    <% t.with_column(key: :name, label: "Name") %>
+    <% t.with_column(key: :email, label: "Email") %>
+    <% t.with_column(key: :role, label: "Role") %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Row HTML: Custom Classes + Striped</h2>
+  <p class="text-sm text-grayscale-500 mb-4">Admin rows get bold text, merged with striped styling.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(
+    collection: users,
+    variant: :info,
+    striped: true,
+    row_html: ->(user) { { class: ("font-bold text-info-800" if user.role == "Admin") } }
+  ) do |t| %>
+    <% t.with_column(key: :name, label: "Name") %>
+    <% t.with_column(key: :email, label: "Email") %>
+    <% t.with_column(key: :role, label: "Role") %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Row HTML: Index-based IDs</h2>
+  <p class="text-sm text-grayscale-500 mb-4">2-argument proc receives item and index for row IDs.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(
+    collection: users,
+    variant: :secondary,
+    row_html: ->(_user, idx) { { id: "user-row-#{idx}" } }
+  ) do |t| %>
+    <% t.with_column(key: :name, label: "Name") %>
+    <% t.with_column(key: :email, label: "Email") %>
+    <% t.with_column(key: :role, label: "Role") %>
+  <% end %>
+
+  <h2 class="text-xl font-bold mb-4 mt-8">Row HTML: Combined with Highlighting</h2>
+  <p class="text-sm text-grayscale-500 mb-4">row_html and row_highlighted work together.</p>
+
+  <%= render BetterUi::Table::TableComponent.new(
+    collection: users,
+    variant: :success,
+    hoverable: true,
+    row_highlighted: ->(user) { user.role == "Admin" },
+    row_html: ->(user) { { data: { id: user.id }, class: ("border-l-4 border-success-500" if user.role == "Admin") } }
+  ) do |t| %>
+    <% t.with_column(key: :name, label: "Name") %>
+    <% t.with_column(key: :email, label: "Email") %>
+    <% t.with_column(key: :role, label: "Role") %>
+  <% end %>
+</div>

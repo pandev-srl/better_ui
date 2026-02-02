@@ -89,6 +89,7 @@ module BetterUi
         caption: nil,
         collection: nil,
         row_highlighted: nil,
+        row_html: nil,
         body_row_partial: nil,
         header_partial: nil,
         footer_partial: nil,
@@ -110,6 +111,7 @@ module BetterUi
         @caption = caption
         @collection = collection
         @row_highlighted = row_highlighted
+        @row_html = row_html
         @body_row_partial = body_row_partial
         @header_partial = header_partial
         @footer_partial = footer_partial
@@ -286,6 +288,34 @@ module BetterUi
           collection_hoverable_classes,
           collection_highlighted_classes(item)
         ].compact)
+      end
+
+      # Collection mode: full row attributes (classes + custom HTML attrs from row_html proc)
+      def collection_row_attributes(item, index)
+        base_classes = collection_row_classes(item)
+        custom_attrs = resolve_row_html(item, index)
+        custom_class = custom_attrs.delete(:class)
+        merged_class = custom_class ? css_classes(base_classes, custom_class) : base_classes
+        { class: merged_class, **custom_attrs }
+      end
+
+      # Resolve row_html proc to a hash of HTML attributes
+      def resolve_row_html(item, index)
+        return {} if @row_html.nil?
+
+        result = if @row_html.arity == 1
+                   @row_html.call(item)
+        else
+                   @row_html.call(item, index)
+        end
+
+        return {} if result.nil?
+
+        unless result.is_a?(Hash)
+          raise ArgumentError, "row_html proc must return a Hash or nil, got #{result.class}"
+        end
+
+        result.symbolize_keys
       end
 
       def collection_striped_classes
