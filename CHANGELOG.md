@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-02-02
+
+### Added
+- **Pagination::PaginationComponent**: Framework-agnostic pagination with page windowing and gap collapsing algorithm
+  - 4 visual styles (solid, outline, ghost, soft), 9 color variants, 5 sizes, 5 border-radius options, and shadow support
+  - First/last and prev/next navigation with inline SVG icons or custom text labels
+  - Configurable page window size with smart gap collapsing (single hidden pages are shown instead of ellipsis)
+  - Info slot and auto-generated "Showing X-Y of Z results" text via `per_page`/`total_count` parameters
+  - Full accessibility: `aria-current`, `aria-disabled`, `aria-hidden`, `rel="prev"`/`rel="next"`, labeled navigation
+  - `bui_pagination` view helper for manual configuration
+  - `bui_pagination_for` convenience helper for Pagy gem integration (extracts page, count, and URL automatically)
+  - Input validation with descriptive error messages for all parameters
+  - Renders nothing when `total_pages <= 1`
+  - 88 tests and Lookbook previews
+- **Table::TableComponent**: `row_html` option for per-row HTML attribute customization in collection mode
+  - Accepts a proc/lambda receiving `(item)` or `(item, index)` that returns a Hash of HTML attributes
+  - Custom CSS classes are merged with built-in striped/hoverable/highlighted classes via TailwindMerge
+  - Supports `class`, `id`, `data-*`, `aria-*`, and any other HTML attributes
+  - Returns nil for no-op; raises `ArgumentError` on non-Hash returns
+  - Ignored when `body_row_partial` is set (partial takes precedence)
+
+### Documentation
+- Added live demo link to README ([better-ui.pandev.it](https://better-ui.pandev.it))
+
 ## [0.9.1] - 2026-02-01
 
 ### Fixed
