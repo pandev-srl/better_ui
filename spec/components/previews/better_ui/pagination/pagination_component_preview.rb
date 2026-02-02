@@ -18,14 +18,14 @@ module BetterUi
       # @label All Styles
       # @display bg_color #f5f5f5
       def all_styles
-        @styles = [:solid, :outline, :ghost, :soft]
+        @styles = [ :solid, :outline, :ghost, :soft ]
         render_with_template
       end
 
       # @label All Sizes
       # @display bg_color #f5f5f5
       def all_sizes
-        @sizes = [:xs, :sm, :md, :lg, :xl]
+        @sizes = [ :xs, :sm, :md, :lg, :xl ]
         render_with_template
       end
 

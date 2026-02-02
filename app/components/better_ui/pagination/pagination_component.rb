@@ -78,7 +78,7 @@ module BetterUi
 
       def page_items
         return [] if @total_pages <= 0
-        return [1] if @total_pages == 1
+        return [ 1 ] if @total_pages == 1
 
         build_page_items
       end
@@ -99,7 +99,7 @@ module BetterUi
         return nil unless @show_info && @per_page && @total_count
 
         from = ((@current_page - 1) * @per_page) + 1
-        to = [@current_page * @per_page, @total_count].min
+        to = [ @current_page * @per_page, @total_count ].min
         "Showing #{from}-#{to} of #{@total_count} results"
       end
 
@@ -116,8 +116,8 @@ module BetterUi
       # ============================================
 
       def build_page_items
-        window_start = [@current_page - @window, 1].max
-        window_end = [@current_page + @window, @total_pages].min
+        window_start = [ @current_page - @window, 1 ].max
+        window_end = [ @current_page + @window, @total_pages ].min
 
         # If everything fits without gaps, return full range
         return (1..@total_pages).to_a if @total_pages <= (2 * @window + 3)
@@ -161,7 +161,7 @@ module BetterUi
       # ============================================
 
       def nav_classes
-        classes = ["flex flex-col items-center"]
+        classes = [ "flex flex-col items-center" ]
         classes << SHADOWS[@shadow] if SHADOWS[@shadow]
         classes << @container_classes if @container_classes
         css_classes(*classes)

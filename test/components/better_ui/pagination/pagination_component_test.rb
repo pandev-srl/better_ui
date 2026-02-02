@@ -21,27 +21,27 @@ module BetterUi
 
       test "page_items returns [1] for 1 total page" do
         component = PaginationComponent.new(current_page: 1, total_pages: 1, url: url_proc)
-        assert_equal [1], component.send(:page_items)
+        assert_equal [ 1 ], component.send(:page_items)
       end
 
       test "page_items returns all pages when total <= 2*window+3" do
         component = PaginationComponent.new(current_page: 1, total_pages: 5, url: url_proc, window: 2)
-        assert_equal [1, 2, 3, 4, 5], component.send(:page_items)
+        assert_equal [ 1, 2, 3, 4, 5 ], component.send(:page_items)
       end
 
       test "page_items near start with gap at end" do
         component = PaginationComponent.new(current_page: 1, total_pages: 10, url: url_proc, window: 2)
-        assert_equal [1, 2, 3, :gap, 10], component.send(:page_items)
+        assert_equal [ 1, 2, 3, :gap, 10 ], component.send(:page_items)
       end
 
       test "page_items near end with gap at start" do
         component = PaginationComponent.new(current_page: 10, total_pages: 10, url: url_proc, window: 2)
-        assert_equal [1, :gap, 8, 9, 10], component.send(:page_items)
+        assert_equal [ 1, :gap, 8, 9, 10 ], component.send(:page_items)
       end
 
       test "page_items in the middle with gaps on both sides" do
         component = PaginationComponent.new(current_page: 10, total_pages: 20, url: url_proc, window: 2)
-        assert_equal [1, :gap, 8, 9, 10, 11, 12, :gap, 20], component.send(:page_items)
+        assert_equal [ 1, :gap, 8, 9, 10, 11, 12, :gap, 20 ], component.send(:page_items)
       end
 
       test "page_items collapses gap to actual page when only 1 page is hidden" do
@@ -49,7 +49,7 @@ module BetterUi
         # Between first(1) and window_start(2): nothing hidden
         # Between window_end(6) and last(7): nothing hidden
         component = PaginationComponent.new(current_page: 4, total_pages: 7, url: url_proc, window: 2)
-        assert_equal [1, 2, 3, 4, 5, 6, 7], component.send(:page_items)
+        assert_equal [ 1, 2, 3, 4, 5, 6, 7 ], component.send(:page_items)
       end
 
       test "page_items collapses single hidden page instead of gap" do
@@ -57,22 +57,22 @@ module BetterUi
         # Between first(1) and 3: page 2 is hidden (only 1 page) -> show 2 instead of gap
         # Between 7 and last(10): pages 8,9 hidden (>1) -> gap
         component = PaginationComponent.new(current_page: 5, total_pages: 10, url: url_proc, window: 2)
-        assert_equal [1, 2, 3, 4, 5, 6, 7, :gap, 10], component.send(:page_items)
+        assert_equal [ 1, 2, 3, 4, 5, 6, 7, :gap, 10 ], component.send(:page_items)
       end
 
       test "page_items with window 1" do
         component = PaginationComponent.new(current_page: 5, total_pages: 10, url: url_proc, window: 1)
-        assert_equal [1, :gap, 4, 5, 6, :gap, 10], component.send(:page_items)
+        assert_equal [ 1, :gap, 4, 5, 6, :gap, 10 ], component.send(:page_items)
       end
 
       test "page_items with window 0" do
         component = PaginationComponent.new(current_page: 5, total_pages: 10, url: url_proc, window: 0)
-        assert_equal [1, :gap, 5, :gap, 10], component.send(:page_items)
+        assert_equal [ 1, :gap, 5, :gap, 10 ], component.send(:page_items)
       end
 
       test "page_items with large window shows all pages" do
         component = PaginationComponent.new(current_page: 5, total_pages: 10, url: url_proc, window: 10)
-        assert_equal [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], component.send(:page_items)
+        assert_equal [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], component.send(:page_items)
       end
 
       # ============================================
