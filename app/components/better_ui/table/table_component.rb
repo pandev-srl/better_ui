@@ -155,19 +155,9 @@ module BetterUi
         variant_ring_color
       end
 
-      # Variant ring color for bordered style (literal strings for Tailwind JIT)
+      # Variant ring color for bordered style
       def variant_ring_color
-        case @variant
-        when :primary then "ring-primary-300"
-        when :secondary then "ring-secondary-300"
-        when :accent then "ring-accent-300"
-        when :success then "ring-success-300"
-        when :danger then "ring-danger-300"
-        when :warning then "ring-warning-300"
-        when :info then "ring-info-300"
-        when :light then "ring-grayscale-300"
-        when :dark then "ring-grayscale-700"
-        end
+        VARIANT_RING[@variant]
       end
 
       # <table> element classes
@@ -209,19 +199,9 @@ module BetterUi
         ])
       end
 
-      # Variant body divide color (literal strings for Tailwind JIT)
+      # Variant body divide color
       def variant_body_divide_color
-        case @variant
-        when :primary then "divide-primary-200"
-        when :secondary then "divide-secondary-200"
-        when :accent then "divide-accent-200"
-        when :success then "divide-success-200"
-        when :danger then "divide-danger-200"
-        when :warning then "divide-warning-200"
-        when :info then "divide-info-200"
-        when :light then "divide-grayscale-200"
-        when :dark then "divide-grayscale-600"
-        end
+        VARIANT_BODY_DIVIDE[@variant]
       end
 
       # <tfoot> classes
@@ -244,34 +224,14 @@ module BetterUi
         ])
       end
 
-      # Variant header background (literal strings for Tailwind JIT)
+      # Variant header background
       def variant_header_bg
-        case @variant
-        when :primary then "bg-primary-50"
-        when :secondary then "bg-secondary-50"
-        when :accent then "bg-accent-50"
-        when :success then "bg-success-50"
-        when :danger then "bg-danger-50"
-        when :warning then "bg-warning-50"
-        when :info then "bg-info-50"
-        when :light then "bg-grayscale-100"
-        when :dark then "bg-grayscale-800"
-        end
+        VARIANT_HEADER_BG[@variant]
       end
 
-      # Variant header text color (literal strings for Tailwind JIT)
+      # Variant header text color
       def variant_header_text
-        case @variant
-        when :primary then "text-primary-900"
-        when :secondary then "text-secondary-900"
-        when :accent then "text-accent-900"
-        when :success then "text-success-900"
-        when :danger then "text-danger-900"
-        when :warning then "text-warning-900"
-        when :info then "text-info-900"
-        when :light then "text-grayscale-700"
-        when :dark then "text-grayscale-50"
-        end
+        VARIANT_HEADER_TEXT[@variant]
       end
 
       # Collection mode: header cell classes
@@ -328,48 +288,16 @@ module BetterUi
       end
 
       def collection_striped_classes
-        return nil unless @striped
-        case @variant
-        when :primary then "even:bg-primary-50"
-        when :secondary then "even:bg-secondary-50"
-        when :accent then "even:bg-accent-50"
-        when :success then "even:bg-success-50"
-        when :danger then "even:bg-danger-50"
-        when :warning then "even:bg-warning-50"
-        when :info then "even:bg-info-50"
-        when :light then "even:bg-grayscale-50"
-        when :dark then "even:bg-grayscale-700"
-        end
+        @striped ? VARIANT_STRIPED[@variant] : nil
       end
 
       def collection_hoverable_classes
-        return nil unless @hoverable
-        case @variant
-        when :primary then "hover:bg-primary-100 transition-colors"
-        when :secondary then "hover:bg-secondary-100 transition-colors"
-        when :accent then "hover:bg-accent-100 transition-colors"
-        when :success then "hover:bg-success-100 transition-colors"
-        when :danger then "hover:bg-danger-100 transition-colors"
-        when :warning then "hover:bg-warning-100 transition-colors"
-        when :info then "hover:bg-info-100 transition-colors"
-        when :light then "hover:bg-grayscale-100 transition-colors"
-        when :dark then "hover:bg-grayscale-600 transition-colors"
-        end
+        @hoverable ? VARIANT_HOVERABLE[@variant] : nil
       end
 
       def collection_highlighted_classes(item)
         return nil unless @row_highlighted && item && @row_highlighted.call(item)
-        case @variant
-        when :primary then "bg-primary-100"
-        when :secondary then "bg-secondary-100"
-        when :accent then "bg-accent-100"
-        when :success then "bg-success-100"
-        when :danger then "bg-danger-100"
-        when :warning then "bg-warning-100"
-        when :info then "bg-info-100"
-        when :light then "bg-grayscale-100"
-        when :dark then "bg-grayscale-700"
-        end
+        VARIANT_HIGHLIGHTED[@variant]
       end
 
       # Collection mode: cell classes
@@ -392,19 +320,9 @@ module BetterUi
         nil
       end
 
-      # Table element divide classes (literal strings for Tailwind JIT)
+      # Table element divide classes
       def table_divide_classes
-        case @variant
-        when :primary then "divide-y divide-primary-300"
-        when :secondary then "divide-y divide-secondary-300"
-        when :accent then "divide-y divide-accent-300"
-        when :success then "divide-y divide-success-300"
-        when :danger then "divide-y divide-danger-300"
-        when :warning then "divide-y divide-warning-300"
-        when :info then "divide-y divide-info-300"
-        when :light then "divide-y divide-grayscale-300"
-        when :dark then "divide-y divide-grayscale-700"
-        end
+        VARIANT_DIVIDE[@variant]
       end
 
       # First/last cell extra padding for card indentation
@@ -460,19 +378,7 @@ module BetterUi
 
       # Collection mode: sort icon classes
       def collection_sort_icon_classes(column)
-        return "text-grayscale-400" unless effective_sorted?(column)
-
-        case @variant
-        when :primary then "text-primary-700"
-        when :secondary then "text-secondary-700"
-        when :accent then "text-accent-700"
-        when :success then "text-success-700"
-        when :danger then "text-danger-700"
-        when :warning then "text-warning-700"
-        when :info then "text-info-700"
-        when :light then "text-grayscale-500"
-        when :dark then "text-grayscale-300"
-        end
+        effective_sorted?(column) ? VARIANT_SORT_ICON[@variant] : "text-grayscale-400"
       end
 
       # Collection mode: whether a column should render a sort link

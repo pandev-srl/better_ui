@@ -62,6 +62,116 @@ module BetterUi
       xl: "shadow-xl"
     }.freeze
 
+    # Variant-based CSS class mappings for table components
+    # Used for O(1) lookup instead of case/when statements
+    VARIANT_STRIPED = {
+      primary: "even:bg-primary-50",
+      secondary: "even:bg-secondary-50",
+      accent: "even:bg-accent-50",
+      success: "even:bg-success-50",
+      danger: "even:bg-danger-50",
+      warning: "even:bg-warning-50",
+      info: "even:bg-info-50",
+      light: "even:bg-grayscale-50",
+      dark: "even:bg-grayscale-700"
+    }.freeze
+
+    VARIANT_HOVERABLE = {
+      primary: "hover:bg-primary-100 transition-colors",
+      secondary: "hover:bg-secondary-100 transition-colors",
+      accent: "hover:bg-accent-100 transition-colors",
+      success: "hover:bg-success-100 transition-colors",
+      danger: "hover:bg-danger-100 transition-colors",
+      warning: "hover:bg-warning-100 transition-colors",
+      info: "hover:bg-info-100 transition-colors",
+      light: "hover:bg-grayscale-100 transition-colors",
+      dark: "hover:bg-grayscale-600 transition-colors"
+    }.freeze
+
+    VARIANT_HIGHLIGHTED = {
+      primary: "bg-primary-100",
+      secondary: "bg-secondary-100",
+      accent: "bg-accent-100",
+      success: "bg-success-100",
+      danger: "bg-danger-100",
+      warning: "bg-warning-100",
+      info: "bg-info-100",
+      light: "bg-grayscale-100",
+      dark: "bg-grayscale-700"
+    }.freeze
+
+    VARIANT_HEADER_BG = {
+      primary: "bg-primary-50",
+      secondary: "bg-secondary-50",
+      accent: "bg-accent-50",
+      success: "bg-success-50",
+      danger: "bg-danger-50",
+      warning: "bg-warning-50",
+      info: "bg-info-50",
+      light: "bg-grayscale-100",
+      dark: "bg-grayscale-800"
+    }.freeze
+
+    VARIANT_HEADER_TEXT = {
+      primary: "text-primary-900",
+      secondary: "text-secondary-900",
+      accent: "text-accent-900",
+      success: "text-success-900",
+      danger: "text-danger-900",
+      warning: "text-warning-900",
+      info: "text-info-900",
+      light: "text-grayscale-700",
+      dark: "text-grayscale-50"
+    }.freeze
+
+    VARIANT_DIVIDE = {
+      primary: "divide-y divide-primary-300",
+      secondary: "divide-y divide-secondary-300",
+      accent: "divide-y divide-accent-300",
+      success: "divide-y divide-success-300",
+      danger: "divide-y divide-danger-300",
+      warning: "divide-y divide-warning-300",
+      info: "divide-y divide-info-300",
+      light: "divide-y divide-grayscale-300",
+      dark: "divide-y divide-grayscale-700"
+    }.freeze
+
+    VARIANT_BODY_DIVIDE = {
+      primary: "divide-primary-200",
+      secondary: "divide-secondary-200",
+      accent: "divide-accent-200",
+      success: "divide-success-200",
+      danger: "divide-danger-200",
+      warning: "divide-warning-200",
+      info: "divide-info-200",
+      light: "divide-grayscale-200",
+      dark: "divide-grayscale-600"
+    }.freeze
+
+    VARIANT_RING = {
+      primary: "ring-primary-300",
+      secondary: "ring-secondary-300",
+      accent: "ring-accent-300",
+      success: "ring-success-300",
+      danger: "ring-danger-300",
+      warning: "ring-warning-300",
+      info: "ring-info-300",
+      light: "ring-grayscale-300",
+      dark: "ring-grayscale-700"
+    }.freeze
+
+    VARIANT_SORT_ICON = {
+      primary: "text-primary-700",
+      secondary: "text-secondary-700",
+      accent: "text-accent-700",
+      success: "text-success-700",
+      danger: "text-danger-700",
+      warning: "text-warning-700",
+      info: "text-info-700",
+      light: "text-grayscale-500",
+      dark: "text-grayscale-300"
+    }.freeze
+
     private
 
     # Normalizes a shadow parameter value.
